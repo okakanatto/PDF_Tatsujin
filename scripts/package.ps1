@@ -8,6 +8,9 @@ Copy-Item -LiteralPath 'build/app/bin/PDFTatsujin.exe' -Destination $out
 $core=Get-ChildItem build/app -Recurse -File -Filter Pdf4QtLibCore.dll | Select-Object -First 1
 if(!$core){throw 'Pdf4QtLibCore.dll missing'}
 Copy-Item -LiteralPath $core.FullName -Destination $out
+$widgets=Get-ChildItem build/app -Recurse -File -Filter Pdf4QtLibWidgets.dll | Select-Object -First 1
+if(!$widgets){throw 'Pdf4QtLibWidgets.dll missing'}
+Copy-Item -LiteralPath $widgets.FullName -Destination $out
 Get-ChildItem tools/vcpkg/installed/x64-windows/bin -Filter '*.dll' | Copy-Item -Destination $out
 & tools/Qt/6.9.3/msvc2022_64/bin/windeployqt.exe --release --no-translations --no-opengl-sw --no-compiler-runtime (Join-Path $out 'PDFTatsujin.exe')
 if($LASTEXITCODE -ne 0){throw 'windeployqt failed'}

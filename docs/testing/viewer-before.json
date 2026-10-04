@@ -1,0 +1,54 @@
+{
+    "failures": 2,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 114,
+            "error": "zoom anchor error 424.347 DIP",
+            "name": "Viewer_continuous_navigation",
+            "status": "FAIL"
+        },
+        {
+            "details": {
+                "authoritative_pdf_unchanged": true,
+                "pages": [
+                    {
+                        "page": 1,
+                        "scale_x": 0.9018181818181819,
+                        "scale_y": 0.9032679738562092,
+                        "user_unit": 1
+                    },
+                    {
+                        "page": 2,
+                        "scale_x": 0.9027522935779816,
+                        "scale_y": 0.9020134228187919,
+                        "user_unit": 1
+                    },
+                    {
+                        "page": 3,
+                        "scale_x": 0.9037037037037037,
+                        "scale_y": 0.903448275862069,
+                        "user_unit": 1
+                    },
+                    {
+                        "page": 4,
+                        "scale_x": 0.902803738317757,
+                        "scale_y": 0.9028368794326241,
+                        "user_unit": 2
+                    }
+                ]
+            },
+            "elapsed_ms": 219,
+            "name": "Viewer_crop_rotation_userunit",
+            "status": "PASS"
+        },
+        {
+            "elapsed_ms": 10077,
+            "error": "page 1 compiled and visible",
+            "name": "Viewer_signature_save_undo",
+            "status": "FAIL"
+        }
+    ]
+}

@@ -1,215 +1,611 @@
 #include "canvas.h"
-#include "pdfsecurityhandler.h"
-#include <QtPrintSupport>
+#include "pdfannotation.h"
+#include "pdfcms.h"
+#include "pdfdocumentbuilder.h"
+#include "pdfdocumentdrawinterface.h"
+#include "pdfdrawspacecontroller.h"
+#include "pdfdrawwidget.h"
+#include "pdffont.h"
+#include "pdfpainter.h"
+#include "pdfrenderer.h"
+#include <cmath>
+#include <limits>
 
 namespace tatsu
 {
-Canvas::Canvas(Document* d, QWidget* p) : QGraphicsView(p), document(d)
+struct Canvas::Impl : IDocumentDrawInterface
 {
-    setScene(&scene);
-    setBackgroundBrush(QColor("#e5e8ec"));
-    setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-    setFocusPolicy(Qt::StrongFocus);
-    setAccessibleName("PDFページ。ドラッグで文字選択、署名枠をドラッグで移動");
-    setRenderHint(QPainter::Antialiasing);
-}
-void Canvas::refresh(PDFObjectReference selection)
-{
-    // Annotation order can change when a signature is replaced. Preserve its
-    // identity, never the index now occupied by a different signature.
-    if (!selection.isValid() && selected >= 0 && selected < items.size())
-        selection = items[selected].ref;
-    cancelInteraction();
-    const int vertical = verticalScrollBar()->value();
-    searchHighlights.clear();
-    scene.clear();
-    outline = nullptr;
-    copied.clear();
-    items.clear();
-    selected = -1;
-    if (!document->loaded())
-        return;
-    page = qBound(0, page, document->pages() - 1);
-    auto image = renderPage(document->pdf(), page, 1.5);
-    auto pix = scene.addPixmap(QPixmap::fromImage(image));
-    pix->setScale(1 / 1.5);
-    auto dims = pageSize(document->pdf().getCatalog()->getPage(page));
-    scene.setSceneRect(QRectF(QPointF(), dims));
-    items = signatures(document->pdf(), page);
-    for (int i = 0; i < items.size(); ++i)
-        if (items[i].ref == selection)
-            selected = i;
-    auto matrix = pageMatrix(document->pdf().getCatalog()->getPage(page));
-    for (int i = 0; i < items.size(); ++i)
+    Canvas* owner;
+    PDFCMSManager cms{nullptr};
+    PDFFontCache fonts{128, 128};
+    std::unique_ptr<PDFDocument> snapshot;
+    std::unique_ptr<PDFAnnotationManager> annotations;
+    std::unique_ptr<PDFWidget> view;
+    PDFDrawWidgetProxy* proxy;
+    quint64 revision = std::numeric_limits<quint64>::max();
+    bool resetting = true, updating = false, resizePending = false;
+    int fit = 1, fitReference = 0;
+    ViewAnchor lastAnchor;
+    quint64 viewEpoch = 0;
+    QVector<Signature> items;
+    QString term;
+    mutable QHash<int, QVector<QRectF>> matches;
+    PDFTextSelection selection;
+    std::unique_ptr<PDFTextLayout> selectionLayout;
+    int gesturePage = -1;
+    QPointF start, last;
+    QTransform gestureMatrix;
+    bool dragging = false, selecting = false;
+
+    explicit Impl(Canvas* canvas) : owner(canvas)
     {
-        auto rect = matrix.mapRect(items[i].rect);
-        auto item = scene.addRect(rect, QPen(QColor(i == selected ? "#1464c0" : "#8197ad"),
-                                             i == selected ? 1.5 : 0.6, Qt::DashLine));
-        item->setZValue(2);
+        view = std::make_unique<PDFWidget>(&cms, RendererEngine::QPainter, canvas);
+        proxy = view->getDrawWidgetProxy();
+        view->updateCacheLimits(256 * 1024 * 1024, 32 * 1024, 128, 128);
+        view->setSmoothWheelScrolling(false);
+        annotations = std::make_unique<PDFAnnotationManager>(
+            &fonts, &cms, nullptr, PDFMeshQualitySettings(), PDFRenderer::getDefaultFeatures(),
+            PDFAnnotationManager::Target::View, nullptr);
+        proxy->registerDrawInterface(this);
     }
-    verticalScrollBar()->setValue(vertical);
-    highlight(searchTerm);
+    ~Impl() override
+    {
+        // Stop compilers before their immutable snapshot and CMS die.
+        view->setDocument(PDFModifiedDocument(), {});
+        proxy->unregisterDrawInterface(this);
+        view.reset();
+    }
+    QTransform matrix(int number) const
+    {
+        auto current = proxy->getSnapshot();
+        if (auto item = current.getPageSnapshot(number))
+            return item->pageToDeviceMatrix;
+        return {};
+    }
+    int hit(QPointF point) const
+    {
+        for (const auto& item : proxy->getSnapshot().items)
+            if (item.rect.contains(point))
+                return int(item.pageIndex);
+        return -1;
+    }
+    void drawPage(QPainter* painter, PDFInteger number, const PDFPrecompiledPage* compiled,
+                  PDFTextLayoutGetter& getter, const QTransform& matrix,
+                  const PDFColorConvertor& convertor, QList<PDFRenderError>& errors) const override
+    {
+        annotations->drawPage(painter, number, compiled, getter, matrix, convertor, errors);
+        if (!term.isEmpty())
+        {
+            if (!matches.contains(int(number)))
+            {
+                QVector<QRectF> boxes;
+                const PDFTextLayout& layout = getter;
+                for (const auto& flow :
+                     PDFTextFlow::createTextFlows(layout, PDFTextFlow::AddLineBreaks, number))
+                {
+                    auto text = flow.getText();
+                    auto bounds = flow.getBoundingBoxes();
+                    int from = 0;
+                    while ((from = text.indexOf(term, from, Qt::CaseInsensitive)) >= 0)
+                    {
+                        for (int i = from; i < from + term.size() && i < int(bounds.size()); ++i)
+                            boxes.append(bounds[i]);
+                        from += term.size();
+                    }
+                }
+                matches.insert(int(number), boxes);
+            }
+            for (auto box : matches.value(int(number)))
+                painter->fillRect(matrix.mapRect(box), QColor(255, 195, 0, 90));
+        }
+        if (!selection.isEmpty())
+        {
+            PDFTextSelectionPainter selectionPainter(&selection);
+            selectionPainter.draw(painter, number, getter, matrix, convertor);
+        }
+        if (number == owner->page && owner->selected >= 0 && owner->selected < items.size())
+        {
+            auto rect = items[owner->selected].rect;
+            if (dragging)
+                rect.translate(last - start);
+            painter->setPen(QPen(QColor("#1464c0"), 1.5, Qt::DashLine));
+            painter->setBrush(Qt::NoBrush);
+            painter->drawRect(matrix.mapRect(rect));
+        }
+    }
+    void drawPostRendering(QPainter* painter, QRect) const override
+    {
+        for (const auto& item : proxy->getSnapshot().items)
+        {
+            if (item.compiledPage && item.compiledPage->isValid())
+                continue;
+            const bool failed = view->getPageRenderingErrors()->contains(item.pageIndex);
+            painter->setPen(failed ? QColor("#9b302a") : QColor("#596779"));
+            painter->drawText(item.rect.adjusted(16, 16, -16, -16), Qt::AlignTop | Qt::AlignLeft,
+                              QString("%1ページ — %2")
+                                  .arg(item.pageIndex + 1)
+                                  .arg(failed ? "描画に失敗しました" : "描画中…"));
+        }
+    }
+};
+
+Canvas::Canvas(Document* doc, QWidget* parent)
+    : QWidget(parent), document(doc), d(std::make_unique<Impl>(this))
+{
+    auto layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(d->view.get());
+    setFocusProxy(viewport());
+    setFocusPolicy(Qt::StrongFocus);
+    viewport()->setFocusPolicy(Qt::StrongFocus);
+    viewport()->setAccessibleName("PDF本文。連続スクロール、文字選択、署名の配置と移動");
+    viewport()->installEventFilter(this);
+    connect(d->proxy, &PDFDrawWidgetProxy::drawSpaceChanged, this, [this] { updateView(); });
+    for (auto bar : {verticalScrollBar(), horizontalScrollBar()})
+        connect(bar, &QScrollBar::valueChanged, this,
+                [this]
+                {
+                    if (!d->updating && !d->resizePending)
+                    {
+                        ++d->viewEpoch;
+                        updateView(true);
+                    }
+                });
+    connect(d->proxy, &PDFDrawWidgetProxy::pageImageChanged, this,
+            [this](bool, const std::vector<PDFInteger>&) { viewport()->update(); });
+    connect(d->proxy, &PDFDrawWidgetProxy::textLayoutChanged, this,
+            [this]
+            {
+                d->matches.clear();
+                viewport()->update();
+            });
+}
+Canvas::~Canvas()
+{
+    d->updating = true;
+    viewport()->removeEventFilter(this);
+    disconnect(d->proxy, nullptr, this, nullptr);
+}
+QWidget* Canvas::viewport() const
+{
+    return d->view->getDrawWidget()->getWidget();
+}
+QScrollBar* Canvas::verticalScrollBar() const
+{
+    return d->view->getVerticalScrollbar();
+}
+QScrollBar* Canvas::horizontalScrollBar() const
+{
+    return d->view->getHorizontalScrollbar();
+}
+int Canvas::fitMode() const
+{
+    return d->fit;
+}
+void Canvas::resetView()
+{
+    d->resetting = true;
+    d->fitReference = page = 0;
+}
+ViewAnchor Canvas::anchor(QPointF ratio) const
+{
+    ViewAnchor result;
+    result.ratio = ratio;
+    const QPointF point(viewport()->width() * ratio.x(), viewport()->height() * ratio.y());
+    double distance = std::numeric_limits<double>::max();
+    for (const auto& item : d->proxy->getSnapshot().items)
+    {
+        const auto delta =
+            std::max({item.rect.top() - point.y(), point.y() - item.rect.bottom(), 0.0});
+        if (delta < distance)
+        {
+            distance = delta;
+            result.page = int(item.pageIndex);
+            result.point = item.pageToDeviceMatrix.inverted().map(point);
+        }
+    }
+    return result;
+}
+void Canvas::restoreAnchor(const ViewAnchor& position)
+{
+    if (!d->snapshot || position.page < 0 || position.page >= document->pages())
+        return;
+    ++d->viewEpoch;
+    if (!d->proxy->getSnapshot().hasPage(position.page))
+        d->proxy->goToPageAndEnsureVisible(position.page, QRectF(position.point, QSizeF(1, 1)));
+    if (!d->proxy->getSnapshot().hasPage(position.page))
+        return;
+    const auto point = pdfToViewport(position.page, position.point);
+    const QPointF target(viewport()->width() * position.ratio.x(),
+                         viewport()->height() * position.ratio.y());
+    d->proxy->scrollByPixels((target - point).toPoint());
+    updateView(true);
+}
+QPointF Canvas::pdfToViewport(int number, QPointF point) const
+{
+    return d->matrix(number).map(point);
+}
+QPointF Canvas::viewportToPdf(int number, QPointF point) const
+{
+    return d->matrix(number).inverted().map(point);
+}
+QPoint Canvas::mapFromScene(QPointF point) const
+{
+    return pdfToViewport(
+               page, pageMatrix(document->pdf().getCatalog()->getPage(page)).inverted().map(point))
+        .toPoint();
+}
+QPointF Canvas::mapToScene(QPoint point) const
+{
+    return pageMatrix(document->pdf().getCatalog()->getPage(page)).map(viewportToPdf(page, point));
+}
+QVector<int> Canvas::visiblePages() const
+{
+    QVector<int> result;
+    for (const auto& item : d->proxy->getSnapshot().items)
+        result.append(int(item.pageIndex));
+    return result;
+}
+bool Canvas::pageReady(int number) const
+{
+    auto snapshot = d->proxy->getSnapshot();
+    const auto item = snapshot.getPageSnapshot(number);
+    return item && item->compiledPage && item->compiledPage->isValid();
+}
+void Canvas::updateView(bool force)
+{
+    if (d->updating || (!force && d->resizePending) || !d->snapshot)
+        return;
+    zoom = d->proxy->getZoom();
+    auto position = anchor();
+    if (position.page >= 0 && position.page != page && !d->dragging && !d->selecting)
+    {
+        page = position.page;
+        selected = -1;
+        d->items = signatures(document->pdf(), page);
+    }
+    d->lastAnchor = position;
+    if (viewChanged)
+        viewChanged();
+}
+void Canvas::refresh(PDFObjectReference identity)
+{
+    if (!identity.isValid() && selected >= 0 && selected < d->items.size())
+        identity = d->items[selected].ref;
+    auto position = d->resetting ? ViewAnchor() : anchor();
+    cancelInteraction();
+    d->updating = true;
+    if (document->loaded() && (d->revision != document->revision || d->resetting))
+    {
+        // Upstream uses MediaBox and omits UserUnit in its millimetre layout.
+        // Adapt only the disposable rendering snapshot; never the saved PDF.
+        PDFDocumentBuilder builder(&document->pdf());
+        bool cropChanged = false;
+        for (int i = 0; i < document->pages(); ++i)
+        {
+            auto p = document->pdf().getCatalog()->getPage(i);
+            if (p->getCropBox() != p->getMediaBox())
+            {
+                builder.setPageMediaBox(p->getPageReference(), p->getCropBox());
+                cropChanged = true;
+            }
+        }
+        auto candidate =
+            std::make_unique<PDFDocument>(cropChanged ? builder.build() : document->pdf());
+        PDFModifiedDocument modified(candidate.get(), nullptr);
+        d->view->setDocument(modified, {});
+        d->fonts.setDocument(modified);
+        d->annotations->setDocument(modified);
+        d->snapshot.swap(candidate);
+        PDFDrawSpaceController::LayoutItems layout;
+        double y = 0;
+        for (int i = 0; i < document->pages(); ++i)
+        {
+            auto size = pageSize(document->pdf().getCatalog()->getPage(i)) * (25.4 / 72.0);
+            layout.emplace_back(0, i, -1,
+                                QRectF(-size.width() / 2, y, size.width(), size.height()));
+            y += size.height() + 6.35;
+        }
+        d->proxy->setCustomPageLayout(std::move(layout));
+        d->proxy->setPageLayout(PageLayout::Custom);
+        d->revision = document->revision;
+        d->matches.clear();
+    }
+    selected = -1;
+    d->items.clear();
+    if (document->loaded())
+    {
+        page = qBound(0, page, document->pages() - 1);
+        d->items = signatures(document->pdf(), page);
+        for (int i = 0; i < d->items.size(); ++i)
+            if (d->items[i].ref == identity)
+                selected = i;
+        if (d->resetting)
+        {
+            d->proxy->goToPage(page);
+            d->resetting = false;
+        }
+        if (d->fit)
+            applyFit(position);
+        else
+            restoreAnchor(position);
+    }
+    d->updating = false;
+    updateView(true);
+    viewport()->update();
 }
 void Canvas::beginPlacement()
 {
     cancelInteraction();
     placing = true;
     setCursor(Qt::CrossCursor);
+    viewport()->setCursor(Qt::CrossCursor);
     setFocus(Qt::OtherFocusReason);
 }
 void Canvas::cancelInteraction()
 {
-    const bool active = placing || dragging || selecting;
-    placing = dragging = selecting = false;
-    delete outline;
-    outline = nullptr;
+    const bool active = placing || d->dragging || d->selecting;
+    placing = d->dragging = d->selecting = false;
     copied.clear();
+    d->selection = PDFTextSelection();
+    d->selectionLayout.reset();
     setCursor(Qt::ArrowCursor);
+    viewport()->setCursor(Qt::ArrowCursor);
+    viewport()->update();
     if (active && interactionCancelled)
         interactionCancelled();
 }
-void Canvas::setZoom(double z)
+void Canvas::applyZoom(double value, const ViewAnchor& position)
 {
-    if (dragging || selecting)
+    ++d->viewEpoch;
+    const bool wasUpdating = d->updating;
+    d->updating = true;
+    d->proxy->zoom(qBound(.25, value, 4.0));
+    restoreAnchor(position);
+    d->updating = wasUpdating;
+    updateView(true);
+}
+void Canvas::setZoom(double value)
+{
+    auto position = anchor();
+    if (d->dragging || d->selecting)
         cancelInteraction();
-    double top = mapToScene(viewport()->rect().topLeft()).y();
-    zoom = qBound(.25, z, 4.0);
-    resetTransform();
-    scale(zoom, zoom);
-    centerOn(scene.sceneRect().center().x(), qMax(0.0, top) + viewport()->height() / (2 * zoom));
+    d->fit = 0;
+    applyZoom(value, position);
+}
+void Canvas::applyFit(const ViewAnchor& position)
+{
+    const auto hint =
+        d->fit == 2 ? PDFDrawWidgetProxy::ZoomHint::Fit : PDFDrawWidgetProxy::ZoomHint::FitWidth;
+    applyZoom(d->proxy->getZoomHintForPage(hint, d->fitReference), position);
+}
+void Canvas::fitWidth()
+{
+    auto position = anchor();
+    cancelInteraction();
+    d->fit = 1;
+    d->fitReference = page;
+    applyFit(position);
+}
+void Canvas::fitPage()
+{
+    auto position = anchor();
+    cancelInteraction();
+    d->fit = 2;
+    d->fitReference = page;
+    applyFit(position);
+}
+void Canvas::goToPage(int number)
+{
+    if (!document->loaded() || number < 0 || number >= document->pages())
+        return;
+    cancelInteraction();
+    ++d->viewEpoch;
+    d->updating = true;
+    page = number;
+    selected = -1;
+    d->items = signatures(document->pdf(), page);
+    d->fitReference = page;
+    if (d->fit)
+        applyFit({});
+    const auto center = document->pdf().getCatalog()->getPage(page)->getCropBox().center();
+    d->proxy->goToPageAndEnsureVisible(page, QRectF(center, QSizeF(1, 1)));
+    if (d->proxy->getSnapshot().hasPage(page))
+        d->proxy->scrollByPixels(
+            QPoint(qRound(viewport()->width() / 2.0 - pdfToViewport(page, center).x()), 0));
+    d->proxy->goToPage(page);
+    d->updating = false;
+    updateView(true);
+}
+void Canvas::scrollBy(QPoint pixels)
+{
+    ++d->viewEpoch;
+    d->proxy->scrollByPixels(-pixels);
+    updateView(true);
 }
 void Canvas::highlight(const QString& term)
 {
-    qDeleteAll(searchHighlights);
-    searchHighlights.clear();
-    searchTerm = term;
-    if (!document->loaded() || searchTerm.isEmpty())
-        return;
-    auto layout = textLayout(document->pdf(), page);
-    auto matrix = pageMatrix(document->pdf().getCatalog()->getPage(page));
-    for (auto& flow : PDFTextFlow::createTextFlows(layout, PDFTextFlow::AddLineBreaks, page))
-    {
-        auto text = flow.getText();
-        auto boxes = flow.getBoundingBoxes();
-        int from = 0;
-        while ((from = text.indexOf(term, from, Qt::CaseInsensitive)) >= 0)
-        {
-            for (int i = from; i < from + term.size() && i < int(boxes.size()); ++i)
-            {
-                auto item =
-                    scene.addRect(matrix.mapRect(boxes[i]), Qt::NoPen, QColor(255, 195, 0, 90));
-                item->setZValue(1);
-                searchHighlights.append(item);
-            }
-            from += term.size();
-        }
-    }
+    d->term = term;
+    d->matches.clear();
+    viewport()->update();
 }
-void Canvas::mousePressEvent(QMouseEvent* e)
+void Canvas::mousePress(QMouseEvent* event)
 {
-    if (e->button() != Qt::LeftButton || !document->loaded())
-        return QGraphicsView::mousePressEvent(e);
+    const int hit = d->hit(event->position());
+    if (hit < 0)
+        return;
     setFocus();
-    start = last = mapToScene(e->position().toPoint());
-    auto m = pageMatrix(document->pdf().getCatalog()->getPage(page));
     const bool placeHere = placing && !document->busy && document->readOnly.isEmpty();
     cancelInteraction();
+    page = d->gesturePage = hit;
+    d->items = signatures(document->pdf(), page);
+    d->gestureMatrix = d->matrix(page);
+    d->start = d->last = d->gestureMatrix.inverted().map(event->position());
+    selected = -1;
     if (placeHere)
     {
         if (place)
-            place(m.inverted().map(start));
+            place(d->start);
         return;
     }
-    selected = -1;
     if (!document->busy && document->readOnly.isEmpty())
-    {
-        for (int i = items.size() - 1; i >= 0; --i)
-            if (m.mapRect(items[i].rect).contains(start))
+        for (int i = d->items.size() - 1; i >= 0; --i)
+            if (d->items[i].rect.contains(d->start))
             {
                 selected = i;
                 break;
             }
-    }
     if (selected >= 0)
+        d->dragging = true;
+    else if (document->copyAllowed)
     {
-        dragging = true;
-        outline = scene.addRect(m.mapRect(items[selected].rect), QPen(QColor("#1464c0"), 2));
+        d->selecting = true;
+        d->selectionLayout = std::make_unique<PDFTextLayout>(textLayout(document->pdf(), page));
     }
-    else
+    viewport()->update();
+}
+void Canvas::mouseMove(QMouseEvent* event)
+{
+    if (d->dragging || d->selecting)
     {
-        selecting = true;
-        outline = scene.addRect(QRectF(start, start), QPen(QColor("#1464c0"), .5),
-                                QColor(50, 120, 230, 35));
+        d->last = d->gestureMatrix.inverted().map(event->position());
+        if (d->selecting)
+            d->selection = d->selectionLayout->createTextSelection(d->gesturePage, d->start,
+                                                                   d->last, QColor("#6699dd"));
+        viewport()->update();
     }
 }
-void Canvas::mouseMoveEvent(QMouseEvent* e)
+void Canvas::mouseRelease(QMouseEvent* event)
 {
-    last = mapToScene(e->position().toPoint());
-    if (outline && dragging)
+    mouseMove(event);
+    if (d->dragging)
     {
-        auto m = pageMatrix(document->pdf().getCatalog()->getPage(page));
-        outline->setRect(m.mapRect(items[selected].rect).translated(last - start));
-    }
-    else if (outline && selecting)
-        outline->setRect(QRectF(start, last).normalized());
-    else
-        QGraphicsView::mouseMoveEvent(e);
-}
-void Canvas::mouseReleaseEvent(QMouseEvent* e)
-{
-    if (e->button() != Qt::LeftButton)
-        return QGraphicsView::mouseReleaseEvent(e);
-    if (!document->loaded())
-        return;
-    last = mapToScene(e->position().toPoint());
-    if (dragging)
-    {
-        dragging = false;
-        auto m = pageMatrix(document->pdf().getCatalog()->getPage(page)).inverted();
+        d->dragging = false;
         try
         {
-            if (QLineF(start, last).length() > .1)
-                document->moveSignature(page, items[selected], m.map(last) - m.map(start));
+            if (QLineF(d->start, d->last).length() > .1)
+                document->moveSignature(d->gesturePage, d->items[selected], d->last - d->start);
+            if (changed)
+                changed();
+            if (select && selected >= 0)
+                select(selected);
         }
-        catch (const std::exception& ex)
+        catch (const std::exception& error)
         {
-            QMessageBox::warning(this, "移動できません", QString::fromUtf8(ex.what()));
+            QMessageBox::warning(this, "移動できません", QString::fromUtf8(error.what()));
         }
-        if (changed)
-            changed();
-        // Opening the properties dock during mousePress would resize the canvas
-        // and change the coordinate mapping in the middle of a drag.
-        if (select && selected >= 0)
-            select(selected);
     }
-    if (selecting)
+    if (d->selecting)
     {
-        selecting = false;
-        if (document->copyAllowed)
-        {
-            auto layout = textLayout(document->pdf(), page);
-            auto inverse = pageMatrix(document->pdf().getCatalog()->getPage(page)).inverted();
-            auto selection =
-                layout.createTextSelection(page, inverse.map(start), inverse.map(last));
-            copied = layout.getTextFromSelection(selection, page);
-        }
-        else
-            copied.clear();
+        d->selecting = false;
+        copied = document->copyAllowed
+                     ? d->selectionLayout->getTextFromSelection(d->selection, d->gesturePage)
+                     : QString();
     }
+    viewport()->update();
 }
-void Canvas::keyPressEvent(QKeyEvent* e)
+bool Canvas::eventFilter(QObject* watched, QEvent* event)
 {
-    if (e->matches(QKeySequence::Copy))
+    if (watched != viewport())
+        return QWidget::eventFilter(watched, event);
+    if (event->type() == QEvent::Resize && !d->resizePending)
     {
-        QApplication::clipboard()->setText(copied);
+        d->resizePending = true;
+        const auto position = d->lastAnchor;
+        const auto epoch = d->viewEpoch;
+        if (d->dragging || d->selecting)
+            cancelInteraction();
+        QTimer::singleShot(0, this,
+                           [this, position, epoch]
+                           {
+                               if (!d->snapshot)
+                               {
+                                   d->resizePending = false;
+                                   return;
+                               }
+                               const auto target = epoch == d->viewEpoch ? position : d->lastAnchor;
+                               if (d->fit)
+                                   applyFit(target);
+                               else
+                               {
+                                   restoreAnchor(target);
+                               }
+                               d->resizePending = false;
+                               updateView(true);
+                           });
+    }
+    if (!document->loaded())
+        return false;
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        auto mouse = static_cast<QMouseEvent*>(event);
+        if (mouse->button() == Qt::LeftButton)
+        {
+            mousePress(mouse);
+            return true;
+        }
+    }
+    if (event->type() == QEvent::MouseMove && (d->dragging || d->selecting))
+    {
+        mouseMove(static_cast<QMouseEvent*>(event));
+        return true;
+    }
+    if (event->type() == QEvent::MouseButtonRelease &&
+        static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton)
+    {
+        mouseRelease(static_cast<QMouseEvent*>(event));
+        return true;
+    }
+    if (event->type() == QEvent::Wheel)
+    {
+        auto wheel = static_cast<QWheelEvent*>(event);
+        if (wheel->modifiers().testFlag(Qt::ControlModifier))
+        {
+            auto position = anchor({wheel->position().x() / viewport()->width(),
+                                    wheel->position().y() / viewport()->height()});
+            d->fit = 0;
+            cancelInteraction();
+            applyZoom(zoom * std::pow(1.2, wheel->angleDelta().y() / 120.0), position);
+            return true;
+        }
+        if (!wheel->pixelDelta().isNull())
+        {
+            d->proxy->scrollByPixels(wheel->pixelDelta());
+            return true;
+        }
+    }
+    if (event->type() == QEvent::KeyPress)
+    {
+        keyPressEvent(static_cast<QKeyEvent*>(event));
+        return event->isAccepted();
+    }
+    return false;
+}
+void Canvas::keyPressEvent(QKeyEvent* event)
+{
+    if (event->matches(QKeySequence::Copy))
+    {
+        if (document->copyAllowed)
+            QApplication::clipboard()->setText(copied);
+        event->accept();
         return;
     }
-    if (e->key() == Qt::Key_Escape)
+    if (event->key() == Qt::Key_Escape)
     {
         cancelInteraction();
+        event->accept();
         return;
     }
-    QGraphicsView::keyPressEvent(e);
+    if (event->key() == Qt::Key_PageDown || event->key() == Qt::Key_PageUp)
+    {
+        const int direction = event->key() == Qt::Key_PageDown ? 1 : -1;
+        if (event->modifiers().testFlag(Qt::ControlModifier))
+            goToPage(page + direction);
+        else
+            scrollBy(QPoint(0, qRound(direction * viewport()->height() * .9)));
+        event->accept();
+        return;
+    }
+    QWidget::keyPressEvent(event);
 }
-
 } // namespace tatsu

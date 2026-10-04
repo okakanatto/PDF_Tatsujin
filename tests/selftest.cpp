@@ -1,6 +1,7 @@
 #include "selftest.h"
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
+#include "viewer_tests.h"
 #include "window.h"
 #include <QPrinterInfo>
 #include <QtTest/QTest>
@@ -103,6 +104,9 @@ int selftest(const QString& fixtures, const QString& output)
     };
     auto input = [&](QString name) { return fixtures + "/" + name; };
     auto dest = [&](QString name) { return output + "/" + name; };
+    run("Viewer_continuous_navigation", [&] { return testViewerNavigation(fixtures, output); });
+    run("Viewer_crop_rotation_userunit", [&] { return testViewerCoordinates(fixtures, output); });
+    run("Viewer_signature_save_undo", [&] { return testViewerSignature(fixtures, output); });
     if (qEnvironmentVariableIsSet("TATSU_UI_REVIEW"))
         run("A01_UI_layout_review",
             [&]
@@ -509,6 +513,8 @@ int selftest(const QString& fixtures, const QString& output)
             require(copied.size() > 300, "OCR clipboard text");
             w.doc.save(dest("same-window.pdf"));
             w.refresh();
+            require(QTest::qWaitFor([&] { return w.canvas->pageReady(0); }, 10000),
+                    "saved OCR page finishes asynchronous rendering");
             w.grab().save(dest("ocr-window.png"));
             w.undoAction->trigger();
             require(w.doc.pdf() == before, "UI undo retains signature before OCR");

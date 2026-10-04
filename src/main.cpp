@@ -36,23 +36,34 @@ int main(int argc, char** argv)
             tatsu::Document d;
             d.open(args[2]);
             auto opened = timer.elapsed();
-            auto image = tatsu::renderPage(d.pdf(), 0, 1.25);
-            auto rendered = timer.elapsed();
             tatsu::Window window;
             window.doc = std::move(d);
             window.refresh(true);
             window.show();
             app.processEvents();
             auto visible = timer.elapsed();
-            window.grab().save(args[3] + ".png");
+            window.canvas->goToPage(0);
+            while (!window.canvas->pageReady(0) && timer.elapsed() < 30000)
+            {
+                app.processEvents();
+                QThread::msleep(1);
+            }
+            if (!window.canvas->pageReady(0))
+                tatsu::fail("初回ページの描画が完了しませんでした。");
+            auto image = window.grab();
+            auto readable = timer.elapsed();
+            image.save(args[3] + ".png");
             QEventLoop observation;
             QTimer::singleShot(250, &observation, &QEventLoop::quit);
             observation.exec();
             QFile out(args[3]);
             out.open(QIODevice::WriteOnly);
             out.write(QJsonDocument(QJsonObject{{"open_ms", opened},
-                                                {"first_page_ms", rendered - opened},
+                                                {"measurement_version", 2},
+                                                {"first_readable_ms", readable},
+                                                {"first_page_ms", readable - opened},
                                                 {"window_visible_ms", visible},
+                                                {"qt_platform", QGuiApplication::platformName()},
                                                 {"observation_ms", 250},
                                                 {"pages", window.doc.pages()},
                                                 {"image_pixels", image.width() * image.height()}})

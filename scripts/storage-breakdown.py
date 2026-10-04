@@ -43,7 +43,7 @@ for p in APP.rglob("*"):
         key = "OCR_models"
     elif rel.parts[:2] == ("assets", "fonts"):
         key = "fonts"
-    elif name in ["PDFTatsujin.exe", "Pdf4QtLibCore.dll"]:
+    elif name in ["PDFTatsujin.exe", "Pdf4QtLibCore.dll", "Pdf4QtLibWidgets.dll"]:
         key = "app_and_PDF4QT"
     elif name.startswith("Qt6") or rel.parts[0] in [
         "platforms",

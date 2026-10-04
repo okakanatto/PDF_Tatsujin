@@ -40,7 +40,7 @@ add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
 
 add_library(tatsu_ui STATIC src/canvas.cpp src/window.cpp)
-target_link_libraries(tatsu_ui PUBLIC tatsu_document Qt6::Widgets)
+target_link_libraries(tatsu_ui PUBLIC tatsu_document Pdf4QtLibWidgets Qt6::Widgets)
 
 add_executable(PDFTatsujin WIN32 src/main.cpp)
 target_link_libraries(PDFTatsujin PRIVATE tatsu_ui tatsu_ocr)
@@ -50,7 +50,7 @@ set_target_properties(PDFTatsujin PROPERTIES
 
 if(TATSU_ENABLE_SELFTEST)
     find_package(Qt6 REQUIRED COMPONENTS Test)
-    target_sources(PDFTatsujin PRIVATE tests/selftest.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/selftest.cpp tests/viewer_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

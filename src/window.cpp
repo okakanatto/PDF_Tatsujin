@@ -169,9 +169,7 @@ Window::Window()
                 guard(
                     [&]
                     {
-                        canvas->page = row;
-                        canvas->selected = -1;
-                        canvas->refresh();
+                        canvas->goToPage(row);
                         refreshStatus();
                     });
             });
@@ -383,24 +381,32 @@ Window::Window()
     cancel->hide();
     connect(cancel, &QPushButton::clicked, this, &Window::stopOcr);
     auto zoom = zoomControl = new QComboBox;
+    zoom->setEditable(true);
+    zoom->lineEdit()->setReadOnly(true);
     zoom->addItems(
         {"50%", "75%", "100%", "125%", "150%", "200%", "幅に合わせる", "全体に合わせる"});
     zoom->setCurrentIndex(2);
     statusBar()->addPermanentWidget(zoom);
-    connect(zoom, &QComboBox::currentIndexChanged, this,
+    connect(zoom, &QComboBox::activated, this,
             [this](int i)
             {
-                if (i < 6)
+                if (i >= 0 && i < 6)
                     canvas->setZoom(QList<double>{.5, .75, 1, 1.25, 1.5, 2}[i]);
-                else if (doc.loaded())
-                {
-                    auto s = pageSize(doc.pdf().getCatalog()->getPage(canvas->page));
-                    double z = (canvas->viewport()->width() - 28) / s.width();
-                    if (i == 7)
-                        z = qMin(z, (canvas->viewport()->height() - 28) / s.height());
-                    canvas->setZoom(z);
-                }
+                else if (doc.loaded() && i == 6)
+                    canvas->fitWidth();
+                else if (doc.loaded() && i == 7)
+                    canvas->fitPage();
             });
+    canvas->viewChanged = [this]
+    {
+        QSignalBlocker pageBlock(pages), zoomBlock(zoomControl);
+        pages->setCurrentRow(canvas->page);
+        if (canvas->fitMode())
+            zoomControl->setCurrentIndex(canvas->fitMode() == 1 ? 6 : 7);
+        else
+            zoomControl->setEditText(QString("%1%").arg(qRound(canvas->zoom * 100)));
+        refreshStatus();
+    };
     setStyleSheet(R"(
         QMainWindow { background: #f4f6f9; color: #202b3c; }
         QToolBar { spacing: 5px; padding: 9px; background: white; border-bottom: 1px solid #d9e0e9; }
@@ -482,11 +488,13 @@ void Window::openFile(const QString& path)
             return;
         doc.open(path, pwd);
     }
-    canvas->page = 0;
+    canvas->resetView();
     canvas->selected = -1;
     canvas->highlight({});
     query->clear();
     refresh(true);
+    // Finish the first layout before choosing the initial reading position.
+    QTimer::singleShot(0, canvas, [this] { canvas->goToPage(0); });
 }
 void Window::refresh(bool rebuild, PDFObjectReference selection)
 {
