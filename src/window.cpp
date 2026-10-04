@@ -152,6 +152,31 @@ Window::Window()
         historyRow->addWidget(button);
     }
     nl->addLayout(historyRow);
+    auto toolRow = new QHBoxLayout;
+    auto toolGroup = new QActionGroup(this);
+    selectToolAction = new QAction("選択", toolGroup);
+    selectToolAction->setObjectName("selectReadingTool");
+    selectToolAction->setToolTip("文字を選択してコピー。署名の枠をドラッグして編集。");
+    handToolAction = new QAction("手のひら", toolGroup);
+    handToolAction->setObjectName("handReadingTool");
+    handToolAction->setToolTip("PDFをつかんで表示を移動。本文ではSpace押下中だけ一時切替。");
+    for (auto a : {selectToolAction, handToolAction})
+    {
+        a->setCheckable(true);
+        auto button = new QToolButton;
+        button->setDefaultAction(a);
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        button->setAccessibleName(a->text() + "ツール");
+        toolRow->addWidget(button);
+        connect(a, &QAction::triggered, this,
+                [this, a]
+                {
+                    canvas->setHandTool(a == handToolAction);
+                    canvas->setFocus();
+                });
+    }
+    selectToolAction->setChecked(true);
+    nl->addLayout(toolRow);
     connect(backView, &QAction::triggered, this, [this] { moveHistory(false); });
     connect(forwardView, &QAction::triggered, this, [this] { moveHistory(true); });
     backShortcut = new QShortcut(QKeySequence("Alt+Left"), this);
@@ -384,6 +409,12 @@ Window::Window()
     canvas->changed = [this] { refresh(); };
     status = new QLabel("PDFを開いてください");
     canvas->interactionCancelled = [this] { refreshStatus(); };
+    canvas->toolChanged = [this]
+    {
+        handToolAction->setChecked(canvas->handToolActive());
+        selectToolAction->setChecked(!canvas->handToolActive());
+        refreshStatus();
+    };
     statusBar()->addWidget(status, 1);
     progress = new QLabel;
     statusBar()->addWidget(progress);
@@ -460,6 +491,8 @@ void Window::showPanel(int index)
 Window::~Window()
 {
     canvas->viewChanged = {};
+    canvas->toolChanged = {};
+    canvas->interactionCancelled = {};
     delete searchPanel;
     searchPanel = nullptr;
     if (worker)
@@ -511,6 +544,8 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     navigation->setVisible(doc.loaded());
     zoomControl->setEnabled(doc.loaded());
     printAction->setEnabled(doc.loaded());
+    selectToolAction->setEnabled(doc.loaded());
+    handToolAction->setEnabled(doc.loaded());
     if (rebuild)
     {
         QSignalBlocker block(pages);
@@ -589,7 +624,9 @@ void Window::refreshStatus()
                                          .arg(doc.pages())
                                          .arg(doc.dirty() ? " • 未保存" : "")
                                    : "PDFを開いてください");
-    if (doc.loaded() && !canvas->selectionMessage().isEmpty())
+    if (doc.loaded() && canvas->handToolActive())
+        status->setText(status->text() + " · 手のひら：ドラッグで表示を移動 · Escで選択に戻る");
+    else if (doc.loaded() && !canvas->selectionMessage().isEmpty())
         status->setText(status->text() + " · " + canvas->selectionMessage());
 }
 bool Window::saveFile(bool choose)

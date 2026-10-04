@@ -65,6 +65,8 @@ private:
     };
     QVector<HistoryEntry> backHistory, forwardHistory;
     QAction* printAction;
+    QAction* selectToolAction;
+    QAction* handToolAction;
     void refreshStatus();
     void rememberView();
     void moveHistory(bool forward);

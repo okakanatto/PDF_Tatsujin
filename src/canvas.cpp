@@ -44,6 +44,8 @@ struct Canvas::Impl : IDocumentDrawInterface
     QPointF start, last;
     QTransform gestureMatrix;
     bool dragging = false, selecting = false;
+    bool hand = false, temporaryHand = false, panning = false;
+    QPointF panPoint;
 
     explicit Impl(Canvas* canvas) : owner(canvas)
     {
@@ -151,8 +153,10 @@ Canvas::Canvas(Document* doc, QWidget* parent)
     setFocusProxy(viewport());
     setFocusPolicy(Qt::StrongFocus);
     viewport()->setFocusPolicy(Qt::StrongFocus);
-    viewport()->setAccessibleName("PDF本文。連続スクロール、文字選択、署名の配置と移動");
+    viewport()->setAccessibleName("PDF本文。文字選択、Spaceを押しながらドラッグで表示を移動");
     viewport()->installEventFilter(this);
+    if (window() != this)
+        window()->installEventFilter(this);
     connect(d->proxy, &PDFDrawWidgetProxy::drawSpaceChanged, this, [this] { updateView(); });
     for (auto bar : {verticalScrollBar(), horizontalScrollBar()})
         connect(bar, &QScrollBar::valueChanged, this,
@@ -204,6 +208,8 @@ Canvas::~Canvas()
     d->autoScroll.stop();
     d->updating = true;
     viewport()->removeEventFilter(this);
+    if (window() != this)
+        window()->removeEventFilter(this);
     disconnect(d->proxy, nullptr, this, nullptr);
 }
 QWidget* Canvas::viewport() const
@@ -224,6 +230,7 @@ int Canvas::fitMode() const
 }
 void Canvas::resetView()
 {
+    setHandTool(false);
     d->resetting = true;
     d->fitReference = page = 0;
 }
@@ -379,16 +386,16 @@ void Canvas::refresh(PDFObjectReference identity)
 }
 void Canvas::beginPlacement()
 {
-    cancelInteraction();
+    setHandTool(false);
     placing = true;
-    setCursor(Qt::CrossCursor);
-    viewport()->setCursor(Qt::CrossCursor);
+    updateTool();
     setFocus(Qt::OtherFocusReason);
 }
 void Canvas::cancelInteraction()
 {
-    const bool active = placing || d->dragging || d->selecting;
+    const bool active = placing || d->dragging || d->selecting || d->panning || d->temporaryHand;
     placing = d->dragging = d->selecting = false;
+    d->panning = d->temporaryHand = false;
     copied.clear();
     d->autoScroll.stop();
     d->ranges.clear();
@@ -396,11 +403,43 @@ void Canvas::cancelInteraction()
     d->startCaret = -1;
     d->selectionComplete = true;
     d->selectionStatus.clear();
-    setCursor(Qt::ArrowCursor);
-    viewport()->setCursor(Qt::ArrowCursor);
+    updateTool();
     viewport()->update();
     if (active && interactionCancelled)
         interactionCancelled();
+}
+
+bool Canvas::handToolActive() const
+{
+    return d->hand || d->temporaryHand;
+}
+void Canvas::setHandTool(bool enabled)
+{
+    cancelInteraction();
+    d->hand = enabled;
+    selected = -1;
+    updateTool();
+}
+void Canvas::updateTool()
+{
+    const auto cursor = placing ? Qt::CrossCursor
+                        : handToolActive()
+                            ? (d->panning ? Qt::ClosedHandCursor : Qt::OpenHandCursor)
+                            : Qt::ArrowCursor;
+    setCursor(cursor);
+    viewport()->setCursor(cursor);
+    if (toolChanged)
+        toolChanged();
+}
+void Canvas::stopTransientInteraction()
+{
+    if (placing || d->dragging || d->selecting)
+        cancelInteraction();
+    else if (d->panning || d->temporaryHand)
+    {
+        d->panning = d->temporaryHand = false;
+        updateTool();
+    }
 }
 
 bool Canvas::selectionReady() const
@@ -546,7 +585,7 @@ void Canvas::applyZoom(double value, const ViewAnchor& position)
 void Canvas::setZoom(double value)
 {
     auto position = anchor();
-    if (d->dragging || d->selecting)
+    if (d->dragging || d->selecting || d->panning)
         cancelInteraction();
     d->fit = 0;
     applyZoom(value, position);
@@ -655,10 +694,17 @@ void Canvas::showSearchMatch(const SearchMatch& match)
 }
 void Canvas::mousePress(QMouseEvent* event)
 {
+    setFocus();
+    if (handToolActive())
+    {
+        d->panning = true;
+        d->panPoint = event->position();
+        updateTool();
+        return;
+    }
     const int hit = d->hit(event->position());
     if (hit < 0)
         return;
-    setFocus();
     const bool placeHere = placing && !document->busy && document->readOnly.isEmpty();
     cancelInteraction();
     page = d->gesturePage = hit;
@@ -700,6 +746,15 @@ void Canvas::mousePress(QMouseEvent* event)
 }
 void Canvas::mouseMove(QMouseEvent* event)
 {
+    if (d->panning)
+    {
+        const auto delta = (d->panPoint - event->position()).toPoint();
+        // Keep fractional DIP movement across events (e.g. at 150% scaling).
+        // Rounding every individual motion would discard slow pointer movement.
+        d->panPoint -= QPointF(delta);
+        scrollBy(delta);
+        return;
+    }
     if (d->dragging)
     {
         d->last = d->gestureMatrix.inverted().map(event->position());
@@ -715,6 +770,12 @@ void Canvas::mouseMove(QMouseEvent* event)
 void Canvas::mouseRelease(QMouseEvent* event)
 {
     mouseMove(event);
+    if (d->panning)
+    {
+        d->panning = false;
+        updateTool();
+        return;
+    }
     if (d->dragging)
     {
         d->dragging = false;
@@ -742,6 +803,10 @@ void Canvas::mouseRelease(QMouseEvent* event)
 }
 bool Canvas::eventFilter(QObject* watched, QEvent* event)
 {
+    if ((watched == viewport() || watched == window()) &&
+        (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::Hide ||
+         event->type() == QEvent::FocusOut))
+        stopTransientInteraction();
     if (watched != viewport())
         return QWidget::eventFilter(watched, event);
     if (event->type() == QEvent::Resize && !d->resizePending)
@@ -749,8 +814,7 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
         d->resizePending = true;
         const auto position = d->lastAnchor;
         const auto epoch = d->viewEpoch;
-        if (d->dragging || d->selecting)
-            cancelInteraction();
+        stopTransientInteraction();
         QTimer::singleShot(0, this,
                            [this, position, epoch]
                            {
@@ -772,11 +836,6 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
     }
     if (!document->loaded())
         return false;
-    if (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::Hide)
-    {
-        if (d->dragging || d->selecting)
-            cancelInteraction();
-    }
     if (event->type() == QEvent::ContextMenu)
     {
         auto context = static_cast<QContextMenuEvent*>(event);
@@ -799,7 +858,7 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
             return true;
         }
     }
-    if (event->type() == QEvent::MouseMove && (d->dragging || d->selecting))
+    if (event->type() == QEvent::MouseMove && (d->dragging || d->selecting || d->panning))
     {
         mouseMove(static_cast<QMouseEvent*>(event));
         return true;
@@ -833,10 +892,27 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
         keyPressEvent(static_cast<QKeyEvent*>(event));
         return event->isAccepted();
     }
+    if (event->type() == QEvent::KeyRelease)
+    {
+        keyReleaseEvent(static_cast<QKeyEvent*>(event));
+        return event->isAccepted();
+    }
     return false;
 }
 void Canvas::keyPressEvent(QKeyEvent* event)
 {
+    if (document->loaded() && event->key() == Qt::Key_Space &&
+        event->modifiers() == Qt::NoModifier && viewport()->hasFocus())
+    {
+        if (!event->isAutoRepeat() && !d->temporaryHand)
+        {
+            stopTransientInteraction();
+            d->temporaryHand = true;
+            updateTool();
+        }
+        event->accept();
+        return;
+    }
     if (event->matches(QKeySequence::Copy))
     {
         copySelection();
@@ -845,7 +921,7 @@ void Canvas::keyPressEvent(QKeyEvent* event)
     }
     if (event->key() == Qt::Key_Escape)
     {
-        cancelInteraction();
+        setHandTool(false);
         if (viewChanged)
             viewChanged();
         event->accept();
@@ -867,5 +943,19 @@ void Canvas::keyPressEvent(QKeyEvent* event)
         return;
     }
     QWidget::keyPressEvent(event);
+}
+void Canvas::keyReleaseEvent(QKeyEvent* event)
+{
+    if (event->key() == Qt::Key_Space && d->temporaryHand)
+    {
+        if (!event->isAutoRepeat())
+        {
+            d->temporaryHand = d->panning = false;
+            updateTool();
+        }
+        event->accept();
+        return;
+    }
+    QWidget::keyReleaseEvent(event);
 }
 } // namespace tatsu

@@ -50,7 +50,7 @@ set_target_properties(PDFTatsujin PROPERTIES
 
 if(TATSU_ENABLE_SELFTEST)
     find_package(Qt6 REQUIRED COMPONENTS Test)
-    target_sources(PDFTatsujin PRIVATE tests/selftest.cpp tests/viewer_tests.cpp tests/search_tests.cpp tests/selection_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/selftest.cpp tests/viewer_tests.cpp tests/search_tests.cpp tests/selection_tests.cpp tests/pan_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

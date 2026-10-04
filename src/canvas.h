@@ -34,6 +34,7 @@ public:
     std::function<void()> changed;
     std::function<void()> interactionCancelled;
     std::function<void()> viewChanged;
+    std::function<void()> toolChanged;
     std::function<void(int)> navigatePage;
     explicit Canvas(Document* doc, QWidget* parent = nullptr);
     ~Canvas() override;
@@ -41,6 +42,8 @@ public:
     void resetView();
     void beginPlacement();
     void cancelInteraction();
+    void setHandTool(bool enabled);
+    bool handToolActive() const;
     void setSearchResults(const QVector<SearchMatch>& matches, quint64 active);
     void showSearchMatch(const SearchMatch& match);
     ViewState viewState() const;
@@ -71,8 +74,11 @@ public:
 protected:
     bool eventFilter(QObject*, QEvent*) override;
     void keyPressEvent(QKeyEvent*) override;
+    void keyReleaseEvent(QKeyEvent*) override;
 
 private:
+    void updateTool();
+    void stopTransientInteraction();
     void requestSelectionText();
     void updateSelection();
     void extendSelection(QPointF point);

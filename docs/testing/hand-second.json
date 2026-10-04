@@ -1,0 +1,35 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 312,
+            "error": "protected PDF is unmodified",
+            "name": "Pan_navigation",
+            "status": "FAIL"
+        },
+        {
+            "details": {
+                "Space_repeat_release": true,
+                "editor_space": true,
+                "native_IME": "未実行; synthetic Qt key events",
+                "retained_copy_characters": 101
+            },
+            "elapsed_ms": 149,
+            "name": "Pan_input",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "busy_state": "state simulation; full OCR uses existing regression tests",
+                "focus_deactivate_hide": "synthetic Qt events",
+                "signature_undo_save": true
+            },
+            "elapsed_ms": 220,
+            "name": "Pan_lifecycle",
+            "status": "PASS"
+        }
+    ]
+}
