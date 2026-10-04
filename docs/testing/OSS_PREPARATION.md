@@ -16,6 +16,7 @@
 | 検証 | 結果 |
 |---|---|
 | 整理後のMSVC Releaseビルド・パッケージ化 | PASS |
+| 試験コードを除くビルド（OFF）と検証用ビルド（ON） | 両構成でPASS |
 | Windowsの同一アプリでM1自動試験16件 | 16 PASS、0 FAIL |
 | 署名配置・移動・Undo／Redo・保存・再編集 | PASS |
 | 日英OCR・検索・コピー・保存・取消・異常終了 | PASS |
@@ -30,6 +31,8 @@
 | 新規フォルダへのフォント・OCRモデル取得とSHA-256検証 | 5資産すべてPASS |
 
 機械可読の結果は[selftest.json](selftest.json)と[independent-verification.json](independent-verification.json)です。ローカルの詳細ログは`evidence/oss-*`に保存し、Gitへ含めていません。コンパイル時に不足した描画ヘッダーと、日本語パスのドライブ判定の問題を修正してから上記を再実行しました。
+
+GitHub Actionsの結果は[Source checks](https://github.com/okakanatto/PDF_Tatsujin/actions/workflows/source-checks.yml)で確認できます。初回CIで、固定manifestのWindows区切り文字がLinuxではファイル名として解釈される問題を検出しました。manifestのバイト列・ハッシュは変えず、検査側で相対パスを解釈する箇所を修正しました。
 
 ## 未実行・制約
 

@@ -22,7 +22,10 @@ def main():
         )
     entries = json.loads((ROOT / "fixtures/manifest.json").read_text(encoding="utf-8"))
     for entry in entries:
-        if sha256(ROOT / "fixtures" / entry["file"]) != entry["sha256"]:
+        # The frozen manifest was produced on Windows. Keep its bytes unchanged
+        # while interpreting its relative paths on both Windows and CI's Linux.
+        path = ROOT / "fixtures" / entry["file"].replace("\\", "/")
+        if sha256(path) != entry["sha256"]:
             raise RuntimeError(f"Fixture hash mismatch: {entry['file']}")
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
