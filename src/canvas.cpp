@@ -8,6 +8,7 @@
 #include "pdffont.h"
 #include "pdfpainter.h"
 #include "pdfrenderer.h"
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -28,8 +29,8 @@ struct Canvas::Impl : IDocumentDrawInterface
     ViewAnchor lastAnchor;
     quint64 viewEpoch = 0;
     QVector<Signature> items;
-    QString term;
-    mutable QHash<int, QVector<QRectF>> matches;
+    QVector<SearchMatch> searchRows;
+    quint64 activeMatch = 0;
     PDFTextSelection selection;
     std::unique_ptr<PDFTextLayout> selectionLayout;
     int gesturePage = -1;
@@ -74,29 +75,21 @@ struct Canvas::Impl : IDocumentDrawInterface
                   const PDFColorConvertor& convertor, QList<PDFRenderError>& errors) const override
     {
         annotations->drawPage(painter, number, compiled, getter, matrix, convertor, errors);
-        if (!term.isEmpty())
+        auto it =
+            std::lower_bound(searchRows.begin(), searchRows.end(), int(number),
+                             [](const SearchMatch& match, int page) { return match.page < page; });
+        for (; it != searchRows.end() && it->page == number; ++it)
         {
-            if (!matches.contains(int(number)))
+            const bool active = it->id == activeMatch;
+            for (const auto& box : it->boxes)
+                painter->fillRect(matrix.mapRect(box),
+                                  active ? QColor(255, 162, 0, 125) : QColor(255, 210, 45, 75));
+            if (active)
             {
-                QVector<QRectF> boxes;
-                const PDFTextLayout& layout = getter;
-                for (const auto& flow :
-                     PDFTextFlow::createTextFlows(layout, PDFTextFlow::AddLineBreaks, number))
-                {
-                    auto text = flow.getText();
-                    auto bounds = flow.getBoundingBoxes();
-                    int from = 0;
-                    while ((from = text.indexOf(term, from, Qt::CaseInsensitive)) >= 0)
-                    {
-                        for (int i = from; i < from + term.size() && i < int(bounds.size()); ++i)
-                            boxes.append(bounds[i]);
-                        from += term.size();
-                    }
-                }
-                matches.insert(int(number), boxes);
+                painter->setPen(QPen(QColor("#996100"), 1));
+                painter->setBrush(Qt::NoBrush);
+                painter->drawRect(matrix.mapRect(it->bounds).adjusted(-2, -2, 2, 2));
             }
-            for (auto box : matches.value(int(number)))
-                painter->fillRect(matrix.mapRect(box), QColor(255, 195, 0, 90));
         }
         if (!selection.isEmpty())
         {
@@ -154,11 +147,7 @@ Canvas::Canvas(Document* doc, QWidget* parent)
     connect(d->proxy, &PDFDrawWidgetProxy::pageImageChanged, this,
             [this](bool, const std::vector<PDFInteger>&) { viewport()->update(); });
     connect(d->proxy, &PDFDrawWidgetProxy::textLayoutChanged, this,
-            [this]
-            {
-                d->matches.clear();
-                viewport()->update();
-            });
+            [this] { viewport()->update(); });
 }
 Canvas::~Canvas()
 {
@@ -309,7 +298,8 @@ void Canvas::refresh(PDFObjectReference identity)
         d->proxy->setCustomPageLayout(std::move(layout));
         d->proxy->setPageLayout(PageLayout::Custom);
         d->revision = document->revision;
-        d->matches.clear();
+        d->searchRows.clear();
+        d->activeMatch = 0;
     }
     selected = -1;
     d->items.clear();
@@ -423,10 +413,56 @@ void Canvas::scrollBy(QPoint pixels)
     d->proxy->scrollByPixels(-pixels);
     updateView(true);
 }
-void Canvas::highlight(const QString& term)
+void Canvas::setSearchResults(const QVector<SearchMatch>& matches, quint64 active)
 {
-    d->term = term;
-    d->matches.clear();
+    d->searchRows = matches;
+    d->activeMatch = active;
+    viewport()->update();
+}
+ViewState Canvas::viewState() const
+{
+    return {anchor(), zoom, d->fit, d->fitReference, d->activeMatch};
+}
+void Canvas::restoreView(const ViewState& state)
+{
+    if (!document->loaded() || state.anchor.page < 0 || state.anchor.page >= document->pages())
+        return;
+    cancelInteraction();
+    d->fit = state.fitMode;
+    d->fitReference = qBound(0, state.fitReference, document->pages() - 1);
+    if (d->fit)
+        applyFit(state.anchor);
+    else
+        applyZoom(state.zoom, state.anchor);
+}
+void Canvas::showSearchMatch(const SearchMatch& match)
+{
+    if (!document->loaded() || match.page < 0 || match.page >= document->pages())
+        return;
+    cancelInteraction();
+    ++d->viewEpoch;
+    d->updating = true;
+    d->proxy->goToPageAndEnsureVisible(match.page, match.bounds);
+    auto snapshot = d->proxy->getSnapshot();
+    if (const auto item = snapshot.getPageSnapshot(match.page))
+    {
+        const auto box = item->pageToDeviceMatrix.mapRect(match.bounds);
+        double dx = 0;
+        const double margin = 20;
+        if (item->rect.width() <= viewport()->width())
+            dx = viewport()->width() / 2.0 - item->rect.center().x();
+        else if (box.left() < margin)
+            dx = margin - box.left();
+        else if (box.right() > viewport()->width() - margin)
+            dx = viewport()->width() - margin - box.right();
+        d->proxy->scrollByPixels(
+            QPoint(qRound(dx), qRound(viewport()->height() * .32 - box.top())));
+    }
+    page = match.page;
+    selected = -1;
+    d->items = signatures(document->pdf(), page);
+    d->updating = false;
+    updateView(true);
     viewport()->update();
 }
 void Canvas::mousePress(QMouseEvent* event)
@@ -600,7 +636,12 @@ void Canvas::keyPressEvent(QKeyEvent* event)
     {
         const int direction = event->key() == Qt::Key_PageDown ? 1 : -1;
         if (event->modifiers().testFlag(Qt::ControlModifier))
-            goToPage(page + direction);
+        {
+            if (navigatePage)
+                navigatePage(page + direction);
+            else
+                goToPage(page + direction);
+        }
         else
             scrollBy(QPoint(0, qRound(direction * viewport()->height() * .9)));
         event->accept();

@@ -1,5 +1,6 @@
 #pragma once
 #include "canvas.h"
+#include "search_panel.h"
 #include <QtWidgets>
 #include <functional>
 
@@ -50,8 +51,24 @@ private:
     QStackedWidget* documentArea;
     QDockWidget* navigation;
     QComboBox* zoomControl;
+    QTabWidget* navigationTabs;
+    SearchPanel* searchPanel;
+    QAction* backView;
+    QAction* forwardView;
+    QShortcut* backShortcut;
+    QShortcut* forwardShortcut;
+    struct HistoryEntry
+    {
+        ViewState view;
+        QString query;
+        quint64 revision;
+    };
+    QVector<HistoryEntry> backHistory, forwardHistory;
     QAction* printAction;
     void refreshStatus();
+    void rememberView();
+    void moveHistory(bool forward);
+    void updateHistoryActions();
     void showPanel(int index);
     bool safeToClose();
     void finishOcr(int code, QProcess::ExitStatus exitStatus);

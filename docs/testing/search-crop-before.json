@@ -1,0 +1,39 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "details": {
+                "English_occurrences": 4,
+                "Japanese_occurrences": 4,
+                "PDF_and_undo_unchanged": true,
+                "history_error_DIP": [
+                    5.684341886080802e-14,
+                    5.684341886080802e-14,
+                    1
+                ]
+            },
+            "elapsed_ms": 231,
+            "name": "Search_occurrences_history",
+            "status": "PASS"
+        },
+        {
+            "elapsed_ms": 454,
+            "error": "CropBox excludes the fourth page's fully cropped-away text",
+            "name": "Search_generation_lifecycle",
+            "status": "FAIL"
+        },
+        {
+            "details": {
+                "Escape_keeps_results": true,
+                "composition_events": "synthetic Qt QInputMethodEvent",
+                "native_IME": "未実行"
+            },
+            "elapsed_ms": 310,
+            "name": "Search_IME_commit",
+            "status": "PASS"
+        }
+    ]
+}

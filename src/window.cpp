@@ -135,84 +135,95 @@ Window::Window()
     left->setFeatures(QDockWidget::NoDockWidgetFeatures);
     auto nav = new QWidget;
     auto nl = new QVBoxLayout(nav);
-    query = new QLineEdit;
-    query->setPlaceholderText("本文・OCR文字を検索");
-    query->setAccessibleName("文書検索");
+    auto historyRow = new QHBoxLayout;
+    backView = new QAction("前の表示", this);
+    backView->setObjectName("previousView");
+    backView->setToolTip("前の表示へ戻る（Alt+←）。文書の編集は変わりません。");
+    forwardView = new QAction("次の表示", this);
+    forwardView->setObjectName("nextView");
+    forwardView->setToolTip("次の表示へ進む（Alt+→）");
+    for (auto a : {backView, forwardView})
+    {
+        auto button = new QToolButton;
+        button->setDefaultAction(a);
+        button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        button->setIcon(
+            style()->standardIcon(a == backView ? QStyle::SP_ArrowBack : QStyle::SP_ArrowForward));
+        historyRow->addWidget(button);
+    }
+    nl->addLayout(historyRow);
+    connect(backView, &QAction::triggered, this, [this] { moveHistory(false); });
+    connect(forwardView, &QAction::triggered, this, [this] { moveHistory(true); });
+    backShortcut = new QShortcut(QKeySequence("Alt+Left"), this);
+    forwardShortcut = new QShortcut(QKeySequence("Alt+Right"), this);
+    connect(backShortcut, &QShortcut::activated, backView, &QAction::trigger);
+    connect(forwardShortcut, &QShortcut::activated, forwardView, &QAction::trigger);
+    connect(qApp, &QApplication::focusChanged, this, [this] { updateHistoryActions(); });
+    navigationTabs = new QTabWidget;
+    navigationTabs->setObjectName("navigationTabs");
+    navigationTabs->setStyleSheet(
+        "QTabWidget::pane { border: 0; }"
+        "QTabBar::tab { background: transparent; color: #596779; padding: 9px 18px; border-bottom: "
+        "2px solid transparent; }"
+        "QTabBar::tab:selected { color: #154a88; border-bottom-color: #377ccf; }");
+    pages = new QListWidget;
+    pages->setObjectName("pageList");
+    pages->setSpacing(6);
+    pages->setUniformItemSizes(true);
+    pages->setIconSize(QSize(96, 128));
+    navigationTabs->addTab(pages, "ページ");
+    searchPanel = new SearchPanel;
+    navigationTabs->addTab(searchPanel, "検索");
+    query = searchPanel->editor();
+    nl->addWidget(navigationTabs);
+    left->setWidget(nav);
+    left->setMinimumWidth(210);
+    left->setMaximumWidth(270);
+    addDockWidget(Qt::LeftDockWidgetArea, left);
     auto findShortcut = new QShortcut(QKeySequence::Find, this);
     connect(findShortcut, &QShortcut::activated, this,
             [this]
             {
                 if (doc.loaded())
                 {
+                    navigationTabs->setCurrentWidget(searchPanel);
                     query->setFocus();
                     query->selectAll();
                 }
             });
-    nl->addWidget(query);
-    auto search = new QPushButton("検索");
-    nl->addWidget(search);
-    pages = new QListWidget;
-    pages->setObjectName("pageList");
-    pages->setSpacing(6);
-    pages->setUniformItemSizes(true);
-    pages->setIconSize(QSize(96, 128));
-    nl->addWidget(pages);
-    left->setWidget(nav);
-    left->setMinimumWidth(155);
-    left->setMaximumWidth(250);
-    addDockWidget(Qt::LeftDockWidgetArea, left);
-    connect(pages, &QListWidget::currentRowChanged, this,
-            [this](int row)
-            {
-                if (row < 0 || row >= doc.pages())
-                    return;
-                guard(
-                    [&]
-                    {
-                        canvas->goToPage(row);
-                        refreshStatus();
-                    });
-            });
-    auto find = [this]
+    for (int direction : {-1, 1})
     {
-        guard(
-            [&]
+        auto nextShortcut = new QShortcut(QKeySequence(direction > 0 ? "F3" : "Shift+F3"), this);
+        connect(nextShortcut, &QShortcut::activated, this,
+                [this, direction] { searchPanel->next(direction); });
+    }
+    connect(query, &QLineEdit::textChanged, this,
+            [this](const QString& text)
             {
-                if (!doc.loaded())
-                    return;
-                auto term = query->text();
-                if (term.isEmpty())
-                {
-                    canvas->highlight({});
-                    return;
-                }
-                QStringList found;
-                int first = -1;
-                for (int i = 0; i < doc.pages(); ++i)
-                {
-                    bool has = pageText(doc.pdf(), i).contains(term, Qt::CaseInsensitive);
-                    pages->item(i)->setText(
-                        QString("%1 ページ%2").arg(i + 1).arg(has ? " • 一致" : ""));
-                    if (has)
-                    {
-                        found << QString::number(i + 1);
-                        if (first < 0)
-                            first = i;
-                    }
-                }
-                if (first >= 0)
-                {
-                    pages->setCurrentRow(first);
-                    canvas->refresh();
-                }
-                canvas->highlight(term);
-                status->setText(found.isEmpty()
-                                    ? "一致する文字はありません"
-                                    : QString("一致したページ: %1").arg(found.join(", ")));
+                if (!text.isEmpty())
+                    navigationTabs->setCurrentWidget(searchPanel);
             });
+    connect(searchPanel, &SearchPanel::returnToDocument, this, [this] { canvas->setFocus(); });
+    connect(searchPanel, &SearchPanel::presentationChanged, this,
+            [this] {
+                canvas->setSearchResults(searchPanel->session()->matches(),
+                                         searchPanel->activeMatch());
+            });
+    connect(searchPanel, &SearchPanel::matchActivated, this,
+            [this](const SearchMatch& match)
+            {
+                rememberView();
+                canvas->showSearchMatch(match);
+            });
+    canvas->navigatePage = [this](int row)
+    {
+        if (row < 0 || row >= doc.pages())
+            return;
+        rememberView();
+        canvas->goToPage(row);
     };
-    connect(search, &QPushButton::clicked, this, find);
-    connect(query, &QLineEdit::returnPressed, this, find);
+    connect(pages, &QListWidget::currentRowChanged, this,
+            [this](int row) { guard([&] { canvas->navigatePage(row); }); });
     properties = new QDockWidget("設定", this);
     properties->setFeatures(QDockWidget::DockWidgetClosable);
     properties->setMinimumWidth(280);
@@ -405,6 +416,7 @@ Window::Window()
             zoomControl->setCurrentIndex(canvas->fitMode() == 1 ? 6 : 7);
         else
             zoomControl->setEditText(QString("%1%").arg(qRound(canvas->zoom * 100)));
+        searchPanel->setCurrentPage(canvas->page);
         refreshStatus();
     };
     setStyleSheet(R"(
@@ -434,14 +446,6 @@ Window::Window()
         QLabel#welcomeText { font-size: 15px; color: #56657a; margin-top: 14px; }
         QLabel#dropHint { color: #68778c; font-size: 12px; }
     )");
-    connect(query, &QLineEdit::textChanged, this,
-            [this]
-            {
-                canvas->highlight({});
-                for (int i = 0; i < pages->count(); ++i)
-                    pages->item(i)->setText(QString("%1 ページ").arg(i + 1));
-                refreshStatus();
-            });
     refresh();
 }
 void Window::showPanel(int index)
@@ -455,6 +459,9 @@ void Window::showPanel(int index)
 }
 Window::~Window()
 {
+    canvas->viewChanged = {};
+    delete searchPanel;
+    searchPanel = nullptr;
     if (worker)
     {
         worker->kill();
@@ -490,8 +497,10 @@ void Window::openFile(const QString& path)
     }
     canvas->resetView();
     canvas->selected = -1;
-    canvas->highlight({});
     query->clear();
+    backHistory.clear();
+    forwardHistory.clear();
+    updateHistoryActions();
     refresh(true);
     // Finish the first layout before choosing the initial reading position.
     QTimer::singleShot(0, canvas, [this] { canvas->goToPage(0); });
@@ -511,6 +520,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
         pages->setCurrentRow(canvas->page);
     }
     canvas->refresh(selection);
+    searchPanel->setDocument(doc.loaded() ? &doc.pdf() : nullptr, doc.revision, canvas->page);
     if (doc.loaded() && pages->item(canvas->page))
     {
         auto image = renderPage(doc.pdf(), canvas->page, .16);
@@ -528,6 +538,48 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     redoAction->setEnabled(can && doc.cursor + 1 < int(doc.history.size()));
     panels->setEnabled(can);
     refreshStatus();
+}
+void Window::rememberView()
+{
+    auto state = canvas->viewState();
+    if (state.anchor.page < 0)
+        return;
+    if (backHistory.isEmpty() || backHistory.back().view.anchor.page != state.anchor.page ||
+        QLineF(backHistory.back().view.anchor.point, state.anchor.point).length() > .5 ||
+        qAbs(backHistory.back().view.zoom - state.zoom) > .001 ||
+        backHistory.back().view.fitMode != state.fitMode ||
+        backHistory.back().view.activeSearch != state.activeSearch ||
+        backHistory.back().query != query->text() || backHistory.back().revision != doc.revision)
+        backHistory.append({state, query->text(), doc.revision});
+    if (backHistory.size() > 200)
+        backHistory.removeFirst();
+    forwardHistory.clear();
+    updateHistoryActions();
+}
+void Window::moveHistory(bool forward)
+{
+    auto& source = forward ? forwardHistory : backHistory;
+    auto& target = forward ? backHistory : forwardHistory;
+    if (!doc.loaded() || source.isEmpty())
+        return;
+    target.append({canvas->viewState(), query->text(), doc.revision});
+    auto destination = source.takeLast();
+    canvas->restoreView(destination.view);
+    searchPanel->restoreActive(destination.query == query->text() &&
+                                       destination.revision == doc.revision
+                                   ? destination.view.activeSearch
+                                   : 0);
+    updateHistoryActions();
+}
+void Window::updateHistoryActions()
+{
+    backView->setEnabled(doc.loaded() && !backHistory.isEmpty());
+    forwardView->setEnabled(doc.loaded() && !forwardHistory.isEmpty());
+    QWidget* focus = QApplication::focusWidget();
+    const bool editing = qobject_cast<QLineEdit*>(focus) || qobject_cast<QPlainTextEdit*>(focus) ||
+                         qobject_cast<QTextEdit*>(focus) || qobject_cast<QAbstractSpinBox*>(focus);
+    backShortcut->setEnabled(backView->isEnabled() && !editing);
+    forwardShortcut->setEnabled(forwardView->isEnabled() && !editing);
 }
 void Window::refreshStatus()
 {

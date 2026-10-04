@@ -1,6 +1,7 @@
 #include "selftest.h"
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
+#include "search_tests.h"
 #include "viewer_tests.h"
 #include "window.h"
 #include <QPrinterInfo>
@@ -104,6 +105,18 @@ int selftest(const QString& fixtures, const QString& output)
     };
     auto input = [&](QString name) { return fixtures + "/" + name; };
     auto dest = [&](QString name) { return output + "/" + name; };
+    auto searchReady = [&](Window& window)
+    {
+        auto session = window.findChild<SearchPanel*>("searchPanel")->session();
+        require(QTest::qWaitFor(
+                    [&]
+                    { return session->complete() && session->totalPages() == window.doc.pages(); },
+                    15000),
+                "asynchronous search finished");
+    };
+    run("Search_occurrences_history", [&] { return testSearchNavigation(fixtures, output); });
+    run("Search_generation_lifecycle", [&] { return testSearchGeneration(fixtures, output); });
+    run("Search_IME_commit", [&] { return testSearchInput(fixtures, output); });
     run("Viewer_continuous_navigation", [&] { return testViewerNavigation(fixtures, output); });
     run("Viewer_crop_rotation_userunit", [&] { return testViewerCoordinates(fixtures, output); });
     run("Viewer_signature_save_undo", [&] { return testViewerSignature(fixtures, output); });
@@ -170,15 +183,19 @@ int selftest(const QString& fixtures, const QString& output)
             const auto plain = w.canvas->viewport()->grab().toImage();
             w.query->setText("English");
             QTest::keyClick(w.query, Qt::Key_Return);
+            searchReady(w);
             const auto highlighted = w.canvas->viewport()->grab().toImage();
             require(highlighted != plain, "matching text is visibly highlighted");
             w.query->setText("no-such-text-92817");
             QTest::keyClick(w.query, Qt::Key_Return);
+            searchReady(w);
             require(w.canvas->viewport()->grab().toImage() == plain,
                     "zero results remove the previous query's highlight");
             w.query->setText("English");
             QTest::keyClick(w.query, Qt::Key_Return);
+            searchReady(w);
             QTest::keyClick(w.query, Qt::Key_Return);
+            searchReady(w);
             require(w.canvas->viewport()->grab().toImage() == highlighted,
                     "repeating a search does not stack highlights");
             w.refresh();
@@ -489,6 +506,11 @@ int selftest(const QString& fixtures, const QString& output)
                              });
             dismiss.start(50);
             w.scope->setCurrentIndex(1);
+            w.query->setText("図書館");
+            QTest::keyClick(w.query, Qt::Key_Return);
+            searchReady(w);
+            require(w.findChild<SearchPanel*>("searchPanel")->session()->rowCount() == 0,
+                    "Japanese scan text is not searchable before OCR");
             w.startOcr();
             require(w.doc.busy && w.cancel->isVisible(), "OCR busy state and cancel UI");
             QElapsedTimer timer;
@@ -497,9 +519,14 @@ int selftest(const QString& fixtures, const QString& output)
                 QTest::qWait(20);
             require(!w.worker && !w.doc.busy, "UI OCR completion");
             require(w.doc.cursor == 2, "one OCR history transaction");
+            searchReady(w);
+            require(w.findChild<SearchPanel*>("searchPanel")->session()->rowCount() == 1,
+                    "OCR completion refreshes the existing Japanese query without retyping");
             w.query->setText("DIGITAL HEADING");
             QTest::keyClick(w.query, Qt::Key_Return);
-            require(w.status->text().contains("一致したページ"), "search UI");
+            searchReady(w);
+            require(w.findChild<SearchPanel*>("searchPanel")->session()->rowCount() == 1,
+                    "search UI shows the one DIGITAL HEADING occurrence");
             w.canvas->setZoom(.5);
             QTest::qWait(50);
             auto dims = pageSize(w.doc.pdf().getCatalog()->getPage(0));

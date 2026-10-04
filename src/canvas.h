@@ -1,5 +1,6 @@
 #pragma once
 #include "document.h"
+#include "search_session.h"
 #include <QtWidgets>
 #include <functional>
 #include <memory>
@@ -11,6 +12,13 @@ struct ViewAnchor
     int page = -1;
     QPointF point;
     QPointF ratio{.5, .5};
+};
+struct ViewState
+{
+    ViewAnchor anchor;
+    double zoom = 1;
+    int fitMode = 0, fitReference = 0;
+    quint64 activeSearch = 0;
 };
 class Canvas : public QWidget
 {
@@ -26,13 +34,17 @@ public:
     std::function<void()> changed;
     std::function<void()> interactionCancelled;
     std::function<void()> viewChanged;
+    std::function<void(int)> navigatePage;
     explicit Canvas(Document* doc, QWidget* parent = nullptr);
     ~Canvas() override;
     void refresh(PDFObjectReference selection = {});
     void resetView();
     void beginPlacement();
     void cancelInteraction();
-    void highlight(const QString& term);
+    void setSearchResults(const QVector<SearchMatch>& matches, quint64 active);
+    void showSearchMatch(const SearchMatch& match);
+    ViewState viewState() const;
+    void restoreView(const ViewState& state);
     void setZoom(double z);
     void fitWidth();
     void fitPage();
