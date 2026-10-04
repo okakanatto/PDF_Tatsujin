@@ -1,0 +1,80 @@
+{
+  "ntfs": {
+    "failures": 0,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+      {
+        "details": {
+          "attempts": [
+            "保存先に一時領域を作成できません。",
+            "保存先に一時領域を作成できません。"
+          ],
+          "dirty_and_files_preserved": true
+        },
+        "elapsed_ms": 39,
+        "name": "A10_NTFS_access_denied",
+        "status": "PASS"
+      }
+    ]
+  },
+  "windows_pdf_printer": {
+    "failures": 0,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+      {
+        "details": {
+          "output_format": "NativeFormat",
+          "physical_printer": "未実行",
+          "printer": "Microsoft Print to PDF"
+        },
+        "elapsed_ms": 2592,
+        "name": "A03_Windows_PDF_printer",
+        "status": "PASS"
+      }
+    ]
+  },
+  "qt_scale_150": {
+    "failures": 0,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+      {
+        "details": {
+          "device_pixel_ratio": 1.5,
+          "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+          "editor_text": "20.00 pt",
+          "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+          "size_text": "20.00 pt"
+        },
+        "elapsed_ms": 732,
+        "name": "A01_UI_layout_review",
+        "status": "PASS"
+      }
+    ]
+  },
+  "qt_scale_200": {
+    "failures": 0,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+      {
+        "details": {
+          "device_pixel_ratio": 2,
+          "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+          "editor_text": "20.00 pt",
+          "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+          "size_text": "20.00 pt"
+        },
+        "elapsed_ms": 781,
+        "name": "A01_UI_layout_review",
+        "status": "PASS"
+      }
+    ]
+  }
+}

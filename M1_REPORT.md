@@ -4,6 +4,8 @@
 
 > 公開リポジトリにはソース、合成試験入力、結果要約を含めます。以下の`dist/`と`evidence/`はローカル検証成果物の場所であり、Gitには含めません。公開用整理後の回帰結果は`docs/testing/OSS_PREPARATION.md`を参照してください。
 
+> **同日追加検証:** [M1追加検証](docs/testing/M1_FOLLOWUP.md)で画面・印刷・署名ドラッグを修正し、Qt保存ダイアログ取消、NTFS権限拒否、Windows PDFプリンター、Firefoxの検索・選択・PDF印刷を実行しました。最新のローカル実行物は `dist/PDFTatsujin-M1-review/PDFTatsujin.exe` です。以下は初回納品時の測定と記録を保持したもので、追加検証の状態・証拠はリンク先を優先してください。日本語IME・Reader・実容量不足・クリーンWindows等は未実行で、M1合格保留は変わりません。
+
 ## 1. 使える成果物と起動方法
 
 `dist/PDFTatsujin-M1/PDFTatsujin.exe` を起動します。配布用は `dist/PDFTatsujin-M1-windows-x64.zip` です。展開したフォルダ一式が必要です。Qt対応ソースの `third-party-sources` もZIPに含みます。

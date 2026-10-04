@@ -11,10 +11,36 @@ Window::Window()
     setMinimumSize(1024, 720);
     setAcceptDrops(true);
     canvas = new Canvas(&doc, this);
-    setCentralWidget(canvas);
+    documentArea = new QStackedWidget;
+    auto welcome = new QWidget;
+    welcome->setObjectName("welcome");
+    auto welcomeLayout = new QVBoxLayout(welcome);
+    welcomeLayout->setAlignment(Qt::AlignCenter);
+    auto welcomeTitle = new QLabel("PDFを、次の作業へ。");
+    welcomeTitle->setObjectName("welcomeTitle");
+    auto welcomeText =
+        new QLabel("日本語の署名を加える。\nスキャンを、検索・コピーできる文書にする。");
+    welcomeText->setObjectName("welcomeText");
+    welcomeText->setAlignment(Qt::AlignCenter);
+    auto openButton = new QPushButton("PDFを開く");
+    openButton->setProperty("primary", true);
+    openButton->setMinimumHeight(44);
+    openButton->setMaximumWidth(240);
+    auto dropHint = new QLabel("PDFをこのウィンドウへドラッグしても開けます");
+    dropHint->setObjectName("dropHint");
+    welcomeLayout->addWidget(welcomeTitle, 0, Qt::AlignHCenter);
+    welcomeLayout->addWidget(welcomeText, 0, Qt::AlignHCenter);
+    welcomeLayout->addSpacing(20);
+    welcomeLayout->addWidget(openButton, 0, Qt::AlignHCenter);
+    welcomeLayout->addSpacing(12);
+    welcomeLayout->addWidget(dropHint, 0, Qt::AlignHCenter);
+    documentArea->addWidget(welcome);
+    documentArea->addWidget(canvas);
+    setCentralWidget(documentArea);
     auto top = addToolBar("文書操作");
     top->setMovable(false);
-    top->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    top->setIconSize(QSize(18, 18));
+    top->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     auto action = [&](QString label, QKeySequence key, std::function<void()> f, bool edit = false)
     {
         auto a = top->addAction(label);
@@ -24,42 +50,51 @@ Window::Window()
             edits << a;
         return a;
     };
-    action("PDFを開く", QKeySequence::Open,
-           [this]
-           {
-               auto path = QFileDialog::getOpenFileName(this, "PDFを開く", {}, "PDF (*.pdf)");
-               if (!path.isEmpty())
+    auto openAction =
+        action("PDFを開く", QKeySequence::Open,
+               [this]
                {
-                   if (doc.loaded())
+                   auto path = QFileDialog::getOpenFileName(this, "PDFを開く", {}, "PDF (*.pdf)");
+                   if (!path.isEmpty())
                    {
-                       auto w = new Window;
-                       w->setAttribute(Qt::WA_DeleteOnClose);
-                       w->show();
-                       w->openFile(path);
+                       if (doc.loaded())
+                       {
+                           auto w = new Window;
+                           w->setAttribute(Qt::WA_DeleteOnClose);
+                           w->show();
+                           w->openFile(path);
+                       }
+                       else
+                           openFile(path);
                    }
-                   else
-                       openFile(path);
-               }
-           });
-    action("保存", QKeySequence::Save, [this] { saveFile(false); }, true);
+               });
+    openAction->setIcon(style()->standardIcon(QStyle::SP_DialogOpenButton));
+    connect(openButton, &QPushButton::clicked, openAction, &QAction::trigger);
+    action(
+        "保存", QKeySequence::Save, [this] { saveFile(false); }, true)
+        ->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
     action("別名保存", QKeySequence::SaveAs, [this] { saveFile(true); }, true);
     top->addSeparator();
-    action("印刷", QKeySequence::Print,
-           [this]
-           {
-               if (!doc.loaded())
-                   fail("PDFを開いてください。");
-               if (!doc.pdf().getStorage().getSecurityHandler()->isAllowed(
-                       PDFSecurityHandler::Permission::PrintHighResolution) &&
-                   !doc.pdf().getStorage().getSecurityHandler()->isAllowed(
-                       PDFSecurityHandler::Permission::PrintLowResolution))
-                   fail("この文書では印刷が許可されていません。");
-               QPrinter printer(QPrinter::HighResolution);
-               QPrintDialog dialog(&printer, this);
-               if (dialog.exec() != QDialog::Accepted)
-                   return;
-               printDocument(doc.pdf(), printer);
-           });
+    printAction = action("印刷", QKeySequence::Print,
+                         [this]
+                         {
+                             if (!doc.loaded())
+                                 fail("PDFを開いてください。");
+                             if (!doc.pdf().getStorage().getSecurityHandler()->isAllowed(
+                                     PDFSecurityHandler::Permission::PrintHighResolution) &&
+                                 !doc.pdf().getStorage().getSecurityHandler()->isAllowed(
+                                     PDFSecurityHandler::Permission::PrintLowResolution))
+                                 fail("この文書では印刷が許可されていません。");
+                             QPrinter printer(QPrinter::HighResolution);
+                             QPrintDialog dialog(&printer, this);
+                             dialog.setMinMax(1, doc.pages());
+                             dialog.setOption(QAbstractPrintDialog::PrintPageRange, true);
+                             dialog.setOption(QAbstractPrintDialog::PrintCurrentPage, true);
+                             dialog.setOption(QAbstractPrintDialog::PrintSelection, false);
+                             if (dialog.exec() != QDialog::Accepted)
+                                 return;
+                             printDocument(doc.pdf(), printer, canvas->page);
+                         });
     undoAction = action(
         "元に戻す", QKeySequence::Undo,
         [this]
@@ -77,12 +112,11 @@ Window::Window()
         },
         true);
     top->addSeparator();
-    action(
+    signatureAction = action(
         "署名", {},
         [this]
         {
-            panels->setCurrentIndex(0);
-            properties->show();
+            showPanel(0);
             signature->setFocus();
         },
         true);
@@ -94,25 +128,33 @@ Window::Window()
             refresh();
         },
         true);
-    action(
-        "OCR", {},
-        [this]
-        {
-            panels->setCurrentIndex(1);
-            properties->show();
-        },
-        true);
-    auto left = new QDockWidget("ページ / 検索", this);
+    ocrAction = action("OCR", {}, [this] { showPanel(1); }, true);
+    signatureAction->setCheckable(true);
+    ocrAction->setCheckable(true);
+    auto left = navigation = new QDockWidget("ページ / 検索", this);
     left->setFeatures(QDockWidget::NoDockWidgetFeatures);
     auto nav = new QWidget;
     auto nl = new QVBoxLayout(nav);
     query = new QLineEdit;
     query->setPlaceholderText("本文・OCR文字を検索");
     query->setAccessibleName("文書検索");
+    auto findShortcut = new QShortcut(QKeySequence::Find, this);
+    connect(findShortcut, &QShortcut::activated, this,
+            [this]
+            {
+                if (doc.loaded())
+                {
+                    query->setFocus();
+                    query->selectAll();
+                }
+            });
     nl->addWidget(query);
     auto search = new QPushButton("検索");
     nl->addWidget(search);
     pages = new QListWidget;
+    pages->setObjectName("pageList");
+    pages->setSpacing(6);
+    pages->setUniformItemSizes(true);
     pages->setIconSize(QSize(96, 128));
     nl->addWidget(pages);
     left->setWidget(nav);
@@ -173,6 +215,7 @@ Window::Window()
     connect(search, &QPushButton::clicked, this, find);
     connect(query, &QLineEdit::returnPressed, this, find);
     properties = new QDockWidget("設定", this);
+    properties->setFeatures(QDockWidget::DockWidgetClosable);
     properties->setMinimumWidth(280);
     properties->setMaximumWidth(380);
     panels = new QStackedWidget;
@@ -180,6 +223,11 @@ Window::Window()
     addDockWidget(Qt::RightDockWidgetArea, properties);
     auto sign = new QWidget;
     auto sl = new QVBoxLayout(sign);
+    sl->setContentsMargins(18, 16, 18, 18);
+    sl->setSpacing(10);
+    auto signTitle = new QLabel("署名テキスト");
+    signTitle->setProperty("sectionTitle", true);
+    sl->addWidget(signTitle);
     auto note =
         new QLabel("氏名などを配置する見た目の署名です。\n証明書による本人性の保証はありません。");
     note->setWordWrap(true);
@@ -189,13 +237,15 @@ Window::Window()
     signature->setAccessibleName("署名テキスト");
     signature->setMaximumHeight(160);
     sl->addWidget(signature);
+    sl->addWidget(new QLabel("文字のサイズ"));
     size = new QDoubleSpinBox;
     size->setRange(6, 144);
     size->setValue(20);
     size->setSuffix(" pt");
+    size->setButtonSymbols(QAbstractSpinBox::PlusMinus);
     size->setAccessibleName("署名サイズ");
     sl->addWidget(size);
-    sl->addWidget(new QLabel("フォント: Noto Sans JP（同梱・埋め込み）"));
+    sl->addWidget(new QLabel("書体：Noto Sans JP"));
     auto color = new QPushButton("文字色を選ぶ");
     sl->addWidget(color);
     connect(color, &QPushButton::clicked, this,
@@ -206,6 +256,7 @@ Window::Window()
                     ink = c;
             });
     auto place = new QPushButton("ページをクリックして配置");
+    place->setProperty("primary", true);
     sl->addWidget(place);
     connect(place, &QPushButton::clicked, this,
             [this]
@@ -259,25 +310,42 @@ Window::Window()
     panels->addWidget(sign);
     auto ocr = new QWidget;
     auto ol = new QVBoxLayout(ocr);
+    ol->setContentsMargins(18, 16, 18, 18);
+    ol->setSpacing(10);
+    auto ocrTitle = new QLabel("文字を認識（OCR）");
+    ocrTitle->setProperty("sectionTitle", true);
+    ol->addWidget(ocrTitle);
     auto desc =
         new QLabel("スキャンを検索・コピーできるPDFにする\n元の画像・署名・注釈を保持します。");
     desc->setWordWrap(true);
     ol->addWidget(desc);
+    ol->addWidget(new QLabel("文書の言語"));
     language = new QComboBox;
     language->addItems({"日本語＋英語", "日本語", "英語"});
     ol->addWidget(language);
+    ol->addWidget(new QLabel("対象ページ"));
     scope = new QComboBox;
     scope->addItems({"全ページ", "現在ページ", "指定ページ"});
     ol->addWidget(scope);
     range = new QLineEdit;
     range->setPlaceholderText("物理ページ番号 例: 1,3-5");
+    range->setEnabled(false);
+    connect(scope, &QComboBox::currentIndexChanged, range,
+            [this](int index) { range->setEnabled(index == 2); });
     ol->addWidget(range);
     auto run = new QPushButton("OCRを開始");
+    run->setProperty("primary", true);
     ol->addWidget(run);
     connect(run, &QPushButton::clicked, this, [this] { guard([&] { startOcr(); }); });
     ol->addStretch();
     panels->addWidget(ocr);
     properties->hide();
+    connect(properties, &QDockWidget::visibilityChanged, this,
+            [this](bool visible)
+            {
+                signatureAction->setChecked(visible && panels->currentIndex() == 0);
+                ocrAction->setChecked(visible && panels->currentIndex() == 1);
+            });
     canvas->place = [this](QPointF point)
     {
         guard(
@@ -296,8 +364,7 @@ Window::Window()
             signature->setPlainText(ss[i].text);
             size->setValue(ss[i].size);
             ink = ss[i].color;
-            panels->setCurrentIndex(0);
-            properties->show();
+            showPanel(0);
         }
     };
     canvas->changed = [this] { refresh(); };
@@ -309,7 +376,7 @@ Window::Window()
     statusBar()->addWidget(cancel);
     cancel->hide();
     connect(cancel, &QPushButton::clicked, this, &Window::stopOcr);
-    auto zoom = new QComboBox;
+    auto zoom = zoomControl = new QComboBox;
     zoom->addItems(
         {"50%", "75%", "100%", "125%", "150%", "200%", "幅に合わせる", "全体に合わせる"});
     zoom->setCurrentIndex(2);
@@ -328,11 +395,42 @@ Window::Window()
                     canvas->setZoom(z);
                 }
             });
-    setStyleSheet("QToolBar{spacing:6px;padding:7px;background:#fff;border-bottom:1px solid "
-                  "#ccd4dd} QToolButton,QPushButton{padding:6px 8px} QDockWidget{font-weight:600} "
-                  "QLineEdit,QPlainTextEdit,QComboBox,QDoubleSpinBox{padding:5px} "
-                  "QStatusBar{background:#f3f5f7}");
+    setStyleSheet(R"(
+        QMainWindow { background: #f4f6f9; color: #202b3c; }
+        QToolBar { spacing: 5px; padding: 9px; background: white; border-bottom: 1px solid #d9e0e9; }
+        QToolButton { padding: 7px 9px; border: 1px solid transparent; border-radius: 5px; }
+        QToolButton:hover { background: #edf3fb; }
+        QToolButton:checked { background: #e1ecfc; color: #155bb5; border-color: #b6cff0; }
+        QPushButton { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 5px; background: white; }
+        QPushButton:hover { background: #f0f5fc; border-color: #a1b4ce; }
+        QPushButton[primary="true"] { background: #185fc3; color: white; border-color: #185fc3; font-weight: 600; }
+        QPushButton[primary="true"]:hover { background: #124da1; }
+        QPushButton:disabled, QToolButton:disabled { color: #98a2b2; }
+        QPushButton:focus, QToolButton:focus { border: 2px solid #6496db; }
+        QDockWidget { font-weight: 600; }
+        QDockWidget::title { padding: 10px; background: #f4f6f9; }
+        QDockWidget > QWidget { background: white; }
+        QLineEdit, QPlainTextEdit, QComboBox, QDoubleSpinBox { padding: 7px; background: white; border: 1px solid #cbd5e1; border-radius: 4px; selection-background-color: #d7e6fa; selection-color: #202b3c; }
+        QLineEdit:focus, QPlainTextEdit:focus, QComboBox:focus, QDoubleSpinBox:focus { border-color: #377ccf; }
+        QListWidget#pageList { background: #f4f6f9; border: 0; outline: 0; }
+        QListWidget#pageList::item { padding: 10px 6px; border: 1px solid transparent; border-radius: 5px; }
+        QListWidget#pageList::item:selected { background: #e2ecfa; color: #154a88; border-color: #9dbce6; }
+        QLabel[sectionTitle="true"] { font-size: 17px; font-weight: 600; padding-bottom: 4px; }
+        QStatusBar { padding: 4px; background: #f4f6f9; border-top: 1px solid #d9e0e9; }
+        QWidget#welcome { background: #f4f6f9; }
+        QLabel#welcomeTitle { font-size: 28px; font-weight: 600; color: #26364d; }
+        QLabel#welcomeText { font-size: 15px; color: #56657a; margin-top: 14px; }
+        QLabel#dropHint { color: #68778c; font-size: 12px; }
+    )");
     refresh();
+}
+void Window::showPanel(int index)
+{
+    panels->setCurrentIndex(index);
+    properties->setWindowTitle(index == 0 ? "署名" : "OCR");
+    properties->show();
+    signatureAction->setChecked(index == 0);
+    ocrAction->setChecked(index == 1);
 }
 Window::~Window()
 {
@@ -375,6 +473,10 @@ void Window::openFile(const QString& path)
 }
 void Window::refresh(bool rebuild)
 {
+    documentArea->setCurrentIndex(doc.loaded() ? 1 : 0);
+    navigation->setVisible(doc.loaded());
+    zoomControl->setEnabled(doc.loaded());
+    printAction->setEnabled(doc.loaded());
     if (rebuild)
     {
         QSignalBlocker block(pages);

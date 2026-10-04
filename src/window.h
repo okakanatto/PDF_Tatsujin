@@ -28,6 +28,8 @@ public:
     QList<QAction*> edits;
     QAction* undoAction;
     QAction* redoAction;
+    QAction* signatureAction;
+    QAction* ocrAction;
     quint64 startRevision = 0;
     QByteArray progressBuffer;
     explicit Window();
@@ -45,6 +47,11 @@ protected:
     void dropEvent(QDropEvent*) override;
 
 private:
+    QStackedWidget* documentArea;
+    QDockWidget* navigation;
+    QComboBox* zoomControl;
+    QAction* printAction;
+    void showPanel(int index);
     bool safeToClose();
     void finishOcr(int code, QProcess::ExitStatus exitStatus);
     QColor ink = Qt::black;

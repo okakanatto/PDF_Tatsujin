@@ -20,11 +20,16 @@ QByteArray encodePdf(const PDFDocument& doc);
 void writeCandidate(const PDFDocument& doc, const QString& path);
 QTransform pageMatrix(const PDFPage* page, double scale = 1, bool rotate = true);
 QSizeF pageSize(const PDFPage* page, bool rotate = true);
+enum class RenderPurpose
+{
+    View,
+    Print
+};
 QImage renderPage(PDFDocument& doc, int page, double scale, bool annotations = true,
-                  bool rotate = true);
+                  bool rotate = true, RenderPurpose purpose = RenderPurpose::View);
 PDFTextLayout textLayout(PDFDocument& doc, int page, const QTransform& matrix = {});
 QString pageText(PDFDocument& doc, int page);
-void printDocument(PDFDocument& doc, QPrinter& printer);
+void printDocument(PDFDocument& doc, QPrinter& printer, int currentPage = 0);
 struct Signature
 {
     PDFObjectReference ref;

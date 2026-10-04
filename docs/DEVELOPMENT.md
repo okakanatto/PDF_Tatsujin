@@ -15,7 +15,7 @@ PDF4QTはサブモジュールのコミットで固定しています。`git sub
 |---|---|
 | Visual Studioのインストール先 | C++ Build ToolsとWindows SDK。`vswhere`で検出、必要なら`build.ps1 -VisualStudioPath`で指定 |
 | `tools/Qt/6.9.3/msvc2022_64` | Qt 6.9.3のMSVC 2022 x64版。qtbase、qttools、qtsvg、qtspeech、qttranslations、qtimageformats、qtmultimedia |
-| `tools/python` | CMake 4.1.0、Ninja 1.13.0のPythonパッケージ（`data/bin`の実行ファイルを使用） |
+| `tools/python` | CMake 4.1.0（`cmake/data/bin`）、Ninja 1.13.0（`bin/ninja.exe`）のPythonパッケージ |
 | `tools/vcpkg` | `5dd2e1600d049b498ff9fb9fe15997533ae0c804`にcheckoutしたvcpkg |
 | `tools/vcpkg/installed/x64-windows` | tbb、openssl、lcms、zlib、openjpeg、freetype、libjpeg-turbo、libpng、blend2d、tesseractと推移依存 |
 | `assets` | 次の取得スクリプトで固定ハッシュを検証するフォント・OCRモデル |
@@ -51,11 +51,15 @@ python scripts/fetch-assets.py
 
 ビルドは日本語パスに起因するツールの不具合を避けるため、既定でT:をプロジェクトへ`subst`します。複製は作りません。T:が別用途で使用中なら停止します。初回から `-Drive U` のように空いているドライブを指定できます。CMakeキャッシュは絶対パスを記録するため、既存ビルド途中で作業ドライブを変えないでください。終了後、不要になった割り当ては `subst T: /d` で外せます。
 
+日本語MSVCの`/showIncludes`出力は、構成時に`cmake/DetectMsvcIncludes.cmake`で実測します。接頭辞を検出できない場合は、ヘッダー依存のないビルドを黙って続けず停止します。追加検証前の古いビルドディレクトリを引き継ぐ場合は、依存情報のなかったオブジェクトを残さないよう一度クリーンビルドしてください。
+
 ## M1回帰試験
 
 ```powershell
 & scripts/run-tests.ps1
 ```
+
+デスクトップを使わず検証する場合は `package.ps1 -TestSupport` でoffscreenプラグインを含め、`run-tests.ps1 -Headless`を指定できます。これはIMEやWindowsネイティブ画面操作の試験ではありません。追加のNTFS・Windows PDFプリンター・Firefox試験は[M1追加検証](testing/M1_FOLLOWUP.md)に実行手順と制約を記録しています。
 
 パッケージ内のexeでQtウィンドウ、ポインター操作、クリップボード、別プロセスOCR、保存・再読込を試験します。新しい `evidence/run-日時` に結果を保存し、古い結果を上書きしません。`TATSU_ENABLE_SELFTEST`は既定ONです。`build.ps1 -WithoutSelfTests`では試験コードとQtTestリンクを除きますが、M1受入試験にはONでビルドしてください。
 

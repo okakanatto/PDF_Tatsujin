@@ -9,7 +9,17 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
     app.setApplicationName("PDFTatsujin");
     app.setOrganizationName("PDFTatsujin");
-    app.setFont(QFont("Yu Gothic UI", 10));
+    try
+    {
+        // Use the shipped family for controls as well as PDF text. This keeps
+        // Japanese labels available even when the platform font service differs.
+        app.setFont(QFont(tatsu::signatureFont(), 10));
+    }
+    catch (const std::exception& e)
+    {
+        QMessageBox::critical(nullptr, "起動エラー", QString::fromUtf8(e.what()));
+        return 1;
+    }
     auto args = app.arguments();
     if (args.size() > 1 && args[1] == "--ocr-worker")
         return tatsu::ocrWorker(args.mid(1));
@@ -74,7 +84,6 @@ int main(int argc, char** argv)
                 QDir(info.absoluteFilePath()).removeRecursively();
             }
         }
-        tatsu::signatureFont();
         auto window = new tatsu::Window;
         window->setAttribute(Qt::WA_DeleteOnClose);
         window->show();

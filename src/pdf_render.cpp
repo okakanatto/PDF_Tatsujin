@@ -47,7 +47,8 @@ QString pageText(PDFDocument& d, int p)
         t += f.getText();
     return t;
 }
-QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool rotate)
+QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool rotate,
+                  RenderPurpose purpose)
 {
     auto p = d.getCatalog()->getPage(page);
     auto size = pageSize(p, rotate) * scale;
@@ -68,8 +69,9 @@ QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool
     {
         PDFPrecompiledPage compiled;
         r.compile(&compiled, page);
-        PDFAnnotationManager a(&c.fonts, &c.cms, nullptr, {}, features,
-                               PDFAnnotationManager::Target::View, nullptr);
+        const auto target = purpose == RenderPurpose::Print ? PDFAnnotationManager::Target::Print
+                                                            : PDFAnnotationManager::Target::View;
+        PDFAnnotationManager a(&c.fonts, &c.cms, nullptr, {}, features, target, nullptr);
         a.setDocument(PDFModifiedDocument(&d, nullptr));
         PDFTextLayoutCache cache([&](PDFInteger i) { return textLayout(d, int(i)); });
         PDFTextLayoutGetter getter(&cache, page);
@@ -79,29 +81,53 @@ QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool
     paint.end();
     return out;
 }
-void printDocument(PDFDocument& doc, QPrinter& printer)
+void printDocument(PDFDocument& doc, QPrinter& printer, int currentPage)
 {
     auto security = doc.getStorage().getSecurityHandler();
     bool high = security->isAllowed(PDFSecurityHandler::Permission::PrintHighResolution);
     if (!high && !security->isAllowed(PDFSecurityHandler::Permission::PrintLowResolution))
         fail("この文書では印刷が許可されていません。");
+    if (!printer.isValid())
+        fail("利用できるプリンターを選択してください。");
+    const int count = int(doc.getCatalog()->getPageCount());
+    int first = 0, last = count - 1;
+    if (printer.printRange() == QPrinter::PageRange)
+    {
+        first = printer.fromPage() - 1;
+        last = printer.toPage() - 1;
+    }
+    else if (printer.printRange() == QPrinter::CurrentPage)
+        first = last = currentPage;
+    else if (printer.printRange() == QPrinter::Selection)
+        fail("選択範囲の印刷には対応していません。ページ範囲を指定してください。");
+    if (first < 0 || last < first || last >= count)
+        fail("印刷するページ範囲を確認してください。");
+    QList<int> selectedPages;
+    for (int i = first; i <= last; ++i)
+        selectedPages.append(i);
+    if (printer.pageOrder() == QPrinter::LastPageFirst)
+        std::reverse(selectedPages.begin(), selectedPages.end());
     QPainter painter;
-    for (int i = 0; i < int(doc.getCatalog()->getPageCount()); ++i)
+    bool started = false;
+    for (const int i : selectedPages)
     {
         auto dims = pageSize(doc.getCatalog()->getPage(i));
         printer.setPageSize(QPageSize(dims * 25.4 / 72, QPageSize::Millimeter));
         printer.setPageMargins(QMarginsF(0, 0, 0, 0));
         printer.setFullPage(true);
-        if (i == 0)
+        if (!started)
         {
             if (!painter.begin(&printer))
                 fail("印刷を開始できません。");
+            started = true;
         }
         else if (!printer.newPage())
             fail("次のページを印刷できません。");
-        auto image = renderPage(doc, i, (high ? 300.0 : 150.0) / 72);
+        auto image =
+            renderPage(doc, i, (high ? 300.0 : 150.0) / 72, true, true, RenderPurpose::Print);
         painter.drawImage(printer.pageRect(QPrinter::DevicePixel), image);
     }
-    painter.end();
+    if (!painter.end() || printer.printerState() == QPrinter::Error)
+        fail("印刷を完了できませんでした。出力先とプリンターの状態を確認してください。");
 }
 } // namespace tatsu

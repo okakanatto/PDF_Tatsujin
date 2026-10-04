@@ -26,7 +26,7 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 現在は1ページずつ表示します。連続スクロール、全ページのサムネイル先読み、検索結果ごとの移動、キーボードによる署名枠操作には未実装部分があります。UI・UXの完成版とはしていません。OCRには誤認識が残り、縦書き・段組み・低品質画像の実用精度を保証しません。
 
-日本語IMEの変換操作、Adobe Reader／FirefoxのGUI操作・印刷、実プリンター、実際の容量不足、開発環境のないWindowsで通信を無効にした試験は未実行です。これらを自動試験の成功で代替したとは扱いません。
+日本語IMEの変換操作、Adobe Readerでの検証、Firefoxのネイティブ検索バー・OSクリップボード・印刷ダイアログ操作、実プリンター、実際の容量不足、開発環境のないWindowsで通信を無効にした試験は未実行です。これらを自動試験の成功で代替したとは扱いません。
 
 ## 開発と試験
 
@@ -38,7 +38,7 @@ git clone --recurse-submodules https://github.com/okakanatto/PDF_Tatsujin.git
 
 Windowsでの依存配置・ビルド・起動・試験は[開発手順](docs/DEVELOPMENT.md)、責務と保存・OCRの設計は[構成](docs/ARCHITECTURE.md)を参照してください。PDF4QTは固定コミットのサブモジュールです。大きなモデルやフォントはSHA-256を検証して取得し、実行時にはローカルに同梱します。
 
-Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消を含む16件の自動試験を実行しています。独立したPDFium／Popplerで保存PDFを検証しました。[実行結果と未実行項目](M1_REPORT.md)、[公開用整理後の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。GitHub Actionsのソース検査はWindows GUIの受入試験を代替しません。
+Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の追加検証](docs/testing/M1_FOLLOWUP.md)、[M1全体の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
 
 正解と検索語はOCR実行前に `fixtures/ground-truth.json` へ固定しました。既存結果に合わせて正解や閾値を変えません。ビルド成果物、依存本体、ローカルログはGit管理から除外します。非公開実務文書は含めません。
 

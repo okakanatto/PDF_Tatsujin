@@ -1,8 +1,20 @@
 from pathlib import Path
+import argparse
 import datetime, json
 
 ROOT = Path(__file__).resolve().parents[1]
-APP = ROOT / "dist/PDFTatsujin-M1"
+parser = argparse.ArgumentParser(
+    description="Measure project and distribution file sizes."
+)
+parser.add_argument("--app-directory", type=Path, default=Path("dist/PDFTatsujin-M1"))
+parser.add_argument(
+    "--archive", type=Path, default=Path("dist/PDFTatsujin-M1-windows-x64.zip")
+)
+parser.add_argument(
+    "--output", type=Path, default=Path("evidence/storage-breakdown.json")
+)
+args = parser.parse_args()
+APP = ROOT / args.app_directory
 
 
 def size(path):
@@ -63,11 +75,9 @@ result = {
     "distribution_components": parts,
     "Qt_source_archives_bytes": size(ROOT / "dist/third-party-sources"),
 }
-archive = ROOT / "dist/PDFTatsujin-M1-windows-x64.zip"
+archive = ROOT / args.archive
 if archive.exists():
     result["zip_bytes"] = archive.stat().st_size
-(ROOT / "evidence/storage-breakdown.json").write_text(
-    json.dumps(result, indent=2), encoding="utf-8"
-)
+(ROOT / args.output).write_text(json.dumps(result, indent=2), encoding="utf-8")
 assert total < 20000000000, "Project budget exceeded"
 print(json.dumps(result, indent=2))

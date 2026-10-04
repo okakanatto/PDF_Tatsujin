@@ -1,5 +1,8 @@
 #include "selftest.h"
+#include "pdf_objects.h"
+#include "pdfdocumentbuilder.h"
 #include "window.h"
+#include <QPrinterInfo>
 #include <QtTest/QTest>
 #include <windows.h>
 
@@ -93,12 +96,48 @@ int selftest(const QString& fixtures, const QString& output)
         out.open(QIODevice::WriteOnly);
         out.write(QJsonDocument(QJsonObject{{"tests", results},
                                             {"failures", failures},
+                                            {"qt_platform", QGuiApplication::platformName()},
                                             {"qt", qVersion()},
                                             {"platform", QSysInfo::prettyProductName()}})
                       .toJson());
     };
     auto input = [&](QString name) { return fixtures + "/" + name; };
     auto dest = [&](QString name) { return output + "/" + name; };
+    if (qEnvironmentVariableIsSet("TATSU_UI_REVIEW"))
+        run("A01_UI_layout_review",
+            [&]
+            {
+                Window w;
+                w.resize(1024, 720);
+                w.show();
+                QTest::qWait(150);
+                w.grab().save(dest("welcome-1024.png"));
+                w.openFile(input("D01.pdf"));
+                w.signatureAction->trigger();
+                w.signature->setPlainText("山田 太郎\n髙橋\n2026年10月4日");
+                QTest::qWait(150);
+                w.grab().save(dest("signature-1024.png"));
+                auto editor = w.size->findChild<QLineEdit*>();
+                for (auto widget : w.panels->currentWidget()->findChildren<QWidget*>())
+                {
+                    if (qobject_cast<QPushButton*>(widget) ||
+                        qobject_cast<QAbstractSpinBox*>(widget))
+                    {
+                        const auto rect = QRect(widget->mapTo(&w, QPoint()), widget->size());
+                        require(widget->isVisible() && w.rect().contains(rect),
+                                "signature controls fit the minimum window");
+                    }
+                }
+                QJsonObject metrics{{"size_text", w.size->text()},
+                                    {"size_font", w.size->font().toString()},
+                                    {"editor_font", editor->font().toString()},
+                                    {"editor_text", editor->text()},
+                                    {"device_pixel_ratio", w.devicePixelRatioF()}};
+                w.ocrAction->trigger();
+                QTest::qWait(150);
+                w.grab().save(dest("ocr-settings-1024.png"));
+                return metrics;
+            });
     run("A01_document_and_UI",
         [&]
         {
@@ -132,11 +171,17 @@ int selftest(const QString& fixtures, const QString& output)
             auto before = signatures(w.doc.pdf(), 0).at(0);
             auto start = w.canvas->mapFromScene(matrix.map(before.rect.center()));
             auto end = start + QPoint(35, 25);
+            const auto expectedDelta = matrix.inverted().map(w.canvas->mapToScene(end)) -
+                                       matrix.inverted().map(w.canvas->mapToScene(start));
             int cursor = w.doc.cursor;
             QTest::mousePress(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, start);
             QTest::mouseMove(w.canvas->viewport(), end, 30);
             QTest::mouseRelease(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, end);
             require(w.doc.cursor == cursor + 1, "one drag one undo");
+            const auto after = signatures(w.doc.pdf(), 0).at(0);
+            require(QLineF(after.rect.topLeft(), before.rect.topLeft() + expectedDelta).length() <
+                        .5,
+                    "opening signature panel does not shift drag coordinates");
             w.undoAction->trigger();
             require(signatures(w.doc.pdf(), 0).at(0).rect == before.rect, "toolbar undo");
             w.redoAction->trigger();
@@ -151,7 +196,7 @@ int selftest(const QString& fixtures, const QString& output)
                     "selection copy clipboard");
             w.grab().save(dest("signature-ui.png"));
             w.doc.saved = w.doc.cursor;
-            return QJsonObject{{"native_mouse_events", true},
+            return QJsonObject{{"event_source", "Qt QTest synthetic mouse events"},
                                {"clipboard_copy", true},
                                {"IME", "未実行・確定済み文字列を使用"}};
         });
@@ -479,6 +524,120 @@ int selftest(const QString& fixtures, const QString& output)
                                {"readonly_denied", denied},
                                {"real_disk_full", "未実行"}};
         });
+    run("A10_save_dialog_cancel",
+        [&]
+        {
+            const bool previous = QCoreApplication::testAttribute(Qt::AA_DontUseNativeDialogs);
+            QCoreApplication::setAttribute(Qt::AA_DontUseNativeDialogs, true);
+            const auto restore = qScopeGuard(
+                [&] { QCoreApplication::setAttribute(Qt::AA_DontUseNativeDialogs, previous); });
+            Window w;
+            w.openFile(input("D01.pdf"));
+            w.doc.putSignature(0, "取消の確認", {70, 400}, 18, Qt::black);
+            w.refresh(true);
+            const auto before = w.doc.pdf();
+            const auto revision = w.doc.revision;
+            const auto originalHash = fileHash(w.doc.source);
+            QTimer dismiss;
+            bool observed = false;
+            QObject::connect(&dismiss, &QTimer::timeout,
+                             [&]
+                             {
+                                 for (auto dialog : w.findChildren<QFileDialog*>())
+                                 {
+                                     if (dialog->isVisible())
+                                     {
+                                         observed = true;
+                                         dialog->reject();
+                                     }
+                                 }
+                             });
+            dismiss.start(20);
+            const bool saved = w.saveFile(true);
+            dismiss.stop();
+            require(observed && !saved, "actual application save dialog was cancelled");
+            require(w.doc.pdf() == before && w.doc.revision == revision && w.doc.dirty(),
+                    "cancel preserves document, revision and dirty state");
+            require(w.doc.target.isEmpty() && fileHash(w.doc.source) == originalHash,
+                    "cancel does not set a destination or change the original");
+            w.doc.saved = w.doc.cursor;
+            return QJsonObject{{"dialog_backend", "Qt QFileDialog (non-native)"},
+                               {"dirty_and_original_preserved", true},
+                               {"native_Windows_dialog", "未実行"}};
+        });
+    if (!qEnvironmentVariableIsEmpty("TATSU_DENIED_SAVE_DIR"))
+        run("A10_NTFS_access_denied",
+            [&]
+            {
+                const auto folder = qEnvironmentVariable("TATSU_DENIED_SAVE_DIR");
+                const auto existing = folder + "/existing.pdf";
+                const auto existingHash = fileHash(existing);
+                require(!existingHash.isEmpty(), "prepared NTFS fixture exists");
+                Document d;
+                d.open(input("D01.pdf"));
+                const auto originalHash = fileHash(d.source);
+                d.putSignature(0, "権限不足の確認", {70, 400}, 18, Qt::black);
+                const auto before = d.pdf();
+                const auto revision = d.revision;
+                QJsonArray errors;
+                for (const auto& path : {folder + "/new.pdf", existing})
+                {
+                    bool denied = false;
+                    try
+                    {
+                        d.save(path, fileHash(path));
+                    }
+                    catch (const std::exception& error)
+                    {
+                        denied = true;
+                        errors.append(QString::fromUtf8(error.what()));
+                    }
+                    require(denied, "NTFS denial must reject save");
+                    require(d.pdf() == before && d.revision == revision && d.dirty(),
+                            "access denial preserves the unsaved transaction");
+                }
+                require(fileHash(existing) == existingHash && fileHash(d.source) == originalHash,
+                        "access denial preserves both existing destination and original");
+                require(!QFileInfo::exists(folder + "/new.pdf"), "no partial new PDF");
+                return QJsonObject{{"attempts", errors}, {"dirty_and_files_preserved", true}};
+            });
+    if (qEnvironmentVariable("TATSU_NATIVE_PDF_PRINTER") == "1")
+        run("A03_Windows_PDF_printer",
+            [&]
+            {
+                const QString name = "Microsoft Print to PDF";
+                require(QPrinterInfo::availablePrinterNames().contains(name),
+                        "Microsoft Print to PDF is installed");
+                Document d;
+                d.open(input("D01.pdf"));
+                d.putSignature(0, "山田 太郎\n髙橋", {70, 400}, 22, Qt::black);
+                d.save(dest("native-print-input.pdf"));
+                QPrinter printer(QPrinterInfo::printerInfo(name), QPrinter::HighResolution);
+                // A .pdf suffix can switch QPrinter to Qt's PDF engine. Use .prn first.
+                const auto temporary = dest("windows-printer.prn");
+                printer.setOutputFileName(temporary);
+                printer.setOutputFormat(QPrinter::NativeFormat);
+                require(printer.isValid() && printer.outputFormat() == QPrinter::NativeFormat &&
+                            printer.printerName() == name,
+                        "native Windows driver selected");
+                printDocument(d.pdf(), printer);
+                require(printer.printerState() != QPrinter::Error, "native print job succeeded");
+                QElapsedTimer wait;
+                wait.start();
+                while (!QFileInfo::exists(temporary) && wait.elapsed() < 15000)
+                    QTest::qWait(50);
+                QFile generated(temporary);
+                require(generated.open(QIODevice::ReadOnly) && generated.read(5) == "%PDF-",
+                        "Windows driver produced PDF bytes");
+                generated.close();
+                require(QFile::rename(temporary, dest("windows-printer.pdf")), "archive output");
+                auto printed = readPdf(dest("windows-printer.pdf"));
+                require(printed.getCatalog()->getPageCount() == 1, "printed page count");
+                renderPage(printed, 0, 1.2).save(dest("windows-printer.png"));
+                return QJsonObject{{"printer", name},
+                                   {"output_format", "NativeFormat"},
+                                   {"physical_printer", "未実行"}};
+            });
     run("A11_protected_and_invalid",
         [&]
         {
@@ -534,6 +693,56 @@ int selftest(const QString& fixtures, const QString& output)
             require(check.getCatalog()->getPageCount() == 1, "form PDF reopened");
             renderPage(check, 0, 1.3).save(dest("form-preserved.png"));
             return QJsonObject{{"semantic_validation", "external evaluator required"}};
+        });
+    run("A03_annotation_print_flags",
+        [&]
+        {
+            Document d;
+            d.open(input("D01.pdf"));
+            const auto plain = renderPage(d.pdf(), 0, 1);
+            auto signature = d.putSignature(0, "印刷の確認", {80, 300}, 24, Qt::black);
+            auto annotation = *d.pdf().getObjectByReference(signature.ref).getDictionary();
+            detail::set(annotation, "F", PDFObject::createInteger(0));
+            PDFDocumentBuilder builder(&d.pdf());
+            builder.setObject(signature.ref, detail::dictObject(annotation));
+            auto noPrint = builder.build();
+            require(renderPage(noPrint, 0, 1) != plain, "view-only annotation is visible");
+            require(renderPage(noPrint, 0, 1, true, true, RenderPurpose::Print) == plain,
+                    "view-only annotation does not print");
+            detail::set(annotation, "F", PDFObject::createInteger(4 | 32));
+            builder.setObject(signature.ref, detail::dictObject(annotation));
+            auto printOnly = builder.build();
+            require(renderPage(printOnly, 0, 1) == plain, "NoView annotation is hidden on screen");
+            require(renderPage(printOnly, 0, 1, true, true, RenderPurpose::Print) != plain,
+                    "Print annotation is present in print rendering");
+            return QJsonObject{{"view_and_print_flags", "PASS"}};
+        });
+    run("A03_print_page_selection",
+        [&]
+        {
+            Document d;
+            d.open(input("D02.pdf"));
+            QPrinter rangePrinter(QPrinter::HighResolution);
+            rangePrinter.setOutputFormat(QPrinter::PdfFormat);
+            rangePrinter.setOutputFileName(dest("print-range.pdf"));
+            rangePrinter.setFromTo(2, 3);
+            rangePrinter.setPrintRange(QPrinter::PageRange);
+            printDocument(d.pdf(), rangePrinter);
+            auto printed = readPdf(dest("print-range.pdf"));
+            require(printed.getCatalog()->getPageCount() == 2, "only requested pages printed");
+            QPrinter currentPrinter(QPrinter::HighResolution);
+            currentPrinter.setOutputFormat(QPrinter::PdfFormat);
+            currentPrinter.setOutputFileName(dest("print-current.pdf"));
+            currentPrinter.setPrintRange(QPrinter::CurrentPage);
+            printDocument(d.pdf(), currentPrinter, 2);
+            auto current = readPdf(dest("print-current.pdf"));
+            require(current.getCatalog()->getPageCount() == 1, "only current page printed");
+            const auto expected = pageSize(d.pdf().getCatalog()->getPage(2));
+            const auto actual = pageSize(current.getCatalog()->getPage(0));
+            require(std::abs(expected.width() - actual.width()) < 1 &&
+                        std::abs(expected.height() - actual.height()) < 1,
+                    "current printed page has the requested dimensions");
+            return QJsonObject{{"range_pages", 2}, {"current_page", 3}};
         });
     run("A03_Qt_PDF_print_path",
         [&]

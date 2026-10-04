@@ -97,8 +97,6 @@ void Canvas::mousePressEvent(QMouseEvent* e)
     {
         dragging = true;
         outline = scene.addRect(m.mapRect(items[selected].rect), QPen(QColor("#1464c0"), 2));
-        if (select)
-            select(selected);
     }
     else
     {
@@ -140,6 +138,10 @@ void Canvas::mouseReleaseEvent(QMouseEvent* e)
         }
         if (changed)
             changed();
+        // Opening the properties dock during mousePress would resize the canvas
+        // and change the coordinate mapping in the middle of a drag.
+        if (select && selected >= 0)
+            select(selected);
     }
     if (selecting)
     {
