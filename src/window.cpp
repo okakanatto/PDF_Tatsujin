@@ -172,7 +172,7 @@ Window::Window()
                         canvas->page = row;
                         canvas->selected = -1;
                         canvas->refresh();
-                        status->setText(QString("%1 / %2 ページ").arg(row + 1).arg(doc.pages()));
+                        refreshStatus();
                     });
             });
     auto find = [this]
@@ -272,8 +272,7 @@ Window::Window()
                         doc.editable();
                         if (signature->toPlainText().trimmed().isEmpty())
                             fail("署名を入力してください。");
-                        canvas->placing = true;
-                        canvas->setCursor(Qt::CrossCursor);
+                        canvas->beginPlacement();
                         status->setText("配置位置をクリック。Escで解除。");
                     });
             });
@@ -289,9 +288,10 @@ Window::Window()
                         if (canvas->selected < 0 || canvas->selected >= ss.size())
                             fail("署名の枠を選択してください。");
                         auto s = ss[canvas->selected];
-                        doc.putSignature(canvas->page, signature->toPlainText(), s.rect.topLeft(),
-                                         size->value(), ink, s.ref);
-                        refresh();
+                        auto updated =
+                            doc.putSignature(canvas->page, signature->toPlainText(),
+                                             s.rect.topLeft(), size->value(), ink, s.ref);
+                        refresh(false, updated.ref);
                     });
             });
     auto remove = new QPushButton("選択した署名を削除");
@@ -356,15 +356,15 @@ Window::Window()
         guard(
             [&]
             {
-                doc.putSignature(canvas->page, signature->toPlainText(), point, size->value(), ink);
-                canvas->setCursor(Qt::ArrowCursor);
-                refresh();
+                auto added = doc.putSignature(canvas->page, signature->toPlainText(), point,
+                                              size->value(), ink);
+                refresh(false, added.ref);
             });
     };
     canvas->select = [this](int i)
     {
         auto ss = signatures(doc.pdf(), canvas->page);
-        if (i < ss.size())
+        if (i >= 0 && i < ss.size())
         {
             signature->setPlainText(ss[i].text);
             size->setValue(ss[i].size);
@@ -374,6 +374,7 @@ Window::Window()
     };
     canvas->changed = [this] { refresh(); };
     status = new QLabel("PDFを開いてください");
+    canvas->interactionCancelled = [this] { refreshStatus(); };
     statusBar()->addWidget(status, 1);
     progress = new QLabel;
     statusBar()->addWidget(progress);
@@ -439,6 +440,7 @@ Window::Window()
 }
 void Window::showPanel(int index)
 {
+    canvas->cancelInteraction();
     panels->setCurrentIndex(index);
     properties->setWindowTitle(index == 0 ? "署名" : "OCR");
     properties->show();
@@ -470,11 +472,11 @@ void Window::openFile(const QString& path)
     {
         doc.open(path);
     }
-    catch (const std::exception&)
+    catch (const PdfPasswordRequired&)
     {
         bool ok = false;
         QString pwd =
-            QInputDialog::getText(this, "PDFを開く", "パスワード付き文書の場合は入力してください。",
+            QInputDialog::getText(this, "PDFを開く", "このPDFのパスワードを入力してください。",
                                   QLineEdit::Password, {}, &ok);
         if (!ok)
             return;
@@ -486,7 +488,7 @@ void Window::openFile(const QString& path)
     query->clear();
     refresh(true);
 }
-void Window::refresh(bool rebuild)
+void Window::refresh(bool rebuild, PDFObjectReference selection)
 {
     documentArea->setCurrentIndex(doc.loaded() ? 1 : 0);
     navigation->setVisible(doc.loaded());
@@ -500,7 +502,7 @@ void Window::refresh(bool rebuild)
             pages->addItem(QString("%1 ページ").arg(i + 1));
         pages->setCurrentRow(canvas->page);
     }
-    canvas->refresh();
+    canvas->refresh(selection);
     if (doc.loaded() && pages->item(canvas->page))
     {
         auto image = renderPage(doc.pdf(), canvas->page, .16);

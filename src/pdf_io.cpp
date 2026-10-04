@@ -38,19 +38,25 @@ QByteArray fileHash(const QString& path)
 PDFDocument readPdf(const QString& path, const QString& password)
 {
     int attempts = 0;
+    bool passwordRequested = false;
     PDFDocumentReader reader(
         nullptr,
         [&](bool* ok)
         {
+            passwordRequested = true;
             *ok = !password.isEmpty() && attempts++ == 0;
             return password;
         },
         false, false);
     auto doc = reader.readFromFile(path);
-    if (reader.getReadingResult() != PDFDocumentReader::Result::OK ||
-        !doc.getCatalog()->getPageCount())
-        fail("PDFを開けません。パスワードまたは文書を確認してください。 " +
-             reader.getErrorMessage());
+    if (reader.getReadingResult() != PDFDocumentReader::Result::OK)
+    {
+        if (passwordRequested && reader.getReadingResult() == PDFDocumentReader::Result::Cancelled)
+            throw PdfPasswordRequired("PDFのパスワードが必要です。入力内容を確認してください。");
+        fail("PDFを開けません。ファイルを確認してください。 " + reader.getErrorMessage());
+    }
+    if (!doc.getCatalog()->getPageCount())
+        fail("PDFに表示できるページがありません。");
     return doc;
 }
 QByteArray encodePdf(const PDFDocument& doc)

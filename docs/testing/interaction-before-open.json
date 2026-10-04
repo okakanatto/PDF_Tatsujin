@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 67,
+            "error": "damaged or missing PDFs report a read error without asking for a password",
+            "name": "A11_UI_open_error_routing",
+            "status": "FAIL"
+        }
+    ]
+}

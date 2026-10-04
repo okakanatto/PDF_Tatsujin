@@ -35,7 +35,7 @@ public:
     explicit Window();
     ~Window() override;
     void openFile(const QString& path);
-    void refresh(bool rebuildPages = false);
+    void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();
     void stopOcr();

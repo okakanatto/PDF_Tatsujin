@@ -17,8 +17,11 @@ public:
     std::function<void(QPointF)> place;
     std::function<void(int)> select;
     std::function<void()> changed;
+    std::function<void()> interactionCancelled;
     explicit Canvas(Document* doc, QWidget* parent = nullptr);
-    void refresh();
+    void refresh(PDFObjectReference selection = {});
+    void beginPlacement();
+    void cancelInteraction();
     void highlight(const QString& term);
     void setZoom(double z);
 

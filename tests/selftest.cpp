@@ -234,6 +234,134 @@ int selftest(const QString& fixtures, const QString& output)
                                {"clipboard_copy", true},
                                {"IME", "未実行・確定済み文字列を使用"}};
         });
+    run("A02_UI_placement_cancel",
+        [&]
+        {
+            Window w;
+            w.openFile(input("D01.pdf"));
+            w.show();
+            w.signatureAction->trigger();
+            w.signature->setPlainText("山田 太郎");
+            QTest::qWait(100);
+            QPushButton* placeButton = nullptr;
+            for (auto b : w.findChildren<QPushButton*>())
+                if (b->text() == "ページをクリックして配置")
+                    placeButton = b;
+            require(placeButton, "placement button exists");
+            QTest::mouseClick(placeButton, Qt::LeftButton);
+            require(w.canvas->placing, "placement starts through the actual button");
+            auto focused = QApplication::focusWidget();
+            require(focused, "placement has keyboard focus");
+            QTest::keyClick(focused, Qt::Key_Escape);
+            require(!w.canvas->placing && w.canvas->cursor().shape() == Qt::ArrowCursor &&
+                        !w.status->text().contains("配置位置"),
+                    "Escape cancels placement from the focus left by the placement button");
+            require(!w.doc.dirty() && signatures(w.doc.pdf(), 0).isEmpty(),
+                    "cancelled placement leaves the document unchanged");
+            QTest::mouseClick(placeButton, Qt::LeftButton);
+            w.ocrAction->trigger();
+            require(!w.canvas->placing && !w.status->text().contains("配置位置"),
+                    "switching to OCR cancels pending signature placement");
+            return QJsonObject{{"cancelled_from_button_focus", true},
+                               {"switching_tools_cancels_placement", true},
+                               {"event_source", "Qt QTest synthetic mouse and key events"}};
+        });
+    run("A02_A03_UI_signature_identity",
+        [&]
+        {
+            Window w;
+            w.openFile(input("D01.pdf"));
+            const auto first = w.doc.putSignature(0, "山田 太郎", {80, 400}, 20, Qt::black);
+            const auto second = w.doc.putSignature(0, "髙橋", {80, 300}, 20, Qt::black);
+            w.refresh();
+            w.show();
+            QTest::qWait(100);
+            const auto m = pageMatrix(w.doc.pdf().getCatalog()->getPage(0));
+            QTest::mouseClick(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier,
+                              w.canvas->mapFromScene(m.map(first.rect.center())));
+            QPushButton* updateButton = nullptr;
+            for (auto b : w.findChildren<QPushButton*>())
+                if (b->text() == "選択した署名を更新")
+                    updateButton = b;
+            require(updateButton, "update button exists");
+            for (const auto& text : {QString("山田 次郎"), QString("山田 三郎")})
+            {
+                w.signature->setPlainText(text);
+                QTest::mouseClick(updateButton, Qt::LeftButton);
+                auto all = signatures(w.doc.pdf(), 0);
+                require(w.canvas->selected >= 0 && w.canvas->selected < all.size() &&
+                            all[w.canvas->selected].text == text,
+                        "repeated edits keep the same signature selected after annotation order "
+                        "changes");
+                require(std::any_of(all.begin(), all.end(),
+                                    [&](const auto& s) {
+                                        return s.ref == second.ref && s.text == second.text &&
+                                               s.rect == second.rect;
+                                    }),
+                        "editing the first signature never changes the second");
+            }
+            w.doc.save(dest("two-signatures.pdf"));
+            w.refresh();
+            w.grab().save(dest("two-signatures-ui.png"));
+            Document reopened;
+            reopened.open(dest("two-signatures.pdf"));
+            auto all = signatures(reopened.pdf(), 0);
+            require(all.size() == 2 &&
+                        std::any_of(all.begin(), all.end(),
+                                    [](const auto& s) { return s.text == "山田 三郎"; }) &&
+                        std::any_of(all.begin(), all.end(),
+                                    [](const auto& s) { return s.text == "髙橋"; }),
+                    "both distinct signatures survive saving and reopening");
+            return QJsonObject{{"repeated_updates", 2}, {"saved_signatures", 2}};
+        });
+    run("A02_UI_drag_interrupted",
+        [&]
+        {
+            Window w;
+            w.openFile(input("D01.pdf"));
+            const auto s = w.doc.putSignature(0, "山田 太郎", {80, 400}, 20, Qt::black);
+            w.refresh();
+            w.show();
+            QTest::qWait(100);
+            auto start = w.canvas->mapFromScene(
+                pageMatrix(w.doc.pdf().getCatalog()->getPage(0)).map(s.rect.center()));
+            const auto before = w.doc.pdf();
+            const auto revision = w.doc.revision;
+            QTest::mousePress(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, start);
+            w.refresh();
+            QTest::mouseRelease(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier,
+                                start + QPoint(30, 20));
+            require(w.doc.pdf() == before && w.doc.revision == revision,
+                    "refresh cancels an in-flight drag without committing a stale movement");
+            for (bool escape : {true, false})
+            {
+                start = w.canvas->mapFromScene(
+                    pageMatrix(w.doc.pdf().getCatalog()->getPage(0)).map(s.rect.center()));
+                QTest::mousePress(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, start);
+                QTest::mouseMove(w.canvas->viewport(), start + QPoint(20, 10));
+                if (escape)
+                    QTest::keyClick(w.canvas, Qt::Key_Escape);
+                else
+                    w.canvas->setZoom(.75);
+                QTest::mouseRelease(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier,
+                                    start + QPoint(30, 20));
+                require(w.doc.pdf() == before && w.doc.revision == revision,
+                        escape ? "Escape cancels a drag without adding history"
+                               : "zoom during a drag cancels the obsolete coordinates");
+            }
+            start = w.canvas->mapFromScene(
+                pageMatrix(w.doc.pdf().getCatalog()->getPage(0)).map(s.rect.center()));
+            QTest::mousePress(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, start);
+            w.undoAction->trigger();
+            QTest::mouseRelease(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier,
+                                start + QPoint(30, 20));
+            require(signatures(w.doc.pdf(), 0).isEmpty() && w.doc.cursor == 0,
+                    "Undo during a drag removes the signature without a stale release or crash");
+            return QJsonObject{{"refresh_cancels_drag", true},
+                               {"undo_during_drag", true},
+                               {"escape_cancels_drag", true},
+                               {"zoom_cancels_drag", true}};
+        });
     run("A02_A03_signature_roundtrip",
         [&]
         {
@@ -661,6 +789,116 @@ int selftest(const QString& fixtures, const QString& output)
                                {"dirty_and_original_preserved", true},
                                {"native_Windows_dialog", "未実行"}};
         });
+    run("A10_UI_close_unsaved",
+        [&]
+        {
+            const bool previous = QCoreApplication::testAttribute(Qt::AA_DontUseNativeDialogs);
+            QCoreApplication::setAttribute(Qt::AA_DontUseNativeDialogs, true);
+            const auto restore = qScopeGuard(
+                [&] { QCoreApplication::setAttribute(Qt::AA_DontUseNativeDialogs, previous); });
+            QMessageBox::StandardButton decision = QMessageBox::Cancel;
+            bool cancelSave = true;
+            QString savePath;
+            QString dialogFailure;
+            QStringList dialogs;
+            QTimer answer;
+            QObject::connect(
+                &answer, &QTimer::timeout,
+                [&]
+                {
+                    auto modal = QApplication::activeModalWidget();
+                    if (auto box = qobject_cast<QMessageBox*>(modal))
+                    {
+                        dialogs << box->windowTitle();
+                        auto button = box->button(
+                            box->standardButtons().testFlag(decision) ? decision : QMessageBox::Ok);
+                        if (button)
+                            QTest::mouseClick(button, Qt::LeftButton);
+                    }
+                    else if (auto dialog = qobject_cast<QFileDialog*>(modal))
+                    {
+                        dialogs << dialog->windowTitle();
+                        if (cancelSave)
+                            dialog->reject();
+                        else
+                        {
+                            // QFileDialog::selectFile deliberately leaves a
+                            // focused filename editor unchanged. Enter the
+                            // requested path in that actual editor instead.
+                            auto filename = dialog->findChild<QLineEdit*>("fileNameEdit");
+                            if (!filename)
+                            {
+                                dialogFailure = "filename editor missing";
+                                dialog->reject();
+                                return;
+                            }
+                            filename->setText(QDir::toNativeSeparators(savePath));
+                            const auto selected = dialog->selectedFiles();
+                            if (selected.size() != 1 || !sameFilePath(selected[0], savePath))
+                            {
+                                dialogFailure = "dialog did not select the requested destination";
+                                dialog->reject();
+                                return;
+                            }
+                            static_cast<QDialog*>(dialog)->accept();
+                        }
+                    }
+                });
+            answer.start(20);
+            Window w;
+            w.openFile(input("D01.pdf"));
+            w.doc.putSignature(0, "閉じる前の署名", {80, 400}, 20, Qt::black);
+            w.refresh();
+            w.show();
+            const auto before = w.doc.pdf();
+            const auto revision = w.doc.revision;
+            const auto hash = fileHash(w.doc.source);
+            require(!w.close() && w.isVisible(), "cancel keeps the document window open");
+            decision = QMessageBox::Save;
+            require(!w.close() && w.isVisible(), "cancelling Save As also cancels closing");
+            require(w.doc.pdf() == before && w.doc.revision == revision && w.doc.dirty() &&
+                        fileHash(w.doc.source) == hash,
+                    "both cancellation routes retain the original and unsaved work");
+            cancelSave = false;
+            savePath = dest("close-saved.pdf");
+            require(w.close() && dialogFailure.isEmpty() && !w.doc.dirty() && !w.isVisible() &&
+                        sameFilePath(w.doc.target, savePath) && QFileInfo::exists(savePath),
+                    "successful save to the requested destination permits closing: " +
+                        dialogFailure);
+            Document reopened;
+            reopened.open(savePath);
+            require(signatures(reopened.pdf(), 0).at(0).text == "閉じる前の署名",
+                    "the saved signature is present after closing");
+            Window conflict;
+            conflict.openFile(input("D01.pdf"));
+            conflict.doc.save(dest("close-conflict.pdf"));
+            conflict.doc.putSignature(0, "失敗しても保持", {80, 400}, 20, Qt::black);
+            conflict.refresh();
+            conflict.show();
+            QFile external(conflict.doc.target);
+            require(external.open(QIODevice::Append), "open test-owned conflict file");
+            external.write("\n% external change\n");
+            external.close();
+            const auto conflictHash = fileHash(conflict.doc.target);
+            const auto unsaved = conflict.doc.pdf();
+            require(!conflict.close() && conflict.isVisible() && conflict.doc.dirty() &&
+                        conflict.doc.pdf() == unsaved &&
+                        fileHash(conflict.doc.target) == conflictHash,
+                    "save failure keeps the window, edits and external file intact");
+            decision = QMessageBox::Discard;
+            require(conflict.close() && !conflict.isVisible() &&
+                        fileHash(conflict.doc.target) == conflictHash &&
+                        fileHash(w.doc.source) == hash,
+                    "explicit discard closes without writing any PDF");
+            answer.stop();
+            return QJsonObject{{"cancel_close", true},
+                               {"cancel_save", true},
+                               {"save_then_close", true},
+                               {"failed_save_keeps_open", true},
+                               {"explicit_discard", true},
+                               {"dialogs", QJsonArray::fromStringList(dialogs)},
+                               {"native_Windows_dialog", "未実行; Qt dialogs and QTest"}};
+        });
     if (!qEnvironmentVariableIsEmpty("TATSU_DENIED_SAVE_DIR"))
         run("A10_NTFS_access_denied",
             [&]
@@ -734,6 +972,68 @@ int selftest(const QString& fixtures, const QString& output)
                                    {"output_format", "NativeFormat"},
                                    {"physical_printer", "未実行"}};
             });
+    run("A11_UI_open_error_routing",
+        [&]
+        {
+            Window w;
+            w.openFile(input("D01.pdf"));
+            w.doc.putSignature(0, "保持する署名", {80, 400}, 20, Qt::black);
+            w.refresh();
+            const auto before = w.doc.pdf();
+            const auto revision = w.doc.revision;
+            const auto source = w.doc.source;
+            int prompts = 0;
+            bool providePassword = false;
+            QTimer answer;
+            QObject::connect(&answer, &QTimer::timeout,
+                             [&]
+                             {
+                                 for (auto dialog : w.findChildren<QInputDialog*>())
+                                     if (dialog->isVisible())
+                                     {
+                                         ++prompts;
+                                         if (providePassword)
+                                         {
+                                             dialog->setTextValue("correct-password");
+                                             dialog->accept();
+                                         }
+                                         else
+                                             dialog->reject();
+                                     }
+                             });
+            answer.start(20);
+            for (const auto& path : {input("D08-broken.pdf"), dest("missing-input.pdf")})
+            {
+                bool failed = false;
+                try
+                {
+                    w.openFile(path);
+                }
+                catch (const std::exception&)
+                {
+                    failed = true;
+                }
+                require(
+                    failed && prompts == 0,
+                    "damaged or missing PDFs report a read error without asking for a password");
+                require(w.doc.pdf() == before && w.doc.revision == revision &&
+                            w.doc.source == source && w.doc.dirty(),
+                        "failed open preserves the current unsaved document");
+            }
+            w.openFile(input("D08-encrypted.pdf"));
+            require(prompts == 1 && w.doc.pdf() == before && w.doc.revision == revision &&
+                        w.doc.dirty(),
+                    "cancelling a real password prompt preserves the current document");
+            providePassword = true;
+            w.openFile(input("D08-encrypted.pdf"));
+            require(prompts == 2 && !w.doc.readOnly.isEmpty() && !w.doc.dirty() &&
+                        w.doc.source.endsWith("D08-encrypted.pdf"),
+                    "correct password opens the encrypted PDF read-only");
+            answer.stop();
+            return QJsonObject{{"invalid_inputs_rejected", 2},
+                               {"password_prompts", prompts},
+                               {"dialog_backend", "Qt QInputDialog, offscreen"}};
+        });
     run("A11_protected_and_invalid",
         [&]
         {

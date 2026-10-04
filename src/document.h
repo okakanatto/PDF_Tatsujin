@@ -9,6 +9,11 @@
 namespace tatsu
 {
 using namespace pdf;
+class PdfPasswordRequired final : public std::runtime_error
+{
+public:
+    using std::runtime_error::runtime_error;
+};
 [[noreturn]] void fail(const QString& text);
 QByteArray fileHash(const QString& path);
 bool sameFilePath(const QString& left, const QString& right);

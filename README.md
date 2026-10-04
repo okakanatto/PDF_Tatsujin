@@ -16,7 +16,7 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 試せる入力は `fixtures/D01.pdf`（署名）、`fixtures/D03.pdf`（日英画像PDF8ページ）、`fixtures/D05.pdf`（画像と既存文字・注釈の混在）です。すべて合成の試験文書です。
 
-この作業環境での最新の試用版は `dist/PDFTatsujin-M1-review/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-review-windows-x64.zip` です。[最新修正と22件の回帰結果](docs/testing/M1_CORRECTIONS.md)を参照してください。
+この作業環境での最新の試用版は `dist/PDFTatsujin-M1-review/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-review-windows-x64.zip` です。[最新修正・27件の回帰結果・A01〜A12の現在の範囲](docs/testing/M1_INTERACTION.md)を参照してください。
 
 暗号化・証明書署名付き・非対応フォームの検出時は読み取り専用にします。暗号化の解除や証明書の有効性検証は行いません。保存失敗やOCR失敗時は未保存変更を保持します。
 

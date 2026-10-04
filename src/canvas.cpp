@@ -13,14 +13,20 @@ Canvas::Canvas(Document* d, QWidget* p) : QGraphicsView(p), document(d)
     setAccessibleName("PDFページ。ドラッグで文字選択、署名枠をドラッグで移動");
     setRenderHint(QPainter::Antialiasing);
 }
-void Canvas::refresh()
+void Canvas::refresh(PDFObjectReference selection)
 {
+    // Annotation order can change when a signature is replaced. Preserve its
+    // identity, never the index now occupied by a different signature.
+    if (!selection.isValid() && selected >= 0 && selected < items.size())
+        selection = items[selected].ref;
+    cancelInteraction();
     const int vertical = verticalScrollBar()->value();
     searchHighlights.clear();
     scene.clear();
     outline = nullptr;
     copied.clear();
     items.clear();
+    selected = -1;
     if (!document->loaded())
         return;
     page = qBound(0, page, document->pages() - 1);
@@ -30,8 +36,9 @@ void Canvas::refresh()
     auto dims = pageSize(document->pdf().getCatalog()->getPage(page));
     scene.setSceneRect(QRectF(QPointF(), dims));
     items = signatures(document->pdf(), page);
-    if (selected >= items.size())
-        selected = -1;
+    for (int i = 0; i < items.size(); ++i)
+        if (items[i].ref == selection)
+            selected = i;
     auto matrix = pageMatrix(document->pdf().getCatalog()->getPage(page));
     for (int i = 0; i < items.size(); ++i)
     {
@@ -43,8 +50,28 @@ void Canvas::refresh()
     verticalScrollBar()->setValue(vertical);
     highlight(searchTerm);
 }
+void Canvas::beginPlacement()
+{
+    cancelInteraction();
+    placing = true;
+    setCursor(Qt::CrossCursor);
+    setFocus(Qt::OtherFocusReason);
+}
+void Canvas::cancelInteraction()
+{
+    const bool active = placing || dragging || selecting;
+    placing = dragging = selecting = false;
+    delete outline;
+    outline = nullptr;
+    copied.clear();
+    setCursor(Qt::ArrowCursor);
+    if (active && interactionCancelled)
+        interactionCancelled();
+}
 void Canvas::setZoom(double z)
 {
+    if (dragging || selecting)
+        cancelInteraction();
     double top = mapToScene(viewport()->rect().topLeft()).y();
     zoom = qBound(.25, z, 4.0);
     resetTransform();
@@ -85,9 +112,10 @@ void Canvas::mousePressEvent(QMouseEvent* e)
     setFocus();
     start = last = mapToScene(e->position().toPoint());
     auto m = pageMatrix(document->pdf().getCatalog()->getPage(page));
-    if (placing && !document->busy)
+    const bool placeHere = placing && !document->busy && document->readOnly.isEmpty();
+    cancelInteraction();
+    if (placeHere)
     {
-        placing = false;
         if (place)
             place(m.inverted().map(start));
         return;
@@ -129,6 +157,8 @@ void Canvas::mouseMoveEvent(QMouseEvent* e)
 }
 void Canvas::mouseReleaseEvent(QMouseEvent* e)
 {
+    if (e->button() != Qt::LeftButton)
+        return QGraphicsView::mouseReleaseEvent(e);
     if (!document->loaded())
         return;
     last = mapToScene(e->position().toPoint());
@@ -176,8 +206,7 @@ void Canvas::keyPressEvent(QKeyEvent* e)
     }
     if (e->key() == Qt::Key_Escape)
     {
-        placing = false;
-        setCursor(Qt::ArrowCursor);
+        cancelInteraction();
         return;
     }
     QGraphicsView::keyPressEvent(e);

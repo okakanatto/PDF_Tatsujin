@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 202,
+            "error": "repeated edits keep the same signature selected after annotation order changes",
+            "name": "A02_A03_UI_signature_identity",
+            "status": "FAIL"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 166,
+            "error": "Escape cancels placement from the focus left by the placement button",
+            "name": "A02_UI_placement_cancel",
+            "status": "FAIL"
+        }
+    ]
+}
