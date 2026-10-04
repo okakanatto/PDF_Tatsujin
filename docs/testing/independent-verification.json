@@ -1,0 +1,2905 @@
+{
+  "engines": {
+    "pdfium": "153.0.7999.0",
+    "pypdf": "see dependency-lock.json",
+    "poppler": "pdftoppm version 26.07.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+  },
+  "acceptance_thresholds": {
+    "CER_jpn": 0.02,
+    "CER_eng": 0.01,
+    "search_each_language": 19,
+    "search_total": 20,
+    "position_max_mm": 2
+  },
+  "viewer_GUI": {
+    "Adobe_Reader": "未実行",
+    "Firefox": "未実行",
+    "physical_print": "未実行",
+    "PDF_printer": "未実行"
+  },
+  "OCR_pages": [
+    {
+      "page": 1,
+      "language": "jpn",
+      "split": "tune",
+      "reference_characters": 602,
+      "edit_distance": 5,
+      "CER": 0.008305647840531562,
+      "copy_text": "地域の図書館では、来館者が安心して資料を探せるように案内を整えています。 入口の地図に\r\nは、新聞、雑誌、児童書、参考図書の場所を示しました。受付では貸出カードの作り方を説明\r\nし、返却期限を印刷した紙を渡します。予約した本が届いた場合は、事前に選んだ連絡方法で\r\nお知らせします。\r\n読書室の机と椅子は毎朝点検します。照明の明るさを調整し、窓からの日差しが強い時間帯に\r\nはカーテンを閉めます。静かな席を希望する方と、グループで相談する方が同じ場所で困らな\r\nいように、利用区域を分けています。わからないことがあれば係員に声をかけてください。\r\n資料の保存には温度と湿度の管理が欠かせません。古い写真や地図は専用の箱に入れ、閲覧す\r\nるときは汚れを防ぐ敷物を使います。破れや変色を見つけた場合は、その場所を記録 して担当\r\n者へ報告します。 修理中の資料には返却予定日を表示します。\r\n新しい展示は毎月最初の火曜日に始まります。 今月のテーマは町の交通と暮らしです。昔の駅\r\n舎、商店街、公園の写真を年代順に並べました。展示の説明文は大きな文字で印刷しています\r\n。 来館者の感想は専用の箱で受け付け、次回の企画を考える参考にします。\r\n閉館前には館内放送で時間を案内します。忘れ物がないかを確認し、借りた資料の冊数を確か\r\nめてからお帰りください。貸出中の資料は返却ポストでも受け付けます。ただし付属品のある\r\n資料は窓口へお持ちください。"
+    },
+    {
+      "page": 2,
+      "language": "jpn",
+      "split": "tune",
+      "reference_characters": 590,
+      "edit_distance": 3,
+      "CER": 0.005084745762711864,
+      "copy_text": "工場の設備点検は、作業開始前の確認から始まります。担当者は手順書を読み、工具 と保護具\r\nがそろっていることを確かめます。機械の周囲に障害物がないか、床が濡れていないかを確認\r\nします。異常を見つけた場合は運転を始めず、責任者へ報告してください。\r\n点検表には設備番号、実施日時、担当者名、確認結果を記入します。測定値は単位を付けて記\r\n録し、前回の値と比較します。数値が許容範囲内でも、変化が急な場合は原因を調べます。記\r\n録を後から書き直すときは、変更した理由がわかるように残します。\r\n部品の交換は指定された順序で進めます。取り外したねじや留め具は箱にまとめ、別の設備の\r\n部品と混ざらないようにします。新しい部品の型式を確認してから取り付けます。 交換後は工\r\n具の置き忘れがないことを確認し、保護カバーを元の位置に戻します。\r\n作業を引き継ぐ際には、完了した項目と未完了の項目を分けて説明します。特に注意が必要な\r\n箇所は、口頭だけでなく書面でも伝えます。判断に迷う場合は、経験だけで進めずに手順書と\r\n責任者の指示を確認します。 安全のための停止をためらわないことが大切です。\r\n月末には点検記録を集計します。故障の回数だけでなく、停止時間、交換部品、発見のきっか\r\nけも調べます。同じ異常が繰り返されている設備は、保全計画を見直します。改善した内容は\r\n次の担当者にも共有し、毎日の確認に反映します。"
+    },
+    {
+      "page": 3,
+      "language": "jpn",
+      "split": "evaluation",
+      "reference_characters": 591,
+      "edit_distance": 3,
+      "CER": 0.005076142131979695,
+      "copy_text": "市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。春は入口付近\r\nに明るい色の花を植え、夏は木陰の休憩場所を整えます。秋には落ち葉を集め、冬には通路の\r\n凍結を確認します。訪れる人が歩きやすいように、段差や水たまりも点検します。\r\n遊具の点検では、金属部分のひび、ねじの緩み、地面の状態を調べます。 修理が必要な遊具は\r\n使用を停止し、理由を示した案内を取り付けます。修理が終わるまで立ち入れないように囲い\r\nを設けます。点検した日時と担当者は記録簿に残し、次の確認に役立てます。\r\n池の周囲では水質と生き物の様子を観察します。えさの与えすぎは水を汚す原因になるため、\r\n決められたルールを掲示します。 水鳥が休む場所には近づきすぎないように案内します。清掃\r\nの際は、ごみだけでなく人危険な落とし物がないかも確認します。\r\n休日の催しでは、会場の配置図を入口に掲示します。受付、休憩所、救護所の位置をわかりや\r\nすく示し、通路には物を置きません。雨天時の対応は開催前に決め、変更があれば早めに知ら\r\nせます。片付けが終わった後は、忘れ物と設備の状態を確認します。\r\n公園を長く気持ちよく使うために、利用者からの意見を集めています。ベンチの場所、案内板\r\nの読みやすさ、夜間の明るさなど、具体的な気づきをお寄せください。寄せられた意見は定期\r\n的に整理し、対応した内容と今後の予定を掲示します。"
+    },
+    {
+      "page": 4,
+      "language": "jpn",
+      "split": "evaluation",
+      "reference_characters": 597,
+      "edit_distance": 3,
+      "CER": 0.005025125628140704,
+      "copy_text": "観測所では、毎日同じ時刻に気温、湿度、風向、降水量を記録します。測定器の設置場所には\r\n周囲の建物や樹木の影響があります。そのため、機器を移動する場合は位置と理由を記録し、\r\n以前の観測値と単純に比較しないように注意します。\r\n雨量計の入口に落ち葉や虫が入ると、正しい値を測れないことがあります。 担当者は定期的に\r\n内部を確認し、必要な清掃を行います。清掃した日時も観測記録に残します。強い雨や風が予\r\n想される日は、無理に屋外へ出ず、安全を確保してから点検します。\r\n収集したデータは、まず欠けている時刻や異常な値がないかを確認します。異常が疑われる値\r\nはすぐに削除せず、周辺の観測点や機器の状態と照らし合わせます。補正を行う場合は、元の\r\n値と補正後の値を区別して保存します。判断の根拠も担当者が読める形で残します。\r\n月ごとの報告書には、平均値だけでなく最高値と最低値も掲載します。 観測できなかった日が\r\nある場合は、その日数と理由を明記します。表とグラフでは同じ単位を使い、比較する期間を\r\nそろえます。 長期的な傾向と一日の変動を混同しない説明を心がけます。\r\n観測の結果は防災や農業の計画にも利用されます。ただし、一つの地点の数値だけで広い地域\r\n全体の状態を決めることはできません。利用する目的と測定条件を確認し、必要に応じて複数\r\nの資料を組み合わせます。わからない点は推測で埋めず、未確認として示します。"
+    },
+    {
+      "page": 5,
+      "language": "eng",
+      "split": "tune",
+      "reference_characters": 1050,
+      "edit_distance": 0,
+      "CER": 0.0,
+      "copy_text": "The community workshop opens at nine each morning. Visitors register at the front\r\ndesk and receive a short explanation of the available equipment. Staff check that\r\ntools are clean, guards are secure, and emergency exits are clear. Each participant\r\nreads the instructions before beginning a project. Questions are welcome at every\r\nstage of the work. Materials are stored by type and size. Wood belongs on the lower shelves, while\r\nsmall metal parts are kept in labeled drawers. A separate cabinet holds protective\r\nglasses and gloves. Borrowed tools must be returned to their marked places. This\r\narrangement makes missing items easier to notice and helps the next visitor prepare\r\nwithout delay. At the end of a session, participants remove waste from their benches and report\r\nany damage. Staff record repairs in a shared notebook. A broken tool stays out of\r\nservice until a qualified person has inspected it. The monthly review considers\r\nboth accidents and situations that almost caused an accident. The purpose is to\r\nimprove the workspace for everyone."
+    },
+    {
+      "page": 6,
+      "language": "eng",
+      "split": "tune",
+      "reference_characters": 1057,
+      "edit_distance": 0,
+      "CER": 0.0,
+      "copy_text": "The museum prepares a new exhibition every season. Curators begin by selecting\r\nobjects that tell a clear story. They check the condition of each object and\r\nconfirm that it can be displayed safely. Labels explain where the object came from, how it was used, and why it matters. Dates and measurements are checked against the\r\ncollection records. Lighting is adjusted before the public enters the gallery. Fragile paper needs\r\nlower light levels than stone or metal. Display cases must allow visitors to see\r\nimportant details without touching the objects. Staff walk through the room to\r\ncheck the route, the signs, and the space around each case. They also test the\r\nreading height of the labels. After the exhibition closes, every object is examined again. Changes in condition\r\nare photographed and described. Packing materials are selected to protect the\r\nsurfaces during transport. The final report records what worked well and what\r\nshould change next time. Visitor comments help the team understand which\r\nexplanations were clear and which needed more context."
+    },
+    {
+      "page": 7,
+      "language": "eng",
+      "split": "evaluation",
+      "reference_characters": 1097,
+      "edit_distance": 1,
+      "CER": 0.0009115770282588879,
+      "copy_text": "The coastal research team surveys the same beach throughout the year. Members\r\nrecord the date, tide level, weather, and starting position before collecting\r\nsamples.They follow a marked route so that observations from different visits can\r\nbe compared. Equipment is checked before departure, and each container receives a\r\nunique label. Samples are handled carefully to avoid mixing material from separate locations. The\r\nteam uses clean instruments and records the depth of each collection. Photographs\r\nshow the surrounding area as well as the sample point. If a location cannot be\r\nreached safely, the team records the reason and leaves the entry incomplete. Safety\r\ntakes priority over finishing every planned measurement. Back at the laboratory, staff compare the labels with the field notes. Unexpected\r\nresults are checked against the original observations. The report presents\r\nuncertainty alongside the measurements and explains any gaps in the record. Repeated surveys reveal gradual changes that a single visit cannot show. The\r\ncollected evidence supports careful decisions about the coastline."
+    },
+    {
+      "page": 8,
+      "language": "eng",
+      "split": "evaluation",
+      "reference_characters": 1099,
+      "edit_distance": 0,
+      "CER": 0.0,
+      "copy_text": "The railway archive contains maps, timetables, photographs, and maintenance\r\nrecords. Researchers request materials using the reference numbers in the catalog. Staff retrieve the requested items and explain any handling restrictions. Large\r\nmaps are supported on a clean table, and loose photographs remain in their\r\nprotective sleeves. Digital copies make frequently requested records easier to consult. Before\r\nscanning, staff check page order and note any missing sections. Images are reviewed\r\nfor focus, alignment, and complete margins. Text recognition helps users search the\r\ncollection, but the original image remains available for comparison. Uncertain\r\nwords are not silently replaced with guesses. Each completed record includes the source, date of capture, equipment settings, and\r\nreview status. A second staff member checks a sample of the results. Files are\r\nstored in more than one location, and restoration tests confirm that the backups\r\ncan be used. The archive publishes clear descriptions of its coverage so that\r\nresearchers understand both the strengths and the limits of the collection."
+    }
+  ],
+  "OCR_evaluation": {
+    "jpn": {
+      "CER": 0.005050505050505051,
+      "CER_status": "PASS",
+      "searches": [
+        {
+          "term": "市民公園",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.07648111979166666
+            }
+          ]
+        },
+        {
+          "term": "管理事務所",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.0782790289984809
+            }
+          ]
+        },
+        {
+          "term": "花壇",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.19767311943901908
+            }
+          ]
+        },
+        {
+          "term": "植え替え",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.24689492119683157
+            }
+          ]
+        },
+        {
+          "term": "落ち葉",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.19951409233940973
+            },
+            {
+              "page": 4,
+              "position_delta_mm": 0.0709043714735243
+            }
+          ]
+        },
+        {
+          "term": "遊具",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.07109815809461804
+            }
+          ]
+        },
+        {
+          "term": "記録簿",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.18951254950629337
+            }
+          ]
+        },
+        {
+          "term": "水質",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.13547299702962237
+            }
+          ]
+        },
+        {
+          "term": "水鳥",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.4765266842312283
+            }
+          ]
+        },
+        {
+          "term": "救護所",
+          "found": true,
+          "locations": [
+            {
+              "page": 3,
+              "position_delta_mm": 0.14123814900716145
+            }
+          ]
+        },
+        {
+          "term": "観測所",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.10382925669352212
+            }
+          ]
+        },
+        {
+          "term": "気温",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.2794241587320963
+            }
+          ]
+        },
+        {
+          "term": "湿度",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.32332759433322483
+            }
+          ]
+        },
+        {
+          "term": "風向",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.3664612664116753
+            }
+          ]
+        },
+        {
+          "term": "降水量",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.42570614284939234
+            }
+          ]
+        },
+        {
+          "term": "雨量計",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.0708828396267361
+            }
+          ]
+        },
+        {
+          "term": "観測点",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.12208018832736545
+            }
+          ]
+        },
+        {
+          "term": "補正",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.24774542914496525
+            }
+          ]
+        },
+        {
+          "term": "防災",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.11838209364149305
+            }
+          ]
+        },
+        {
+          "term": "農業",
+          "found": true,
+          "locations": [
+            {
+              "page": 4,
+              "position_delta_mm": 0.14011849297417533
+            }
+          ]
+        }
+      ],
+      "search_found": 20,
+      "search_status": "PASS"
+    },
+    "eng": {
+      "CER": 0.0004553734061930783,
+      "CER_status": "PASS",
+      "searches": [
+        {
+          "term": "coastal",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.25362362331814237
+            }
+          ]
+        },
+        {
+          "term": "surveys",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.3946733686659071
+            }
+          ]
+        },
+        {
+          "term": "beach",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.0925869411892361
+            }
+          ]
+        },
+        {
+          "term": "tide",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.0775146484375
+            }
+          ]
+        },
+        {
+          "term": "container",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.05553063286675347
+            }
+          ]
+        },
+        {
+          "term": "instruments",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.05380808512369792
+            }
+          ]
+        },
+        {
+          "term": "laboratory",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.15456097920735676
+            }
+          ]
+        },
+        {
+          "term": "uncertainty",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.10300835503472222
+            }
+          ]
+        },
+        {
+          "term": "coastline",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.09433102077907986
+            }
+          ]
+        },
+        {
+          "term": "departure",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.04500155978732639
+            }
+          ]
+        },
+        {
+          "term": "railway",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.0925869411892361
+            }
+          ]
+        },
+        {
+          "term": "archive",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.0925869411892361
+            }
+          ]
+        },
+        {
+          "term": "timetables",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.11515231662326388
+            }
+          ]
+        },
+        {
+          "term": "photographs",
+          "found": true,
+          "locations": [
+            {
+              "page": 7,
+              "position_delta_mm": 0.0747585720486111
+            },
+            {
+              "page": 8,
+              "position_delta_mm": 0.16989703708224824
+            }
+          ]
+        },
+        {
+          "term": "catalog",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.14617970784505208
+            }
+          ]
+        },
+        {
+          "term": "scanning",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.07396189371744792
+            }
+          ]
+        },
+        {
+          "term": "recognition",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.1817072550455729
+            }
+          ]
+        },
+        {
+          "term": "comparison",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.09290991889105903
+            }
+          ]
+        },
+        {
+          "term": "restoration",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.20714713202582463
+            }
+          ]
+        },
+        {
+          "term": "backups",
+          "found": true,
+          "locations": [
+            {
+              "page": 8,
+              "position_delta_mm": 0.05247311062282986
+            }
+          ]
+        }
+      ],
+      "search_found": 20,
+      "search_status": "PASS"
+    }
+  },
+  "OCR_line_alignment": [
+    {
+      "page": 1,
+      "reference_lines": 16,
+      "output_lines": 16,
+      "max_mm": 0.7913491990831163,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.362998962402344,
+            768.988037109375,
+            508.8890075683594,
+            779.20703125
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            768.9415893554688,
+            509.7289123535156,
+            779.4021606445312
+          ],
+          "max_edge_delta_mm": 0.29629974365234374,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            49.26499938964844,
+            750.9440307617188,
+            509.2080078125,
+            761.1740112304688
+          ],
+          "output_bbox_pt": [
+            49.22282409667969,
+            751.0083618164062,
+            508.42877197265625,
+            761.4031372070312
+          ],
+          "max_edge_delta_mm": 0.27489708794487844,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            50.606998443603516,
+            732.9660034179688,
+            509.2080078125,
+            743.20703125
+          ],
+          "output_bbox_pt": [
+            50.66485595703125,
+            732.95703125,
+            507.2882995605469,
+            743.4064331054688
+          ],
+          "max_edge_delta_mm": 0.6772304111056857,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            49.154998779296875,
+            715.0540161132812,
+            128.81700134277344,
+            725.1409912109375
+          ],
+          "output_bbox_pt": [
+            49.22282028198242,
+            715.2092895507812,
+            129.42958068847656,
+            725.1634521484375
+          ],
+          "max_edge_delta_mm": 0.21610438028971352,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            48.417999267578125,
+            696.9219970703125,
+            508.8890075683594,
+            707.20703125
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            696.9520263671875,
+            509.6769104003906,
+            707.41064453125
+          ],
+          "max_edge_delta_mm": 0.2779546101888021,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            49.26499938964844,
+            678.9769897460938,
+            509.25201416015625,
+            689.20703125
+          ],
+          "output_bbox_pt": [
+            49.22282028198242,
+            678.9544067382812,
+            509.6649169921875,
+            689.4137573242188
+          ],
+          "max_edge_delta_mm": 0.1456629435221354,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            49.38600158691406,
+            660.9660034179688,
+            491.8169860839844,
+            671.20703125
+          ],
+          "output_bbox_pt": [
+            49.463623046875,
+            660.9439697265625,
+            491.31658935546875,
+            671.4161987304688
+          ],
+          "max_edge_delta_mm": 0.17652884589301215,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.50600051879883,
+            642.9660034179688,
+            509.218994140625,
+            653.22900390625
+          ],
+          "output_bbox_pt": [
+            48.743289947509766,
+            643.0013427734375,
+            509.7813415527344,
+            653.4170532226562
+          ],
+          "max_edge_delta_mm": 0.1983836703830295,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            49.231998443603516,
+            624.9769897460938,
+            508.7019958496094,
+            635.1849975585938
+          ],
+          "output_bbox_pt": [
+            49.22418975830078,
+            625.0150146484375,
+            507.64691162109375,
+            635.4207763671875
+          ],
+          "max_edge_delta_mm": 0.3722102695041232,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            606.9219970703125,
+            348.8170166015625,
+            617.1409912109375
+          ],
+          "output_bbox_pt": [
+            48.50387191772461,
+            606.9828491210938,
+            351.0602111816406,
+            617.42236328125
+          ],
+          "max_edge_delta_mm": 0.7913491990831163,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            48.30799865722656,
+            588.9769897460938,
+            509.6700134277344,
+            599.1630249023438
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            589.0198364257812,
+            509.5144958496094,
+            599.4243774414062
+          ],
+          "max_edge_delta_mm": 0.0921993679470486,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            48.395999908447266,
+            570.9440307617188,
+            509.218994140625,
+            581.1740112304688
+          ],
+          "output_bbox_pt": [
+            48.50318145751953,
+            571.0317993164062,
+            511.45257568359375,
+            581.4265747070312
+          ],
+          "max_edge_delta_mm": 0.7879579332139757,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.46200180053711,
+            552.9550170898438,
+            414.8170166015625,
+            563.196044921875
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            552.969482421875,
+            415.725830078125,
+            563.4293823242188
+          ],
+          "max_edge_delta_mm": 0.3206091986762153,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            48.9900016784668,
+            534.988037109375,
+            509.614990234375,
+            545.20703125
+          ],
+          "output_bbox_pt": [
+            48.98271179199219,
+            535.015380859375,
+            509.3612365722656,
+            545.4321899414062
+          ],
+          "max_edge_delta_mm": 0.0895186530219184,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.94599914550781,
+            516.988037109375,
+            508.416015625,
+            527.22900390625
+          ],
+          "output_bbox_pt": [
+            48.9833984375,
+            516.9745483398438,
+            508.2474670410156,
+            527.4344482421875
+          ],
+          "max_edge_delta_mm": 0.07247619628906249,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 16,
+          "reference_bbox_pt": [
+            48.50600051879883,
+            498.9880065917969,
+            194.81700134277344,
+            509.1300048828125
+          ],
+          "output_bbox_pt": [
+            48.743289947509766,
+            499.03253173828125,
+            195.3672332763672,
+            509.4381103515625
+          ],
+          "max_edge_delta_mm": 0.1941095987955729,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.8892545064290365,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            768.9660034179688,
+            509.5050048828125,
+            779.1849975585938
+          ],
+          "output_bbox_pt": [
+            48.50385665893555,
+            768.9851684570312,
+            508.8602294921875,
+            779.4019775390625
+          ],
+          "max_edge_delta_mm": 0.2274624294704861,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            48.70399856567383,
+            750.9550170898438,
+            509.7250061035156,
+            761.20703125
+          ],
+          "output_bbox_pt": [
+            48.74363327026367,
+            750.8317260742188,
+            509.2922668457031,
+            761.4056396484375
+          ],
+          "max_edge_delta_mm": 0.1526607937282986,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            50.606998443603516,
+            732.9219970703125,
+            414.8170166015625,
+            743.1409912109375
+          ],
+          "output_bbox_pt": [
+            50.66487503051758,
+            732.9664306640625,
+            414.822021484375,
+            743.4059448242188
+          ],
+          "max_edge_delta_mm": 0.09346974690755208,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            48.46200180053711,
+            714.9660034179688,
+            509.60400390625,
+            725.1630249023438
+          ],
+          "output_bbox_pt": [
+            48.74397277832031,
+            715.02490234375,
+            509.45013427734375,
+            725.4074096679688
+          ],
+          "max_edge_delta_mm": 0.09947309494018554,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            48.220001220703125,
+            696.9550170898438,
+            509.60400390625,
+            707.20703125
+          ],
+          "output_bbox_pt": [
+            48.26237487792969,
+            696.9610595703125,
+            509.6918029785156,
+            707.4110107421875
+          ],
+          "max_edge_delta_mm": 0.07195943196614582,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            48.220001220703125,
+            678.988037109375,
+            381.8170166015625,
+            689.2510375976562
+          ],
+          "output_bbox_pt": [
+            48.26237487792969,
+            678.9636840820312,
+            384.3377380371094,
+            689.4124755859375
+          ],
+          "max_edge_delta_mm": 0.8892545064290365,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            48.46200180053711,
+            660.9660034179688,
+            508.9880065917969,
+            671.1740112304688
+          ],
+          "output_bbox_pt": [
+            48.503868103027344,
+            660.9647827148438,
+            509.5209655761719,
+            671.416015625
+          ],
+          "max_edge_delta_mm": 0.18801608615451387,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.46200180053711,
+            642.9769897460938,
+            509.46099853515625,
+            653.3720092773438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            642.7573852539062,
+            509.53582763671875,
+            653.4189453125
+          ],
+          "max_edge_delta_mm": 0.07747158474392361,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            48.56100082397461,
+            624.988037109375,
+            392.8170166015625,
+            635.20703125
+          ],
+          "output_bbox_pt": [
+            48.743289947509766,
+            624.9482421875,
+            394.794189453125,
+            635.4212036132812
+          ],
+          "max_edge_delta_mm": 0.6975026448567708,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.395999908447266,
+            606.9440307617188,
+            509.25201416015625,
+            617.20703125
+          ],
+          "output_bbox_pt": [
+            48.503177642822266,
+            606.994384765625,
+            509.60797119140625,
+            617.4222412109375
+          ],
+          "max_edge_delta_mm": 0.12557373046874998,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            48.395999908447266,
+            588.9219970703125,
+            508.2510070800781,
+            599.1849975585938
+          ],
+          "output_bbox_pt": [
+            48.50318145751953,
+            588.9765014648438,
+            510.04034423828125,
+            599.42529296875
+          ],
+          "max_edge_delta_mm": 0.6312383863661024,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            48.59400177001953,
+            570.9769897460938,
+            436.8169860839844,
+            581.20703125
+          ],
+          "output_bbox_pt": [
+            48.743629455566406,
+            570.9232788085938,
+            437.1878967285156,
+            581.4285278320312
+          ],
+          "max_edge_delta_mm": 0.13084903293185762,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.319000244140625,
+            552.9660034179688,
+            509.614990234375,
+            563.1520385742188
+          ],
+          "output_bbox_pt": [
+            48.50352096557617,
+            553.0462036132812,
+            510.1465759277344,
+            563.4298095703125
+          ],
+          "max_edge_delta_mm": 0.1875316196017795,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            49.308998107910156,
+            534.9550170898438,
+            509.45001220703125,
+            545.20703125
+          ],
+          "output_bbox_pt": [
+            49.22385787963867,
+            534.9388427734375,
+            509.188720703125,
+            545.4327392578125
+          ],
+          "max_edge_delta_mm": 0.09217783610026041,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.417999267578125,
+            516.988037109375,
+            293.8170166015625,
+            527.1409912109375
+          ],
+          "output_bbox_pt": [
+            48.50283432006836,
+            517.007568359375,
+            296.0221252441406,
+            527.4348754882812
+          ],
+          "max_edge_delta_mm": 0.7779133266872829,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.79309327867296,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.56100082397461,
+            768.9660034179688,
+            509.614990234375,
+            779.1849975585938
+          ],
+          "output_bbox_pt": [
+            48.503177642822266,
+            768.9971923828125,
+            509.3059997558594,
+            779.4017944335938
+          ],
+          "max_edge_delta_mm": 0.10900497436523438,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            49.36399841308594,
+            750.8890380859375,
+            508.9880065917969,
+            761.22900390625
+          ],
+          "output_bbox_pt": [
+            49.463966369628906,
+            750.94287109375,
+            508.6164245605469,
+            761.4025268554688
+          ],
+          "max_edge_delta_mm": 0.13108588324652776,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            48.417999267578125,
+            732.9330444335938,
+            447.8170166015625,
+            743.20703125
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            732.9342651367188,
+            449.93292236328125,
+            743.4063110351562
+          ],
+          "max_edge_delta_mm": 0.7464445326063367,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            48.374000549316406,
+            714.9550170898438,
+            509.45001220703125,
+            725.20703125
+          ],
+          "output_bbox_pt": [
+            48.503517150878906,
+            714.9482421875,
+            510.12261962890625,
+            725.4087524414062
+          ],
+          "max_edge_delta_mm": 0.2372809516059028,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            48.23099899291992,
+            696.9660034179688,
+            509.1199951171875,
+            707.20703125
+          ],
+          "output_bbox_pt": [
+            48.26306915283203,
+            696.9166259765625,
+            510.15191650390625,
+            707.4118041992188
+          ],
+          "max_edge_delta_mm": 0.36403893364800344,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            49.04499816894531,
+            678.9660034179688,
+            425.8170166015625,
+            689.2510375976562
+          ],
+          "output_bbox_pt": [
+            49.22282409667969,
+            678.9415893554688,
+            425.75640869140625,
+            689.4124755859375
+          ],
+          "max_edge_delta_mm": 0.06273303561740451,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            48.439998626708984,
+            660.9550170898438,
+            502.7510070800781,
+            671.1520385742188
+          ],
+          "output_bbox_pt": [
+            48.50248718261719,
+            660.9796752929688,
+            503.38861083984375,
+            671.416259765625
+          ],
+          "max_edge_delta_mm": 0.22493243747287325,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.417999267578125,
+            642.9769897460938,
+            509.3949890136719,
+            653.20703125
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            643.002197265625,
+            509.2537841796875,
+            653.4178466796875
+          ],
+          "max_edge_delta_mm": 0.0743709988064236,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            48.96799850463867,
+            624.9660034179688,
+            359.8170166015625,
+            635.20703125
+          ],
+          "output_bbox_pt": [
+            48.9830436706543,
+            625.0140991210938,
+            361.43505859375,
+            635.419921875
+          ],
+          "max_edge_delta_mm": 0.5708092583550347,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.220001220703125,
+            606.9769897460938,
+            509.0429992675781,
+            617.22900390625
+          ],
+          "output_bbox_pt": [
+            48.26237869262695,
+            607.029052734375,
+            509.8636169433594,
+            617.4215698242188
+          ],
+          "max_edge_delta_mm": 0.28949568006727433,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            49.055999755859375,
+            588.988037109375,
+            508.37200927734375,
+            599.20703125
+          ],
+          "output_bbox_pt": [
+            48.983402252197266,
+            589.00830078125,
+            509.1976623535156,
+            599.4251098632812
+          ],
+          "max_edge_delta_mm": 0.29127205742730033,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            48.494998931884766,
+            570.9660034179688,
+            381.8170166015625,
+            581.20703125
+          ],
+          "output_bbox_pt": [
+            48.50248718261719,
+            570.9557495117188,
+            384.0651550292969,
+            581.427978515625
+          ],
+          "max_edge_delta_mm": 0.79309327867296,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.54999923706055,
+            552.9330444335938,
+            509.6919860839844,
+            563.1520385742188
+          ],
+          "output_bbox_pt": [
+            48.74259948730469,
+            553.002685546875,
+            509.3041076660156,
+            563.429931640625
+          ],
+          "max_edge_delta_mm": 0.1368348863389757,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            48.96799850463867,
+            534.9330444335938,
+            509.1969909667969,
+            545.1740112304688
+          ],
+          "output_bbox_pt": [
+            48.983055114746094,
+            534.9826049804688,
+            508.6707763671875,
+            545.4320068359375
+          ],
+          "max_edge_delta_mm": 0.18563681708441837,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.957000732421875,
+            516.9660034179688,
+            315.8170166015625,
+            527.1740112304688
+          ],
+          "output_bbox_pt": [
+            48.984100341796875,
+            516.9973754882812,
+            317.5633239746094,
+            527.4345703125
+          ],
+          "max_edge_delta_mm": 0.6160584343804253,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.8447051154242621,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.33000183105469,
+            768.9330444335938,
+            509.45001220703125,
+            779.1520385742188
+          ],
+          "output_bbox_pt": [
+            48.50249099731445,
+            768.9744873046875,
+            510.26885986328125,
+            779.4017333984375
+          ],
+          "max_edge_delta_mm": 0.2888712565104166,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            48.362998962402344,
+            750.9550170898438,
+            502.7510070800781,
+            761.20703125
+          ],
+          "output_bbox_pt": [
+            48.50283432006836,
+            750.9088745117188,
+            504.7194519042969,
+            761.404541015625
+          ],
+          "max_edge_delta_mm": 0.694423590766059,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            48.395999908447266,
+            732.988037109375,
+            304.8170166015625,
+            743.1849975585938
+          ],
+          "output_bbox_pt": [
+            48.5031852722168,
+            733.056396484375,
+            307.0909729003906,
+            743.406005859375
+          ],
+          "max_edge_delta_mm": 0.8022012498643663,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            48.58300018310547,
+            714.9330444335938,
+            508.8890075683594,
+            725.20703125
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            714.9710083007812,
+            509.50811767578125,
+            725.4081420898438
+          ],
+          "max_edge_delta_mm": 0.21840828789605035,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            49.0890007019043,
+            696.9219970703125,
+            509.4830017089844,
+            707.2510375976562
+          ],
+          "output_bbox_pt": [
+            48.98374557495117,
+            696.9072265625,
+            508.6901550292969,
+            707.4099731445312
+          ],
+          "max_edge_delta_mm": 0.2796986897786458,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            678.9660034179688,
+            381.8170166015625,
+            689.1520385742188
+          ],
+          "output_bbox_pt": [
+            48.50387954711914,
+            678.9970703125,
+            384.2114562988281,
+            689.413818359375
+          ],
+          "max_edge_delta_mm": 0.8447051154242621,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            48.3849983215332,
+            660.9769897460938,
+            509.55999755859375,
+            671.2620239257812
+          ],
+          "output_bbox_pt": [
+            48.50248718261719,
+            660.9773559570312,
+            509.26116943359375,
+            671.4151000976562
+          ],
+          "max_edge_delta_mm": 0.10541992187499999,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            49.26499938964844,
+            642.9550170898438,
+            508.9880065917969,
+            653.1849975585938
+          ],
+          "output_bbox_pt": [
+            49.22282409667969,
+            642.947265625,
+            508.71380615234375,
+            653.4189453125
+          ],
+          "max_edge_delta_mm": 0.09673182169596355,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            48.17599868774414,
+            624.9219970703125,
+            458.8170166015625,
+            635.2510375976562
+          ],
+          "output_bbox_pt": [
+            48.26306915283203,
+            624.9044799804688,
+            460.9796142578125,
+            635.4195556640625
+          ],
+          "max_edge_delta_mm": 0.7629163953993054,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.319000244140625,
+            606.9219970703125,
+            509.7139892578125,
+            617.20703125
+          ],
+          "output_bbox_pt": [
+            48.503517150878906,
+            606.9396362304688,
+            509.8326110839844,
+            617.4227905273438
+          ],
+          "max_edge_delta_mm": 0.07611507839626735,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            49.19900131225586,
+            588.9440307617188,
+            508.7019958496094,
+            599.1520385742188
+          ],
+          "output_bbox_pt": [
+            49.22385787963867,
+            588.964111328125,
+            508.3471374511719,
+            599.4259033203125
+          ],
+          "max_edge_delta_mm": 0.1251861572265625,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            49.12200164794922,
+            570.9440307617188,
+            403.8170166015625,
+            581.20703125
+          ],
+          "output_bbox_pt": [
+            49.22419357299805,
+            571.0009155273438,
+            403.3610534667969,
+            581.427001953125
+          ],
+          "max_edge_delta_mm": 0.16085366143120658,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.33000183105469,
+            552.9660034179688,
+            509.57098388671875,
+            563.1409912109375
+          ],
+          "output_bbox_pt": [
+            48.50248718261719,
+            553.0014038085938,
+            509.503173828125,
+            563.4298706054688
+          ],
+          "max_edge_delta_mm": 0.1019102308485243,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            48.40700149536133,
+            534.9660034179688,
+            509.6700134277344,
+            545.1849975585938
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            534.9829711914062,
+            509.3615417480469,
+            545.4329833984375
+          ],
+          "max_edge_delta_mm": 0.10882195366753472,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.96799850463867,
+            516.988037109375,
+            447.8170166015625,
+            527.1520385742188
+          ],
+          "output_bbox_pt": [
+            48.983055114746094,
+            517.0403442382812,
+            449.37481689453125,
+            527.4349365234375
+          ],
+          "max_edge_delta_mm": 0.5495573255750867,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.14225014580620657,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.340999603271484,
+            767.1510009765625,
+            472.1929931640625,
+            778.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.263065338134766,
+            767.3464965820312,
+            471.7897644042969,
+            778.9072265625
+          ],
+          "max_edge_delta_mm": 0.14225014580620657,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            48.58300018310547,
+            749.3820190429688,
+            460.9839172363281,
+            760.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50283432006836,
+            749.3495483398438,
+            460.7739562988281,
+            760.912109375
+          ],
+          "max_edge_delta_mm": 0.0740695529513889,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            48.297000885009766,
+            731.1510009765625,
+            466.7478942871094,
+            742.64599609375
+          ],
+          "output_bbox_pt": [
+            48.26375961303711,
+            731.3522338867188,
+            466.4485778808594,
+            742.9131469726562
+          ],
+          "max_edge_delta_mm": 0.10559217664930555,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            713.1510009765625,
+            465.7248840332031,
+            724.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.98408508300781,
+            713.3535766601562,
+            465.5503845214844,
+            724.914306640625
+          ],
+          "max_edge_delta_mm": 0.07146419949001735,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            695.1510009765625,
+            138.4199981689453,
+            706.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            695.35595703125,
+            138.2112579345703,
+            706.9166870117188
+          ],
+          "max_edge_delta_mm": 0.073638916015625,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            49.111000061035156,
+            677.1510009765625,
+            452.6239013671875,
+            688.64599609375
+          ],
+          "output_bbox_pt": [
+            49.2235107421875,
+            677.3593139648438,
+            452.2712707519531,
+            688.9202270507812
+          ],
+          "max_edge_delta_mm": 0.1244002448187934,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            659.3820190429688,
+            464.8009033203125,
+            670.64599609375
+          ],
+          "output_bbox_pt": [
+            48.50387191772461,
+            659.3624877929688,
+            464.611572265625,
+            670.9252319335938
+          ],
+          "max_edge_delta_mm": 0.09850819905598958,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.56100082397461,
+            641.1510009765625,
+            462.8209228515625,
+            652.64599609375
+          ],
+          "output_bbox_pt": [
+            48.503177642822266,
+            641.364013671875,
+            462.5935363769531,
+            652.9249267578125
+          ],
+          "max_edge_delta_mm": 0.0984005398220486,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            48.64899826049805,
+            623.1510009765625,
+            479.29888916015625,
+            634.64599609375
+          ],
+          "output_bbox_pt": [
+            48.74363708496094,
+            623.3663940429688,
+            479.0062255859375,
+            634.9273071289062
+          ],
+          "max_edge_delta_mm": 0.10324520534939235,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.297000885009766,
+            605.3270263671875,
+            120.84200286865234,
+            616.64599609375
+          ],
+          "output_bbox_pt": [
+            48.26375198364258,
+            605.3258056640625,
+            120.69857025146484,
+            616.93212890625
+          ],
+          "max_edge_delta_mm": 0.10094129774305555,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            48.04399871826172,
+            587.3820190429688,
+            460.2579345703125,
+            598.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.02329635620117,
+            587.3707275390625,
+            459.97430419921875,
+            598.9332885742188
+          ],
+          "max_edge_delta_mm": 0.10005849202473957,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            48.64899826049805,
+            569.1510009765625,
+            461.8088073730469,
+            580.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.74363708496094,
+            569.3723754882812,
+            461.4808349609375,
+            580.93310546875
+          ],
+          "max_edge_delta_mm": 0.11570137871636284,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            551.3270263671875,
+            446.4418640136719,
+            562.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386047363281,
+            551.3323364257812,
+            446.31787109375,
+            562.9378662109375
+          ],
+          "max_edge_delta_mm": 0.05357258054945204,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            533.3820190429688,
+            455.4289245605469,
+            544.64599609375
+          ],
+          "output_bbox_pt": [
+            48.98408508300781,
+            533.3789672851562,
+            455.1590881347656,
+            544.9417114257812
+          ],
+          "max_edge_delta_mm": 0.10432179768880208,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.858001708984375,
+            515.3270263671875,
+            237.4090118408203,
+            526.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.98305130004883,
+            515.3370361328125,
+            237.17507934570312,
+            526.9425659179688
+          ],
+          "max_edge_delta_mm": 0.08252618577745224,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.15326368543836805,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.340999603271484,
+            767.1510009765625,
+            463.2828674316406,
+            778.64599609375
+          ],
+          "output_bbox_pt": [
+            48.2630615234375,
+            767.3475341796875,
+            463.1488952636719,
+            778.908447265625
+          ],
+          "max_edge_delta_mm": 0.0925869411892361,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            749.239013671875,
+            422.98992919921875,
+            760.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            749.326171875,
+            422.9695739746094,
+            760.9108276367188
+          ],
+          "max_edge_delta_mm": 0.04297756618923611,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            731.239013671875,
+            469.7068176269531,
+            742.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            731.3285522460938,
+            469.3476867675781,
+            742.9132080078125
+          ],
+          "max_edge_delta_mm": 0.12669338650173612,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            713.1510009765625,
+            490.58489990234375,
+            724.64599609375
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            713.3546142578125,
+            490.23968505859375,
+            724.91552734375
+          ],
+          "max_edge_delta_mm": 0.12178412543402778,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            697.7579956054688,
+            142.36900329589844,
+            706.64599609375
+          ],
+          "output_bbox_pt": [
+            48.50387191772461,
+            697.7488403320312,
+            142.11648559570312,
+            706.9207153320312
+          ],
+          "max_edge_delta_mm": 0.09691484239366319,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            49.111000061035156,
+            677.1510009765625,
+            435.44195556640625,
+            688.7890014648438
+          ],
+          "output_bbox_pt": [
+            49.2235107421875,
+            677.3582763671875,
+            435.4747314453125,
+            688.9190063476562
+          ],
+          "max_edge_delta_mm": 0.07312215169270833,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            659.1510009765625,
+            442.45989990234375,
+            670.64599609375
+          ],
+          "output_bbox_pt": [
+            48.98408508300781,
+            659.3616943359375,
+            442.2467956542969,
+            670.922607421875
+          ],
+          "max_edge_delta_mm": 0.09758232964409722,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.858001708984375,
+            641.1510009765625,
+            449.67596435546875,
+            652.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.98305892944336,
+            641.3629760742188,
+            449.4808044433594,
+            652.9237060546875
+          ],
+          "max_edge_delta_mm": 0.0747801038953993,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            623.1510009765625,
+            443.32891845703125,
+            634.64599609375
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            623.3663940429688,
+            442.9809265136719,
+            634.9273071289062
+          ],
+          "max_edge_delta_mm": 0.12276382446289064,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            605.1510009765625,
+            189.8889923095703,
+            616.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.98408508300781,
+            605.36767578125,
+            189.64495849609375,
+            616.9284057617188
+          ],
+          "max_edge_delta_mm": 0.08608970642089843,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            48.04399871826172,
+            587.1510009765625,
+            455.9349060058594,
+            598.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.02329635620117,
+            587.3700561523438,
+            455.69586181640625,
+            598.9307861328125
+          ],
+          "max_edge_delta_mm": 0.08432947794596353,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            48.64899826049805,
+            569.1510009765625,
+            450.5668640136719,
+            580.64599609375
+          ],
+          "output_bbox_pt": [
+            48.74363327026367,
+            569.3734130859375,
+            450.1324157714844,
+            580.934326171875
+          ],
+          "max_edge_delta_mm": 0.15326368543836805,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            551.1510009765625,
+            447.222900390625,
+            562.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            551.374755859375,
+            446.8423767089844,
+            562.9354858398438
+          ],
+          "max_edge_delta_mm": 0.13424029880099825,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            533.1510009765625,
+            437.2899475097656,
+            544.64599609375
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            533.3781127929688,
+            436.9291687011719,
+            544.9390258789062
+          ],
+          "max_edge_delta_mm": 0.12727474636501734,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            515.3820190429688,
+            339.6100158691406,
+            526.64599609375
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            515.3812866210938,
+            339.47430419921875,
+            526.9440307617188
+          ],
+          "max_edge_delta_mm": 0.10514000786675347,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.14290686713324652,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.340999603271484,
+            767.1510009765625,
+            465.40594482421875,
+            778.64599609375
+          ],
+          "output_bbox_pt": [
+            48.26306915283203,
+            767.3475341796875,
+            465.2846374511719,
+            778.908447265625
+          ],
+          "max_edge_delta_mm": 0.0925869411892361,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            749.1510009765625,
+            427.6868896484375,
+            760.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            749.348876953125,
+            427.5812072753906,
+            760.9096069335938
+          ],
+          "max_edge_delta_mm": 0.06980624728732637,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            731.3270263671875,
+            466.4729309082031,
+            742.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.503875732421875,
+            731.308837890625,
+            466.19097900390625,
+            742.9143676757812
+          ],
+          "max_edge_delta_mm": 0.09946636623806422,
+          "text_edit_distance": 1
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            713.3820190429688,
+            480.8498229980469,
+            724.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            713.354248046875,
+            480.6272277832031,
+            724.9168090820312
+          ],
+          "max_edge_delta_mm": 0.07852664523654512,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            48.92399978637695,
+            695.3820190429688,
+            114.05500030517578,
+            706.64599609375
+          ],
+          "output_bbox_pt": [
+            48.983734130859375,
+            695.3577880859375,
+            113.72733306884766,
+            706.9205322265625
+          ],
+          "max_edge_delta_mm": 0.11559371948242186,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            48.52799987792969,
+            677.1510009765625,
+            478.6168518066406,
+            688.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50283432006836,
+            677.3582763671875,
+            478.2117614746094,
+            688.9190063476562
+          ],
+          "max_edge_delta_mm": 0.14290686713324652,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            48.297000885009766,
+            659.1510009765625,
+            475.5259094238281,
+            670.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.263763427734375,
+            659.3606567382812,
+            475.3139953613281,
+            670.92138671875
+          ],
+          "max_edge_delta_mm": 0.0747585720486111,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            641.1510009765625,
+            445.0007629394531,
+            652.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386047363281,
+            641.3629760742188,
+            444.6359558105469,
+            652.9237060546875
+          ],
+          "max_edge_delta_mm": 0.12869584825303818,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            623.3270263671875,
+            476.31793212890625,
+            634.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            623.3229370117188,
+            476.1134948730469,
+            634.928466796875
+          ],
+          "max_edge_delta_mm": 0.07212092081705729,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.297000885009766,
+            605.1510009765625,
+            339.68701171875,
+            616.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.26374816894531,
+            605.36767578125,
+            339.5054016113281,
+            616.9284057617188
+          ],
+          "max_edge_delta_mm": 0.07643805609809028,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            49.111000061035156,
+            587.3270263671875,
+            457.74993896484375,
+            598.7890014648438
+          ],
+          "output_bbox_pt": [
+            49.223514556884766,
+            587.32763671875,
+            457.6283874511719,
+            598.9331665039062
+          ],
+          "max_edge_delta_mm": 0.050858222113715275,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            569.1510009765625,
+            423.36395263671875,
+            580.64599609375
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            569.3734130859375,
+            423.5191345214844,
+            580.934326171875
+          ],
+          "max_edge_delta_mm": 0.10171644422743055,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.92399978637695,
+            551.1510009765625,
+            443.7469177246094,
+            562.64599609375
+          ],
+          "output_bbox_pt": [
+            48.98374557495117,
+            551.3757934570312,
+            443.42010498046875,
+            562.9367065429688
+          ],
+          "max_edge_delta_mm": 0.11529227362738714,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            49.111000061035156,
+            533.1510009765625,
+            440.80987548828125,
+            544.64599609375
+          ],
+          "output_bbox_pt": [
+            49.223506927490234,
+            533.3781127929688,
+            440.5316467285156,
+            544.9390258789062
+          ],
+          "max_edge_delta_mm": 0.10337439643012153,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            515.3820190429688,
+            384.5669250488281,
+            526.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.503868103027344,
+            515.380126953125,
+            384.392333984375,
+            526.9426879882812
+          ],
+          "max_edge_delta_mm": 0.061591847737630205,
+          "text_edit_distance": 0
+        }
+      ]
+    },
+    {
+      "page": 8,
+      "reference_lines": 15,
+      "output_lines": 15,
+      "max_mm": 0.14912957085503473,
+      "status": "PASS",
+      "lines": [
+        {
+          "line": 1,
+          "reference_bbox_pt": [
+            48.340999603271484,
+            767.1510009765625,
+            451.930908203125,
+            778.64599609375
+          ],
+          "output_bbox_pt": [
+            48.263065338134766,
+            767.3475341796875,
+            451.5730895996094,
+            778.908447265625
+          ],
+          "max_edge_delta_mm": 0.12623045179578993,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 2,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            749.1510009765625,
+            471.1918640136719,
+            760.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            749.348876953125,
+            470.7891845703125,
+            760.9096069335938
+          ],
+          "max_edge_delta_mm": 0.14205635918511283,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 3,
+          "reference_bbox_pt": [
+            48.52799987792969,
+            731.1510009765625,
+            444.9349670410156,
+            742.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.502830505371094,
+            731.3511962890625,
+            444.68408203125,
+            742.9119262695312
+          ],
+          "max_edge_delta_mm": 0.08850665622287326,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 4,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            713.1510009765625,
+            436.794921875,
+            724.64599609375
+          ],
+          "output_bbox_pt": [
+            48.98408889770508,
+            713.3546142578125,
+            436.93707275390625,
+            724.91552734375
+          ],
+          "max_edge_delta_mm": 0.09508463541666666,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 5,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            695.3820190429688,
+            142.75399780273438,
+            706.64599609375
+          ],
+          "output_bbox_pt": [
+            48.98408508300781,
+            695.3577880859375,
+            142.538330078125,
+            706.9205322265625
+          ],
+          "max_edge_delta_mm": 0.09685024685329861,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 6,
+          "reference_bbox_pt": [
+            49.111000061035156,
+            677.1510009765625,
+            425.8829345703125,
+            688.7890014648438
+          ],
+          "output_bbox_pt": [
+            49.2235107421875,
+            677.3582763671875,
+            425.90185546875,
+            688.9190063476562
+          ],
+          "max_edge_delta_mm": 0.07312215169270833,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 7,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            659.1510009765625,
+            479.6289367675781,
+            670.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            659.3606567382812,
+            479.3923645019531,
+            670.92138671875
+          ],
+          "max_edge_delta_mm": 0.08345743815104166,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 8,
+          "reference_bbox_pt": [
+            48.362998962402344,
+            641.1510009765625,
+            476.1308898925781,
+            652.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.262718200683594,
+            641.3629760742188,
+            475.8173828125,
+            652.9237060546875
+          ],
+          "max_edge_delta_mm": 0.11059833102756075,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 9,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            623.1510009765625,
+            446.1888732910156,
+            634.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.503868103027344,
+            623.3653564453125,
+            446.1154479980469,
+            634.9260864257812
+          ],
+          "max_edge_delta_mm": 0.07561984592013887,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 10,
+          "reference_bbox_pt": [
+            48.297000885009766,
+            605.1510009765625,
+            276.1510009765625,
+            616.64599609375
+          ],
+          "output_bbox_pt": [
+            48.26375961303711,
+            605.3687133789062,
+            276.06597900390625,
+            616.9296264648438
+          ],
+          "max_edge_delta_mm": 0.10005849202473957,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 11,
+          "reference_bbox_pt": [
+            49.111000061035156,
+            587.1510009765625,
+            482.3240051269531,
+            598.7890014648438
+          ],
+          "output_bbox_pt": [
+            49.2235107421875,
+            587.3700561523438,
+            482.1180114746094,
+            598.9307861328125
+          ],
+          "max_edge_delta_mm": 0.07727779812282985,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 12,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            569.3820190429688,
+            441.9319152832031,
+            580.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.98408889770508,
+            569.3731079101562,
+            441.5091857910156,
+            580.9356689453125
+          ],
+          "max_edge_delta_mm": 0.14912957085503473,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 13,
+          "reference_bbox_pt": [
+            48.35200119018555,
+            551.3820190429688,
+            458.82794189453125,
+            562.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50387191772461,
+            551.3754272460938,
+            458.8378601074219,
+            562.93798828125
+          ],
+          "max_edge_delta_mm": 0.053576617770724824,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 14,
+          "reference_bbox_pt": [
+            48.571998596191406,
+            533.1510009765625,
+            434.2538757324219,
+            544.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.50386428833008,
+            533.3770751953125,
+            434.119873046875,
+            544.9378051757812
+          ],
+          "max_edge_delta_mm": 0.07975396050347222,
+          "text_edit_distance": 0
+        },
+        {
+          "line": 15,
+          "reference_bbox_pt": [
+            49.012001037597656,
+            515.1510009765625,
+            427.32391357421875,
+            526.7890014648438
+          ],
+          "output_bbox_pt": [
+            48.984092712402344,
+            515.3794555664062,
+            427.3687438964844,
+            526.940185546875
+          ],
+          "max_edge_delta_mm": 0.0805937025282118,
+          "text_edit_distance": 0
+        }
+      ]
+    }
+  ],
+  "app_OCR_copy": [
+    {
+      "page": 1,
+      "language": "jpn",
+      "split": "tune",
+      "CER": 0.008305647840531562
+    },
+    {
+      "page": 2,
+      "language": "jpn",
+      "split": "tune",
+      "CER": 0.005084745762711864
+    },
+    {
+      "page": 3,
+      "language": "jpn",
+      "split": "evaluation",
+      "CER": 0.005076142131979695
+    },
+    {
+      "page": 4,
+      "language": "jpn",
+      "split": "evaluation",
+      "CER": 0.005025125628140704
+    },
+    {
+      "page": 5,
+      "language": "eng",
+      "split": "tune",
+      "CER": 0.005714285714285714
+    },
+    {
+      "page": 6,
+      "language": "eng",
+      "split": "tune",
+      "CER": 0.005676442762535478
+    },
+    {
+      "page": 7,
+      "language": "eng",
+      "split": "evaluation",
+      "CER": 0.008204193254329991
+    },
+    {
+      "page": 8,
+      "language": "eng",
+      "split": "evaluation",
+      "CER": 0.007279344858962694
+    }
+  ],
+  "OCR_visible_preservation": [
+    {
+      "page": 1,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 2,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 3,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 4,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 5,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 6,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 7,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "page": 8,
+      "changed_bbox": null,
+      "status": "PASS"
+    }
+  ],
+  "mixed_visible_preservation": [
+    {
+      "input": "D04.pdf",
+      "page": 1,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "input": "D04.pdf",
+      "page": 2,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "input": "D04.pdf",
+      "page": 3,
+      "changed_bbox": null,
+      "status": "PASS"
+    },
+    {
+      "input": "D05-before.pdf",
+      "page": 1,
+      "changed_bbox": null,
+      "status": "PASS"
+    }
+  ],
+  "rotated_OCR_alignment": {
+    "rotation": 90,
+    "reference_lines": 16,
+    "output_lines": 16,
+    "lines": [
+      {
+        "line": 1,
+        "max_edge_delta_mm": 0.29629974365234374
+      },
+      {
+        "line": 2,
+        "max_edge_delta_mm": 0.27489708794487844
+      },
+      {
+        "line": 3,
+        "max_edge_delta_mm": 0.6772304111056857
+      },
+      {
+        "line": 4,
+        "max_edge_delta_mm": 0.21610438028971352
+      },
+      {
+        "line": 5,
+        "max_edge_delta_mm": 0.2779546101888021
+      },
+      {
+        "line": 6,
+        "max_edge_delta_mm": 0.1456629435221354
+      },
+      {
+        "line": 7,
+        "max_edge_delta_mm": 0.17652884589301215
+      },
+      {
+        "line": 8,
+        "max_edge_delta_mm": 0.1983836703830295
+      },
+      {
+        "line": 9,
+        "max_edge_delta_mm": 0.3722102695041232
+      },
+      {
+        "line": 10,
+        "max_edge_delta_mm": 0.7913491990831163
+      },
+      {
+        "line": 11,
+        "max_edge_delta_mm": 0.0921993679470486
+      },
+      {
+        "line": 12,
+        "max_edge_delta_mm": 0.7879579332139757
+      },
+      {
+        "line": 13,
+        "max_edge_delta_mm": 0.3206091986762153
+      },
+      {
+        "line": 14,
+        "max_edge_delta_mm": 0.0895186530219184
+      },
+      {
+        "line": 15,
+        "max_edge_delta_mm": 0.07247619628906249
+      },
+      {
+        "line": 16,
+        "max_edge_delta_mm": 0.1941095987955729
+      }
+    ],
+    "max_mm": 0.7913491990831163,
+    "coordinates": "PDFium text boxes in unrotated PDF page coordinates"
+  },
+  "signature": {
+    "annotations": [
+      {
+        "subtype": "/Stamp",
+        "contents": "山田 太郎\n髙橋\n2026年10月4日",
+        "appearance": true,
+        "print_flag": true,
+        "embedded_edit_metadata": true
+      }
+    ],
+    "engines_rendered": [
+      "PDFium",
+      "Poppler"
+    ],
+    "printing": "未実行"
+  },
+  "form_preservation": {
+    "before_values": {
+      "name": "山田 太郎",
+      "notes": "Line one\nLine two",
+      "agree": "/Yes",
+      "choice": "/A",
+      "combo": "Blue",
+      "list": "South"
+    },
+    "after_values": {
+      "name": "山田 太郎",
+      "notes": "Line one\nLine two",
+      "agree": "/Yes",
+      "choice": "/A",
+      "combo": "Blue",
+      "list": "South"
+    },
+    "values_equal": true,
+    "before_annotations": [
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Text",
+      "/Link"
+    ],
+    "after_annotations": [
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Widget",
+      "/Text",
+      "/Link",
+      "/Stamp"
+    ],
+    "outline_before": "[{'/Title': 'First page', '/Page': IndirectObject(13, 0, 1610211744304), '/Type': '/Fit', '/%is_open%': True}]",
+    "outline_after": "[{'/Title': 'First page', '/Page': IndirectObject(13, 0, 1608627121536), '/Type': '/Fit', '/%is_open%': True}]",
+    "outline_equal": true,
+    "links_equal": true,
+    "comments_equal": true
+  }
+}
