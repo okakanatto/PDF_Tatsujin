@@ -16,6 +16,7 @@ Canvas::Canvas(Document* d, QWidget* p) : QGraphicsView(p), document(d)
 void Canvas::refresh()
 {
     const int vertical = verticalScrollBar()->value();
+    searchHighlights.clear();
     scene.clear();
     outline = nullptr;
     copied.clear();
@@ -40,6 +41,7 @@ void Canvas::refresh()
         item->setZValue(2);
     }
     verticalScrollBar()->setValue(vertical);
+    highlight(searchTerm);
 }
 void Canvas::setZoom(double z)
 {
@@ -51,7 +53,10 @@ void Canvas::setZoom(double z)
 }
 void Canvas::highlight(const QString& term)
 {
-    if (!document->loaded() || term.isEmpty())
+    qDeleteAll(searchHighlights);
+    searchHighlights.clear();
+    searchTerm = term;
+    if (!document->loaded() || searchTerm.isEmpty())
         return;
     auto layout = textLayout(document->pdf(), page);
     auto matrix = pageMatrix(document->pdf().getCatalog()->getPage(page));
@@ -63,8 +68,12 @@ void Canvas::highlight(const QString& term)
         while ((from = text.indexOf(term, from, Qt::CaseInsensitive)) >= 0)
         {
             for (int i = from; i < from + term.size() && i < int(boxes.size()); ++i)
-                scene.addRect(matrix.mapRect(boxes[i]), Qt::NoPen, QColor(255, 195, 0, 90))
-                    ->setZValue(1);
+            {
+                auto item =
+                    scene.addRect(matrix.mapRect(boxes[i]), Qt::NoPen, QColor(255, 195, 0, 90));
+                item->setZValue(1);
+                searchHighlights.append(item);
+            }
             from += term.size();
         }
     }

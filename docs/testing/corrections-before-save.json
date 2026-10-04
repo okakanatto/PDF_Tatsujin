@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 82,
+            "error": "case variant preserves externally changed source",
+            "name": "A10_save_conflict_path_case",
+            "status": "FAIL"
+        }
+    ]
+}

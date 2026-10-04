@@ -9,6 +9,20 @@ void fail(const QString& text)
 {
     throw std::runtime_error(text.toUtf8().constData());
 }
+bool sameFilePath(const QString& left, const QString& right)
+{
+    if (left.isEmpty() || right.isEmpty())
+        return false;
+    auto normalized = [](const QString& path)
+    {
+        const QFileInfo info(path);
+        const auto canonical = info.canonicalFilePath();
+        return canonical.isEmpty() ? QDir::cleanPath(info.absoluteFilePath()) : canonical;
+    };
+    // Windows paths may address the same file with different case or through
+    // directory aliases. Keep the original conflict baseline in either case.
+    return normalized(left).compare(normalized(right), Qt::CaseInsensitive) == 0;
+}
 QByteArray fileHash(const QString& path)
 {
     QFile f(path);

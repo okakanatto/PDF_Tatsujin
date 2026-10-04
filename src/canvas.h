@@ -30,6 +30,8 @@ protected:
 
 private:
     QGraphicsScene scene;
+    QString searchTerm;
+    QVector<QGraphicsRectItem*> searchHighlights;
     QVector<Signature> items;
     QPointF start, last;
     bool dragging = false, selecting = false;

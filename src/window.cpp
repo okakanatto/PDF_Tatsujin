@@ -172,8 +172,6 @@ Window::Window()
                         canvas->page = row;
                         canvas->selected = -1;
                         canvas->refresh();
-                        if (!query->text().isEmpty())
-                            canvas->highlight(query->text());
                         status->setText(QString("%1 / %2 ページ").arg(row + 1).arg(doc.pages()));
                     });
             });
@@ -186,7 +184,10 @@ Window::Window()
                     return;
                 auto term = query->text();
                 if (term.isEmpty())
+                {
+                    canvas->highlight({});
                     return;
+                }
                 QStringList found;
                 int first = -1;
                 for (int i = 0; i < doc.pages(); ++i)
@@ -205,8 +206,8 @@ Window::Window()
                 {
                     pages->setCurrentRow(first);
                     canvas->refresh();
-                    canvas->highlight(term);
                 }
+                canvas->highlight(term);
                 status->setText(found.isEmpty()
                                     ? "一致する文字はありません"
                                     : QString("一致したページ: %1").arg(found.join(", ")));
@@ -426,6 +427,14 @@ Window::Window()
         QLabel#welcomeText { font-size: 15px; color: #56657a; margin-top: 14px; }
         QLabel#dropHint { color: #68778c; font-size: 12px; }
     )");
+    connect(query, &QLineEdit::textChanged, this,
+            [this]
+            {
+                canvas->highlight({});
+                for (int i = 0; i < pages->count(); ++i)
+                    pages->item(i)->setText(QString("%1 ページ").arg(i + 1));
+                refreshStatus();
+            });
     refresh();
 }
 void Window::showPanel(int index)
@@ -473,6 +482,8 @@ void Window::openFile(const QString& path)
     }
     canvas->page = 0;
     canvas->selected = -1;
+    canvas->highlight({});
+    query->clear();
     refresh(true);
 }
 void Window::refresh(bool rebuild)
@@ -506,6 +517,10 @@ void Window::refresh(bool rebuild)
     undoAction->setEnabled(can && doc.cursor > 0);
     redoAction->setEnabled(can && doc.cursor + 1 < int(doc.history.size()));
     panels->setEnabled(can);
+    refreshStatus();
+}
+void Window::refreshStatus()
+{
     status->setText(!doc.readOnly.isEmpty() ? doc.readOnly
                     : doc.loaded()          ? QString("%1 / %2 ページ%3")
                                          .arg(canvas->page + 1)
@@ -526,7 +541,7 @@ bool Window::saveFile(bool choose)
             "PDF (*.pdf)");
     if (path.isEmpty())
         return false;
-    if (QFileInfo(path).absoluteFilePath() == doc.source && doc.target != doc.source)
+    if (sameFilePath(path, doc.source) && !sameFilePath(doc.target, doc.source))
     {
         if (QMessageBox::question(
                 this, "原本への上書き",

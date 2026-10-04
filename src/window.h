@@ -51,6 +51,7 @@ private:
     QDockWidget* navigation;
     QComboBox* zoomControl;
     QAction* printAction;
+    void refreshStatus();
     void showPanel(int index);
     bool safeToClose();
     void finishOcr(int code, QProcess::ExitStatus exitStatus);

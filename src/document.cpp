@@ -216,9 +216,9 @@ void Document::save(const QString& path, const QByteArray& expected)
     editable();
     QString dest = QFileInfo(path).absoluteFilePath();
     QByteArray baseline = expected;
-    if (dest == target)
+    if (sameFilePath(dest, target))
         baseline = targetHash;
-    else if (dest == source)
+    else if (sameFilePath(dest, source))
         baseline = sourceHash;
     if (fileHash(dest) != baseline)
         fail("保存先が外部で変更されたか、既に存在します。別の名前で保存してください。");
@@ -239,7 +239,7 @@ void Document::save(const QString& path, const QByteArray& expected)
                  .arg(GetLastError()));
     target = dest;
     targetHash = fileHash(dest);
-    if (dest == source)
+    if (sameFilePath(dest, source))
         sourceHash = targetHash;
     saved = cursor;
 }

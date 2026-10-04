@@ -11,6 +11,7 @@ namespace tatsu
 using namespace pdf;
 [[noreturn]] void fail(const QString& text);
 QByteArray fileHash(const QString& path);
+bool sameFilePath(const QString& left, const QString& right);
 QString asset(const QString& relative);
 QString signatureFont();
 PDFDocument correctFontUnicode(const PDFDocument& document, const QString& text,

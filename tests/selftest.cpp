@@ -155,6 +155,40 @@ int selftest(const QString& fixtures, const QString& output)
             window.doc.saved = window.doc.cursor;
             return QJsonObject{{"text", text}, {"window_size", "1280x850"}};
         });
+    run("A01_search_highlight_lifecycle",
+        [&]
+        {
+            Window w;
+            w.openFile(input("D01.pdf"));
+            w.show();
+            QTest::qWait(100);
+            w.query->setFocus();
+            const auto plain = w.canvas->viewport()->grab().toImage();
+            w.query->setText("English");
+            QTest::keyClick(w.query, Qt::Key_Return);
+            const auto highlighted = w.canvas->viewport()->grab().toImage();
+            require(highlighted != plain, "matching text is visibly highlighted");
+            w.query->setText("no-such-text-92817");
+            QTest::keyClick(w.query, Qt::Key_Return);
+            require(w.canvas->viewport()->grab().toImage() == plain,
+                    "zero results remove the previous query's highlight");
+            w.query->setText("English");
+            QTest::keyClick(w.query, Qt::Key_Return);
+            QTest::keyClick(w.query, Qt::Key_Return);
+            require(w.canvas->viewport()->grab().toImage() == highlighted,
+                    "repeating a search does not stack highlights");
+            w.refresh();
+            require(w.canvas->viewport()->grab().toImage() == highlighted,
+                    "document refresh preserves the active query's highlight");
+            w.query->clear();
+            require(w.canvas->viewport()->grab().toImage() == plain &&
+                        !w.pages->item(0)->text().contains("一致") &&
+                        !w.status->text().contains("一致"),
+                    "clearing the query clears highlights and match summaries");
+            return QJsonObject{{"event_source", "Qt QTest synthetic key events"},
+                               {"zero_results_cleared", true},
+                               {"refresh_preserves_highlights", true}};
+        });
     run("A02_UI_pointer_drag_undo_copy",
         [&]
         {
@@ -480,6 +514,68 @@ int selftest(const QString& fixtures, const QString& output)
             return QJsonObject{{"viewed_during_OCR", true},
                                {"cancel_button_clicked", true},
                                {"temporary_removed", true}};
+        });
+    run("A10_save_conflict_path_case",
+        [&]
+        {
+            QTemporaryDir folder;
+            require(folder.isValid(), "test directory exists");
+            int checked = 0;
+            for (bool existingTarget : {false, true})
+            {
+                const auto source =
+                    folder.filePath(existingTarget ? "target-source.pdf" : "source.pdf");
+                require(QFile::copy(input("D01.pdf"), source), "copy test input");
+                Document d;
+                d.open(source);
+                const auto path = existingTarget ? folder.filePath("saved.pdf") : source;
+                if (existingTarget)
+                    d.save(path);
+                QFile original(path);
+                require(original.open(QIODevice::ReadOnly), "read baseline bytes");
+                const auto baselineBytes = original.readAll();
+                original.close();
+                d.putSignature(0, "山田 太郎", {80, 400}, 20, Qt::black);
+                const auto before = d.pdf();
+                const auto revision = d.revision;
+                QFile external(path);
+                require(external.open(QIODevice::Append), "external writer opened");
+                require(external.write("\n% external change\n") > 0, "external writer changed PDF");
+                external.close();
+                const auto changedHash = fileHash(path);
+                const auto alias = path.toUpper();
+                require(alias != path && fileHash(alias) == changedHash,
+                        "Windows case variant addresses the same existing file");
+                bool rejected = false;
+                try
+                {
+                    // The UI supplies the hash observed at the save dialog. A
+                    // known file must instead use its open/last-save baseline.
+                    d.save(alias, fileHash(alias));
+                }
+                catch (const std::exception&)
+                {
+                    rejected = true;
+                }
+                require(rejected && fileHash(path) == changedHash && d.pdf() == before &&
+                            d.revision == revision && d.dirty(),
+                        existingTarget ? "case variant preserves externally changed save target"
+                                       : "case variant preserves externally changed source");
+                // Restore only this test-owned file, then prove that ordinary
+                // saves through either spelling still work and update baselines.
+                require(external.open(QIODevice::WriteOnly | QIODevice::Truncate),
+                        "restore test baseline");
+                require(external.write(baselineBytes) == baselineBytes.size(),
+                        "restore complete baseline");
+                external.close();
+                d.save(alias, fileHash(alias));
+                require(!d.dirty(), "unchanged case variant can be saved");
+                d.rotate(0);
+                d.save(path, fileHash(path));
+                require(!d.dirty(), "later save through original spelling uses updated baseline");
+                ++checked;
+            }
+            return QJsonObject{{"protected_case_variants", checked}};
         });
     run("A10_save_conflict_and_readonly",
         [&]
