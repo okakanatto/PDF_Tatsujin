@@ -163,6 +163,40 @@ if (OUT / "D03-ocr.pdf").exists():
                     "CER": distance(a, b) / len(a),
                 }
             )
+    if (OUT / "D03-selection-copy.json").exists():
+        selection_text = json.loads(
+            (OUT / "D03-selection-copy.json").read_text(encoding="utf-8")
+        )
+        if len(selection_text) != len(truth["pages"]):
+            raise RuntimeError(
+                "Selected OCR copy has missing or duplicated page boundaries"
+            )
+        result["selected_OCR_copy"] = []
+        for i, page in enumerate(truth["pages"]):
+            expected, actual = norm(page["text"]), norm(selection_text[i])
+            result["selected_OCR_copy"].append(
+                {
+                    "page": i + 1,
+                    "language": page["language"],
+                    "split": page["split"],
+                    "reference_characters": len(expected),
+                    "edit_distance": distance(expected, actual),
+                }
+            )
+        result["selected_OCR_evaluation"] = {}
+        for language, threshold in [("jpn", 0.02), ("eng", 0.01)]:
+            selected = [
+                row
+                for row in result["selected_OCR_copy"]
+                if row["language"] == language and row["split"] == "evaluation"
+            ]
+            cer = sum(row["edit_distance"] for row in selected) / sum(
+                row["reference_characters"] for row in selected
+            )
+            result["selected_OCR_evaluation"][language] = {
+                "CER": cer,
+                "status": "PASS" if cer <= threshold else "FAIL",
+            }
     for lang, threshold in [("jpn", 0.02), ("eng", 0.01)]:
         selected = [
             r for r in rows if r["language"] == lang and r["split"] == "evaluation"

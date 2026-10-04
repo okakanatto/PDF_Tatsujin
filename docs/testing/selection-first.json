@@ -1,0 +1,37 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "details": {
+                "Japanese_exact": true,
+                "cache_bytes": 8700,
+                "characters": 90,
+                "context_copy": true,
+                "forward_and_reverse_exact": true
+            },
+            "elapsed_ms": 119,
+            "name": "Selection_ranges",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "D10_cache_bytes": 2302,
+                "D10_extracted_pages_at_open": 1,
+                "UI_timer_ticks": 60,
+                "three_pages_exact": true
+            },
+            "elapsed_ms": 1289,
+            "name": "Selection_autoscroll",
+            "status": "PASS"
+        },
+        {
+            "elapsed_ms": 171,
+            "error": "encrypted fixture forbids copy",
+            "name": "Selection_lifecycle",
+            "status": "FAIL"
+        }
+    ]
+}

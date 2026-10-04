@@ -16,7 +16,7 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 試せる入力は `fixtures/D01.pdf`（署名）、`fixtures/D03.pdf`（日英画像PDF8ページ）、`fixtures/D05.pdf`（画像と既存文字・注釈の混在）です。すべて合成の試験文書です。
 
-この作業環境での最新の試用版は `dist/PDFTatsujin-M1-search/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-search-windows-x64.zip` です。[検索・表示履歴の実装と試験結果](docs/testing/M1_SEARCH.md)と[連続ビューアの検証](docs/testing/M1_VIEWER.md)を参照してください。
+この作業環境での最新の試用版は `dist/PDFTatsujin-M1-selection/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-selection-windows-x64.zip` です。[本文選択・コピーの実装と試験結果](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の検証を参照してください。
 
 暗号化・証明書署名付き・非対応フォームの検出時は読み取り専用にします。暗号化の解除や証明書の有効性検証は行いません。保存失敗やOCR失敗時は未保存変更を保持します。
 
@@ -28,7 +28,9 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 実PDFを連続スクロールで表示し、ズーム・右設定の開閉・ウィンドウのリサイズでは読書位置を保持します。Ctrl＋ホイールはポインター位置を基準に拡縮します。PageUp／PageDownで画面単位、Ctrl併用でページ単位に移動します。バックグラウンド検索は一致ごとの抜粋を表示し、同一ページ内の次の一致へも移動できます。「前の表示／次の表示」は位置・倍率を復元し、文書編集のUndoとは独立しています。Alt+Left／Rightでも使えます（入力欄の編集中を除く）。Escは検索語を残して本文へ戻り、検索欄の×で結果を消します。
 
-全ページのサムネイル先読み、ページをまたぐ文字選択、キーボードによる署名枠操作には未実装部分があります。検索は大文字小文字を区別しない文字列一致で、改行をまたぐ語句・複雑な段組みの読み順は未対応です。UI・UXの完成版とはしていません。OCRには誤認識が残り、縦書き・段組み・低品質画像の実用精度を保証しません。
+本文はページをまたいで選択でき、画面端へドラッグすると自動スクロールします。逆方向でも同じ範囲をコピーできます。Ctrl+Cと右クリックの「コピー」は同じ内容です。選択範囲の文字を読み込んでいる間やコピーが許可されないPDFでは、クリップボードを上書きしません。Escで選択と自動スクロールを解除できます。
+
+全ページのサムネイル先読み、文字カーソルによる選択、キーボードによる署名枠操作には未実装部分があります。検索は大文字小文字を区別しない文字列一致で、改行をまたぐ語句・複雑な段組みの読み順は未対応です。UI・UXの完成版とはしていません。OCRには誤認識が残り、縦書き・段組み・低品質画像の実用精度を保証しません。
 
 閲覧体験を製品の中心に置き、[要件・操作・性能設計](docs/design/VIEWER_UX.md)と[操作できる画面案](docs/design/viewer-prototype.html)を用意しました。連続表示・位置保持・非同期検索・表示履歴を実PDFへ統合しました。画面案は合成HTMLで、製品と同じ実装ではありません。[画面案の12項目の検査結果](docs/design/DESIGN_REVIEW.md)と[製品の実行結果](docs/testing/M1_SEARCH.md)を分けて記録しています。
 
@@ -50,6 +52,6 @@ Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・�
 
 ## 容量とライセンス
 
-ユーザーが許可したプロジェクト上限は20,000,000,000バイトです。依存・ビルド・配布物・試験結果を含めて `scripts/measure-storage.ps1` で測ります。検索改修版の[部品別容量](docs/testing/search-storage.json)と[試験報告](docs/testing/M1_SEARCH.md)を参照してください。
+ユーザーが許可したプロジェクト上限は20,000,000,000バイトです。依存・ビルド・配布物・試験結果を含めて `scripts/measure-storage.ps1` で測ります。版ごとの容量は[最新の試験報告](docs/testing/M1_SELECTION.md)に記録します。
 
 PDF4QTはMIT、TesseractとモデルはApache-2.0、Noto Sans JPとLiberationはOFL、Qtは動的リンクのLGPL-3.0構成です。依存ごとの通知を `licenses` に、同梱するQt部品の対応ソースを `dist/third-party-sources` に置いています。自作コードはMITです。第三者部品には各ライセンスが適用されます。[配布時の扱い](docs/THIRD_PARTY.md)を参照してください。

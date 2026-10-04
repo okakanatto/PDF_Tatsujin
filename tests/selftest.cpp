@@ -2,6 +2,7 @@
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
 #include "search_tests.h"
+#include "selection_tests.h"
 #include "viewer_tests.h"
 #include "window.h"
 #include <QPrinterInfo>
@@ -114,6 +115,9 @@ int selftest(const QString& fixtures, const QString& output)
                     15000),
                 "asynchronous search finished");
     };
+    run("Selection_ranges", [&] { return testSelectionRanges(fixtures, output); });
+    run("Selection_autoscroll", [&] { return testSelectionScroll(fixtures, output); });
+    run("Selection_lifecycle", [&] { return testSelectionLifecycle(fixtures, output); });
     run("Search_occurrences_history", [&] { return testSearchNavigation(fixtures, output); });
     run("Search_generation_lifecycle", [&] { return testSearchGeneration(fixtures, output); });
     run("Search_IME_commit", [&] { return testSearchInput(fixtures, output); });
@@ -246,6 +250,8 @@ int selftest(const QString& fixtures, const QString& output)
             QTest::mousePress(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, a);
             QTest::mouseMove(w.canvas->viewport(), b, 20);
             QTest::mouseRelease(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, b);
+            require(QTest::qWaitFor([&] { return w.canvas->selectionReady(); }, 15000),
+                    "selected text finishes loading");
             QTest::keyClick(w.canvas, Qt::Key_C, Qt::ControlModifier);
             require(QApplication::clipboard()->text().contains("English"),
                     "selection copy clipboard");
@@ -480,6 +486,7 @@ int selftest(const QString& fixtures, const QString& output)
             f.open(QIODevice::WriteOnly);
             f.write(QJsonDocument(texts).toJson());
             result["accuracy_judgment"] = "external evaluator required";
+            result["cross_page_selection"] = testSelectionOcr(dest("D03-ocr.pdf"), output);
             return result;
         });
     run("A05_A08_same_window_OCR_search_copy_save",
@@ -535,6 +542,8 @@ int selftest(const QString& fixtures, const QString& output)
             QTest::mousePress(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, first);
             QTest::mouseMove(w.canvas->viewport(), last, 20);
             QTest::mouseRelease(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier, last);
+            require(QTest::qWaitFor([&] { return w.canvas->selectionReady(); }, 15000),
+                    "selected OCR text finishes loading");
             QTest::keyClick(w.canvas, Qt::Key_C, Qt::ControlModifier);
             auto copied = QApplication::clipboard()->text();
             require(copied.size() > 300, "OCR clipboard text");

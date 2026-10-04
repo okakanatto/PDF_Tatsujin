@@ -589,6 +589,8 @@ void Window::refreshStatus()
                                          .arg(doc.pages())
                                          .arg(doc.dirty() ? " • 未保存" : "")
                                    : "PDFを開いてください");
+    if (doc.loaded() && !canvas->selectionMessage().isEmpty())
+        status->setText(status->text() + " · " + canvas->selectionMessage());
 }
 bool Window::saveFile(bool choose)
 {

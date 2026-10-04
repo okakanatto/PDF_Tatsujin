@@ -45,6 +45,10 @@ public:
     void showSearchMatch(const SearchMatch& match);
     ViewState viewState() const;
     void restoreView(const ViewState& state);
+    bool selectionReady() const;
+    QString selectionMessage() const;
+    qint64 selectionCacheBytes() const;
+    int selectionExtractedPages() const;
     void setZoom(double z);
     void fitWidth();
     void fitPage();
@@ -69,6 +73,11 @@ protected:
     void keyPressEvent(QKeyEvent*) override;
 
 private:
+    void requestSelectionText();
+    void updateSelection();
+    void extendSelection(QPointF point);
+    void copySelection();
+    void updateAutoScroll();
     struct Impl;
     std::unique_ptr<Impl> d;
     void updateView(bool force = false);

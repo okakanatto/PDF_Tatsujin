@@ -8,6 +8,7 @@
 #include "pdffont.h"
 #include "pdfpainter.h"
 #include "pdfrenderer.h"
+#include "selection_text.h"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -31,8 +32,14 @@ struct Canvas::Impl : IDocumentDrawInterface
     QVector<Signature> items;
     QVector<SearchMatch> searchRows;
     quint64 activeMatch = 0;
-    PDFTextSelection selection;
-    std::unique_ptr<PDFTextLayout> selectionLayout;
+    SelectionTextCache text;
+    QMap<int, QPair<qsizetype, qsizetype>> ranges;
+    QTimer autoScroll;
+    QPointF pointer, selectionStartPoint, selectionEndPoint;
+    int selectionStartPage = -1, selectionEndPage = -1;
+    qsizetype startCaret = -1;
+    bool selectionComplete = true;
+    QString selectionStatus;
     int gesturePage = -1;
     QPointF start, last;
     QTransform gestureMatrix;
@@ -91,10 +98,23 @@ struct Canvas::Impl : IDocumentDrawInterface
                 painter->drawRect(matrix.mapRect(it->bounds).adjusted(-2, -2, 2, 2));
             }
         }
-        if (!selection.isEmpty())
+        if (const auto range = ranges.constFind(int(number)); range != ranges.cend())
         {
-            PDFTextSelectionPainter selectionPainter(&selection);
-            selectionPainter.draw(painter, number, getter, matrix, convertor);
+            if (auto contents = text.get(int(number)))
+            {
+                QRectF line;
+                for (qsizetype i = range->first; i < range->second; ++i)
+                {
+                    if (contents->text[i] == '\n')
+                    {
+                        painter->fillRect(matrix.mapRect(line), QColor(70, 125, 210, 95));
+                        line = {};
+                    }
+                    else if (contents->boxes[i].isValid())
+                        line = line.united(contents->boxes[i]);
+                }
+                painter->fillRect(matrix.mapRect(line), QColor(70, 125, 210, 95));
+            }
         }
         if (number == owner->page && owner->selected >= 0 && owner->selected < items.size())
         {
@@ -148,9 +168,40 @@ Canvas::Canvas(Document* doc, QWidget* parent)
             [this](bool, const std::vector<PDFInteger>&) { viewport()->update(); });
     connect(d->proxy, &PDFDrawWidgetProxy::textLayoutChanged, this,
             [this] { viewport()->update(); });
+    connect(&d->text, &SelectionTextCache::pageReady, this,
+            [this](int)
+            {
+                updateSelection();
+                viewport()->update();
+            });
+    d->autoScroll.setInterval(16);
+    connect(&d->autoScroll, &QTimer::timeout, this,
+            [this]
+            {
+                if (!d->selecting)
+                {
+                    d->autoScroll.stop();
+                    return;
+                }
+                auto velocity = [](double value, int size)
+                {
+                    if (value < 32)
+                        return -qBound(2, qRound((32 - value) * .7), 36);
+                    if (value > size - 32)
+                        return qBound(2, qRound((value - size + 32) * .7), 36);
+                    return 0;
+                };
+                const QPoint before(horizontalScrollBar()->value(), verticalScrollBar()->value());
+                scrollBy({velocity(d->pointer.x(), viewport()->width()),
+                          velocity(d->pointer.y(), viewport()->height())});
+                extendSelection(d->pointer);
+                if (before == QPoint(horizontalScrollBar()->value(), verticalScrollBar()->value()))
+                    d->autoScroll.stop();
+            });
 }
 Canvas::~Canvas()
 {
+    d->autoScroll.stop();
     d->updating = true;
     viewport()->removeEventFilter(this);
     disconnect(d->proxy, nullptr, this, nullptr);
@@ -247,13 +298,14 @@ void Canvas::updateView(bool force)
         return;
     zoom = d->proxy->getZoom();
     auto position = anchor();
-    if (position.page >= 0 && position.page != page && !d->dragging && !d->selecting)
+    if (position.page >= 0 && position.page != page && !d->dragging)
     {
         page = position.page;
         selected = -1;
         d->items = signatures(document->pdf(), page);
     }
     d->lastAnchor = position;
+    requestSelectionText();
     if (viewChanged)
         viewChanged();
 }
@@ -298,6 +350,7 @@ void Canvas::refresh(PDFObjectReference identity)
         d->proxy->setCustomPageLayout(std::move(layout));
         d->proxy->setPageLayout(PageLayout::Custom);
         d->revision = document->revision;
+        d->text.setDocument(&document->pdf(), document->revision);
         d->searchRows.clear();
         d->activeMatch = 0;
     }
@@ -337,13 +390,148 @@ void Canvas::cancelInteraction()
     const bool active = placing || d->dragging || d->selecting;
     placing = d->dragging = d->selecting = false;
     copied.clear();
-    d->selection = PDFTextSelection();
-    d->selectionLayout.reset();
+    d->autoScroll.stop();
+    d->ranges.clear();
+    d->selectionStartPage = d->selectionEndPage = -1;
+    d->startCaret = -1;
+    d->selectionComplete = true;
+    d->selectionStatus.clear();
     setCursor(Qt::ArrowCursor);
     viewport()->setCursor(Qt::ArrowCursor);
     viewport()->update();
     if (active && interactionCancelled)
         interactionCancelled();
+}
+
+bool Canvas::selectionReady() const
+{
+    return d->selectionComplete;
+}
+QString Canvas::selectionMessage() const
+{
+    return d->selectionStatus;
+}
+qint64 Canvas::selectionCacheBytes() const
+{
+    return d->text.retainedBytes();
+}
+int Canvas::selectionExtractedPages() const
+{
+    return d->text.extractedPages();
+}
+void Canvas::requestSelectionText()
+{
+    if (!document->copyAllowed)
+        return;
+    auto wanted = visiblePages();
+    if (d->selectionStartPage >= 0)
+    {
+        wanted.prepend(d->selectionStartPage);
+        wanted.prepend(d->selectionEndPage);
+        for (int i = qMin(d->selectionStartPage, d->selectionEndPage);
+             i <= qMax(d->selectionStartPage, d->selectionEndPage); ++i)
+            wanted.append(i);
+    }
+    d->text.setWanted(wanted);
+}
+void Canvas::extendSelection(QPointF point)
+{
+    const auto snapshot = d->proxy->getSnapshot();
+    double nearest = std::numeric_limits<double>::max();
+    for (const auto& item : snapshot.items)
+    {
+        const auto dx =
+            std::max({item.rect.left() - point.x(), point.x() - item.rect.right(), 0.0});
+        const auto dy =
+            std::max({item.rect.top() - point.y(), point.y() - item.rect.bottom(), 0.0});
+        const double distance = dx * dx + dy * dy;
+        if (distance < nearest)
+        {
+            nearest = distance;
+            d->selectionEndPage = int(item.pageIndex);
+            d->selectionEndPoint = item.pageToDeviceMatrix.inverted().map(point);
+        }
+    }
+    requestSelectionText();
+    updateSelection();
+}
+void Canvas::updateSelection()
+{
+    if (d->selectionStartPage < 0)
+        return;
+    copied.clear();
+    d->ranges.clear();
+    d->selectionComplete = true;
+    d->selectionStatus.clear();
+    auto start = d->text.get(d->selectionStartPage);
+    auto end = d->text.get(d->selectionEndPage);
+    if (start && d->startCaret < 0)
+        d->startCaret = start->caret(d->selectionStartPoint);
+    int firstPage = qMin(d->selectionStartPage, d->selectionEndPage);
+    int lastPage = qMax(d->selectionStartPage, d->selectionEndPage);
+    qsizetype first = 0, last = 0;
+    if (start && end)
+    {
+        first = d->startCaret;
+        last = end->caret(d->selectionEndPoint);
+        if (d->selectionStartPage > d->selectionEndPage || (firstPage == lastPage && first > last))
+            std::swap(first, last);
+    }
+    QStringList pieces;
+    for (int number = firstPage; number <= lastPage; ++number)
+    {
+        if (auto error = d->text.error(number); !error.isEmpty())
+        {
+            d->selectionComplete = false;
+            d->selectionStatus =
+                QString("%1ページの文字を解析できません。コピーは実行しません。").arg(number + 1);
+        }
+        auto contents = d->text.get(number);
+        if (!contents || !start || !end)
+        {
+            d->selectionComplete = false;
+            continue;
+        }
+        const auto from = number == firstPage ? first : 0;
+        const auto to = number == lastPage ? last : contents->text.size();
+        d->ranges.insert(number, {from, to});
+        const auto part = contents->text.mid(from, to - from);
+        if (!part.trimmed().isEmpty())
+            pieces.append(part);
+    }
+    if (!d->selectionComplete)
+    {
+        if (d->selectionStatus.isEmpty())
+            d->selectionStatus = "選択範囲の文字を読み込み中… コピーは完了後に行えます";
+    }
+    else
+    {
+        copied = pieces.join("\n\n");
+        if (!copied.isEmpty())
+            d->selectionStatus = QString("%1文字を選択 · Ctrl+Cでコピー").arg(copied.size());
+        else if (start && !start->hasGlyphs())
+            d->selectionStatus = "このページには文字情報がありません。OCRで選択・コピーできます。";
+    }
+    if (viewChanged)
+        viewChanged();
+    viewport()->update();
+}
+void Canvas::copySelection()
+{
+    if (document->copyAllowed && d->selectionComplete && !copied.isEmpty())
+        QApplication::clipboard()->setText(copied);
+}
+void Canvas::updateAutoScroll()
+{
+    const auto point = d->pointer;
+    if (d->selecting && (point.x() < 32 || point.y() < 32 || point.x() > viewport()->width() - 32 ||
+                         point.y() > viewport()->height() - 32))
+    {
+        if (!d->autoScroll.isActive())
+            d->autoScroll.start();
+    }
+    else
+        d->autoScroll.stop();
 }
 void Canvas::applyZoom(double value, const ViewAnchor& position)
 {
@@ -496,19 +684,32 @@ void Canvas::mousePress(QMouseEvent* event)
     else if (document->copyAllowed)
     {
         d->selecting = true;
-        d->selectionLayout = std::make_unique<PDFTextLayout>(textLayout(document->pdf(), page));
+        d->selectionStartPage = d->selectionEndPage = page;
+        d->selectionStartPoint = d->selectionEndPoint = d->start;
+        d->pointer = event->position();
+        requestSelectionText();
+        updateSelection();
+    }
+    else
+    {
+        d->selectionStatus = "このPDFでは文字のコピーが許可されていません。";
+        if (viewChanged)
+            viewChanged();
     }
     viewport()->update();
 }
 void Canvas::mouseMove(QMouseEvent* event)
 {
-    if (d->dragging || d->selecting)
+    if (d->dragging)
     {
         d->last = d->gestureMatrix.inverted().map(event->position());
-        if (d->selecting)
-            d->selection = d->selectionLayout->createTextSelection(d->gesturePage, d->start,
-                                                                   d->last, QColor("#6699dd"));
         viewport()->update();
+    }
+    if (d->selecting)
+    {
+        d->pointer = event->position();
+        extendSelection(d->pointer);
+        updateAutoScroll();
     }
 }
 void Canvas::mouseRelease(QMouseEvent* event)
@@ -534,9 +735,8 @@ void Canvas::mouseRelease(QMouseEvent* event)
     if (d->selecting)
     {
         d->selecting = false;
-        copied = document->copyAllowed
-                     ? d->selectionLayout->getTextFromSelection(d->selection, d->gesturePage)
-                     : QString();
+        d->autoScroll.stop();
+        updateSelection();
     }
     viewport()->update();
 }
@@ -572,6 +772,24 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
     }
     if (!document->loaded())
         return false;
+    if (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::Hide)
+    {
+        if (d->dragging || d->selecting)
+            cancelInteraction();
+    }
+    if (event->type() == QEvent::ContextMenu)
+    {
+        auto context = static_cast<QContextMenuEvent*>(event);
+        QMenu menu(this);
+        menu.setObjectName("textSelectionMenu");
+        auto copy = menu.addAction("コピー");
+        copy->setObjectName("copySelectedText");
+        copy->setShortcut(QKeySequence::Copy);
+        copy->setEnabled(document->copyAllowed && d->selectionComplete && !copied.isEmpty());
+        connect(copy, &QAction::triggered, this, [this] { copySelection(); });
+        menu.exec(context->globalPos());
+        return true;
+    }
     if (event->type() == QEvent::MouseButtonPress)
     {
         auto mouse = static_cast<QMouseEvent*>(event);
@@ -621,14 +839,15 @@ void Canvas::keyPressEvent(QKeyEvent* event)
 {
     if (event->matches(QKeySequence::Copy))
     {
-        if (document->copyAllowed)
-            QApplication::clipboard()->setText(copied);
+        copySelection();
         event->accept();
         return;
     }
     if (event->key() == Qt::Key_Escape)
     {
         cancelInteraction();
+        if (viewChanged)
+            viewChanged();
         event->accept();
         return;
     }
