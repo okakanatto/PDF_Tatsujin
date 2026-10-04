@@ -4,7 +4,7 @@
 
 > 公開リポジトリにはソース、合成試験入力、結果要約を含めます。以下の`dist/`と`evidence/`はローカル検証成果物の場所であり、Gitには含めません。公開用整理後の回帰結果は`docs/testing/OSS_PREPARATION.md`を参照してください。
 
-> **同日追加検証:** [M1追加検証](docs/testing/M1_FOLLOWUP.md)で画面・印刷・署名ドラッグを修正し、Qt保存ダイアログ取消、NTFS権限拒否、Windows PDFプリンター、Firefoxの検索・選択・PDF印刷を実行しました。最新のローカル実行物は `dist/PDFTatsujin-M1-review/PDFTatsujin.exe` です。以下は初回納品時の測定と記録を保持したもので、追加検証の状態・証拠はリンク先を優先してください。日本語IME・Reader・実容量不足・クリーンWindows等は未実行で、M1合格保留は変わりません。
+> **同日追加検証:** [M1追加検証](docs/testing/M1_FOLLOWUP.md)で画面・印刷・署名ドラッグを修正し、NTFS権限拒否、Windows PDFプリンター、Firefox検索等を実行しました。その後、[Windows実画面](docs/testing/NATIVE_UI.md)でGoogle日本語入力、標準保存ダイアログ、保存後のサイズ再編集を確認し、IME表示の重なりを修正しました。最新の実行物は `dist/PDFTatsujin-M1-review/PDFTatsujin.exe` です。以下は初回納品時の記録を保持したもので、追加検証の状態・証拠はリンク先を優先してください。Reader・実容量不足・クリーンWindows等は未実行で、M1合格保留は変わりません。
 
 ## 1. 使える成果物と起動方法
 

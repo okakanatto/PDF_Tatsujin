@@ -232,8 +232,12 @@ Window::Window()
         new QLabel("氏名などを配置する見た目の署名です。\n証明書による本人性の保証はありません。");
     note->setWordWrap(true);
     sl->addWidget(note);
+    auto signatureLabel = new QLabel("氏名・日付（複数行可）");
+    sl->addWidget(signatureLabel);
     signature = new QPlainTextEdit;
-    signature->setPlaceholderText("署名を入力（複数行可）");
+    // A separate label stays readable while the Windows IME draws preedit text.
+    // Qt's empty-document placeholder otherwise overlaps the first composition.
+    signatureLabel->setBuddy(signature);
     signature->setAccessibleName("署名テキスト");
     signature->setMaximumHeight(160);
     sl->addWidget(signature);

@@ -1,0 +1,254 @@
+{
+    "failures": 0,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "details": {
+                "device_pixel_ratio": 1,
+                "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                "editor_text": "20.00 pt",
+                "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                "size_text": "20.00 pt"
+            },
+            "elapsed_ms": 629,
+            "name": "A01_UI_layout_review",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "text": "日本語とEnglishの文書です。番号12345、句読点。山田 太郎、髙橋。\r\nPDFの検索とコピー、署名の保存を確認します。\r\n",
+                "window_size": "1280x850"
+            },
+            "elapsed_ms": 366,
+            "name": "A01_document_and_UI",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "IME": "未実行・確定済み文字列を使用",
+                "clipboard_copy": true,
+                "event_source": "Qt QTest synthetic mouse events"
+            },
+            "elapsed_ms": 320,
+            "name": "A02_UI_pointer_drag_undo_copy",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "IME": "未実行",
+                "original_sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff",
+                "signature_count": 1
+            },
+            "elapsed_ms": 102,
+            "name": "A02_A03_signature_roundtrip",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "conditions": "0/90/180/270; CropBox offsets; UserUnit=2; zoom .5/1/1.5/2",
+                "max_error_pt": 1.1368683772161603e-13
+            },
+            "elapsed_ms": 122,
+            "name": "A04_rotations_crop_userunit",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "accuracy_judgment": "external evaluator required",
+                "elapsed_ms": 41495,
+                "event_loop_ticks": 1252,
+                "language": "jpn+eng",
+                "pages": [
+                    {
+                        "page": 1,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 2,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 3,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 4,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 5,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 6,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 7,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 8,
+                        "status": "処理済み"
+                    }
+                ]
+            },
+            "elapsed_ms": 41897,
+            "name": "A05_OCR_eight_pages",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "clipboard_characters": 635,
+                "dialogs": [
+                    "OCR結果"
+                ],
+                "elapsed_ms": 13085
+            },
+            "elapsed_ms": 16026,
+            "name": "A05_A08_same_window_OCR_search_copy_save",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "elapsed_ms": 7115,
+                "event_loop_ticks": 219,
+                "language": "jpn+eng",
+                "pages": [
+                    {
+                        "page": 1,
+                        "status": "処理済み"
+                    }
+                ]
+            },
+            "elapsed_ms": 15723,
+            "name": "A06_mixed_pages_and_content",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "elapsed_ms": 991,
+                "event_loop_ticks": 32,
+                "language": "jpn+eng",
+                "pages": [
+                    {
+                        "page": 1,
+                        "status": "既存OCR保持"
+                    },
+                    {
+                        "page": 2,
+                        "status": "文字未検出"
+                    },
+                    {
+                        "page": 3,
+                        "status": "文字未検出"
+                    }
+                ]
+            },
+            "elapsed_ms": 1116,
+            "name": "A07_existing_OCR_blank_photo",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "history_operations": 3,
+                "text": "DIGITAL HEADING 2026\r\n地域の図書館では、来館者が安心して資料を探せるように案内を整えています。 入口の地図に\r\nは、新聞、雑誌、児童書、参考図書の場所を示しました。受付では貸出カードの作り方を説明\r\nし、返却期限を印刷した紙を渡します。予約した本が届いた場合は、事前に選んだ連絡方法で\r\nお知らせします。\r\n読書室の机と椅子は毎朝点検します。照明の明るさを調整し、窓からの日差しが強い時間帯に\r\nはカーテンを閉めます。静かな席を希望する方と、グループで相談する方が同じ場所で困らな\r\nいように、利用区域を分けています。わからないことがあれば係員に声をかけてください。\r\n資料の保存には温度と湿度の管理が欠かせません。古い写真や地図は専用の箱に入れ、閲覧す\r\nるときは汚れを防ぐ敷物を使います。破れや変色を見つけた場合は、その場所を記録 して担当\r\n者へ報告します。 修理中の資料には返却予定日を表示します。\r\n新しい展示は毎月最初の火曜日に始まります。 今月のテーマは町の交通と暮らしです。昔の駅\r\n舎、商店街、公園の写真を年代順に並べました。展示の説明文は大きな文字で印刷しています\r\n。 来館者の感想は専用の箱で受け付け、次回の企画を考える参考にします。\r\n閉館前には館内放送で時間を案内します。忘れ物がないかを確認し、借りた資料の冊数を確か\r\nめてからお帰りください。貸出中の資料は返却ポストでも受け付けます。ただし付属品のある\r\n資料は窓口へお持ちください。\r\nPAGE 1\r\n"
+            },
+            "elapsed_ms": 7659,
+            "name": "A08_signature_rotate_OCR_undo_redo",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "cancelled_after_progress": "{\"done\":1,\"page\":1,\"status\":\"処理済み\",\"total\":8}\r\n",
+                "event_loop_ticks": 245
+            },
+            "elapsed_ms": 8211,
+            "name": "A09_cancel_after_first_page",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "termination": "forced process kill"
+            },
+            "elapsed_ms": 446,
+            "name": "A09_worker_crash",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "cancel_button_clicked": true,
+                "temporary_removed": true,
+                "viewed_during_OCR": true
+            },
+            "elapsed_ms": 10600,
+            "name": "A09_UI_cancel_and_cleanup",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "external_conflict": true,
+                "readonly_denied": true,
+                "real_disk_full": "未実行"
+            },
+            "elapsed_ms": 98,
+            "name": "A10_save_conflict_and_readonly",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "dialog_backend": "Qt QFileDialog (non-native)",
+                "dirty_and_original_preserved": true,
+                "native_Windows_dialog": "未実行"
+            },
+            "elapsed_ms": 173,
+            "name": "A10_save_dialog_cancel",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "signed_fixture": "genuine CMS detached signature; cryptography independently verified by .NET SignedCms; trust intentionally absent"
+            },
+            "elapsed_ms": 33,
+            "name": "A11_protected_and_invalid",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "semantic_validation": "external evaluator required"
+            },
+            "elapsed_ms": 73,
+            "name": "D07_form_annotation_link_outline_preservation",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "view_and_print_flags": "PASS"
+            },
+            "elapsed_ms": 21,
+            "name": "A03_annotation_print_flags",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "current_page": 3,
+                "range_pages": 2
+            },
+            "elapsed_ms": 928,
+            "name": "A03_print_page_selection",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "external_viewer_print": "未実行",
+                "mechanism": "Qt PDF print device at 300dpi; raster output for printing only",
+                "physical_printer": "未実行"
+            },
+            "elapsed_ms": 506,
+            "name": "A03_Qt_PDF_print_path",
+            "status": "PASS"
+        }
+    ]
+}

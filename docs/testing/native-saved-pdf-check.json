@@ -1,0 +1,75 @@
+{
+  "original_unchanged": true,
+  "original_sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff",
+  "saved_pdfs": [
+    {
+      "file": "異体字と日付.pdf",
+      "sha256": "7971aad9db9ecca8ab0e8fd6f3e8c1e551f7a6bcc35fcfe4f4cbebf5c735edf8",
+      "pages": 1,
+      "annotations": [
+        {
+          "subtype": "/Stamp",
+          "rect": [
+            150.0,
+            604.89,
+            295.7,
+            670.80875
+          ],
+          "metadata": {
+            "color": "#000000",
+            "size": 20,
+            "text": "髙橋\n2026年10月4日",
+            "version": 1
+          },
+          "appearance": true
+        }
+      ]
+    },
+    {
+      "file": "署名IME.pdf",
+      "sha256": "3ca3aebc6f27cf1e5093be219b3686b5209c5cc13b529c771e02941775f701b8",
+      "pages": 1,
+      "annotations": [
+        {
+          "subtype": "/Stamp",
+          "rect": [
+            292.0,
+            521.89,
+            380.0,
+            558.84938
+          ],
+          "metadata": {
+            "color": "#000000",
+            "size": 20,
+            "text": "山田太郎",
+            "version": 1
+          },
+          "appearance": true
+        }
+      ]
+    },
+    {
+      "file": "署名IME_編集.pdf",
+      "sha256": "9c8941c8282558c2aef3bc1a6cc9824a5553cb1b8f44c24e3b09e6396a30d975",
+      "pages": 1,
+      "annotations": [
+        {
+          "subtype": "/Stamp",
+          "rect": [
+            292.0,
+            521.89,
+            412.0,
+            570.43313
+          ],
+          "metadata": {
+            "color": "#000000",
+            "size": 28,
+            "text": "山田太郎",
+            "version": 1
+          },
+          "appearance": true
+        }
+      ]
+    }
+  ]
+}
