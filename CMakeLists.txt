@@ -48,6 +48,13 @@ set_target_properties(PDFTatsujin PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
+# Optional measurement harness: use the real UI without modifying the product binary.
+add_executable(PDFTatsujinReadingBenchmark WIN32 EXCLUDE_FROM_ALL tests/reading_benchmark.cpp)
+target_link_libraries(PDFTatsujinReadingBenchmark PRIVATE tatsu_ui tatsu_ocr)
+set_target_properties(PDFTatsujinReadingBenchmark PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+
 if(TATSU_ENABLE_SELFTEST)
     find_package(Qt6 REQUIRED COMPONENTS Test)
     target_sources(PDFTatsujin PRIVATE tests/selftest.cpp tests/viewer_tests.cpp tests/search_tests.cpp tests/selection_tests.cpp tests/pan_tests.cpp tests/navigation_tests.cpp tests/reading_tests.cpp)
@@ -56,7 +63,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)
 endif()
 
-foreach(target tatsu_document tatsu_ocr tatsu_ui PDFTatsujin)
+foreach(target tatsu_document tatsu_ocr tatsu_ui PDFTatsujin PDFTatsujinReadingBenchmark)
     if(MSVC)
         target_compile_options(${target} PRIVATE /utf-8 /bigobj)
         target_compile_definitions(${target} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)

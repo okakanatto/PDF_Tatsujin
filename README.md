@@ -16,7 +16,7 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 試せる入力は `fixtures/D01.pdf`（署名）、`fixtures/D03.pdf`（日英画像PDF8ページ）、`fixtures/D05.pdf`（画像と既存文字・注釈の混在）です。すべて合成の試験文書です。
 
-この作業環境での最新の試用版は `dist/PDFTatsujin-M1-reading-refined/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-reading-refined-windows-x64.zip` です。[単語選択・ページ一覧・初期表示の実装と検証](docs/testing/M1_VIEWER_REFINEMENTS.md)に52件のWindows試験、最終exeの実画面コピー、日英OCRの独立評価、A01〜A12の実行範囲をまとめました。[以前の実IME・標準保存・再編集・OCR・OSコピー](docs/testing/M1_NATIVE_FINAL.md)はそのexeの記録として保持し、最終版で全経路を再びネイティブ入力したとは扱いません。[ページ入力・集中表示](docs/testing/M1_READING.md)、[しおり・リンク](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の過去版と失敗記録も保持します。
+この作業環境での最新の試用版は `dist/PDFTatsujin-M1-verified/PDFTatsujin.exe` です。[実画面の署名・OCR全経路、Undo案内の修正、多ページ閲覧の測定](docs/testing/M1_VERIFIED.md)に、最終52件のWindows回帰、保存PDFの独立検証、A01〜A12の実行範囲と制約をまとめました。実Google IMEから日英OCRまでの全ネイティブ経路は案内修正直前のexe、最終exeは保存済みPDFの再編集・Undo／Redo・再保存・検索の実画面試験として、hashを分けて記録しています。[単語選択・ページ一覧・初期表示](docs/testing/M1_VIEWER_REFINEMENTS.md)等の過去版と失敗記録も保持します。
 
 暗号化・証明書署名付き・非対応フォームの検出時は読み取り専用にします。暗号化の解除や証明書の有効性検証は行いません。保存失敗やOCR失敗時は未保存変更を保持します。
 
@@ -42,7 +42,7 @@ Ctrl+Lで物理ページ番号を入力し、Enterで移動、Escで入力を戻
 
 閲覧体験を製品の中心に置き、[要件・操作・性能設計](docs/design/VIEWER_UX.md)と[操作できる画面案](docs/design/viewer-prototype.html)を用意しました。連続表示・位置保持・非同期検索・表示履歴を実PDFへ統合しました。画面案は合成HTMLで、製品と同じ実装ではありません。[画面案の12項目の検査結果](docs/design/DESIGN_REVIEW.md)と[製品の実行結果](docs/testing/M1_SEARCH.md)を分けて記録しています。
 
-Google日本語入力での氏名・異体字・固定日付の変換、未確定時Esc、標準の開く・保存・取消、保存PDFの文字・サイズ・位置の再編集、日英OCRとOSコピーを[以前の版のWindows実画面で確認](docs/testing/M1_NATIVE_FINAL.md)しました。最新版では[単語選択とWindowsコピー・貼り付け](docs/testing/refined-native.json)を確認し、PDF操作の全経路は自動回帰しました。Microsoft IME、Adobe Reader、Firefoxのネイティブ検索バー・OSクリップボード・印刷ダイアログ、実プリンター、実際の容量不足、開発環境のないWindowsで通信を無効にした試験は未実行です。自動試験の成功で代替したとは扱いません。
+Google日本語入力での氏名・異体字・固定日付の変換、未確定時Esc、標準の開く・保存・取消、保存PDFの文字・サイズ・位置の再編集、日英OCRとOSコピーを[今回のWindows実画面で確認](docs/testing/M1_VERIFIED.md)しました。実画面で見つかったUndo案内の不具合も修正し、最終exeで52件の自動回帰と修正箇所の実画面試験を実行しました。版ごとの検証範囲は報告で区別しています。Microsoft IME、Adobe Reader、Firefoxのネイティブ検索バー・OSクリップボード・印刷ダイアログ、実プリンター、実際の容量不足、開発環境のないWindowsで通信を無効にした試験は未実行です。自動試験の成功で代替したとは扱いません。
 
 ## 開発と試験
 
@@ -54,12 +54,12 @@ git clone --recurse-submodules https://github.com/okakanatto/PDF_Tatsujin.git
 
 Windowsでの依存配置・ビルド・起動・試験は[開発手順](docs/DEVELOPMENT.md)、責務と保存・OCRの設計は[構成](docs/ARCHITECTURE.md)を参照してください。PDF4QTは固定コミットのサブモジュールです。大きなモデルやフォントはSHA-256を検証して取得し、実行時にはローカルに同梱します。
 
-Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の52件と未実行項目](docs/testing/M1_VIEWER_REFINEMENTS.md)、[M1初回の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。Firefoxの全体Fit宛先は他のしおり操作後に表示位置が戻り、元入力と保存入力の双方で診断をFAILとして残しています。[追加切り分け](docs/testing/M1_EXTERNAL_FIT.md)で、直接の移動とフォーカスの挙動を比較しました。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
+Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の52件と未実行項目](docs/testing/M1_VERIFIED.md)、[M1初回の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。Firefoxの全体Fit宛先は他のしおり操作後に表示位置が戻り、元入力と保存入力の双方で診断をFAILとして残しています。[追加切り分け](docs/testing/M1_EXTERNAL_FIT.md)で、直接の移動とフォーカスの挙動を比較しました。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
 
 正解と検索語はOCR実行前に `fixtures/ground-truth.json` へ固定しました。追加の閲覧用入力 `fixtures/viewer-search.pdf` と件数・ページの正解も実装試験前に固定し、`scripts/check-source.py`でハッシュを検証します。既存結果に合わせて正解や閾値を変えません。ビルド成果物、依存本体、ローカルログはGit管理から除外します。非公開実務文書は含めません。
 
 ## 容量とライセンス
 
-ユーザーが許可したプロジェクト上限は20,000,000,000バイトです。依存・ビルド・配布物・試験結果を含めて `scripts/measure-storage.ps1` で測ります。版ごとの容量は[最新の試験報告](docs/testing/M1_VIEWER_REFINEMENTS.md)に記録します。
+ユーザーが許可したプロジェクト上限は20,000,000,000バイトです。依存・ビルド・配布物・試験結果を含めて `scripts/measure-storage.ps1` で測ります。版ごとの容量は[最新の試験報告](docs/testing/M1_VERIFIED.md)に記録します。
 
 PDF4QTはMIT、TesseractとモデルはApache-2.0、Noto Sans JPとLiberationはOFL、Qtは動的リンクのLGPL-3.0構成です。依存ごとの通知を `licenses` に、同梱するQt部品の対応ソースを `dist/third-party-sources` に置いています。自作コードはMITです。第三者部品には各ライセンスが適用されます。[配布時の扱い](docs/THIRD_PARTY.md)を参照してください。

@@ -75,6 +75,15 @@ PopplerのbinをPATHへ追加する方法も使えます。これらは開発・
 
 ## ソース検査とCI
 
+多ページ閲覧の応答・メモリ測定は[測定設計](design/READING_PERFORMANCE.md)に沿って独立した任意ターゲットで実行できます。本製品と同じUIライブラリをリンクし、製品exeや通常の画面には測定操作を追加しません。
+
+```powershell
+& scripts/build.ps1 -Target PDFTatsujinReadingBenchmark
+python scripts/benchmark-reading.py --harness build/app/bin/PDFTatsujinReadingBenchmark.exe --app-directory dist/PDFTatsujin-M1-verified --output evidence/new-reading-measurement
+```
+
+psutilを含む固定済みの試験用Python環境を使います。スクリプトは指定した配布フォルダのDLL・Qt offscreen・assetsを利用します。全ページ3周・文書ごと3プロセスの生データ、共通OS時刻による周回待機中のメモリ、実行物とソースのhashを残します。物理ディスプレイFPS、コールド起動、Acrobat比較とは区別します。
+
 ```powershell
 python -m pip install -r scripts/requirements-format.txt
 python scripts/check-source.py

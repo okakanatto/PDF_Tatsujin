@@ -571,8 +571,12 @@ int selftest(const QString& fixtures, const QString& output)
             w.grab().save(dest("ocr-window.png"));
             w.undoAction->trigger();
             require(w.doc.pdf() == before, "UI undo retains signature before OCR");
+            require(w.progress->text() == "元に戻しました。",
+                    "OCR Undo replaces the obsolete completion message");
             w.redoAction->trigger();
             require(signatures(w.doc.pdf(), 0).size() == 1, "UI redo signature retained");
+            require(w.progress->text() == "やり直しました。",
+                    "OCR Redo reports the current history action");
             w.doc.saved = w.doc.cursor;
             return QJsonObject{{"clipboard_characters", copied.size()},
                                {"dialogs", QJsonArray::fromStringList(dialogs)},

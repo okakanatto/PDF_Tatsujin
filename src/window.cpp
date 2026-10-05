@@ -106,6 +106,7 @@ Window::Window()
         {
             doc.undo();
             refresh();
+            progress->setText("元に戻しました。");
         },
         true);
     redoAction = action(
@@ -114,6 +115,7 @@ Window::Window()
         {
             doc.redo();
             refresh();
+            progress->setText("やり直しました。");
         },
         true);
     redoAction->setShortcuts({QKeySequence::Redo, QKeySequence("Ctrl+Shift+Z")});
