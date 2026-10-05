@@ -48,7 +48,7 @@ python scripts/diagnose-firefox-fit.py fixtures/viewer-navigation.pdf evidence/v
 python scripts/diagnose-firefox-fit.py evidence/viewer-reading/submission-regression/navigation-preserved.pdf evidence/viewer-fit/saved-comparison-2 --firefox tools/viewer-test/firefox/core/firefox.exe --geckodriver tools/viewer-test/geckodriver/geckodriver.exe
 ```
 
-診断スクリプトの終了コード0は比較が完了したことを意味する。合否はJSONの各`cases[].status`を参照し、全診断PASSと解釈しない。[実行物のハッシュ・結果の対応](fit-provenance.json)。初回は再読込後に保持されたサイドバーを誤って閉じ、2条件目の準備に失敗した。表示状態を実DOMで判定するよう修正し、元・保存後とも3条件を完了した。準備失敗のログもローカルに残す。
+診断スクリプトの終了コード0は比較が完了したことを意味する。合否はJSONの各`cases[].status`を参照し、全診断PASSと解釈しない。[実行物のハッシュ・結果の対応](fit-provenance.json)。公開JSONの改行はGitと同じLFへ統一し、Windowsの観測原本のハッシュと公開ファイルのハッシュを分けて記録した。JSONの値が原本と一致することも確認した。初回は再読込後に保持されたサイドバーを誤って閉じ、2条件目の準備に失敗した。表示状態を実DOMで判定するよう修正し、元・保存後とも3条件を完了した。準備失敗のログもローカルに残す。
 
 ## 未実行・制約
 
