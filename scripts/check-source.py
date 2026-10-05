@@ -17,6 +17,9 @@ VIEWER_SELECTION_MANIFEST_SHA256 = (
 VIEWER_SELECTION_RESTRICTED_SHA256 = (
     "ccbcf6bc03f45bdcfce814a50ad651f7d2149e50d37ce8037a7bfcf0a52954a5"
 )
+VIEWER_NAVIGATION_MANIFEST_SHA256 = (
+    "2421d94d73d68ca17e4686bc77f7e59a5cf7ae6256ac22aa2f5a5b9f319b55e0"
+)
 
 
 def sha256(path):
@@ -51,6 +54,16 @@ def main():
     restricted = json.loads(restricted_manifest.read_text(encoding="utf-8"))
     if sha256(ROOT / "fixtures" / restricted["file"]) != restricted["sha256"]:
         raise RuntimeError("Copy permission PDF hash mismatch")
+    navigation_manifest = ROOT / "fixtures/viewer-navigation-manifest.json"
+    if sha256(navigation_manifest) != VIEWER_NAVIGATION_MANIFEST_SHA256:
+        raise RuntimeError("Frozen navigation destinations/expectations changed")
+    navigation = json.loads(navigation_manifest.read_text(encoding="utf-8"))
+    for file_key, hash_key in [
+        ("file", "sha256"),
+        ("restricted_file", "restricted_sha256"),
+    ]:
+        if sha256(ROOT / "fixtures" / navigation[file_key]) != navigation[hash_key]:
+            raise RuntimeError("Navigation fixture hash mismatch")
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     lock = json.loads((ROOT / "dependency-lock.json").read_text(encoding="utf-8"))
@@ -60,7 +73,7 @@ def main():
     if head != lock["pdf4qt"]["commit"]:
         raise RuntimeError("PDF4QT checkout does not match dependency-lock.json")
     print(
-        f"PASS: {len(entries)} M1 fixtures, viewer search/selection expectations and permissions, ground truth, Python syntax, PDF4QT pin"
+        f"PASS: {len(entries)} M1 fixtures, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
     )
 
 

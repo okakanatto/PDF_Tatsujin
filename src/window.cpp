@@ -131,7 +131,7 @@ Window::Window()
     ocrAction = action("OCR", {}, [this] { showPanel(1); }, true);
     signatureAction->setCheckable(true);
     ocrAction->setCheckable(true);
-    auto left = navigation = new QDockWidget("ページ / 検索", this);
+    auto left = navigation = new QDockWidget("文書ナビゲーション", this);
     left->setFeatures(QDockWidget::NoDockWidgetFeatures);
     auto nav = new QWidget;
     auto nl = new QVBoxLayout(nav);
@@ -188,7 +188,7 @@ Window::Window()
     navigationTabs->setObjectName("navigationTabs");
     navigationTabs->setStyleSheet(
         "QTabWidget::pane { border: 0; }"
-        "QTabBar::tab { background: transparent; color: #596779; padding: 9px 18px; border-bottom: "
+        "QTabBar::tab { background: transparent; color: #596779; padding: 9px 10px; border-bottom: "
         "2px solid transparent; }"
         "QTabBar::tab:selected { color: #154a88; border-bottom-color: #377ccf; }");
     pages = new QListWidget;
@@ -197,6 +197,10 @@ Window::Window()
     pages->setUniformItemSizes(true);
     pages->setIconSize(QSize(96, 128));
     navigationTabs->addTab(pages, "ページ");
+    bookmarksPanel = new BookmarksPanel;
+    navigationTabs->addTab(bookmarksPanel, "しおり");
+    bookmarksPanel->activated = [this](const NavigationTarget& target) { navigateTarget(target); };
+    canvas->navigate = bookmarksPanel->activated;
     searchPanel = new SearchPanel;
     navigationTabs->addTab(searchPanel, "検索");
     query = searchPanel->editor();
@@ -441,6 +445,7 @@ Window::Window()
             });
     canvas->viewChanged = [this]
     {
+        statusBar()->clearMessage();
         QSignalBlocker pageBlock(pages), zoomBlock(zoomControl);
         pages->setCurrentRow(canvas->page);
         if (canvas->fitMode())
@@ -493,6 +498,8 @@ Window::~Window()
     canvas->viewChanged = {};
     canvas->toolChanged = {};
     canvas->interactionCancelled = {};
+    canvas->navigate = {};
+    bookmarksPanel->activated = {};
     delete searchPanel;
     searchPanel = nullptr;
     if (worker)
@@ -529,6 +536,7 @@ void Window::openFile(const QString& path)
         doc.open(path, pwd);
     }
     canvas->resetView();
+    bookmarksPanel->reset();
     canvas->selected = -1;
     query->clear();
     backHistory.clear();
@@ -546,12 +554,20 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     printAction->setEnabled(doc.loaded());
     selectToolAction->setEnabled(doc.loaded());
     handToolAction->setEnabled(doc.loaded());
+    if (navigationRevision != doc.revision)
+    {
+        navigationRevision = doc.revision;
+        pageLabels = doc.loaded() ? readPageLabels(doc.pdf()) : QStringList();
+        bookmarksPanel->setDocument(doc.loaded() ? &doc.pdf() : nullptr, doc.revision, pageLabels);
+        for (int i = 0; i < pages->count(); ++i)
+            pages->item(i)->setText(pageDescription(i, pageLabels));
+    }
     if (rebuild)
     {
         QSignalBlocker block(pages);
         pages->clear();
         for (int i = 0; i < doc.pages(); ++i)
-            pages->addItem(QString("%1 ページ").arg(i + 1));
+            pages->addItem(pageDescription(i, pageLabels));
         pages->setCurrentRow(canvas->page);
     }
     canvas->refresh(selection);
@@ -576,7 +592,10 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
 }
 void Window::rememberView()
 {
-    auto state = canvas->viewState();
+    rememberView(canvas->viewState());
+}
+void Window::rememberView(const ViewState& state)
+{
     if (state.anchor.page < 0)
         return;
     if (backHistory.isEmpty() || backHistory.back().view.anchor.page != state.anchor.page ||
@@ -590,6 +609,29 @@ void Window::rememberView()
         backHistory.removeFirst();
     forwardHistory.clear();
     updateHistoryActions();
+}
+void Window::navigateTarget(const NavigationTarget& target)
+{
+    const auto resolved =
+        doc.loaded() && target.valid() ? resolveDestination(doc.pdf(), target.destination) : target;
+    if (!resolved.valid())
+    {
+        // Plain text keeps PDF-provided titles/URIs from becoming rich-text markup.
+        QMessageBox message(QMessageBox::Information, "移動先について", resolved.notice,
+                            QMessageBox::Ok, this);
+        message.setTextFormat(Qt::PlainText);
+        message.exec();
+        return;
+    }
+    const auto before = canvas->viewState();
+    canvas->goToDestination(resolved);
+    const auto after = canvas->viewState();
+    if (before.anchor.page != after.anchor.page ||
+        QLineF(before.anchor.point, after.anchor.point).length() > .5 ||
+        qAbs(before.zoom - after.zoom) > .001 || before.fitMode != after.fitMode)
+        rememberView(before);
+    canvas->setFocus();
+    statusBar()->showMessage(pageDescription(resolved.page, pageLabels) + "へ移動しました", 4000);
 }
 void Window::moveHistory(bool forward)
 {
@@ -624,6 +666,8 @@ void Window::refreshStatus()
                                          .arg(doc.pages())
                                          .arg(doc.dirty() ? " • 未保存" : "")
                                    : "PDFを開いてください");
+    if (doc.loaded() && canvas->page < pageLabels.size() && !pageLabels[canvas->page].isEmpty())
+        status->setText(pageLabels[canvas->page] + " · " + status->text());
     if (doc.loaded() && canvas->handToolActive())
         status->setText(status->text() + " · 手のひら：ドラッグで表示を移動 · Escで選択に戻る");
     else if (doc.loaded() && !canvas->selectionMessage().isEmpty())

@@ -46,6 +46,8 @@ struct Canvas::Impl : IDocumentDrawInterface
     bool dragging = false, selecting = false;
     bool hand = false, temporaryHand = false, panning = false;
     QPointF panPoint;
+    const PDFLinkAnnotation* pressedLink = nullptr;
+    QPointF pressPosition;
 
     explicit Impl(Canvas* canvas) : owner(canvas)
     {
@@ -155,6 +157,7 @@ Canvas::Canvas(Document* doc, QWidget* parent)
     viewport()->setFocusPolicy(Qt::StrongFocus);
     viewport()->setAccessibleName("PDF本文。文字選択、Spaceを押しながらドラッグで表示を移動");
     viewport()->installEventFilter(this);
+    viewport()->setMouseTracking(true);
     if (window() != this)
         window()->installEventFilter(this);
     connect(d->proxy, &PDFDrawWidgetProxy::drawSpaceChanged, this, [this] { updateView(); });
@@ -393,9 +396,11 @@ void Canvas::beginPlacement()
 }
 void Canvas::cancelInteraction()
 {
-    const bool active = placing || d->dragging || d->selecting || d->panning || d->temporaryHand;
+    const bool active =
+        placing || d->dragging || d->selecting || d->panning || d->temporaryHand || d->pressedLink;
     placing = d->dragging = d->selecting = false;
     d->panning = d->temporaryHand = false;
+    d->pressedLink = nullptr;
     copied.clear();
     d->autoScroll.stop();
     d->ranges.clear();
@@ -433,7 +438,7 @@ void Canvas::updateTool()
 }
 void Canvas::stopTransientInteraction()
 {
-    if (placing || d->dragging || d->selecting)
+    if (placing || d->dragging || d->selecting || d->pressedLink)
         cancelInteraction();
     else if (d->panning || d->temporaryHand)
     {
@@ -585,7 +590,7 @@ void Canvas::applyZoom(double value, const ViewAnchor& position)
 void Canvas::setZoom(double value)
 {
     auto position = anchor();
-    if (d->dragging || d->selecting || d->panning)
+    if (d->dragging || d->selecting || d->panning || d->pressedLink)
         cancelInteraction();
     d->fit = 0;
     applyZoom(value, position);
@@ -636,8 +641,63 @@ void Canvas::goToPage(int number)
 }
 void Canvas::scrollBy(QPoint pixels)
 {
+    d->pressedLink = nullptr;
     ++d->viewEpoch;
     d->proxy->scrollByPixels(-pixels);
+    updateView(true);
+}
+void Canvas::goToDestination(const NavigationTarget& target)
+{
+    if (!document->loaded() || !target.valid() || target.page >= document->pages())
+        return;
+    const auto destination = target.destination;
+    const auto previous = anchor({0, 0});
+    const auto crop = document->pdf().getCatalog()->getPage(target.page)->getCropBox();
+    d->fit = 0;
+    goToPage(target.page);
+    switch (destination.getDestinationType())
+    {
+    case DestinationType::Fit:
+        fitPage();
+        goToPage(target.page);
+        break;
+    case DestinationType::FitH:
+        fitWidth();
+        restoreAnchor(
+            {target.page,
+             {crop.center().x(), destination.hasTop() ? destination.getTop() : previous.point.y()},
+             {.5, 0}});
+        break;
+    case DestinationType::FitV:
+        applyZoom(
+            d->proxy->getZoomHintForPage(PDFDrawWidgetProxy::ZoomHint::FitHeight, target.page), {});
+        restoreAnchor({target.page,
+                       {destination.hasLeft() ? destination.getLeft() : previous.point.x(),
+                        crop.center().y()},
+                       {0, .5}});
+        break;
+    case DestinationType::FitR:
+    {
+        const QRectF rectangle(QPointF(destination.getLeft(), destination.getBottom()),
+                               QPointF(destination.getRight(), destination.getTop()));
+        const auto actual = d->matrix(target.page).mapRect(rectangle);
+        if (actual.width() > 0 && actual.height() > 0)
+            applyZoom(zoom * qMin(viewport()->width() * .96 / actual.width(),
+                                  viewport()->height() * .96 / actual.height()),
+                      {target.page, rectangle.center(), {.5, .5}});
+        break;
+    }
+    case DestinationType::XYZ:
+    {
+        const QPointF point(destination.hasLeft() ? destination.getLeft() : previous.point.x(),
+                            destination.hasTop() ? destination.getTop() : previous.point.y());
+        applyZoom(destination.hasZoom() && destination.getZoom() > 0 ? destination.getZoom() : zoom,
+                  {target.page, point, {0, 0}});
+        break;
+    }
+    default:
+        break;
+    }
     updateView(true);
 }
 void Canvas::setSearchResults(const QVector<SearchMatch>& matches, quint64 active)
@@ -727,25 +787,33 @@ void Canvas::mousePress(QMouseEvent* event)
             }
     if (selected >= 0)
         d->dragging = true;
-    else if (document->copyAllowed)
-    {
-        d->selecting = true;
-        d->selectionStartPage = d->selectionEndPage = page;
-        d->selectionStartPoint = d->selectionEndPoint = d->start;
-        d->pointer = event->position();
-        requestSelectionText();
-        updateSelection();
-    }
     else
     {
-        d->selectionStatus = "このPDFでは文字のコピーが許可されていません。";
-        if (viewChanged)
-            viewChanged();
+        d->pressedLink = linkAt(page, d->start);
+        d->pressPosition = event->position();
+        if (document->copyAllowed)
+        {
+            d->selecting = true;
+            d->selectionStartPage = d->selectionEndPage = page;
+            d->selectionStartPoint = d->selectionEndPoint = d->start;
+            d->pointer = event->position();
+            requestSelectionText();
+            updateSelection();
+        }
+        else
+        {
+            d->selectionStatus = "このPDFでは文字のコピーが許可されていません。";
+            if (viewChanged)
+                viewChanged();
+        }
     }
     viewport()->update();
 }
 void Canvas::mouseMove(QMouseEvent* event)
 {
+    if (d->pressedLink && (event->position() - d->pressPosition).manhattanLength() >=
+                              QApplication::startDragDistance())
+        d->pressedLink = nullptr;
     if (d->panning)
     {
         const auto delta = (d->panPoint - event->position()).toPoint();
@@ -770,6 +838,17 @@ void Canvas::mouseMove(QMouseEvent* event)
 void Canvas::mouseRelease(QMouseEvent* event)
 {
     mouseMove(event);
+    if (d->pressedLink && d->gestureMatrix == d->matrix(d->gesturePage) &&
+        linkAt(d->gesturePage, d->gestureMatrix.inverted().map(event->position())) ==
+            d->pressedLink)
+    {
+        const auto target = resolveLink(document->pdf(), *d->pressedLink);
+        cancelInteraction();
+        if (navigate)
+            navigate(target);
+        return;
+    }
+    d->pressedLink = nullptr;
     if (d->panning)
     {
         d->panning = false;
@@ -800,6 +879,26 @@ void Canvas::mouseRelease(QMouseEvent* event)
         updateSelection();
     }
     viewport()->update();
+}
+const PDFLinkAnnotation* Canvas::linkAt(int number, QPointF point) const
+{
+    if (number < 0 || number >= document->pages() ||
+        !document->pdf().getCatalog()->getPage(number)->getCropBox().contains(point))
+        return nullptr;
+    const auto& annotations = d->annotations->getPageAnnotations(number).annotations;
+    for (auto it = annotations.rbegin(); it != annotations.rend(); ++it)
+    {
+        const auto annotation = it->annotation.data();
+        if (!annotation || annotation->getType() != AnnotationType::Link ||
+            (annotation->getEffectiveFlags() & (PDFAnnotation::Hidden | PDFAnnotation::NoView)))
+            continue;
+        const auto link = static_cast<const PDFLinkAnnotation*>(annotation);
+        const auto& region = link->getActivationRegion();
+        if (region.isEmpty() ? link->getRectangle().contains(point)
+                             : region.getPath().contains(point))
+            return link;
+    }
+    return nullptr;
 }
 bool Canvas::eventFilter(QObject* watched, QEvent* event)
 {
@@ -858,10 +957,34 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
             return true;
         }
     }
-    if (event->type() == QEvent::MouseMove && (d->dragging || d->selecting || d->panning))
+    if (event->type() == QEvent::MouseMove &&
+        (d->dragging || d->selecting || d->panning || d->pressedLink))
     {
         mouseMove(static_cast<QMouseEvent*>(event));
         return true;
+    }
+    if (event->type() == QEvent::MouseMove && !placing && !handToolActive())
+    {
+        const auto point = static_cast<QMouseEvent*>(event)->position();
+        const int hit = d->hit(point);
+        const auto link = hit >= 0 ? linkAt(hit, d->matrix(hit).inverted().map(point)) : nullptr;
+        viewport()->setCursor(link ? Qt::PointingHandCursor : Qt::ArrowCursor);
+    }
+    if (event->type() == QEvent::ToolTip && !placing && !handToolActive())
+    {
+        const auto help = static_cast<QHelpEvent*>(event);
+        const int hit = d->hit(help->pos());
+        if (const auto action =
+                hit >= 0 ? linkAt(hit, d->matrix(hit).inverted().map(help->pos())) : nullptr)
+        {
+            const auto target = resolveLink(document->pdf(), *action);
+            QToolTip::showText(help->globalPos(),
+                               Qt::convertFromPlainText(
+                                   target.valid() ? QString("%1ページへ移動").arg(target.page + 1)
+                                                  : target.notice),
+                               viewport());
+            return true;
+        }
     }
     if (event->type() == QEvent::MouseButtonRelease &&
         static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton)
@@ -871,6 +994,7 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
     }
     if (event->type() == QEvent::Wheel)
     {
+        d->pressedLink = nullptr;
         auto wheel = static_cast<QWheelEvent*>(event);
         if (wheel->modifiers().testFlag(Qt::ControlModifier))
         {

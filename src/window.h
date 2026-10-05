@@ -1,4 +1,5 @@
 #pragma once
+#include "bookmarks_panel.h"
 #include "canvas.h"
 #include "search_panel.h"
 #include <QtWidgets>
@@ -53,6 +54,9 @@ private:
     QComboBox* zoomControl;
     QTabWidget* navigationTabs;
     SearchPanel* searchPanel;
+    BookmarksPanel* bookmarksPanel;
+    QStringList pageLabels;
+    quint64 navigationRevision = std::numeric_limits<quint64>::max();
     QAction* backView;
     QAction* forwardView;
     QShortcut* backShortcut;
@@ -69,6 +73,8 @@ private:
     QAction* handToolAction;
     void refreshStatus();
     void rememberView();
+    void rememberView(const ViewState& state);
+    void navigateTarget(const NavigationTarget& target);
     void moveHistory(bool forward);
     void updateHistoryActions();
     void showPanel(int index);

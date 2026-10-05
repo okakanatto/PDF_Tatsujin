@@ -1,5 +1,6 @@
 #pragma once
 #include "document.h"
+#include "navigation.h"
 #include "search_session.h"
 #include <QtWidgets>
 #include <functional>
@@ -36,6 +37,7 @@ public:
     std::function<void()> viewChanged;
     std::function<void()> toolChanged;
     std::function<void(int)> navigatePage;
+    std::function<void(const NavigationTarget&)> navigate;
     explicit Canvas(Document* doc, QWidget* parent = nullptr);
     ~Canvas() override;
     void refresh(PDFObjectReference selection = {});
@@ -56,6 +58,7 @@ public:
     void fitWidth();
     void fitPage();
     void goToPage(int number);
+    void goToDestination(const NavigationTarget& target);
     void scrollBy(QPoint pixels);
     QWidget* viewport() const;
     QScrollBar* verticalScrollBar() const;
@@ -92,5 +95,6 @@ private:
     void mousePress(QMouseEvent*);
     void mouseMove(QMouseEvent*);
     void mouseRelease(QMouseEvent*);
+    const PDFLinkAnnotation* linkAt(int page, QPointF point) const;
 };
 } // namespace tatsu

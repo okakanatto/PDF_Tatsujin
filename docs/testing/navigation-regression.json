@@ -1,0 +1,674 @@
+{
+    "failures": 0,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "details": {
+                "FitR": true,
+                "PDF_and_undo_unchanged": true,
+                "coordinates": [
+                    {
+                        "XYZ_error_DIP": 0.5,
+                        "back_error_DIP": 1,
+                        "page": 1
+                    },
+                    {
+                        "XYZ_error_DIP": 0.10714285714288962,
+                        "back_error_DIP": 0,
+                        "page": 2
+                    },
+                    {
+                        "XYZ_error_DIP": 0.5,
+                        "back_error_DIP": 0,
+                        "page": 3
+                    },
+                    {
+                        "XYZ_error_DIP": 0.4464285714286689,
+                        "back_error_DIP": 2.2737367544323206e-13,
+                        "page": 4
+                    }
+                ],
+                "hierarchy": "13 roots; 4 children",
+                "invalid_actions": 5,
+                "null_XYZ": true,
+                "page_labels": [
+                    "i",
+                    "ii",
+                    "本編-7",
+                    "本編-8",
+                    "AA",
+                    "BB"
+                ]
+            },
+            "elapsed_ms": 439,
+            "name": "Navigation_bookmarks",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "Esc_focus_deactivate": "synthetic Qt events",
+                "QuadPoints_and_hidden": true,
+                "drag_selects_text": true,
+                "external_script_notice": true,
+                "named_annotation_click": true,
+                "protected_PDF_unchanged": true
+            },
+            "elapsed_ms": 200,
+            "name": "Navigation_links",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "busy": "state simulation; actual OCR is in A05-A09 regression",
+                "document_replacement": true,
+                "outline_label_link_preserved": true,
+                "rotate_revision": true,
+                "save_reopen_reedit": true,
+                "signature_priority_and_Undo": true
+            },
+            "elapsed_ms": 425,
+            "name": "Navigation_lifecycle",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "coordinates": [
+                    {
+                        "max_axis_error_DIP": 0,
+                        "page": 1
+                    },
+                    {
+                        "max_axis_error_DIP": 0,
+                        "page": 2
+                    },
+                    {
+                        "max_axis_error_DIP": 0,
+                        "page": 3
+                    },
+                    {
+                        "max_axis_error_DIP": 0,
+                        "page": 4
+                    }
+                ],
+                "minimum_window": "1024x720 Qt offscreen; actual OS DPI 未実行",
+                "page_boundary": true,
+                "read_only": true,
+                "same_encrypted_document_serialized_twice_equal": false
+            },
+            "elapsed_ms": 256,
+            "name": "Pan_navigation",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "Space_repeat_release": true,
+                "editor_space": true,
+                "native_IME": "未実行; synthetic Qt key events",
+                "retained_copy_characters": 101
+            },
+            "elapsed_ms": 91,
+            "name": "Pan_input",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "busy_state": "state simulation; full OCR uses existing regression tests",
+                "focus_deactivate_hide": "synthetic Qt events",
+                "signature_undo_save": true
+            },
+            "elapsed_ms": 180,
+            "name": "Pan_lifecycle",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "Japanese_exact": true,
+                "cache_bytes": 9228,
+                "characters": 90,
+                "context_copy": true,
+                "forward_and_reverse_exact": true
+            },
+            "elapsed_ms": 114,
+            "name": "Selection_ranges",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "D10_UI_timer_ticks": 95,
+                "D10_cache_bytes": 242200,
+                "D10_extracted_pages_at_open": 1,
+                "D10_selection_ms": 1672,
+                "Escape_stops_autoscroll": true,
+                "three_pages_exact": true
+            },
+            "elapsed_ms": 2950,
+            "name": "Selection_autoscroll",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "OS_clipboard": "未実行; Qt offscreen clipboard",
+                "copy_permission": true,
+                "revision_clears_selection": true,
+                "rotation_crop_userunit": true
+            },
+            "elapsed_ms": 203,
+            "name": "Selection_lifecycle",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "English_occurrences": 4,
+                "Japanese_occurrences": 4,
+                "PDF_and_undo_unchanged": true,
+                "history_error_DIP": [
+                    5.684341886080802e-14,
+                    5.684341886080802e-14,
+                    1
+                ]
+            },
+            "elapsed_ms": 621,
+            "name": "Search_occurrences_history",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "OS_input": "未実行; Qt synthetic events",
+                "UI_timer_ticks": 8,
+                "active_search_close_ms": 23,
+                "current_page_first": 50,
+                "search_100_pages_ms": 255,
+                "stable_active_match": true
+            },
+            "elapsed_ms": 2772,
+            "name": "Search_generation_lifecycle",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "Escape_keeps_results": true,
+                "composition_events": "synthetic Qt QInputMethodEvent",
+                "native_IME": "未実行"
+            },
+            "elapsed_ms": 424,
+            "name": "Search_IME_commit",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "pages": 100,
+                "source_and_history_unchanged": true,
+                "zoom_anchor": [
+                    {
+                        "max_axis_error_DIP": 0.34736842105235155,
+                        "zoom": 1.8
+                    },
+                    {
+                        "max_axis_error_DIP": 1.1368683772161603e-13,
+                        "zoom": 1.3
+                    },
+                    {
+                        "max_axis_error_DIP": 0.4894736842106795,
+                        "zoom": 2
+                    }
+                ]
+            },
+            "elapsed_ms": 420,
+            "name": "Viewer_continuous_navigation",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "authoritative_pdf_unchanged": true,
+                "fits": [
+                    {
+                        "bounds": [
+                            240,
+                            0,
+                            511,
+                            711
+                        ],
+                        "page": 1,
+                        "viewport": [
+                            990,
+                            736
+                        ],
+                        "zoom": 0.6688281611857342
+                    },
+                    {
+                        "bounds": [
+                            18,
+                            0,
+                            954.1467889908256,
+                            697.8926174496645
+                        ],
+                        "page": 2,
+                        "viewport": [
+                            990,
+                            736
+                        ],
+                        "zoom": 0.9217354542091636
+                    },
+                    {
+                        "bounds": [
+                            230.22222222222217,
+                            0,
+                            529,
+                            711
+                        ],
+                        "page": 3,
+                        "viewport": [
+                            990,
+                            736
+                        ],
+                        "zoom": 0.705729025251154
+                    },
+                    {
+                        "bounds": [
+                            26.07476635514024,
+                            39.70212765957456,
+                            936.9252336448598,
+                            710.2978723404254
+                        ],
+                        "page": 4,
+                        "viewport": [
+                            990,
+                            750
+                        ],
+                        "zoom": 0.4781808815954081
+                    }
+                ],
+                "pages": [
+                    {
+                        "page": 1,
+                        "scale_x": 0.9018181818181819,
+                        "scale_y": 0.9032679738562092,
+                        "user_unit": 1
+                    },
+                    {
+                        "page": 2,
+                        "scale_x": 0.9027522935779817,
+                        "scale_y": 0.9020134228187919,
+                        "user_unit": 1
+                    },
+                    {
+                        "page": 3,
+                        "scale_x": 0.9037037037037037,
+                        "scale_y": 0.903448275862069,
+                        "user_unit": 1
+                    },
+                    {
+                        "page": 4,
+                        "scale_x": 0.902803738317757,
+                        "scale_y": 0.9028368794326241,
+                        "user_unit": 2
+                    }
+                ]
+            },
+            "elapsed_ms": 812,
+            "name": "Viewer_crop_rotation_userunit",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "placements": [
+                    {
+                        "page": 1,
+                        "placement_error_pt": 0.18000000000006366
+                    },
+                    {
+                        "page": 2,
+                        "placement_error_pt": 0.09001472416354771
+                    },
+                    {
+                        "page": 3,
+                        "placement_error_pt": 0.12000000000000455
+                    },
+                    {
+                        "page": 4,
+                        "placement_error_pt": 0.05441288200128809
+                    }
+                ],
+                "saved_reeditable": true
+            },
+            "elapsed_ms": 766,
+            "name": "Viewer_signature_save_undo",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "device_pixel_ratio": 1,
+                "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                "editor_text": "20.00 pt",
+                "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                "size_text": "20.00 pt"
+            },
+            "elapsed_ms": 701,
+            "name": "A01_UI_layout_review",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "text": "日本語とEnglishの文書です。番号12345、句読点。山田 太郎、髙橋。\r\nPDFの検索とコピー、署名の保存を確認します。\r\n",
+                "window_size": "1280x850"
+            },
+            "elapsed_ms": 439,
+            "name": "A01_document_and_UI",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "event_source": "Qt QTest synthetic key events",
+                "refresh_preserves_highlights": true,
+                "zero_results_cleared": true
+            },
+            "elapsed_ms": 277,
+            "name": "A01_search_highlight_lifecycle",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "IME": "未実行・確定済み文字列を使用",
+                "clipboard_copy": true,
+                "event_source": "Qt QTest synthetic mouse events"
+            },
+            "elapsed_ms": 427,
+            "name": "A02_UI_pointer_drag_undo_copy",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "cancelled_from_button_focus": true,
+                "event_source": "Qt QTest synthetic mouse and key events",
+                "switching_tools_cancels_placement": true
+            },
+            "elapsed_ms": 174,
+            "name": "A02_UI_placement_cancel",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "repeated_updates": 2,
+                "saved_signatures": 2
+            },
+            "elapsed_ms": 425,
+            "name": "A02_A03_UI_signature_identity",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "escape_cancels_drag": true,
+                "refresh_cancels_drag": true,
+                "undo_during_drag": true,
+                "zoom_cancels_drag": true
+            },
+            "elapsed_ms": 199,
+            "name": "A02_UI_drag_interrupted",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "IME": "未実行",
+                "original_sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff",
+                "signature_count": 1
+            },
+            "elapsed_ms": 154,
+            "name": "A02_A03_signature_roundtrip",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "conditions": "0/90/180/270; CropBox offsets; UserUnit=2; zoom .5/1/1.5/2",
+                "max_error_pt": 1.1368683772161603e-13
+            },
+            "elapsed_ms": 204,
+            "name": "A04_rotations_crop_userunit",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "accuracy_judgment": "external evaluator required",
+                "cross_page_selection": {
+                    "accuracy_judgment": "external frozen-truth evaluator required",
+                    "clipboard_characters": 6696,
+                    "full_text_order_matches": true,
+                    "pages": 8
+                },
+                "elapsed_ms": 61769,
+                "event_loop_ticks": 1820,
+                "language": "jpn+eng",
+                "pages": [
+                    {
+                        "page": 1,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 2,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 3,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 4,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 5,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 6,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 7,
+                        "status": "処理済み"
+                    },
+                    {
+                        "page": 8,
+                        "status": "処理済み"
+                    }
+                ]
+            },
+            "elapsed_ms": 65482,
+            "name": "A05_OCR_eight_pages",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "clipboard_characters": 635,
+                "dialogs": [
+                    "OCR結果"
+                ],
+                "elapsed_ms": 13159
+            },
+            "elapsed_ms": 16606,
+            "name": "A05_A08_same_window_OCR_search_copy_save",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "elapsed_ms": 8834,
+                "event_loop_ticks": 260,
+                "language": "jpn+eng",
+                "pages": [
+                    {
+                        "page": 1,
+                        "status": "処理済み"
+                    }
+                ]
+            },
+            "elapsed_ms": 19556,
+            "name": "A06_mixed_pages_and_content",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "elapsed_ms": 833,
+                "event_loop_ticks": 28,
+                "language": "jpn+eng",
+                "pages": [
+                    {
+                        "page": 1,
+                        "status": "既存OCR保持"
+                    },
+                    {
+                        "page": 2,
+                        "status": "文字未検出"
+                    },
+                    {
+                        "page": 3,
+                        "status": "文字未検出"
+                    }
+                ]
+            },
+            "elapsed_ms": 958,
+            "name": "A07_existing_OCR_blank_photo",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "history_operations": 3,
+                "text": "DIGITAL HEADING 2026\r\n地域の図書館では、来館者が安心して資料を探せるように案内を整えています。 入口の地図に\r\nは、新聞、雑誌、児童書、参考図書の場所を示しました。受付では貸出カードの作り方を説明\r\nし、返却期限を印刷した紙を渡します。予約した本が届いた場合は、事前に選んだ連絡方法で\r\nお知らせします。\r\n読書室の机と椅子は毎朝点検します。照明の明るさを調整し、窓からの日差しが強い時間帯に\r\nはカーテンを閉めます。静かな席を希望する方と、グループで相談する方が同じ場所で困らな\r\nいように、利用区域を分けています。わからないことがあれば係員に声をかけてください。\r\n資料の保存には温度と湿度の管理が欠かせません。古い写真や地図は専用の箱に入れ、閲覧す\r\nるときは汚れを防ぐ敷物を使います。破れや変色を見つけた場合は、その場所を記録 して担当\r\n者へ報告します。 修理中の資料には返却予定日を表示します。\r\n新しい展示は毎月最初の火曜日に始まります。 今月のテーマは町の交通と暮らしです。昔の駅\r\n舎、商店街、公園の写真を年代順に並べました。展示の説明文は大きな文字で印刷しています\r\n。 来館者の感想は専用の箱で受け付け、次回の企画を考える参考にします。\r\n閉館前には館内放送で時間を案内します。忘れ物がないかを確認し、借りた資料の冊数を確か\r\nめてからお帰りください。貸出中の資料は返却ポストでも受け付けます。ただし付属品のある\r\n資料は窓口へお持ちください。\r\nPAGE 1\r\n"
+            },
+            "elapsed_ms": 8939,
+            "name": "A08_signature_rotate_OCR_undo_redo",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "cancelled_after_progress": "{\"done\":1,\"page\":1,\"status\":\"処理済み\",\"total\":8}\r\n",
+                "event_loop_ticks": 318
+            },
+            "elapsed_ms": 11015,
+            "name": "A09_cancel_after_first_page",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "termination": "forced process kill"
+            },
+            "elapsed_ms": 471,
+            "name": "A09_worker_crash",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "cancel_button_clicked": true,
+                "temporary_removed": true,
+                "viewed_during_OCR": true
+            },
+            "elapsed_ms": 13238,
+            "name": "A09_UI_cancel_and_cleanup",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "protected_case_variants": 2
+            },
+            "elapsed_ms": 349,
+            "name": "A10_save_conflict_path_case",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "external_conflict": true,
+                "readonly_denied": true,
+                "real_disk_full": "未実行"
+            },
+            "elapsed_ms": 141,
+            "name": "A10_save_conflict_and_readonly",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "dialog_backend": "Qt QFileDialog (non-native)",
+                "dirty_and_original_preserved": true,
+                "native_Windows_dialog": "未実行"
+            },
+            "elapsed_ms": 248,
+            "name": "A10_save_dialog_cancel",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "cancel_close": true,
+                "cancel_save": true,
+                "dialogs": [
+                    "未保存の変更",
+                    "未保存の変更",
+                    "PDFとして保存",
+                    "未保存の変更",
+                    "PDFとして保存",
+                    "未保存の変更",
+                    "操作を完了できません",
+                    "未保存の変更"
+                ],
+                "explicit_discard": true,
+                "failed_save_keeps_open": true,
+                "native_Windows_dialog": "未実行; Qt dialogs and QTest",
+                "save_then_close": true
+            },
+            "elapsed_ms": 491,
+            "name": "A10_UI_close_unsaved",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "dialog_backend": "Qt QInputDialog, offscreen",
+                "invalid_inputs_rejected": 2,
+                "password_prompts": 2
+            },
+            "elapsed_ms": 148,
+            "name": "A11_UI_open_error_routing",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "signed_fixture": "genuine CMS detached signature; cryptography independently verified by .NET SignedCms; trust intentionally absent"
+            },
+            "elapsed_ms": 53,
+            "name": "A11_protected_and_invalid",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "semantic_validation": "external evaluator required"
+            },
+            "elapsed_ms": 130,
+            "name": "D07_form_annotation_link_outline_preservation",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "view_and_print_flags": "PASS"
+            },
+            "elapsed_ms": 37,
+            "name": "A03_annotation_print_flags",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "current_page": 3,
+                "range_pages": 2
+            },
+            "elapsed_ms": 909,
+            "name": "A03_print_page_selection",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "external_viewer_print": "未実行",
+                "mechanism": "Qt PDF print device at 300dpi; raster output for printing only",
+                "physical_printer": "未実行"
+            },
+            "elapsed_ms": 1238,
+            "name": "A03_Qt_PDF_print_path",
+            "status": "PASS"
+        }
+    ]
+}

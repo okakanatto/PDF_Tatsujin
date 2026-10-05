@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 468,
+            "error": "unsupported notice, expected=未対応, actual=, current page=2",
+            "name": "Navigation_bookmarks",
+            "status": "FAIL"
+        }
+    ]
+}

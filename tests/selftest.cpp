@@ -1,4 +1,5 @@
 #include "selftest.h"
+#include "navigation_tests.h"
 #include "pan_tests.h"
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
@@ -116,6 +117,9 @@ int selftest(const QString& fixtures, const QString& output)
                     15000),
                 "asynchronous search finished");
     };
+    run("Navigation_bookmarks", [&] { return testNavigationBookmarks(fixtures, output); });
+    run("Navigation_links", [&] { return testNavigationLinks(fixtures, output); });
+    run("Navigation_lifecycle", [&] { return testNavigationLifecycle(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

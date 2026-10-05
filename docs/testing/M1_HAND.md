@@ -2,6 +2,8 @@
 
 2026-10-05。Windows 11 Home 25H2 x64、Qt 6.9.3、MSVC 19.50。[操作設計](../design/HAND_TOOL.md)に基づくM1の閲覧改修。SPEC・TECH・ACCEPTANCE、既存入力・正解・閾値は変更していない。**M1全体の合格は保留。M2には進んでいない。**
 
+後続版は[しおり・リンク・表示履歴の実行結果](M1_NAVIGATION.md)。以下は手のひら版の実行記録として保持する。
+
 ## 使える成果物と起動方法
 
 `dist/PDFTatsujin-M1-hand/PDFTatsujin.exe` を起動する。配布ZIPは `dist/PDFTatsujin-M1-hand-windows-x64.zip`。ZIPは全体展開し、DLL・assets・plugins・licensesと一緒に使う。Qt対応ソースも含む。GitHubはソース管理用の公開リポジトリであり、正式なバイナリリリースは未公開。
