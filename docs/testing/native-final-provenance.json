@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-05",
+  "line_endings": "Public JSON normalized to LF; semantic contents unchanged; source and public SHA-256 recorded separately.",
+  "records": [
+    {
+      "source": "evidence/native-final-20261005/native-observations.json",
+      "source_sha256": "72a0188f3014ecc7bb3f24b3787ae6ec997d578b365175c36201885083d4d131",
+      "public": "docs/testing/native-final-observations.json",
+      "public_sha256": "72a0188f3014ecc7bb3f24b3787ae6ec997d578b365175c36201885083d4d131"
+    },
+    {
+      "source": "evidence/native-final-20261005/independent-first.json",
+      "source_sha256": "077ba1f85416b43227d72ca21683ed5c07a800266a20466698f75d6f1024991e",
+      "public": "docs/testing/native-final-first.json",
+      "public_sha256": "077ba1f85416b43227d72ca21683ed5c07a800266a20466698f75d6f1024991e"
+    },
+    {
+      "source": "evidence/native-final-20261005/independent-verification.json",
+      "source_sha256": "9f17ede0873b6f175ac12101c6b68488f0ab83956493ae70a54bb42e3ff007c9",
+      "public": "docs/testing/native-final-independent.json",
+      "public_sha256": "9f17ede0873b6f175ac12101c6b68488f0ab83956493ae70a54bb42e3ff007c9"
+    },
+    {
+      "source": "evidence/native-final-20261005/firefox/firefox-verification.json",
+      "source_sha256": "efa01987bc10a43db0c096c8a573a69ff4d36a856be3efbd114002cd57242b9d",
+      "public": "docs/testing/native-final-firefox.json",
+      "public_sha256": "d9b12d3c52f69968dcda58803b3868f7be44f162dd8173265bbaea335232a302"
+    },
+    {
+      "source": "evidence/native-final-20261005/storage.json",
+      "source_sha256": "e4f1606adc0456b593680094d82801210352eaa3d10822105c18de46c5fb3395",
+      "public": "docs/testing/native-final-storage.json",
+      "public_sha256": "1978b7b32a268263d43db6e2cfb298ef299d77312953f68f96f36a0270a55793"
+    },
+    {
+      "source": "evidence/native-final-20261005/native-signature-reopened-reedited-page-1-poppler.png",
+      "source_sha256": "5095e39cddb4b4dfc49b1ff0d431be8cda363c96489718823095915bca31e173",
+      "public": "docs/testing/native-final-reedited.png",
+      "public_sha256": "5095e39cddb4b4dfc49b1ff0d431be8cda363c96489718823095915bca31e173"
+    },
+    {
+      "source": "evidence/native-final-20261005/native-same-window-ocr-page-1-poppler.png",
+      "source_sha256": "399ecf9238978890ec5f0a36c4994d3ce596056b1650eac00ac65dc57c862b33",
+      "public": "docs/testing/native-final-ocr.png",
+      "public_sha256": "399ecf9238978890ec5f0a36c4994d3ce596056b1650eac00ac65dc57c862b33"
+    },
+    {
+      "source": "evidence/native-final-20261005/native-firefox-print.png",
+      "source_sha256": "c090508985384b21a5fb30b81943e4d66ae2999c9bbaa7f95820aba1d29cdfd5",
+      "public": "docs/testing/native-final-firefox-print.png",
+      "public_sha256": "c090508985384b21a5fb30b81943e4d66ae2999c9bbaa7f95820aba1d29cdfd5"
+    }
+  ],
+  "firefox_input_aliases": [
+    {
+      "source": "native-signature-corrected.pdf",
+      "firefox_input": "firefox-input/signature.pdf",
+      "sha256": "581f3370db6b6274c671968ca1b15fdd6f8ac09446ed4c75cd052a664e6c9a98"
+    },
+    {
+      "source": "native-same-window-ocr.pdf",
+      "firefox_input": "firefox-input/D03-ocr.pdf",
+      "sha256": "992e197e78ec858aacd39d8e1790847ae8eb301af41e4461c842f12522848144"
+    }
+  ],
+  "scripts": [
+    {
+      "file": "scripts/verify-native-output.py",
+      "source_sha256": "ea2790c54f837bda7eef5be300455a607b5abbfde33cfb8a4ef82b74f64d2aea",
+      "sha256": "ea2790c54f837bda7eef5be300455a607b5abbfde33cfb8a4ef82b74f64d2aea"
+    },
+    {
+      "file": "scripts/test-firefox.py",
+      "source_sha256": "eb3f838268b096bce6e73798bb0bb6430440bdfe79a811d95a5bbf98bb29e11e",
+      "sha256": "eb3f838268b096bce6e73798bb0bb6430440bdfe79a811d95a5bbf98bb29e11e"
+    }
+  ],
+  "exe_sha256": "c9876c743f4fe1eaa1d34867f6962494b4e2be3ed5ef704a86af31c0272eb0d0",
+  "zip_sha256": "16b7bd83817e7690ac4a181349424265cc2c0712ff646f3d1aaa18c5355e2343"
+}

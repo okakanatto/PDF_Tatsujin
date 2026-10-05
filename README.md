@@ -16,7 +16,7 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 試せる入力は `fixtures/D01.pdf`（署名）、`fixtures/D03.pdf`（日英画像PDF8ページ）、`fixtures/D05.pdf`（画像と既存文字・注釈の混在）です。すべて合成の試験文書です。
 
-この作業環境での最新の試用版は `dist/PDFTatsujin-M1-reading/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-reading-windows-x64.zip` です。[ページ入力・集中表示と最終検証](docs/testing/M1_READING.md)に47件のWindows試験、日英OCRの独立評価、A01〜A12の実行範囲をまとめました。[しおり・リンク](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の過去版の記録も保持します。
+この作業環境での最新の試用版は `dist/PDFTatsujin-M1-reading/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-reading-windows-x64.zip` です。[ページ入力・集中表示と最終検証](docs/testing/M1_READING.md)に47件のWindows試験、日英OCRの独立評価、A01〜A12の実行範囲をまとめました。同じ最終exeで[実IME・標準保存・再編集・OCR・OSコピー](docs/testing/M1_NATIVE_FINAL.md)も実行し、その保存PDFの独立検証は入力修正後21件PASS、Firefoxの固定検索語は日英各20/20です。初回の全角スペースFAILも保持しています。[しおり・リンク](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の過去版の記録も保持します。
 
 暗号化・証明書署名付き・非対応フォームの検出時は読み取り専用にします。暗号化の解除や証明書の有効性検証は行いません。保存失敗やOCR失敗時は未保存変更を保持します。
 
@@ -40,7 +40,7 @@ Ctrl+Lで物理ページ番号を入力し、Enterで移動、Escで入力を戻
 
 閲覧体験を製品の中心に置き、[要件・操作・性能設計](docs/design/VIEWER_UX.md)と[操作できる画面案](docs/design/viewer-prototype.html)を用意しました。連続表示・位置保持・非同期検索・表示履歴を実PDFへ統合しました。画面案は合成HTMLで、製品と同じ実装ではありません。[画面案の12項目の検査結果](docs/design/DESIGN_REVIEW.md)と[製品の実行結果](docs/testing/M1_SEARCH.md)を分けて記録しています。
 
-Google日本語入力での氏名・異体字・日付の変換、未確定時Esc、標準の保存ダイアログ、保存後のサイズ再編集は[Windows実画面で確認](docs/testing/NATIVE_UI.md)しました。Microsoft IME、Adobe Reader、Firefoxのネイティブ検索バー・OSクリップボード・印刷ダイアログ、実プリンター、実際の容量不足、開発環境のないWindowsで通信を無効にした試験は未実行です。自動試験の成功で代替したとは扱いません。
+Google日本語入力での氏名・異体字・固定日付の変換、未確定時Esc、標準の開く・保存・取消、保存PDFの文字・サイズ・位置の再編集、日英OCRとOSコピーを[最終exeのWindows実画面で確認](docs/testing/M1_NATIVE_FINAL.md)しました。Microsoft IME、Adobe Reader、Firefoxのネイティブ検索バー・OSクリップボード・印刷ダイアログ、実プリンター、実際の容量不足、開発環境のないWindowsで通信を無効にした試験は未実行です。自動試験の成功で代替したとは扱いません。
 
 ## 開発と試験
 

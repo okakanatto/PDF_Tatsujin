@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-05",
+  "app": "dist/PDFTatsujin-M1-reading/PDFTatsujin.exe",
+  "exe_sha256": "c9876c743f4fe1eaa1d34867f6962494b4e2be3ed5ef704a86af31c0272eb0d0",
+  "ime": {
+    "name": "Google Japanese Input",
+    "version": "3.34.6260.0",
+    "version_source": "GoogleIMEJaTIP64.dll FileVersion"
+  },
+  "scope": "Windows native keyboard/mouse and UIA value observations, not automated regression case count",
+  "privacy": "No raw native screenshots retained; unrelated toast and IME candidate suggestions excluded. Only synthetic document text captured. Existing clipboard was not read.",
+  "checks": [
+    {
+      "test": "A02_IME_name",
+      "status": "PASS",
+      "keys": "yamada → Space → Enter → Shift+Space → tarou → Space → Enter",
+      "observed": "56 編集 (settable, string) 署名テキスト Value: 山田 太郎 ID: QApplication.QMainWindow.propertiesDock.QStackedWidget.QWidget.QPlainTextEdit",
+      "scope": "Japanese conversion confirmed; UIA flattens spaces. Initial saved separator is U+3000 and fails the exact-string check; correction is recorded separately."
+    },
+    {
+      "test": "A02_IME_Esc",
+      "status": "PASS",
+      "keys": "a → Esc after committed name",
+      "observed": "56 編集 (settable, string) 署名テキスト Value: 山田 太郎 ID: QApplication.QMainWindow.propertiesDock.QStackedWidget.QWidget.QPlainTextEdit"
+    },
+    {
+      "test": "A02_IME_variant",
+      "status": "PASS",
+      "keys": "takahashi → Space → Enter",
+      "observed": "56 編集 (settable, string) 署名テキスト Value: 山田 太郎 髙橋 ID: QApplication.QMainWindow.propertiesDock.QStackedWidget.QWidget.QPlainTextEdit"
+    },
+    {
+      "test": "A02_IME_fixed_date",
+      "status": "PASS",
+      "keys": "kinou → Space → Space → observed candidate 5 → Enter",
+      "observed": "56 編集 (settable, string) 署名テキスト Value: 山田 太郎 髙橋 2026年10月4日 ID: QApplication.QMainWindow.propertiesDock.QStackedWidget.QWidget.QPlainTextEdit"
+    },
+    {
+      "id": "A02_native_place_move_undo_redo",
+      "status": "PASS",
+      "observation": "Placement at (450,350), drag (+100,+150), Ctrl+Z restored previous selection rectangle, Ctrl+Shift+Z restored moved rectangle; signature text retained."
+    },
+    {
+      "id": "A10_native_save_cancel",
+      "status": "PASS",
+      "observation": "Native Save As was cancelled with Esc; dirty state and the three-line signature remain."
+    },
+    {
+      "id": "A03_native_save_as",
+      "status": "PASS",
+      "observation": "Alt+N filename field accepted the unique absolute synthetic-output path; Alt+S saved native-signature.pdf and cleared dirty state."
+    },
+    {
+      "id": "A01_A03_native_open_saved",
+      "status": "PASS",
+      "observation": "Ctrl+O, Alt+N, verified filename, Alt+O reopened native-signature.pdf via native dialog; Japanese name, variant and date rendered."
+    },
+    {
+      "id": "A03_native_reedit",
+      "status": "PASS",
+      "observation": "Explicitly selected and activated reopened window 8454160 (initial signature 20pt; history disabled). Changed to 28pt and four lines via set_value, updated, then dragged (-100,-100). This distinguishes disk reediting from prior edits in window 1313250."
+    },
+    {
+      "id": "A03_native_reopened_save",
+      "status": "PASS",
+      "observation": "Saved edited disk-reopened signature as native-signature-reopened-reedited.pdf; source native-signature.pdf remains separate."
+    },
+    {
+      "id": "A05_native_ocr_complete",
+      "status": "PASS",
+      "observation": "Native OCR result dialog reports all pages 1–8 処理済み, status OCR反映済み; existing signature still renders in original location."
+    },
+    {
+      "id": "A05_native_search_jpn",
+      "status": "PASS",
+      "observation": "Frozen term 市民公園, native Ctrl+F/Enter, 1/1 match at page 3; excerpt begins 市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。"
+    },
+    {
+      "id": "A05_native_copy_jpn",
+      "status": "PASS",
+      "actual": "市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。春は入口付近",
+      "observation": "Native body drag, 42 selected characters, Ctrl+C, then Ctrl+V into the own-app signature input; no signature-update or placement performed with pasted text."
+    },
+    {
+      "id": "A05_native_search_eng",
+      "status": "PASS",
+      "observation": "Frozen term coastal, native search/Enter, 1/1 match at page 7, result excerpt begins The coastal research team surveys the same beach."
+    },
+    {
+      "id": "A05_native_copy_eng",
+      "status": "PASS",
+      "actual": "The coastal research team surveys the same beach throughout the year. Members",
+      "observation": "Native body drag, 77 selected characters, Ctrl+C, own-app Ctrl+V. No pre-existing clipboard read; no document update with pasted text."
+    },
+    {
+      "id": "A05_native_ocr_undo",
+      "status": "PASS",
+      "observation": "Canvas focused, Ctrl+Z once removes OCR; coastal has no matches and search reports 8 pages without text; signature properties remain."
+    },
+    {
+      "id": "A05_native_ocr_redo",
+      "status": "PASS",
+      "observation": "Ctrl+Shift+Z once restores OCR; coastal search again has one result at page 7."
+    },
+    {
+      "id": "A05_native_same_document_save",
+      "status": "PASS",
+      "observation": "Native Save As saved native-same-window-ocr.pdf with prior signature and OCR; title changed and dirty marker cleared."
+    },
+    {
+      "id": "A05_native_saved_search",
+      "status": "PASS",
+      "observation": "Reopened disk-saved OCR PDF in new window 1575260, Undo initially disabled; Ctrl+F coastal/Enter again finds 1/1 at page 7."
+    },
+    {
+      "id": "A02_native_space_correction",
+      "status": "EXECUTED",
+      "observation": "PDF inspection found U+3000 separator in the first IME sample although UIA flattened it. Reopened disk PDF; Ctrl+Home, Right, Right, Delete removes separator; Alt+grave toggles IME and Space inserts separator; updated signature and saved native-signature-corrected.pdf, keeping initial PDF unchanged. Exact U+0020 must be verified in saved bytes."
+    }
+  ],
+  "native_windows_closed": true
+}

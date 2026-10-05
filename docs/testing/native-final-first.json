@@ -1,0 +1,553 @@
+{
+  "date": "2026-10-05",
+  "scope": "Independent saved-PDF verification; native UI observations are separate",
+  "exe_sha256": "c9876c743f4fe1eaa1d34867f6962494b4e2be3ed5ef704a86af31c0272eb0d0",
+  "script_sha256": "ea2790c54f837bda7eef5be300455a607b5abbfde33cfb8a4ef82b74f64d2aea",
+  "observations_sha256": "72a0188f3014ecc7bb3f24b3787ae6ec997d578b365175c36201885083d4d131",
+  "ground_truth_sha256": "7a8878927ec067c80f8b5b42640203beb7d7a99daec17a790d7f5e661e4b15e7",
+  "engines": {
+    "PDFium": "153.0.7999.0",
+    "Poppler": "pdftoppm version 26.07.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+  },
+  "inputs": [
+    {
+      "file": "fixtures/D01.pdf",
+      "sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff"
+    },
+    {
+      "file": "fixtures/D03.pdf",
+      "sha256": "c431c448d4e72cc963ffd4827c45a15533049feb19e352d5f48607cb2b3e1eb7"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "native-signature.pdf",
+      "sha256": "d2613523525aa9acfc74870c31bcdd97223e7fc141460d12f8b5aaeb3c2d9dbe",
+      "bytes": 28665
+    },
+    {
+      "file": "native-signature-reopened-reedited.pdf",
+      "sha256": "84d26c571592fb18bf13091976518fd4e7464bac911c07d7393e5932659507f7",
+      "bytes": 42056
+    },
+    {
+      "file": "native-same-window-ocr.pdf",
+      "sha256": "992e197e78ec858aacd39d8e1790847ae8eb301af41e4461c842f12522848144",
+      "bytes": 3664819
+    }
+  ],
+  "checks": [
+    {
+      "id": "final_executable",
+      "status": "PASS",
+      "sha256": "c9876c743f4fe1eaa1d34867f6962494b4e2be3ed5ef704a86af31c0272eb0d0"
+    },
+    {
+      "id": "source_unchanged_D01.pdf",
+      "status": "PASS",
+      "sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff"
+    },
+    {
+      "id": "source_unchanged_D03.pdf",
+      "status": "PASS",
+      "sha256": "c431c448d4e72cc963ffd4827c45a15533049feb19e352d5f48607cb2b3e1eb7"
+    },
+    {
+      "id": "signature_native-signature.pdf",
+      "status": "FAIL",
+      "metadata": {
+        "color": "#000000",
+        "size": 20,
+        "text": "山田　太郎\n髙橋\n2026年10月4日",
+        "version": 1
+      },
+      "contents": "山田　太郎\n髙橋\n2026年10月4日",
+      "rect": [
+        232.38205,
+        475.38899,
+        378.08205,
+        570.26712
+      ],
+      "print_flag": true,
+      "appearance": true
+    },
+    {
+      "id": "signature_native-signature-reopened-reedited.pdf",
+      "status": "PASS",
+      "metadata": {
+        "color": "#000000",
+        "size": 28,
+        "text": "山田 太郎\n髙橋\n2026年10月4日\n確認済み",
+        "version": 1
+      },
+      "contents": "山田 太郎\n髙橋\n2026年10月4日\n確認済み",
+      "rect": [
+        143.79931,
+        563.9158,
+        344.57931,
+        734.0883
+      ],
+      "print_flag": true,
+      "appearance": true
+    },
+    {
+      "id": "signature_native-same-window-ocr.pdf",
+      "status": "PASS",
+      "metadata": {
+        "color": "#000000",
+        "size": 20,
+        "text": "山田 太郎\n髙橋\n2026年10月4日",
+        "version": 1
+      },
+      "contents": "山田 太郎\n髙橋\n2026年10月4日",
+      "rect": [
+        134.94104,
+        342.59877,
+        280.64104,
+        437.47689
+      ],
+      "print_flag": true,
+      "appearance": true
+    },
+    {
+      "id": "reedited_signature_moved",
+      "status": "PASS"
+    },
+    {
+      "id": "native_clipboard_sample_jpn",
+      "status": "PASS",
+      "reference_page": 3,
+      "characters": 42,
+      "expected": "市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。春は入口付近",
+      "actual": "市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。春は入口付近",
+      "scope": "One native-selected line; not a whole-document CER measurement"
+    },
+    {
+      "id": "native_clipboard_sample_eng",
+      "status": "PASS",
+      "reference_page": 7,
+      "characters": 77,
+      "expected": "The coastal research team surveys the same beach throughout the year. Members",
+      "actual": "The coastal research team surveys the same beach throughout the year. Members",
+      "scope": "One native-selected line; not a whole-document CER measurement"
+    },
+    {
+      "id": "OCR_visible_page_1",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_2",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_3",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_4",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_5",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_6",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_7",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "OCR_visible_page_8",
+      "status": "PASS",
+      "changed_pixels": 0,
+      "renderer": "PDFium, scale=1, draw_annots=False",
+      "scope": "Exclude added signature annotations to isolate OCR body changes"
+    },
+    {
+      "id": "CER_jpn",
+      "status": "PASS",
+      "CER": 0.005050505050505051,
+      "threshold": 0.02
+    },
+    {
+      "id": "fixed_search_jpn",
+      "status": "PASS",
+      "found": 20,
+      "total": 20,
+      "terms": [
+        {
+          "term": "市民公園",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "管理事務所",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "花壇",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "植え替え",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "落ち葉",
+          "pages": [
+            3,
+            4
+          ]
+        },
+        {
+          "term": "遊具",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "記録簿",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "水質",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "水鳥",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "救護所",
+          "pages": [
+            3
+          ]
+        },
+        {
+          "term": "観測所",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "気温",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "湿度",
+          "pages": [
+            1,
+            4
+          ]
+        },
+        {
+          "term": "風向",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "降水量",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "雨量計",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "観測点",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "補正",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "防災",
+          "pages": [
+            4
+          ]
+        },
+        {
+          "term": "農業",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CER_eng",
+      "status": "PASS",
+      "CER": 0.0004553734061930783,
+      "threshold": 0.01
+    },
+    {
+      "id": "fixed_search_eng",
+      "status": "PASS",
+      "found": 20,
+      "total": 20,
+      "terms": [
+        {
+          "term": "coastal",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "surveys",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "beach",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "tide",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "container",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "instruments",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "laboratory",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "uncertainty",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "coastline",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "departure",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "term": "railway",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "archive",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "timetables",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "photographs",
+          "pages": [
+            7,
+            8
+          ]
+        },
+        {
+          "term": "catalog",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "scanning",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "recognition",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "comparison",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "restoration",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "term": "backups",
+          "pages": [
+            8
+          ]
+        }
+      ]
+    }
+  ],
+  "OCR_pages": [
+    {
+      "page": 1,
+      "language": "jpn",
+      "split": "tune",
+      "reference_characters": 602,
+      "edit_distance": 5,
+      "CER": 0.008305647840531562,
+      "copy_text": "地域の図書館では、来館者が安心して資料を探せるように案内を整えています。 入口の地図に\r\nは、新聞、雑誌、児童書、参考図書の場所を示しました。受付では貸出カードの作り方を説明\r\nし、返却期限を印刷した紙を渡します。予約した本が届いた場合は、事前に選んだ連絡方法で\r\nお知らせします。\r\n読書室の机と椅子は毎朝点検します。照明の明るさを調整し、窓からの日差しが強い時間帯に\r\nはカーテンを閉めます。静かな席を希望する方と、グループで相談する方が同じ場所で困らな\r\nいように、利用区域を分けています。わからないことがあれば係員に声をかけてください。\r\n資料の保存には温度と湿度の管理が欠かせません。古い写真や地図は専用の箱に入れ、閲覧す\r\nるときは汚れを防ぐ敷物を使います。破れや変色を見つけた場合は、その場所を記録 して担当\r\n者へ報告します。 修理中の資料には返却予定日を表示します。\r\n新しい展示は毎月最初の火曜日に始まります。 今月のテーマは町の交通と暮らしです。昔の駅\r\n舎、商店街、公園の写真を年代順に並べました。展示の説明文は大きな文字で印刷しています\r\n。 来館者の感想は専用の箱で受け付け、次回の企画を考える参考にします。\r\n閉館前には館内放送で時間を案内します。忘れ物がないかを確認し、借りた資料の冊数を確か\r\nめてからお帰りください。貸出中の資料は返却ポストでも受け付けます。ただし付属品のある\r\n資料は窓口へお持ちください。"
+    },
+    {
+      "page": 2,
+      "language": "jpn",
+      "split": "tune",
+      "reference_characters": 590,
+      "edit_distance": 3,
+      "CER": 0.005084745762711864,
+      "copy_text": "工場の設備点検は、作業開始前の確認から始まります。担当者は手順書を読み、工具 と保護具\r\nがそろっていることを確かめます。機械の周囲に障害物がないか、床が濡れていないかを確認\r\nします。異常を見つけた場合は運転を始めず、責任者へ報告してください。\r\n点検表には設備番号、実施日時、担当者名、確認結果を記入します。測定値は単位を付けて記\r\n録し、前回の値と比較します。数値が許容範囲内でも、変化が急な場合は原因を調べます。記\r\n録を後から書き直すときは、変更した理由がわかるように残します。\r\n部品の交換は指定された順序で進めます。取り外したねじや留め具は箱にまとめ、別の設備の\r\n部品と混ざらないようにします。新しい部品の型式を確認してから取り付けます。 交換後は工\r\n具の置き忘れがないことを確認し、保護カバーを元の位置に戻します。\r\n作業を引き継ぐ際には、完了した項目と未完了の項目を分けて説明します。特に注意が必要な\r\n箇所は、口頭だけでなく書面でも伝えます。判断に迷う場合は、経験だけで進めずに手順書と\r\n責任者の指示を確認します。 安全のための停止をためらわないことが大切です。\r\n月末には点検記録を集計します。故障の回数だけでなく、停止時間、交換部品、発見のきっか\r\nけも調べます。同じ異常が繰り返されている設備は、保全計画を見直します。改善した内容は\r\n次の担当者にも共有し、毎日の確認に反映します。"
+    },
+    {
+      "page": 3,
+      "language": "jpn",
+      "split": "evaluation",
+      "reference_characters": 591,
+      "edit_distance": 3,
+      "CER": 0.005076142131979695,
+      "copy_text": "市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。春は入口付近\r\nに明るい色の花を植え、夏は木陰の休憩場所を整えます。秋には落ち葉を集め、冬には通路の\r\n凍結を確認します。訪れる人が歩きやすいように、段差や水たまりも点検します。\r\n遊具の点検では、金属部分のひび、ねじの緩み、地面の状態を調べます。 修理が必要な遊具は\r\n使用を停止し、理由を示した案内を取り付けます。修理が終わるまで立ち入れないように囲い\r\nを設けます。点検した日時と担当者は記録簿に残し、次の確認に役立てます。\r\n池の周囲では水質と生き物の様子を観察します。えさの与えすぎは水を汚す原因になるため、\r\n決められたルールを掲示します。 水鳥が休む場所には近づきすぎないように案内します。清掃\r\nの際は、ごみだけでなく人危険な落とし物がないかも確認します。\r\n休日の催しでは、会場の配置図を入口に掲示します。受付、休憩所、救護所の位置をわかりや\r\nすく示し、通路には物を置きません。雨天時の対応は開催前に決め、変更があれば早めに知ら\r\nせます。片付けが終わった後は、忘れ物と設備の状態を確認します。\r\n公園を長く気持ちよく使うために、利用者からの意見を集めています。ベンチの場所、案内板\r\nの読みやすさ、夜間の明るさなど、具体的な気づきをお寄せください。寄せられた意見は定期\r\n的に整理し、対応した内容と今後の予定を掲示します。"
+    },
+    {
+      "page": 4,
+      "language": "jpn",
+      "split": "evaluation",
+      "reference_characters": 597,
+      "edit_distance": 3,
+      "CER": 0.005025125628140704,
+      "copy_text": "観測所では、毎日同じ時刻に気温、湿度、風向、降水量を記録します。測定器の設置場所には\r\n周囲の建物や樹木の影響があります。そのため、機器を移動する場合は位置と理由を記録し、\r\n以前の観測値と単純に比較しないように注意します。\r\n雨量計の入口に落ち葉や虫が入ると、正しい値を測れないことがあります。 担当者は定期的に\r\n内部を確認し、必要な清掃を行います。清掃した日時も観測記録に残します。強い雨や風が予\r\n想される日は、無理に屋外へ出ず、安全を確保してから点検します。\r\n収集したデータは、まず欠けている時刻や異常な値がないかを確認します。異常が疑われる値\r\nはすぐに削除せず、周辺の観測点や機器の状態と照らし合わせます。補正を行う場合は、元の\r\n値と補正後の値を区別して保存します。判断の根拠も担当者が読める形で残します。\r\n月ごとの報告書には、平均値だけでなく最高値と最低値も掲載します。 観測できなかった日が\r\nある場合は、その日数と理由を明記します。表とグラフでは同じ単位を使い、比較する期間を\r\nそろえます。 長期的な傾向と一日の変動を混同しない説明を心がけます。\r\n観測の結果は防災や農業の計画にも利用されます。ただし、一つの地点の数値だけで広い地域\r\n全体の状態を決めることはできません。利用する目的と測定条件を確認し、必要に応じて複数\r\nの資料を組み合わせます。わからない点は推測で埋めず、未確認として示します。"
+    },
+    {
+      "page": 5,
+      "language": "eng",
+      "split": "tune",
+      "reference_characters": 1050,
+      "edit_distance": 0,
+      "CER": 0.0,
+      "copy_text": "The community workshop opens at nine each morning. Visitors register at the front\r\ndesk and receive a short explanation of the available equipment. Staff check that\r\ntools are clean, guards are secure, and emergency exits are clear. Each participant\r\nreads the instructions before beginning a project. Questions are welcome at every\r\nstage of the work. Materials are stored by type and size. Wood belongs on the lower shelves, while\r\nsmall metal parts are kept in labeled drawers. A separate cabinet holds protective\r\nglasses and gloves. Borrowed tools must be returned to their marked places. This\r\narrangement makes missing items easier to notice and helps the next visitor prepare\r\nwithout delay. At the end of a session, participants remove waste from their benches and report\r\nany damage. Staff record repairs in a shared notebook. A broken tool stays out of\r\nservice until a qualified person has inspected it. The monthly review considers\r\nboth accidents and situations that almost caused an accident. The purpose is to\r\nimprove the workspace for everyone."
+    },
+    {
+      "page": 6,
+      "language": "eng",
+      "split": "tune",
+      "reference_characters": 1057,
+      "edit_distance": 0,
+      "CER": 0.0,
+      "copy_text": "The museum prepares a new exhibition every season. Curators begin by selecting\r\nobjects that tell a clear story. They check the condition of each object and\r\nconfirm that it can be displayed safely. Labels explain where the object came from, how it was used, and why it matters. Dates and measurements are checked against the\r\ncollection records. Lighting is adjusted before the public enters the gallery. Fragile paper needs\r\nlower light levels than stone or metal. Display cases must allow visitors to see\r\nimportant details without touching the objects. Staff walk through the room to\r\ncheck the route, the signs, and the space around each case. They also test the\r\nreading height of the labels. After the exhibition closes, every object is examined again. Changes in condition\r\nare photographed and described. Packing materials are selected to protect the\r\nsurfaces during transport. The final report records what worked well and what\r\nshould change next time. Visitor comments help the team understand which\r\nexplanations were clear and which needed more context."
+    },
+    {
+      "page": 7,
+      "language": "eng",
+      "split": "evaluation",
+      "reference_characters": 1097,
+      "edit_distance": 1,
+      "CER": 0.0009115770282588879,
+      "copy_text": "The coastal research team surveys the same beach throughout the year. Members\r\nrecord the date, tide level, weather, and starting position before collecting\r\nsamples.They follow a marked route so that observations from different visits can\r\nbe compared. Equipment is checked before departure, and each container receives a\r\nunique label. Samples are handled carefully to avoid mixing material from separate locations. The\r\nteam uses clean instruments and records the depth of each collection. Photographs\r\nshow the surrounding area as well as the sample point. If a location cannot be\r\nreached safely, the team records the reason and leaves the entry incomplete. Safety\r\ntakes priority over finishing every planned measurement. Back at the laboratory, staff compare the labels with the field notes. Unexpected\r\nresults are checked against the original observations. The report presents\r\nuncertainty alongside the measurements and explains any gaps in the record. Repeated surveys reveal gradual changes that a single visit cannot show. The\r\ncollected evidence supports careful decisions about the coastline."
+    },
+    {
+      "page": 8,
+      "language": "eng",
+      "split": "evaluation",
+      "reference_characters": 1099,
+      "edit_distance": 0,
+      "CER": 0.0,
+      "copy_text": "The railway archive contains maps, timetables, photographs, and maintenance\r\nrecords. Researchers request materials using the reference numbers in the catalog. Staff retrieve the requested items and explain any handling restrictions. Large\r\nmaps are supported on a clean table, and loose photographs remain in their\r\nprotective sleeves. Digital copies make frequently requested records easier to consult. Before\r\nscanning, staff check page order and note any missing sections. Images are reviewed\r\nfor focus, alignment, and complete margins. Text recognition helps users search the\r\ncollection, but the original image remains available for comparison. Uncertain\r\nwords are not silently replaced with guesses. Each completed record includes the source, date of capture, equipment settings, and\r\nreview status. A second staff member checks a sample of the results. Files are\r\nstored in more than one location, and restoration tests confirm that the backups\r\ncan be used. The archive publishes clear descriptions of its coverage so that\r\nresearchers understand both the strengths and the limits of the collection."
+    }
+  ],
+  "poppler_renders": [
+    "native-signature-page-1-poppler.png",
+    "native-signature-reopened-reedited-page-1-poppler.png",
+    "native-same-window-ocr-page-1-poppler.png",
+    "native-same-window-ocr-page-3-poppler.png",
+    "native-same-window-ocr-page-7-poppler.png"
+  ],
+  "status": "FAIL",
+  "unexecuted": [
+    "Adobe Reader native viewer",
+    "Firefox native clipboard/search/print",
+    "physical printer",
+    "real disk full",
+    "clean Windows with network disabled",
+    "Microsoft IME",
+    "OS scaling 100/150/200%"
+  ]
+}
