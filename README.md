@@ -52,7 +52,7 @@ git clone --recurse-submodules https://github.com/okakanatto/PDF_Tatsujin.git
 
 Windowsでの依存配置・ビルド・起動・試験は[開発手順](docs/DEVELOPMENT.md)、責務と保存・OCRの設計は[構成](docs/ARCHITECTURE.md)を参照してください。PDF4QTは固定コミットのサブモジュールです。大きなモデルやフォントはSHA-256を検証して取得し、実行時にはローカルに同梱します。
 
-Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の47件と未実行項目](docs/testing/M1_READING.md)、[M1初回の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。Firefoxの全体Fit宛先は未編集入力と保存入力の双方で期待ページに移動せず、追加診断をFAILとして残しています。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
+Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の47件と未実行項目](docs/testing/M1_READING.md)、[M1初回の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。Firefoxの全体Fit宛先は他のしおり操作後に表示位置が戻り、元入力と保存入力の双方で診断をFAILとして残しています。[追加切り分け](docs/testing/M1_EXTERNAL_FIT.md)で、直接の移動とフォーカスの挙動を比較しました。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
 
 正解と検索語はOCR実行前に `fixtures/ground-truth.json` へ固定しました。追加の閲覧用入力 `fixtures/viewer-search.pdf` と件数・ページの正解も実装試験前に固定し、`scripts/check-source.py`でハッシュを検証します。既存結果に合わせて正解や閾値を変えません。ビルド成果物、依存本体、ローカルログはGit管理から除外します。非公開実務文書は含めません。
 

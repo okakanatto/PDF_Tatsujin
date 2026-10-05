@@ -1,0 +1,13 @@
+{
+  "measured_at": "2026-10-05T13:33:12.3072413+09:00",
+  "baseline_source_commit": "e451131a16b45454d52fd200427207ccdeb1ca51",
+  "diagnostic_sha256": "8adc3466a9c49895809fcaeb52e89391ca70f1aaa02a9df74d4f42e8d68bf948",
+  "product_exe_sha256": "c9876c743f4fe1eaa1d34867f6962494b4e2be3ed5ef704a86af31c0272eb0d0",
+  "original_record_sha256": "4a5e3b31a943553be14c1df30c7e557c5169fe9cd559f9f45e554bb8666bbc81",
+  "saved_record_sha256": "103f6cbe143186ae4b7bf5b7394c90e7792420d6a05ad0e67b93bf167be78c4f",
+  "diagnostic_completed": true,
+  "cases_pass": 2,
+  "cases_fail": 4,
+  "diagnostic_exit_code_note": "0 denotes completed comparison, not all cases PASS",
+  "product_CPP_changes": false
+}
