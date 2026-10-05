@@ -49,6 +49,57 @@ void settle()
     QTest::qWait(50);
 }
 } // namespace
+QJsonObject testReadingInitialPanels(const QString& fixtures, const QString& output)
+{
+    QJsonArray cases;
+    for (const bool beforeShow : {false, true})
+        for (const int panel : {0, 1})
+        {
+            Window window;
+            window.resize(1024, 720);
+            if (!beforeShow)
+                window.show();
+            window.openFile(fixtures + "/D01.pdf");
+            const auto original = encodePdf(window.doc.pdf());
+            (panel == 0 ? window.signatureAction : window.ocrAction)->trigger();
+            if (beforeShow)
+                window.show();
+            ready(window, 0);
+            settle();
+            bool japanese = false, english = false;
+            for (const auto& flow : PDFTextFlow::createTextFlows(textLayout(window.doc.pdf(), 0),
+                                                                 PDFTextFlow::AddLineBreaks, 0))
+                for (const auto& word : {QString("日本語"), QString("English")})
+                    if (const auto index = flow.getText().indexOf(word); index >= 0)
+                    {
+                        const auto center = flow.getBoundingBoxes()[size_t(index)].center();
+                        const bool visible = window.canvas->viewport()->rect().contains(
+                            window.canvas->pdfToViewport(0, center).toPoint());
+                        if (word == "日本語")
+                            japanese = visible;
+                        else
+                            english = visible;
+                    }
+            window.grab().save(output +
+                               QString("/initial-panel-%1-%2.png").arg(beforeShow).arg(panel));
+            check(japanese && english, "opening a panel immediately must show the first PDF text");
+            check(!window.doc.dirty() && window.doc.cursor == 0 &&
+                      encodePdf(window.doc.pdf()) == original,
+                  "initial panel changes no PDF or Undo state");
+            cases.append(QJsonObject{{"open_before_show", beforeShow},
+                                     {"panel", panel},
+                                     {"Japanese_and_English_visible", true}});
+        }
+    Window window;
+    window.show();
+    window.openFile(fixtures + "/D10-digital-100.pdf");
+    window.signatureAction->trigger();
+    window.pages->setCurrentRow(49);
+    ready(window, 49);
+    settle();
+    check(window.canvas->page == 49, "explicit navigation wins over pending initial panel layout");
+    return {{"cases", cases}, {"explicit_navigation_wins", true}};
+}
 QJsonObject testReadingPageInput(const QString& fixtures, const QString& output)
 {
     Window window;

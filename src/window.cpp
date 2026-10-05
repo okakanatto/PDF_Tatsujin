@@ -1,4 +1,5 @@
 #include "window.h"
+#include "page_previews.h"
 #include "pdfsecurityhandler.h"
 #include <QtPrintSupport>
 
@@ -164,7 +165,9 @@ Window::Window()
     auto toolGroup = new QActionGroup(this);
     selectToolAction = new QAction("選択", toolGroup);
     selectToolAction->setObjectName("selectReadingTool");
-    selectToolAction->setToolTip("文字を選択してコピー。署名の枠をドラッグして編集。");
+    selectToolAction->setToolTip(
+        "ドラッグで文字選択、ダブルクリックで単語選択、Shift+クリックで範囲を拡張。"
+        "Ctrl+Cでコピー。署名の枠をドラッグして編集。");
     handToolAction = new QAction("手のひら", toolGroup);
     handToolAction->setObjectName("handReadingTool");
     handToolAction->setToolTip("PDFをつかんで表示を移動。本文ではSpace押下中だけ一時切替。");
@@ -199,11 +202,10 @@ Window::Window()
         "QTabBar::tab { background: transparent; color: #596779; padding: 9px 10px; border-bottom: "
         "2px solid transparent; }"
         "QTabBar::tab:selected { color: #154a88; border-bottom-color: #377ccf; }");
-    pages = new QListWidget;
+    pages = new PagePreviews;
     pages->setObjectName("pageList");
     pages->setSpacing(6);
     pages->setUniformItemSizes(true);
-    pages->setIconSize(QSize(96, 128));
     navigationTabs->addTab(pages, "ページ");
     bookmarksPanel = new BookmarksPanel;
     navigationTabs->addTab(bookmarksPanel, "しおり");
@@ -257,6 +259,8 @@ Window::Window()
     connect(searchPanel, &SearchPanel::matchActivated, this,
             [this](const SearchMatch& match)
             {
+                initialPagePending = false;
+                ++layoutGeneration;
                 rememberView();
                 canvas->showSearchMatch(match);
             });
@@ -264,6 +268,7 @@ Window::Window()
     {
         if (row < 0 || row >= doc.pages())
             return;
+        initialPagePending = false;
         ++layoutGeneration;
         const auto before = canvas->viewState();
         canvas->goToPage(row);
@@ -569,7 +574,15 @@ void Window::preserveLayoutAnchor(const ViewAnchor& anchor)
                        [this, generation, revision, anchor]
                        {
                            if (generation == layoutGeneration && revision == doc.revision)
-                               canvas->restoreAnchor(anchor);
+                           {
+                               if (initialPagePending)
+                               {
+                                   initialPagePending = false;
+                                   canvas->goToPage(0);
+                               }
+                               else
+                                   canvas->restoreAnchor(anchor);
+                           }
                        });
 }
 void Window::syncReadingLayout()
@@ -675,6 +688,7 @@ void Window::openFile(const QString& path)
         doc.open(path, pwd);
     }
     ++layoutGeneration;
+    initialPagePending = true;
     setReadingMode(false);
     canvas->resetView();
     bookmarksPanel->reset();
@@ -689,8 +703,11 @@ void Window::openFile(const QString& path)
     QTimer::singleShot(0, canvas,
                        [this, generation]
                        {
-                           if (generation == layoutGeneration)
+                           if (generation == layoutGeneration && initialPagePending)
+                           {
+                               initialPagePending = false;
                                canvas->goToPage(0);
+                           }
                        });
 }
 void Window::refresh(bool rebuild, PDFObjectReference selection)
@@ -720,11 +737,8 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     }
     canvas->refresh(selection);
     searchPanel->setDocument(doc.loaded() ? &doc.pdf() : nullptr, doc.revision, canvas->page);
-    if (doc.loaded() && pages->item(canvas->page))
-    {
-        auto image = renderPage(doc.pdf(), canvas->page, .16);
-        pages->item(canvas->page)->setIcon(QPixmap::fromImage(image));
-    }
+    static_cast<PagePreviews*>(pages)->setDocument(doc.loaded() ? &doc.pdf() : nullptr,
+                                                   doc.revision);
     setWindowTitle(
         QString("%1%2 — PDF達人 M1")
             .arg(doc.dirty() ? "● " : "")
@@ -772,6 +786,7 @@ void Window::navigateTarget(const NavigationTarget& target)
         return;
     }
     const auto before = canvas->viewState();
+    initialPagePending = false;
     ++layoutGeneration;
     canvas->goToDestination(resolved);
     const auto after = canvas->viewState();
@@ -788,6 +803,7 @@ void Window::moveHistory(bool forward)
     auto& target = forward ? backHistory : forwardHistory;
     if (!doc.loaded() || source.isEmpty())
         return;
+    initialPagePending = false;
     ++layoutGeneration;
     target.append({canvas->viewState(), query->text(), doc.revision});
     auto destination = source.takeLast();

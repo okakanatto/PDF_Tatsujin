@@ -80,6 +80,7 @@ private:
     bool readingMode = false, restoreProperties = false;
     bool initialPlacement = true;
     quint64 layoutGeneration = 0;
+    bool initialPagePending = false;
     void setReadingMode(bool enabled);
     void syncReadingLayout();
     void preserveLayoutAnchor(const ViewAnchor& anchor);

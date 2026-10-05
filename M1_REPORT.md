@@ -4,6 +4,8 @@
 
 > 公開リポジトリにはソース、合成試験入力、結果要約を含めます。以下の`dist/`と`evidence/`はローカル検証成果物の場所であり、Gitには含めません。公開用整理後の回帰結果は`docs/testing/OSS_PREPARATION.md`を参照してください。
 
+> **2026-10-05の最新版:** [単語選択・非同期ページ一覧・初期本文表示の実装と検証](docs/testing/M1_VIEWER_REFINEMENTS.md)。`dist/PDFTatsujin-M1-reading-refined/PDFTatsujin.exe`と対応ZIPを作成し、最終Windows全回帰52件PASS、日英OCR検索語各20/20、最終exeの実画面で日英選択とWindowsコピー・貼り付けを確認した。右パネルで本文先頭が見えなくなる問題も失敗試験を残して修正した。以下は各版の履歴で、実IME全経路はそのexeの記録と区別する。M1全体の合格保留・既知のFirefox Fit診断FAIL・環境未実行は維持し、M2以降には進んでいない。
+
 > **2026-10-05のWindows実画面検証:** [最終配布物の実IME・標準保存・再編集・日英OCR・OSコピー](docs/testing/M1_NATIVE_FINAL.md)を実行しました。同じ最終exeの47件に加え、実画面で保存したPDFの独立検証は入力修正後21件PASS。初回の全角スペース不一致1件FAILも保持しています。Firefoxでも今回の保存PDFの全40検索語・DOM選択・PDF印刷を実行しました。起動は`dist/PDFTatsujin-M1-reading/PDFTatsujin.exe`。M1全体の合格は保留、M2以降には進みません。
 
 > **2026-10-05の最終検証:** [ページ入力・集中表示とM1の現在の結果](docs/testing/M1_READING.md)。最新試用版は `dist/PDFTatsujin-M1-reading/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-reading-windows-x64.zip`。47件のWindows試験はPASS、日英OCRの検索語は各20/20。A01〜A12の実行範囲、外部評価、容量、性能、残課題はリンク先にまとめました。Reader・実容量不足・クリーンWindows等は未実行、Firefox全体Fit宛先の診断はFAILで、M1全体の合格は保留です。以下の「単一ページ表示」や当時の未実行一覧は初回の履歴です。[しおり・リンク](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の過去版の記録も保持します。閲覧UX完成やAcrobatとの比較合格とはしていません。

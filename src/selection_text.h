@@ -16,9 +16,16 @@ struct SelectionPage
     QString text;
     QVector<QRectF> boxes;
     QVector<Line> lines;
+    QVector<qsizetype> graphemes, words;
+    void indexBoundaries();
     qsizetype caret(QPointF point) const;
+    bool contains(QPointF point) const;
+    QPair<qsizetype, qsizetype> wordAt(QPointF point, bool nearest = false) const;
     bool hasGlyphs() const;
     qint64 bytes() const;
+
+private:
+    qsizetype characterAt(QPointF point, bool nearest) const;
 };
 
 // Page extraction is serialized on a worker. The GUI only reads immutable values.

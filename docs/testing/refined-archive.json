@@ -1,0 +1,8 @@
+{
+  "all_files_match": true,
+  "files": 369,
+  "exe_sha256": "fe265707a41b2d732d5bdf12686f1900646c963bcb92bef948c72c70d7110f3d",
+  "zip_sha256": "9184ba84fd09a8951faa1afa98c1d10987d094bef4d1dc93a828473c87797816",
+  "zip_bytes": 143546621,
+  "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+}

@@ -124,12 +124,17 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_page_input", [&] { return testReadingPageInput(fixtures, output); });
     run("Reading_focus_layout", [&] { return testReadingLayout(fixtures, output); });
     run("Reading_OCR_cancel", [&] { return testReadingOcrCancel(fixtures, output); });
+    run("Reading_initial_panels", [&] { return testReadingInitialPanels(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });
     run("Selection_ranges", [&] { return testSelectionRanges(fixtures, output); });
     run("Selection_autoscroll", [&] { return testSelectionScroll(fixtures, output); });
     run("Selection_lifecycle", [&] { return testSelectionLifecycle(fixtures, output); });
+    run("Selection_words", [&] { return testSelectionWords(fixtures, output); });
+    run("Selection_word_boundaries", [&] { return testSelectionWordBoundaries(fixtures, output); });
+    run("Selection_word_lifecycle", [&] { return testSelectionWordLifecycle(fixtures, output); });
+    run("Viewer_page_previews", [&] { return testPagePreviews(fixtures, output); });
     run("Search_occurrences_history", [&] { return testSearchNavigation(fixtures, output); });
     run("Search_generation_lifecycle", [&] { return testSearchGeneration(fixtures, output); });
     run("Search_IME_commit", [&] { return testSearchInput(fixtures, output); });

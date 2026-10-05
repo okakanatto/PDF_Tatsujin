@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-05",
+  "mode": "Windows native input through computer-use @oai/sky; only own app and synthetic PDF",
+  "executable": "dist/PDFTatsujin-M1-reading-refined/PDFTatsujin.exe",
+  "executable_sha256": "fe265707a41b2d732d5bdf12686f1900646c963bcb92bef948c72c70d7110f3d",
+  "fixture": "fixtures/viewer-search.pdf",
+  "fixture_sha256": "2c95a1e7e534bc22dff400dcf2339d57ddf093d9634a3be32cd9fdb524fc8da8",
+  "events": [
+    {
+      "action": "Open own test PDF in final packaged executable",
+      "observed": "First page readable, three page previews visible; no blank initial viewport",
+      "status": "PASS"
+    },
+    {
+      "action": "Explicit left-button double click on opens, Ctrl+C, open own signature panel, focus its field, Ctrl+V",
+      "expected": "opens",
+      "observed": "5-character highlight, exact opens pasted into own-app field",
+      "status": "PASS"
+    },
+    {
+      "action": "Explicit left-button double click on first character of 交通費, Ctrl+C, focus own field, Ctrl+A, Ctrl+V",
+      "expected": "交",
+      "observed": "1-character highlight, exact 交 pasted into own-app field",
+      "status": "PASS"
+    },
+    {
+      "action": "Alt+F4",
+      "observed": "No windows of this test executable remain; no PDF edit or save made",
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "Native Shift-click and double-click drag: 未実行; covered separately by Qt event tests.",
+    "This final native pass does not repeat the entire IME/signature/OCR/save workflow. Earlier M1_NATIVE_FINAL.md records its own executable hash; final regression covers those PDF operations automatically.",
+    "No preexisting clipboard content was read. Only selected synthetic text was pasted to verified own-app fields.",
+    "An unrelated Brother toast overlapped captures; it was not interacted with and raw native captures are not published.",
+    "Real OS scale changes, Narrator, Microsoft IME and Acrobat comparison: 未実行."
+  ]
+}

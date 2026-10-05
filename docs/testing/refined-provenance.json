@@ -1,0 +1,169 @@
+{
+  "date": "2026-10-05",
+  "parent_commit": "65700c107f0801833f3191d05ad04f7ad1f1a89d",
+  "executable_sha256": "fe265707a41b2d732d5bdf12686f1900646c963bcb92bef948c72c70d7110f3d",
+  "final_regression": "52 PASS / 0 FAIL; Windows Qt offscreen plus real NTFS denial and Windows PDF printer",
+  "package_rename": "Final regression ran in dist/PDFTatsujin-M1-selection before moving this same executable to unused PDFTatsujin-M1-reading-refined. Old selection package restored from its unchanged archive; full member verification retained locally.",
+  "public_conversion": "UTF-8 JSON reserialized with LF, workspace prefix redacted. Parse-equivalence verified after only that explicit redaction; raw and public byte hashes recorded separately.",
+  "native_scope": "Final executable: English/Japanese word selection and OS clipboard. Full native IME/signature/OCR/save earlier executable: see M1_NATIVE_FINAL.md. Do not merge version scopes.",
+  "DPR_scope": "QT_SCALE_FACTOR=2 offscreen, separate targeted run, not a change to Windows display scale",
+  "DPR_runner_note": "Direct GUI exe invocation returned before reliable LASTEXITCODE inspection although JSON passed. Repeated with run-tests.ps1 Start-Process -Wait: exit 0 and PASS. Earlier record retained locally.",
+  "known_external_failure": "Firefox Fit sequential navigation: original and saved both FAIL in prior diagnosis; see M1_EXTERNAL_FIT.md, unchanged expectation page 5",
+  "not_run": [
+    "Adobe Reader",
+    "real full volume",
+    "clean Windows with networking disabled",
+    "physical printer",
+    "Microsoft IME",
+    "real OS DPI 100/150/200%",
+    "Narrator",
+    "Acrobat comparison",
+    "native Firefox find/clipboard/print dialog",
+    "native Shift-click and word drag"
+  ],
+  "records": {
+    "refined-regression.json": {
+      "source": "evidence/viewer-selection-20261005/final-regression/selftest.json",
+      "raw_sha256": "a7233b8a22237cf02a7c9be6bbf3af46350b694454cdde6695c86d23e7f0e442",
+      "public_sha256": "782412722a75033d209735c2ca2bb6cfbcaaa8c295ba0a695045111423d7fccf"
+    },
+    "refined-windows-errors.json": {
+      "source": "evidence/viewer-selection-20261005/final-regression/windows-errors-environment.json",
+      "raw_sha256": "2b89e28af48cfeb164d85f65fe63402a2b517c5235cf460d24e474c74ccb94e2",
+      "public_sha256": "0f6b88f0db58e1833e02c1c03d4ff00c5ccabffcc7cd420101abad8edd3f259d"
+    },
+    "refined-independent.json": {
+      "source": "evidence/viewer-selection-20261005/final-regression/independent-verification.json",
+      "raw_sha256": "09cd85df6cde785bf0851d9e16bf56fd305ce9eecebc28e8d8f515c00c72c29c",
+      "public_sha256": "7ff6ad1b144791d9afe8eaa3f5a009db01dd4ed2570d2fdab3693060f9a2843d"
+    },
+    "refined-firefox.json": {
+      "source": "evidence/viewer-selection-20261005/final-firefox/firefox-verification.json",
+      "raw_sha256": "efa01987bc10a43db0c096c8a573a69ff4d36a856be3efbd114002cd57242b9d",
+      "public_sha256": "820f243dde6b89064be6ec9d1d5beb919b4752772d70782b388bdee44d26ac84"
+    },
+    "refined-navigation-export.json": {
+      "source": "evidence/viewer-selection-20261005/final-navigation-export/navigation-export.json",
+      "raw_sha256": "94018121ddfff78bf231bf38eaf76922bfae6b0e470f4ce31f513818270064c2",
+      "public_sha256": "4798c7e3a26e9c245a6ecce653d303a03b5bde52c239860de3348b8a8d0aee54"
+    },
+    "refined-previews-dpr2.json": {
+      "source": "evidence/viewer-selection-20261005/final-previews-dpr2-confirmed/selftest.json",
+      "raw_sha256": "95ad6c0cee7fff8d5a53e3fe50325db25241bab67eee6b017212b22a6c639d4f",
+      "public_sha256": "76c5092d8d1b207102c7cc88f063554f55bbb84c5c40618c34aecf52bc0e8857"
+    },
+    "refined-native.json": {
+      "source": "evidence/viewer-selection-20261005/final-native-observations.json",
+      "raw_sha256": "a6320226dd7f851f32d2218ecf027edc8a4eb8915159debd77207caa4c665689",
+      "public_sha256": "5d64b9fb3d26e6f40d26728c8754ca4f590a7db807c622a6bf078ffc2c84f072"
+    },
+    "refined-native-previous.json": {
+      "source": "evidence/viewer-selection-20261005/native-observations.json",
+      "raw_sha256": "20203584847e6c44a254d46b7963aaa3f8efb5c7bebd1942a6a9fe2025a1eb66",
+      "public_sha256": "99c5844bcdae2ab68e4bfb2490ce35f2702a2d8f7bae36f15ba62aad7efb4d77"
+    },
+    "refined-words-first.json": {
+      "source": "evidence/viewer-selection-20261005/targeted-first/selftest.json",
+      "raw_sha256": "a1a603e04cc8c4c758aa8c1d024b490dd1f1f90b47d5c78962665cccaf4fa609",
+      "public_sha256": "b436a82721762ad0c251895a06d0845c13bc3ac21ff5a613872703e147b2a6ad"
+    },
+    "refined-words-second.json": {
+      "source": "evidence/viewer-selection-20261005/targeted-second/selftest.json",
+      "raw_sha256": "380b0866d48096351ba7b0c13e9d073093ecca2357808ee033a2c46c05373eac",
+      "public_sha256": "422d6c0722d5a5c3c9ab2895c0e094ab690755288732018409e43fe426695b4c"
+    },
+    "refined-words-third.json": {
+      "source": "evidence/viewer-selection-20261005/targeted-third/selftest.json",
+      "raw_sha256": "67f00056752b6e87542ee705dc9c15805075f6499187baf459c4cee593d8f618",
+      "public_sha256": "f98d014b602eaa4431307c6990ae1f534a05452f1198c4c6a6ed8cbf95c728e0"
+    },
+    "refined-initial-before-fix.json": {
+      "source": "evidence/viewer-selection-20261005/initial-panels-before-fix/selftest.json",
+      "raw_sha256": "ae484dec1781d7146208a871e2f7ae56a1787bf12bf196a92a00827ae59a9c44",
+      "public_sha256": "53e6f272759e34d1d5c0a392bbee93432c10d08e0ce3be7b8cb7c5a0e16ba451"
+    },
+    "refined-performance.json": {
+      "source": "evidence/viewer-selection-20261005/final-performance/summary.json",
+      "raw_sha256": "710a2a8c9bab9d84edc2861a27809bbef9e3c5796eef33bef10abc9535d3d7d4",
+      "public_sha256": "9f3d4351e37476ae0b09dd753114c7416cec9bd45295541a8086b1df678f5b6d"
+    },
+    "refined-archive.json": {
+      "source": "evidence/viewer-selection-20261005/archive-verification.json",
+      "raw_sha256": "99d029941f9fef15dafa1429a5810af7b5f7e970f1cd6438d43e7fffeb2d83e3",
+      "public_sha256": "4af0c90bf65dbb7e77d20fdbf4404b32a19322c70c93d31e0a705f680d128db9"
+    },
+    "refined-storage.json": {
+      "source": "evidence/viewer-selection-20261005/storage-final.json",
+      "raw_sha256": "1070df82e0564a96ef16a5b81b17311d43734d8c8b1cc3f17867ad60b2fc7f06",
+      "public_sha256": "a5420b1cdc8cb549c880ee3e2f41fbf63eee9d3b688a02be308ffe01eaf37cd1"
+    }
+  },
+  "images": {
+    "refined-selection.png": "698354dbfc818159366d79158e89b3835b898ac79da99123a3efe34b22d09b95",
+    "refined-words-cross-page.png": "32accbc462097884a2cdd2cab97e62ec36dd5f5feff20b2618b2d750ce156b81",
+    "refined-previews.png": "31a0816be207a48a8352fe738d2d4ad07c90b933d4f63b4d81490165f110a264",
+    "refined-previews-100.png": "933951387e8d2042f202502c9d61fccb274cdb8d569ea8e7e8c65fb0640057d9",
+    "refined-signature-1024.png": "727def545d8acaeb7231e2544a32c54c2179f1058e7cc6ef24f1afeb487a025b",
+    "refined-initial-panel.png": "ed487802e54fcfa80c41ba41e8dd04bff0cb4ce13d1118843aaa55a534f84b7d",
+    "refined-windows-print.png": "4e6f80c3669e228170443826f3c034c3e5112804d82213b9231e01644fe25661",
+    "refined-firefox-print.png": "d516f47390ead3ae3e8178c25cf1e52f58a86526f1103770be83a8d9d7e787f4"
+  },
+  "source_sha256_LF": {
+    "src/bookmarks_panel.cpp": "d04b24bd8bd272a6198945f1a993665f113604ca7cfd40ea41d561f5b47dfa0b",
+    "src/bookmarks_panel.h": "a03551f6ed5b537b855d8e6ac8613bd02bccacc0d1605ba98eff88a56042e458",
+    "src/canvas.cpp": "16afcec6ffdaf2d50678f9e1508d34c091071cfee918c8852e127f49cbff6de0",
+    "src/canvas.h": "093307ab68b3fdeef88d43f613e11ba40d08e4bdfe2f27343e0880bcb95dccad",
+    "src/document.cpp": "2584b18a544328e648f8b54fb0ad7bb0ce3b73bf47d30ab460559b6e08e87f12",
+    "src/document.h": "b40c70a22d76e27a102c4237e474cae75d059f385621de5a70c818f886684685",
+    "src/main.cpp": "c52243c4b35048642c87cb9a7bcfa2e8e2f187a7f87fef4f358a85602481d276",
+    "src/navigation.cpp": "666bcb2be0cb11a8e7fca6cc817fb98d4b552ca04d960747d7a489b29da1429f",
+    "src/navigation.h": "fe559f3b3cd7bf85eb30a3f58b95bb0ff47a75cf70cc2d6f5ae8119a024f8413",
+    "src/ocr.cpp": "d70c27188ae9d0c31ed48b37734ef81badb1813dfd7282c28e83b71c9489a6df",
+    "src/ocr.h": "2af4e5838598117bc05ce5040bafe058cb7b4e9f5e65076c6826ab13b6e7e458",
+    "src/page_control.cpp": "eba56c8b127fc7a4590eda32a4a869b9feb256b8c8199d0444821c87dc5d3628",
+    "src/page_control.h": "d5ba300b84508d723677970de2e2ccb27cd81cb6918206a54bbdd7a08253b556",
+    "src/page_previews.cpp": "f052b4404998b367324aa7d401eb409f22a98380ef629340ed15a9c62aae91ad",
+    "src/page_previews.h": "99803b3c561adece0eb55949d752ef25ebaa8e1f3236e862bf5c7ef671e8b2e7",
+    "src/pdf_font.cpp": "a6d3e9305c59feec19e48d3cdc5718a8af92ce2fc08a65520bcf422a7fda5998",
+    "src/pdf_io.cpp": "fabeb9ce3234722298e56c4e14e6157f1400ae116e70ac4dba1e0580fdf6a72d",
+    "src/pdf_objects.h": "af2ea26f5023d9322081791469b3fd7ac8740e68bddad02030dc355e1cc18e0e",
+    "src/pdf_render.cpp": "a61f70cfa66eae81a1b6dea47c5695710b3e6a2ea6009393e94385b835718e1c",
+    "src/search_panel.cpp": "67c954be8a22b0cc5e102ceaf15a2527515f8822521a69e0107a0ebdfd66be26",
+    "src/search_panel.h": "c518e911d543704af4fb3b150e78733ec614c92a89ac4261916da7f9793f0441",
+    "src/search_session.cpp": "52739c9ff2c2258404b5e50e37d59f036e63ab612ffde7f4e3a0e0cd73266e8f",
+    "src/search_session.h": "66d91e7dcbc41ab4ae86e49e2f814667fc27761d4b4344da288c89385a3afae1",
+    "src/selection_text.cpp": "d45aeb05698bfd92338e7266b98fa157bb63e75b57d016f9fd68e75bfff09228",
+    "src/selection_text.h": "a522aa34bd72749416e222518d46f7c5752a2b966ec716ff6efe64d71601dea0",
+    "src/window.cpp": "94ace3c89b88dae57f2b39b0f7eb20acb55547b3cf1b7f7e8056037f0960dd90",
+    "src/window.h": "d2b92d8dedcda7566aa3ea7a78f6289ceb840bd746dbb5daf7ece70ac2ee84e9",
+    "tests/navigation_tests.cpp": "0bbad2f08ab86a37ca70d3fd91b110a8a60ec042d864d496b374bf1760938637",
+    "tests/navigation_tests.h": "3f2ecf71b4ec77d2187c61b93948a95b7a71f31605a6223502397b53678b673b",
+    "tests/pan_tests.cpp": "8f6c650ce1b6f6a53bf942c57b9a1e65372e6c3167054c020d9767bb3859d6bc",
+    "tests/pan_tests.h": "dd34655137ede39cd2173b4ced65de71b0065233be2c89f68d22f9bf9ffacce3",
+    "tests/reading_tests.cpp": "913b2f841cee3be9164c51af9e0aff2ac121c851163c055a56cc1ef07715e5ed",
+    "tests/reading_tests.h": "09b4ae3dbd06c85424bcf163064be4b50ea277df24c3ea5b4aeb4a4cc083c185",
+    "tests/search_tests.cpp": "d0a04551741bd0652eebbcbce225e11fdde4c16d6e46f990c0a49b3cb5246e75",
+    "tests/search_tests.h": "0be5a8bf5a51d3d50f4f588cb4aa3acbb7dbe58bca95585919051f26378d9a95",
+    "tests/selection_tests.cpp": "4c85b1fbe8b33338d0560243ccd035a21bad80ddcbff1636dcbb8caa8b27dc1f",
+    "tests/selection_tests.h": "3937e571d74e5743876edf9809df0dfbb350ffaccc70db655420481500e8245d",
+    "tests/selftest.cpp": "8ae96b80f8e7af8d2557a7ecdf8e8c74fdad64399b4cca53c4000bb633561b30",
+    "tests/selftest.h": "c77c77ef1caebd8444b05667a572df5606b6203f2e51703f965b58a35222551f",
+    "tests/viewer_tests.cpp": "d1f93687694b1ab162fac2076872e98d9f625f89cfc86d022ad8f219fdd3f810",
+    "tests/viewer_tests.h": "e216e77d7493e2e1db7262eaaa73761303e13c2810d481ba540a630ce312395f",
+    "CMakeLists.txt": "4b89e17b082cd278eef54bc8858e391293cdc1c7334e1a66e6fcce63fbec1f67"
+  },
+  "fixed_inputs_sha256": {
+    "AGENTS.md": "a416b426368330ee0212f867544246ebf21a14c8d42a3eaf7528b2cdaed6acc9",
+    "SPEC.md": "6ba58ad7e916367fd1d87ec3453b2044fda379f43d3f758b200163f1b5bcffcf",
+    "TECH.md": "357f680af803ed257fa14c03d45cad98efa702661e8a952004d11be1c12c981f",
+    "ACCEPTANCE.md": "57e71f0f4eda73424f0b71704ff51c5f60cf2ec8fce4af1ba3db543dce6d8483",
+    "fixtures/ground-truth.json": "7a8878927ec067c80f8b5b42640203beb7d7a99daec17a790d7f5e661e4b15e7",
+    "fixtures/viewer-search.pdf": "2c95a1e7e534bc22dff400dcf2339d57ddf093d9634a3be32cd9fdb524fc8da8",
+    "fixtures/manifest.json": "3fe2ab2f36f6261f73b8740781e782f106040525ecb77233803a8945472fa90a",
+    "fixtures/viewer-navigation-manifest.json": "2421d94d73d68ca17e4686bc77f7e59a5cf7ae6256ac22aa2f5a5b9f319b55e0",
+    "fixtures/viewer-search-manifest.json": "5f44a96e203ee9513eff16cbeb72631279691cce079998c52b2a65421e82c77b",
+    "fixtures/viewer-selection-manifest.json": "b3cfd62a5614ee72bba9aff5177ad1e8c85c4a37b19c97cb37fb880e7149bb15",
+    "fixtures/viewer-selection-restricted-manifest.json": "ccbcf6bc03f45bdcfce814a50ad651f7d2149e50d37ce8037a7bfcf0a52954a5"
+  },
+  "after_archive_metadata": "Archive/storage verification and extended provenance are external records generated after ZIP completion. ZIP contents are frozen and individually verified; executable and all code hashes are identical."
+}

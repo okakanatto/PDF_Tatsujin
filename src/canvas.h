@@ -82,6 +82,7 @@ protected:
 
 private:
     void updateTool();
+    void updatePointerCursor();
     void stopTransientInteraction();
     void requestSelectionText();
     void updateSelection();
@@ -94,8 +95,10 @@ private:
     void applyZoom(double value, const ViewAnchor& position);
     void applyFit(const ViewAnchor& position);
     void mousePress(QMouseEvent*);
+    void mouseDoubleClick(QMouseEvent*);
     void mouseMove(QMouseEvent*);
     void mouseRelease(QMouseEvent*);
     const PDFLinkAnnotation* linkAt(int page, QPointF point) const;
+    bool signatureAt(int page, QPointF point) const;
 };
 } // namespace tatsu

@@ -1,0 +1,37 @@
+{
+  "failures": 1,
+  "platform": "Windows 11 Version 25H2",
+  "qt": "6.9.3",
+  "qt_platform": "offscreen",
+  "tests": [
+    {
+      "details": {
+        "PDF_and_Undo_unchanged": true,
+        "Shift_word_and_character": true,
+        "cross_page_both_directions": true,
+        "exact_tokens": 5,
+        "word_drag_both_directions": true
+      },
+      "elapsed_ms": 112,
+      "name": "Selection_words",
+      "status": "PASS"
+    },
+    {
+      "details": {
+        "UTF16_positions_checked": 15,
+        "apostrophe_and_numbers": true,
+        "blank_margin": true,
+        "combining_and_emoji_unsplit": true
+      },
+      "elapsed_ms": 0,
+      "name": "Selection_word_boundaries",
+      "status": "PASS"
+    },
+    {
+      "elapsed_ms": 10151,
+      "error": "text hover uses I-beam after async extraction",
+      "name": "Selection_word_lifecycle",
+      "status": "FAIL"
+    }
+  ]
+}

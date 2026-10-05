@@ -1,4 +1,5 @@
 #include "viewer_tests.h"
+#include "page_previews.h"
 #include "window.h"
 #include <QtTest/QTest>
 #include <algorithm>
@@ -29,6 +30,114 @@ double anchorError(Canvas* canvas, const ViewAnchor& anchor)
     return qMax(qAbs(actual.x() - expected.x()), qAbs(actual.y() - expected.y()));
 }
 } // namespace
+
+QJsonObject testPagePreviews(const QString& fixtures, const QString& output)
+{
+    Window window;
+    window.show();
+    window.openFile(fixtures + "/D10-digital-100.pdf");
+    auto panel = qobject_cast<PagePreviews*>(window.pages);
+    check(panel != nullptr, "page list owns asynchronous previews");
+    int ticks = 0;
+    QTimer pulse;
+    QObject::connect(&pulse, &QTimer::timeout, [&] { ++ticks; });
+    pulse.start(1);
+    check(QTest::qWaitFor(
+              [&] { return !panel->preview(0).isNull() && !panel->preview(2).isNull(); }, 15000),
+          "visible page previews finish");
+    pulse.stop();
+    const int atOpen = panel->renderedPages();
+    check(atOpen >= 3 && atOpen < 10 && ticks > 0,
+          "100-page open only renders visible previews while the UI responds");
+    const auto original = encodePdf(window.doc.pdf());
+    const auto before = window.canvas->viewState();
+    panel->scrollToBottom();
+    check(QTest::qWaitFor([&] { return !panel->preview(99).isNull(); }, 15000),
+          "scrolling page list loads the last preview");
+    check(window.canvas->page == before.anchor.page && !window.doc.dirty() &&
+              window.doc.cursor == 0,
+          "preview loading and list scrolling do not move the document or edit it");
+    const auto target = panel->item(99);
+    const auto position = panel->visualItemRect(target).center();
+    check(panel->viewport()->rect().contains(position), "last preview row is visible");
+    QTest::mouseClick(panel->viewport(), Qt::LeftButton, Qt::NoModifier, position);
+    ready(window.canvas, 99);
+    check(window.canvas->page == 99, "preview click navigates to the exact page");
+    window.findChild<QAction*>("previousView")->trigger();
+    ready(window.canvas, before.anchor.page);
+    check(anchorError(window.canvas, before.anchor) <= 2, "preview navigation has reading history");
+    check(encodePdf(window.doc.pdf()) == original, "previews do not modify the PDF");
+    for (int page = 0; page < 100; ++page)
+    {
+        panel->scrollToItem(panel->item(page));
+        check(QTest::qWaitFor([&] { return !panel->preview(page).isNull(); }, 15000),
+              "all visited previews finish without whole-document preloading");
+        check(panel->cacheBytes() <= 8 * 1024 * 1024, "preview LRU retains at most 8 MiB");
+    }
+    const auto bytes = panel->cacheBytes();
+    check(bytes <= 8 * 1024 * 1024, "preview cache stays within measured 8 MiB target");
+    window.grab().save(output + "/page-previews-100.png");
+    window.openFile(fixtures + "/D02.pdf");
+    check(QTest::qWaitFor(
+              [&] { return !panel->preview(0).isNull() && !panel->preview(2).isNull(); }, 15000),
+          "replacement document previews finish");
+    QJsonArray dimensions;
+    for (int page = 0; page < window.doc.pages(); ++page)
+    {
+        panel->scrollToItem(panel->item(page));
+        check(QTest::qWaitFor([&] { return !panel->preview(page).isNull(); }, 15000),
+              "rotated and clipped preview ready");
+        const auto image = panel->preview(page);
+        const auto size = pageSize(window.doc.pdf().getCatalog()->getPage(page));
+        auto expected = size;
+        expected.scale(QSizeF(96, 128) * image.devicePixelRatio(), Qt::KeepAspectRatio);
+        check(qAbs(image.width() - expected.width()) <= 1 &&
+                  qAbs(image.height() - expected.height()) <= 1,
+              "preview preserves rotated CropBox and UserUnit aspect ratio");
+        auto reference =
+            renderPage(window.doc.pdf(), page,
+                       qMin(96.0 / size.width(), 128.0 / size.height()) * image.devicePixelRatio());
+        reference.setDevicePixelRatio(image.devicePixelRatio());
+        check(image == reference, "cached preview belongs to current document and geometry");
+        dimensions.append(QJsonObject{{"page", page + 1},
+                                      {"width", image.width()},
+                                      {"height", image.height()},
+                                      {"DPR", image.devicePixelRatio()}});
+    }
+    window.grab().save(output + "/page-previews-rotation.png");
+    window.openFile(fixtures + "/D01.pdf");
+    check(QTest::qWaitFor([&] { return !panel->preview(0).isNull(); }, 15000), "D01 preview ready");
+    const auto baseline = panel->preview(0);
+    window.doc.putSignature(0, "山田 太郎", {80, 400}, 40, Qt::black);
+    window.refresh();
+    check(panel->preview(0).isNull(), "revision removes stale preview immediately");
+    check(QTest::qWaitFor([&] { return !panel->preview(0).isNull(); }, 15000),
+          "signature preview ready");
+    check(panel->preview(0) != baseline, "new signature appears in thumbnail");
+    window.undoAction->trigger();
+    check(QTest::qWaitFor([&] { return !panel->preview(0).isNull(); }, 15000),
+          "Undo preview ready");
+    check(panel->preview(0) == baseline, "Undo restores exact baseline thumbnail");
+    window.openFile(fixtures + "/D10-image-50.pdf");
+    QCoreApplication::processEvents();
+    window.openFile(fixtures + "/D01.pdf");
+    check(QTest::qWaitFor([&] { return !panel->preview(0).isNull(); }, 15000),
+          "preview generation can change during background work");
+    check(panel->preview(0) == baseline, "late scan preview cannot replace the new document");
+    auto tabs = window.findChild<QTabWidget*>("navigationTabs");
+    tabs->setCurrentIndex(1);
+    QTest::qWait(100);
+    const int hiddenStart = panel->renderedPages();
+    QTest::qWait(100);
+    check(panel->renderedPages() == hiddenStart, "hidden page panel starts no further rendering");
+    return {{"pages_rendered_at_open", atOpen},
+            {"UI_timer_ticks", ticks},
+            {"cache_bytes_after_navigation", bytes},
+            {"geometry", dimensions},
+            {"signature_Undo", true},
+            {"late_generation_rejected", true},
+            {"navigation_and_PDF_unchanged", true}};
+}
 
 QJsonObject testViewerNavigation(const QString& fixtures, const QString& output)
 {

@@ -61,9 +61,31 @@ std::shared_ptr<SelectionPage> readPage(PDFDocument document, int number)
         else if (result->boxes[i].isValid())
             line.bounds = line.bounds.united(result->boxes[i]);
     }
+    result->indexBoundaries();
     return result;
 }
 } // namespace
+void SelectionPage::indexBoundaries()
+{
+    graphemes.clear();
+    words.clear();
+    QTextBoundaryFinder boundary(QTextBoundaryFinder::Grapheme, text);
+    for (qsizetype at = 0; at >= 0; at = boundary.toNextBoundary())
+        graphemes.append(at);
+    boundary = QTextBoundaryFinder(QTextBoundaryFinder::Word, text);
+    for (qsizetype at = 0; at >= 0; at = boundary.toNextBoundary())
+        if (std::binary_search(graphemes.cbegin(), graphemes.cend(), at))
+            words.append(at);
+    // A run of whitespace must not make a clicked word include a line break.
+    for (qsizetype i = 0; i < text.size(); ++i)
+        if (text[i] == '\n')
+        {
+            words.append(i);
+            words.append(i + 1);
+        }
+    std::sort(words.begin(), words.end());
+    words.erase(std::unique(words.begin(), words.end()), words.end());
+}
 qsizetype SelectionPage::caret(QPointF point) const
 {
     auto closest =
@@ -87,14 +109,55 @@ qsizetype SelectionPage::caret(QPointF point) const
                 }
         }
     }
-    QTextBoundaryFinder boundary(QTextBoundaryFinder::Grapheme, text);
-    boundary.setPosition(result);
-    if (!boundary.isAtBoundary())
-    {
-        auto previous = boundary.toPreviousBoundary();
-        result = qMax(qsizetype(0), previous);
-    }
+    const auto next = std::upper_bound(graphemes.cbegin(), graphemes.cend(), result);
+    if (next != graphemes.cbegin())
+        result = *std::prev(next);
     return result;
+}
+qsizetype SelectionPage::characterAt(QPointF point, bool nearest) const
+{
+    const Line* closest = nullptr;
+    auto distance =
+        std::make_pair(std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
+    const auto measure = [point](QRectF box)
+    {
+        return std::make_pair(std::max({box.top() - point.y(), point.y() - box.bottom(), 0.0}),
+                              std::max({box.left() - point.x(), point.x() - box.right(), 0.0}));
+    };
+    for (const auto& line : lines)
+    {
+        if (!nearest && !line.bounds.contains(point))
+            continue;
+        if (const auto candidate = measure(line.bounds); candidate < distance)
+        {
+            closest = &line;
+            distance = candidate;
+        }
+    }
+    if (!closest)
+        return -1;
+    qsizetype result = -1;
+    distance = {std::numeric_limits<double>::max(), std::numeric_limits<double>::max()};
+    for (qsizetype i = closest->first; i < closest->end; ++i)
+        if (boxes[i].isValid() && (nearest || boxes[i].contains(point)))
+            if (const auto candidate = measure(boxes[i]); candidate < distance)
+            {
+                result = i;
+                distance = candidate;
+            }
+    return result;
+}
+bool SelectionPage::contains(QPointF point) const
+{
+    return characterAt(point, false) >= 0;
+}
+QPair<qsizetype, qsizetype> SelectionPage::wordAt(QPointF point, bool nearest) const
+{
+    const auto index = characterAt(point, nearest);
+    const auto next = std::upper_bound(words.cbegin(), words.cend(), index);
+    if (index < 0 || next == words.cbegin() || next == words.cend())
+        return {-1, -1};
+    return {*std::prev(next), *next};
 }
 bool SelectionPage::hasGlyphs() const
 {
@@ -103,7 +166,8 @@ bool SelectionPage::hasGlyphs() const
 qint64 SelectionPage::bytes() const
 {
     return sizeof(SelectionPage) + text.capacity() * sizeof(QChar) +
-           boxes.capacity() * sizeof(QRectF) + lines.capacity() * sizeof(Line);
+           boxes.capacity() * sizeof(QRectF) + lines.capacity() * sizeof(Line) +
+           (graphemes.capacity() + words.capacity()) * sizeof(qsizetype);
 }
 SelectionTextCache::SelectionTextCache(QObject* parent) : QObject(parent), executor(new QObject)
 {

@@ -1,0 +1,47 @@
+{
+  "failures": 0,
+  "platform": "Windows 11 Version 25H2",
+  "qt": "6.9.3",
+  "qt_platform": "offscreen",
+  "tests": [
+    {
+      "details": {
+        "UI_timer_ticks": 3,
+        "cache_bytes_after_navigation": 8340480,
+        "geometry": [
+          {
+            "DPR": 2,
+            "height": 256,
+            "page": 1,
+            "width": 184
+          },
+          {
+            "DPR": 2,
+            "height": 140,
+            "page": 2,
+            "width": 192
+          },
+          {
+            "DPR": 2,
+            "height": 256,
+            "page": 3,
+            "width": 191
+          },
+          {
+            "DPR": 2,
+            "height": 146,
+            "page": 4,
+            "width": 192
+          }
+        ],
+        "late_generation_rejected": true,
+        "navigation_and_PDF_unchanged": true,
+        "pages_rendered_at_open": 3,
+        "signature_Undo": true
+      },
+      "elapsed_ms": 3788,
+      "name": "Viewer_page_previews",
+      "status": "PASS"
+    }
+  ]
+}

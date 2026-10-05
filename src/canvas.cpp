@@ -38,6 +38,11 @@ struct Canvas::Impl : IDocumentDrawInterface
     QPointF pointer, selectionStartPoint, selectionEndPoint;
     int selectionStartPage = -1, selectionEndPage = -1;
     qsizetype startCaret = -1;
+    qsizetype startWordEnd = -1;
+    bool wordSelection = false, pointerInside = false;
+    bool suppressWordDoubleClick = false;
+    int hoverPage = -1;
+    QVector<Signature> hoverSignatures;
     bool selectionComplete = true;
     QString selectionStatus;
     int gesturePage = -1;
@@ -179,6 +184,7 @@ Canvas::Canvas(Document* doc, QWidget* parent)
             [this](int)
             {
                 updateSelection();
+                updatePointerCursor();
                 viewport()->update();
             });
     d->autoScroll.setInterval(16);
@@ -316,6 +322,7 @@ void Canvas::updateView(bool force)
     }
     d->lastAnchor = position;
     requestSelectionText();
+    updatePointerCursor();
     if (viewChanged)
         viewChanged();
 }
@@ -325,6 +332,8 @@ void Canvas::refresh(PDFObjectReference identity)
         identity = d->items[selected].ref;
     auto position = d->resetting ? ViewAnchor() : anchor();
     cancelInteraction();
+    d->hoverPage = -1;
+    d->hoverSignatures.clear();
     d->updating = true;
     if (document->loaded() && (d->revision != document->revision || d->resetting))
     {
@@ -406,6 +415,8 @@ void Canvas::cancelInteraction()
     d->ranges.clear();
     d->selectionStartPage = d->selectionEndPage = -1;
     d->startCaret = -1;
+    d->startWordEnd = -1;
+    d->wordSelection = false;
     d->selectionComplete = true;
     d->selectionStatus.clear();
     updateTool();
@@ -433,6 +444,7 @@ void Canvas::updateTool()
                             : Qt::ArrowCursor;
     setCursor(cursor);
     viewport()->setCursor(cursor);
+    updatePointerCursor();
     if (toolChanged)
         toolChanged();
 }
@@ -445,6 +457,26 @@ void Canvas::stopTransientInteraction()
         d->panning = d->temporaryHand = false;
         updateTool();
     }
+}
+void Canvas::updatePointerCursor()
+{
+    if (placing || handToolActive() || !document->loaded() || !d->pointerInside ||
+        d->revision != document->revision)
+        return;
+    const int hit = d->hit(d->pointer);
+    auto cursor = Qt::ArrowCursor;
+    if (hit >= 0)
+    {
+        const auto point = d->matrix(hit).inverted().map(d->pointer);
+        if (signatureAt(hit, point))
+            cursor = Qt::SizeAllCursor;
+        else if (linkAt(hit, point))
+            cursor = Qt::PointingHandCursor;
+        else if (document->copyAllowed)
+            if (const auto text = d->text.get(hit); text && text->contains(point))
+                cursor = Qt::IBeamCursor;
+    }
+    viewport()->setCursor(cursor);
 }
 
 bool Canvas::selectionReady() const
@@ -510,7 +542,26 @@ void Canvas::updateSelection()
     auto start = d->text.get(d->selectionStartPage);
     auto end = d->text.get(d->selectionEndPage);
     if (start && d->startCaret < 0)
-        d->startCaret = start->caret(d->selectionStartPoint);
+    {
+        if (d->wordSelection)
+        {
+            const auto span = start->wordAt(d->selectionStartPoint);
+            if (span.first < 0)
+            {
+                cancelInteraction();
+                if (!start->hasGlyphs())
+                    d->selectionStatus =
+                        "このページには文字情報がありません。OCRで選択・コピーできます。";
+                if (viewChanged)
+                    viewChanged();
+                return;
+            }
+            d->startCaret = span.first;
+            d->startWordEnd = span.second;
+        }
+        else
+            d->startCaret = start->caret(d->selectionStartPoint);
+    }
     int firstPage = qMin(d->selectionStartPage, d->selectionEndPage);
     int lastPage = qMax(d->selectionStartPage, d->selectionEndPage);
     qsizetype first = 0, last = 0;
@@ -518,7 +569,16 @@ void Canvas::updateSelection()
     {
         first = d->startCaret;
         last = end->caret(d->selectionEndPoint);
-        if (d->selectionStartPage > d->selectionEndPage || (firstPage == lastPage && first > last))
+        if (d->wordSelection)
+        {
+            const auto span = end->wordAt(d->selectionEndPoint, true);
+            const bool reverse = d->selectionStartPage > d->selectionEndPage ||
+                                 (firstPage == lastPage && span.first < first);
+            first = reverse ? qMax(qsizetype(0), span.first) : d->startCaret;
+            last = reverse ? d->startWordEnd : (span.second >= 0 ? span.second : end->text.size());
+        }
+        else if (d->selectionStartPage > d->selectionEndPage ||
+                 (firstPage == lastPage && first > last))
             std::swap(first, last);
     }
     QStringList pieces;
@@ -540,7 +600,7 @@ void Canvas::updateSelection()
         const auto to = number == lastPage ? last : contents->text.size();
         d->ranges.insert(number, {from, to});
         const auto part = contents->text.mid(from, to - from);
-        if (!part.trimmed().isEmpty())
+        if (!part.isEmpty())
             pieces.append(part);
     }
     if (!d->selectionComplete)
@@ -755,8 +815,10 @@ void Canvas::showSearchMatch(const SearchMatch& match)
 void Canvas::mousePress(QMouseEvent* event)
 {
     setFocus();
+    d->suppressWordDoubleClick = false;
     if (handToolActive())
     {
+        d->suppressWordDoubleClick = true;
         d->panning = true;
         d->panPoint = event->position();
         updateTool();
@@ -766,6 +828,18 @@ void Canvas::mousePress(QMouseEvent* event)
     if (hit < 0)
         return;
     const bool placeHere = placing && !document->busy && document->readOnly.isEmpty();
+    const auto point = d->matrix(hit).inverted().map(event->position());
+    if (!placeHere && document->copyAllowed && d->selectionStartPage >= 0 &&
+        event->modifiers().testFlag(Qt::ShiftModifier) && !signatureAt(hit, point) &&
+        !linkAt(hit, point))
+    {
+        d->pressedLink = nullptr;
+        d->selecting = true;
+        selected = -1;
+        d->pointer = event->position();
+        extendSelection(d->pointer);
+        return;
+    }
     cancelInteraction();
     page = d->gesturePage = hit;
     d->items = signatures(document->pdf(), page);
@@ -774,6 +848,7 @@ void Canvas::mousePress(QMouseEvent* event)
     selected = -1;
     if (placeHere)
     {
+        d->suppressWordDoubleClick = true;
         if (place)
             place(d->start);
         return;
@@ -786,10 +861,14 @@ void Canvas::mousePress(QMouseEvent* event)
                 break;
             }
     if (selected >= 0)
+    {
+        d->suppressWordDoubleClick = true;
         d->dragging = true;
+    }
     else
     {
         d->pressedLink = linkAt(page, d->start);
+        d->suppressWordDoubleClick = d->pressedLink != nullptr;
         d->pressPosition = event->position();
         if (document->copyAllowed)
         {
@@ -808,6 +887,27 @@ void Canvas::mousePress(QMouseEvent* event)
         }
     }
     viewport()->update();
+}
+void Canvas::mouseDoubleClick(QMouseEvent* event)
+{
+    // The first click may open a dock or follow a link, moving the PDF beneath
+    // the same pointer before Qt sends the second click. Keep that tool's intent.
+    if (d->suppressWordDoubleClick || placing || handToolActive() || !document->copyAllowed)
+        return;
+    const int hit = d->hit(event->position());
+    if (hit < 0)
+        return;
+    const auto point = d->matrix(hit).inverted().map(event->position());
+    if (signatureAt(hit, point) || linkAt(hit, point))
+        return;
+    cancelInteraction();
+    selected = -1;
+    d->wordSelection = d->selecting = true;
+    d->selectionStartPage = d->selectionEndPage = hit;
+    d->selectionStartPoint = d->selectionEndPoint = point;
+    d->pointer = event->position();
+    requestSelectionText();
+    updateSelection();
 }
 void Canvas::mouseMove(QMouseEvent* event)
 {
@@ -900,6 +1000,18 @@ const PDFLinkAnnotation* Canvas::linkAt(int number, QPointF point) const
     }
     return nullptr;
 }
+bool Canvas::signatureAt(int number, QPointF point) const
+{
+    if (document->busy || !document->readOnly.isEmpty())
+        return false;
+    if (d->hoverPage != number)
+    {
+        d->hoverSignatures = signatures(document->pdf(), number);
+        d->hoverPage = number;
+    }
+    return std::any_of(d->hoverSignatures.cbegin(), d->hoverSignatures.cend(),
+                       [point](const Signature& item) { return item.rect.contains(point); });
+}
 bool Canvas::eventFilter(QObject* watched, QEvent* event)
 {
     if ((watched == viewport() || watched == window()) &&
@@ -935,6 +1047,18 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
     }
     if (!document->loaded())
         return false;
+    if (event->type() == QEvent::Leave)
+    {
+        d->pointerInside = false;
+        updateTool();
+    }
+    if (event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonPress ||
+        event->type() == QEvent::MouseButtonDblClick)
+    {
+        d->pointer = static_cast<QMouseEvent*>(event)->position();
+        d->pointerInside = viewport()->rect().contains(d->pointer.toPoint());
+        updatePointerCursor();
+    }
     if (event->type() == QEvent::ContextMenu)
     {
         auto context = static_cast<QContextMenuEvent*>(event);
@@ -957,19 +1081,22 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
             return true;
         }
     }
+    if (event->type() == QEvent::MouseButtonDblClick &&
+        static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton)
+    {
+        mouseDoubleClick(static_cast<QMouseEvent*>(event));
+        return true;
+    }
     if (event->type() == QEvent::MouseMove &&
         (d->dragging || d->selecting || d->panning || d->pressedLink))
     {
         mouseMove(static_cast<QMouseEvent*>(event));
         return true;
     }
-    if (event->type() == QEvent::MouseMove && !placing && !handToolActive())
-    {
-        const auto point = static_cast<QMouseEvent*>(event)->position();
-        const int hit = d->hit(point);
-        const auto link = hit >= 0 ? linkAt(hit, d->matrix(hit).inverted().map(point)) : nullptr;
-        viewport()->setCursor(link ? Qt::PointingHandCursor : Qt::ArrowCursor);
-    }
+    // Canvas owns these tools; the upstream default pan tool resets the cursor
+    // to an open hand if it also receives a hover event.
+    if (event->type() == QEvent::MouseMove)
+        return true;
     if (event->type() == QEvent::ToolTip && !placing && !handToolActive())
     {
         const auto help = static_cast<QHelpEvent*>(event);
@@ -1014,6 +1141,8 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
     if (event->type() == QEvent::KeyPress)
     {
         keyPressEvent(static_cast<QKeyEvent*>(event));
+        if (!event->isAccepted())
+            QTimer::singleShot(0, this, [this] { updatePointerCursor(); });
         return event->isAccepted();
     }
     if (event->type() == QEvent::KeyRelease)
