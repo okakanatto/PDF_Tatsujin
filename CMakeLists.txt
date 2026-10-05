@@ -39,7 +39,7 @@ target_link_libraries(tatsu_document PUBLIC Pdf4QtLibCore Qt6::Gui Qt6::PrintSup
 add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
 
-add_library(tatsu_ui STATIC src/canvas.cpp src/window.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp)
+add_library(tatsu_ui STATIC src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp)
 target_link_libraries(tatsu_ui PUBLIC tatsu_document Pdf4QtLibWidgets Qt6::Widgets)
 
 add_executable(PDFTatsujin WIN32 src/main.cpp)
@@ -50,7 +50,7 @@ set_target_properties(PDFTatsujin PROPERTIES
 
 if(TATSU_ENABLE_SELFTEST)
     find_package(Qt6 REQUIRED COMPONENTS Test)
-    target_sources(PDFTatsujin PRIVATE tests/selftest.cpp tests/viewer_tests.cpp tests/search_tests.cpp tests/selection_tests.cpp tests/pan_tests.cpp tests/navigation_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/selftest.cpp tests/viewer_tests.cpp tests/search_tests.cpp tests/selection_tests.cpp tests/pan_tests.cpp tests/navigation_tests.cpp tests/reading_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

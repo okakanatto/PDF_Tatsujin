@@ -16,7 +16,7 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 試せる入力は `fixtures/D01.pdf`（署名）、`fixtures/D03.pdf`（日英画像PDF8ページ）、`fixtures/D05.pdf`（画像と既存文字・注釈の混在）です。すべて合成の試験文書です。
 
-この作業環境での最新の試用版は `dist/PDFTatsujin-M1-navigation/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-navigation-windows-x64.zip` です。[しおり・リンク・表示履歴の実装と試験結果](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の検証を参照してください。
+この作業環境での最新の試用版は `dist/PDFTatsujin-M1-reading/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-reading-windows-x64.zip` です。[ページ入力・集中表示と最終検証](docs/testing/M1_READING.md)に47件のWindows試験、日英OCRの独立評価、A01〜A12の実行範囲をまとめました。[しおり・リンク](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の過去版の記録も保持します。
 
 暗号化・証明書署名付き・非対応フォームの検出時は読み取り専用にします。暗号化の解除や証明書の有効性検証は行いません。保存失敗やOCR失敗時は未保存変更を保持します。
 
@@ -34,6 +34,8 @@ GitHubにはソースと合成試験入力を登録しています。正式な�
 
 左の「しおり」は階層を表示し、クリック・Enterで移動できます。本文の内部リンクは選択ツールの短いクリックで移動し、ドラッグは文字選択になります。「前の表示」で元の読書位置と倍率へ戻れます。ページラベルと物理番号を併記し、無効な宛先は理由を示します。外部リンクを開く操作・BBox宛先・複合アクションは未対応で、外部ファイルやスクリプトは自動実行しません。
 
+Ctrl+Lで物理ページ番号を入力し、Enterで移動、Escで入力を戻します。範囲外は理由を示し、勝手に丸めません。本文のF8または下部ボタンで集中表示へ切り替え、Escで戻れます。ページ・倍率・表示履歴・OCR取消を残し、Ctrl+Fで検索へ戻ります。本文のCtrl+Home／End、Ctrl+Plus／Minus、Ctrl+0（全体）、Ctrl+1（幅）も使えます。集中表示中もCtrl+S、Ctrl+Z、Ctrl+Shift+Zで保存・Undo／Redoできます。
+
 全ページのサムネイル先読み、文字カーソルによる選択、キーボードによる署名枠操作には未実装部分があります。検索は大文字小文字を区別しない文字列一致で、改行をまたぐ語句・複雑な段組みの読み順は未対応です。UI・UXの完成版とはしていません。OCRには誤認識が残り、縦書き・段組み・低品質画像の実用精度を保証しません。
 
 閲覧体験を製品の中心に置き、[要件・操作・性能設計](docs/design/VIEWER_UX.md)と[操作できる画面案](docs/design/viewer-prototype.html)を用意しました。連続表示・位置保持・非同期検索・表示履歴を実PDFへ統合しました。画面案は合成HTMLで、製品と同じ実装ではありません。[画面案の12項目の検査結果](docs/design/DESIGN_REVIEW.md)と[製品の実行結果](docs/testing/M1_SEARCH.md)を分けて記録しています。
@@ -50,12 +52,12 @@ git clone --recurse-submodules https://github.com/okakanatto/PDF_Tatsujin.git
 
 Windowsでの依存配置・ビルド・起動・試験は[開発手順](docs/DEVELOPMENT.md)、責務と保存・OCRの設計は[構成](docs/ARCHITECTURE.md)を参照してください。PDF4QTは固定コミットのサブモジュールです。大きなモデルやフォントはSHA-256を検証して取得し、実行時にはローカルに同梱します。
 
-Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の追加検証](docs/testing/M1_FOLLOWUP.md)、[M1全体の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
+Windows上で署名・移動・Undo／Redo・再編集・日英OCR・検索・コピー・保存・取消の自動試験を実行しています。追加でNTFS権限拒否、Windows PDFプリンター、Firefoxでの検索・テキスト選択・PDF印刷を検証しました。[最新の47件と未実行項目](docs/testing/M1_READING.md)、[M1初回の結果](M1_REPORT.md)、[公開用整理時の回帰結果](docs/testing/OSS_PREPARATION.md)を確認してください。Firefoxの全体Fit宛先は未編集入力と保存入力の双方で期待ページに移動せず、追加診断をFAILとして残しています。ヘッドレス試験・ネイティブ画面操作・未実行を区別し、GitHub Actionsのソース検査をWindows GUIの受入試験の代わりにはしません。
 
 正解と検索語はOCR実行前に `fixtures/ground-truth.json` へ固定しました。追加の閲覧用入力 `fixtures/viewer-search.pdf` と件数・ページの正解も実装試験前に固定し、`scripts/check-source.py`でハッシュを検証します。既存結果に合わせて正解や閾値を変えません。ビルド成果物、依存本体、ローカルログはGit管理から除外します。非公開実務文書は含めません。
 
 ## 容量とライセンス
 
-ユーザーが許可したプロジェクト上限は20,000,000,000バイトです。依存・ビルド・配布物・試験結果を含めて `scripts/measure-storage.ps1` で測ります。版ごとの容量は[最新の試験報告](docs/testing/M1_NAVIGATION.md)に記録します。
+ユーザーが許可したプロジェクト上限は20,000,000,000バイトです。依存・ビルド・配布物・試験結果を含めて `scripts/measure-storage.ps1` で測ります。版ごとの容量は[最新の試験報告](docs/testing/M1_READING.md)に記録します。
 
 PDF4QTはMIT、TesseractとモデルはApache-2.0、Noto Sans JPとLiberationはOFL、Qtは動的リンクのLGPL-3.0構成です。依存ごとの通知を `licenses` に、同梱するQt部品の対応ソースを `dist/third-party-sources` に置いています。自作コードはMITです。第三者部品には各ライセンスが適用されます。[配布時の扱い](docs/THIRD_PARTY.md)を参照してください。

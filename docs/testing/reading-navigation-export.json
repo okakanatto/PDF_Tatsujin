@@ -1,0 +1,381 @@
+{
+  "status": "PASS",
+  "saved_sha256": "82d60168bbb5748c183304590fc463386bd316b96a676764ac4e5d742b99b296",
+  "source_sha256": "26c6e489338cdf643be646bb1f19f7d83dd737d02ed58ed41368399c092899f9",
+  "pypdf_semantics_identical": true,
+  "link_count": 5,
+  "PDFium_pages_rendered": 6,
+  "Japanese_signature_annotation_text": "山田 太郎",
+  "signature_body_text_search": "Not required by SPEC 5.2; stamp annotation is separate from body text",
+  "semantics": {
+    "page_labels": {
+      "/Nums": [
+        0,
+        {
+          "/S": "/r"
+        },
+        2,
+        {
+          "/S": "/D",
+          "/P": "本編-",
+          "/St": 7
+        },
+        4,
+        {
+          "/S": "/A",
+          "/St": 27
+        }
+      ]
+    },
+    "names": {
+      "/Dests": {
+        "/Names": [
+          "cycle-a",
+          {
+            "/D": "cycle-b"
+          },
+          "cycle-b",
+          {
+            "/D": "cycle-a"
+          },
+          "named-target",
+          {
+            "/D": [
+              {
+                "physical_page": 3
+              },
+              "/XYZ",
+              300,
+              400,
+              3
+            ]
+          }
+        ]
+      }
+    },
+    "outline": [
+      {
+        "/Title": "回転・倍率の目次",
+        "children": [
+          {
+            "/Title": "回転0°：中心へ",
+            "/A": {
+              "/D": [
+                {
+                  "physical_page": 1
+                },
+                "/XYZ",
+                300,
+                400,
+                3
+              ],
+              "/S": "/GoTo"
+            }
+          },
+          {
+            "/Title": "回転90°：中心へ",
+            "/A": {
+              "/D": [
+                {
+                  "physical_page": 2
+                },
+                "/XYZ",
+                300,
+                400,
+                3
+              ],
+              "/S": "/GoTo"
+            }
+          },
+          {
+            "/Title": "回転180°：中心へ",
+            "/A": {
+              "/D": [
+                {
+                  "physical_page": 3
+                },
+                "/XYZ",
+                300,
+                400,
+                3
+              ],
+              "/S": "/GoTo"
+            }
+          },
+          {
+            "/Title": "回転270°：中心へ",
+            "/A": {
+              "/D": [
+                {
+                  "physical_page": 4
+                },
+                "/XYZ",
+                300,
+                400,
+                3
+              ],
+              "/S": "/GoTo"
+            }
+          }
+        ]
+      },
+      {
+        "/Title": "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": "named-target"
+        }
+      },
+      {
+        "/Title": "全体 Fit",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "physical_page": 5
+            },
+            "/Fit"
+          ]
+        }
+      },
+      {
+        "/Title": "幅 FitH",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "physical_page": 5
+            },
+            "/FitH",
+            600
+          ]
+        }
+      },
+      {
+        "/Title": "高さ FitV",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "physical_page": 5
+            },
+            "/FitV",
+            200
+          ]
+        }
+      },
+      {
+        "/Title": "矩形 FitR",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "physical_page": 5
+            },
+            "/FitR",
+            180,
+            250,
+            420,
+            550
+          ]
+        }
+      },
+      {
+        "/Title": "null XYZ：位置と倍率を保持",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "physical_page": 5
+            },
+            "/XYZ",
+            null,
+            null,
+            null
+          ]
+        }
+      },
+      {
+        "/Title": "UserUnit 2",
+        "/A": {
+          "/D": [
+            {
+              "physical_page": 6
+            },
+            "/XYZ",
+            300,
+            400,
+            3
+          ],
+          "/S": "/GoTo"
+        }
+      },
+      {
+        "/Title": "存在しない名前",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": "missing-target"
+        }
+      },
+      {
+        "/Title": "循環した名前",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": "cycle-a"
+        }
+      },
+      {
+        "/Title": "無効なページ参照",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "/Synthetic": "not a page"
+            },
+            "/Fit"
+          ]
+        }
+      },
+      {
+        "/Title": "BBox 未対応",
+        "/A": {
+          "/S": "/GoTo",
+          "/D": [
+            {
+              "physical_page": 1
+            },
+            "/FitB"
+          ]
+        }
+      },
+      {
+        "/Title": "複合アクション 未対応",
+        "/A": {
+          "/D": [
+            {
+              "physical_page": 2
+            },
+            "/XYZ",
+            300,
+            400,
+            3
+          ],
+          "/S": "/GoTo",
+          "/Next": {
+            "/S": "/URI",
+            "/URI": "https://example.invalid/chained"
+          }
+        }
+      }
+    ],
+    "links": [
+      {
+        "/Subtype": "/Link",
+        "/Rect": [
+          85,
+          570,
+          300,
+          600
+        ],
+        "/F": 0,
+        "/Border": [
+          0,
+          0,
+          1
+        ],
+        "/Dest": "named-target"
+      },
+      {
+        "/Subtype": "/Link",
+        "/Rect": [
+          85,
+          530,
+          360,
+          560
+        ],
+        "/F": 0,
+        "/Border": [
+          0,
+          0,
+          1
+        ],
+        "/A": {
+          "/S": "/URI",
+          "/URI": "https://example.invalid/document?x=<text>"
+        }
+      },
+      {
+        "/Subtype": "/Link",
+        "/Rect": [
+          85,
+          490,
+          330,
+          520
+        ],
+        "/F": 0,
+        "/Border": [
+          0,
+          0,
+          1
+        ],
+        "/A": {
+          "/S": "/JavaScript",
+          "/JS": "app.alert('synthetic-never-execute')"
+        }
+      },
+      {
+        "/Subtype": "/Link",
+        "/Rect": [
+          85,
+          450,
+          300,
+          480
+        ],
+        "/F": 2,
+        "/Border": [
+          0,
+          0,
+          1
+        ],
+        "/Dest": [
+          {
+            "physical_page": 2
+          },
+          "/Fit"
+        ]
+      },
+      {
+        "/Subtype": "/Link",
+        "/Rect": [
+          85,
+          610,
+          350,
+          640
+        ],
+        "/QuadPoints": [
+          85,
+          630,
+          200,
+          630,
+          85,
+          615,
+          200,
+          615
+        ],
+        "/F": 0,
+        "/Border": [
+          0,
+          0,
+          1
+        ],
+        "/Dest": [
+          {
+            "physical_page": 2
+          },
+          "/Fit"
+        ]
+      }
+    ]
+  },
+  "native_external_navigation": "未実行; semantic read and independent page rendering"
+}

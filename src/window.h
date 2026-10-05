@@ -1,6 +1,7 @@
 #pragma once
 #include "bookmarks_panel.h"
 #include "canvas.h"
+#include "page_control.h"
 #include "search_panel.h"
 #include <QtWidgets>
 #include <functional>
@@ -47,6 +48,8 @@ protected:
     void closeEvent(QCloseEvent*) override;
     void dragEnterEvent(QDragEnterEvent*) override;
     void dropEvent(QDropEvent*) override;
+    void resizeEvent(QResizeEvent*) override;
+    void showEvent(QShowEvent*) override;
 
 private:
     QStackedWidget* documentArea;
@@ -71,6 +74,15 @@ private:
     QAction* printAction;
     QAction* selectToolAction;
     QAction* handToolAction;
+    QToolBar* documentToolbar;
+    PageControl* pageControl = nullptr;
+    QAction* readingAction;
+    bool readingMode = false, restoreProperties = false;
+    bool initialPlacement = true;
+    quint64 layoutGeneration = 0;
+    void setReadingMode(bool enabled);
+    void syncReadingLayout();
+    void preserveLayoutAnchor(const ViewAnchor& anchor);
     void refreshStatus();
     void rememberView();
     void rememberView(const ViewState& state);

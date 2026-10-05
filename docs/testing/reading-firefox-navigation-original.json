@@ -1,0 +1,997 @@
+{
+  "input_sha256": "26c6e489338cdf643be646bb1f19f7d83dd737d02ed58ed41368399c092899f9",
+  "manifest_sha256": "2421d94d73d68ca17e4686bc77f7e59a5cf7ae6256ac22aa2f5a5b9f319b55e0",
+  "mode": "Firefox headless, real WebDriver clicks in PDF.js content DOM",
+  "OS_clipboard": "未実行; untouched",
+  "native_window": "未実行; dedicated headless profile",
+  "bookmarks": [
+    {
+      "title": "回転0°：中心へ",
+      "expected_physical_page": 1,
+      "actual_physical_page": 1,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "i",
+        "location": {
+          "left": 300,
+          "pageNumber": 1,
+          "pdfOpenParams": "#page=1&zoom=300,300,400",
+          "rotation": 0,
+          "scale": 300,
+          "top": 400
+        },
+        "page": 1,
+        "scale": "3"
+      }
+    },
+    {
+      "title": "回転90°：中心へ",
+      "expected_physical_page": 2,
+      "actual_physical_page": 2,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "ii",
+        "location": {
+          "left": 300,
+          "pageNumber": 2,
+          "pdfOpenParams": "#page=2&zoom=300,300,400",
+          "rotation": 0,
+          "scale": 300,
+          "top": 400
+        },
+        "page": 2,
+        "scale": "3"
+      }
+    },
+    {
+      "title": "回転180°：中心へ",
+      "expected_physical_page": 3,
+      "actual_physical_page": 3,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "本編-7",
+        "location": {
+          "left": 300,
+          "pageNumber": 3,
+          "pdfOpenParams": "#page=3&zoom=300,300,400",
+          "rotation": 0,
+          "scale": 300,
+          "top": 400
+        },
+        "page": 3,
+        "scale": "3"
+      }
+    },
+    {
+      "title": "回転270°：中心へ",
+      "expected_physical_page": 4,
+      "actual_physical_page": 4,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "本編-8",
+        "location": {
+          "left": 300,
+          "pageNumber": 4,
+          "pdfOpenParams": "#page=4&zoom=300,300,400",
+          "rotation": 0,
+          "scale": 300,
+          "top": 400
+        },
+        "page": 4,
+        "scale": "3"
+      }
+    },
+    {
+      "title": "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する",
+      "expected_physical_page": 3,
+      "actual_physical_page": 3,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "本編-7",
+        "location": {
+          "left": 300,
+          "pageNumber": 3,
+          "pdfOpenParams": "#page=3&zoom=300,300,400",
+          "rotation": 0,
+          "scale": 300,
+          "top": 400
+        },
+        "page": 3,
+        "scale": "3"
+      }
+    },
+    {
+      "title": "全体 Fit",
+      "expected_physical_page": 5,
+      "actual_physical_page": 2,
+      "status": "FAIL",
+      "viewer_state": {
+        "label": "ii",
+        "location": {
+          "left": 21.701149425287383,
+          "pageNumber": 1,
+          "pdfOpenParams": "#page=1&zoom=page-fit,22,118",
+          "rotation": 0,
+          "scale": "page-fit",
+          "top": 118.45977011494234
+        },
+        "page": 2,
+        "scale": "page-fit"
+      }
+    },
+    {
+      "title": "幅 FitH",
+      "expected_physical_page": 5,
+      "actual_physical_page": 5,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "AA",
+        "location": {
+          "left": 19.999999999999993,
+          "pageNumber": 5,
+          "pdfOpenParams": "#page=5&zoom=page-width,20,600",
+          "rotation": 0,
+          "scale": "page-width",
+          "top": 600.0198019801978
+        },
+        "page": 5,
+        "scale": "page-width"
+      }
+    },
+    {
+      "title": "高さ FitV",
+      "expected_physical_page": 5,
+      "actual_physical_page": 5,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "AA",
+        "location": {
+          "left": 200.32183908045977,
+          "pageNumber": 5,
+          "pdfOpenParams": "#page=5&zoom=page-height,200,740",
+          "rotation": 0,
+          "scale": "page-height",
+          "top": 740.229885057471
+        },
+        "page": 5,
+        "scale": "page-height"
+      }
+    },
+    {
+      "title": "矩形 FitR",
+      "expected_physical_page": 5,
+      "actual_physical_page": 5,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "AA",
+        "location": {
+          "left": 179.99999999999997,
+          "pageNumber": 5,
+          "pdfOpenParams": "#page=5&zoom=217.5,180,550",
+          "rotation": 0,
+          "scale": 217.5,
+          "top": 550.0000000000001
+        },
+        "page": 5,
+        "scale": "2.1750000000000003"
+      }
+    },
+    {
+      "title": "null XYZ：位置と倍率を保持",
+      "expected_physical_page": 5,
+      "actual_physical_page": 5,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "AA",
+        "location": {
+          "left": 19.999999999999996,
+          "pageNumber": 5,
+          "pdfOpenParams": "#page=5&zoom=217.5,20,740",
+          "rotation": 0,
+          "scale": 217.5,
+          "top": 740.0000000000001
+        },
+        "page": 5,
+        "scale": "2.1750000000000003"
+      }
+    },
+    {
+      "title": "UserUnit 2",
+      "expected_physical_page": 6,
+      "actual_physical_page": 6,
+      "status": "PASS",
+      "viewer_state": {
+        "label": "BB",
+        "location": {
+          "left": 245.3125,
+          "pageNumber": 6,
+          "pdfOpenParams": "#page=6&zoom=300,245,104",
+          "rotation": 0,
+          "scale": 300,
+          "top": 104.375
+        },
+        "page": 6,
+        "scale": "3"
+      }
+    }
+  ],
+  "status": "FAIL",
+  "browser_version": "157.0",
+  "build_id": "20260924084938",
+  "observed_buttons": [
+    {
+      "id": "viewsManagerToggleButton",
+      "label": null,
+      "title": "サイドバーを切り替えます (文書に含まれるサムネイル、アウトライン、添付データ、レイヤー)"
+    },
+    {
+      "id": "viewsManagerSelectorButton",
+      "label": null,
+      "title": "ビュー"
+    },
+    {
+      "id": "thumbnailsViewMenu",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "outlinesViewMenu",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "attachmentsViewMenu",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "layersViewMenu",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerAddFileButton",
+      "label": null,
+      "title": "ファイルを追加します"
+    },
+    {
+      "id": "viewsManagerCurrentOutlineButton",
+      "label": null,
+      "title": "現在のアウトライン項目を検索"
+    },
+    {
+      "id": "viewsManagerStatusActionDeselectButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusActionButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusActionCopy",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusActionCut",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusActionDelete",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusActionExport",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusUndoButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "viewsManagerStatusUndoCloseButton",
+      "label": null,
+      "title": "閉じる"
+    },
+    {
+      "id": "viewsManagerStatusWarningCloseButton",
+      "label": null,
+      "title": "閉じる"
+    },
+    {
+      "id": "viewsManagerStatusWaitingCloseButton",
+      "label": null,
+      "title": "閉じる"
+    },
+    {
+      "id": "viewFindButton",
+      "label": null,
+      "title": "文書内を検索します"
+    },
+    {
+      "id": "findPreviousButton",
+      "label": null,
+      "title": "現在より前の位置で指定文字列が現れる部分を検索します"
+    },
+    {
+      "id": "findNextButton",
+      "label": null,
+      "title": "現在より後の位置で指定文字列が現れる部分を検索します"
+    },
+    {
+      "id": "previous",
+      "label": null,
+      "title": "前のページへ戻ります"
+    },
+    {
+      "id": "next",
+      "label": null,
+      "title": "次のページへ進みます"
+    },
+    {
+      "id": "zoomOutButton",
+      "label": null,
+      "title": "表示を縮小します"
+    },
+    {
+      "id": "zoomInButton",
+      "label": null,
+      "title": "表示を拡大します"
+    },
+    {
+      "id": "signaturePropertiesButton",
+      "label": "デジタル署名のプロパティ",
+      "title": "デジタル署名のプロパティ"
+    },
+    {
+      "id": "editorCommentButton",
+      "label": "コメントを編集します",
+      "title": "コメントを編集します"
+    },
+    {
+      "id": "editorCommentsSidebarCloseButton",
+      "label": "サイドバーを閉じる",
+      "title": "サイドバーを閉じます"
+    },
+    {
+      "id": "editorSignatureButton",
+      "label": null,
+      "title": "署名を追加します"
+    },
+    {
+      "id": "editorSignatureAddSignature",
+      "label": null,
+      "title": "新しい署名を追加します"
+    },
+    {
+      "id": "editorHighlightButton",
+      "label": null,
+      "title": "強調します"
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": "黄色"
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": "緑色"
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": "青色"
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": "ピンク色"
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": "赤色"
+    },
+    {
+      "id": "editorHighlightShowAll",
+      "label": null,
+      "title": "強調の表示を切り替えます"
+    },
+    {
+      "id": "editorFreeTextButton",
+      "label": null,
+      "title": "フリーテキスト注釈を追加します"
+    },
+    {
+      "id": "editorInkButton",
+      "label": null,
+      "title": "インク注釈を追加します"
+    },
+    {
+      "id": "editorStampButton",
+      "label": null,
+      "title": "画像を追加または編集します"
+    },
+    {
+      "id": "editorStampAddImage",
+      "label": null,
+      "title": "画像を追加します"
+    },
+    {
+      "id": "printButton",
+      "label": null,
+      "title": "印刷します"
+    },
+    {
+      "id": "downloadButton",
+      "label": null,
+      "title": "保存します"
+    },
+    {
+      "id": "secondaryToolbarToggleButton",
+      "label": null,
+      "title": "ツール"
+    },
+    {
+      "id": "secondaryPrint",
+      "label": null,
+      "title": "印刷します"
+    },
+    {
+      "id": "secondaryDownload",
+      "label": null,
+      "title": "保存します"
+    },
+    {
+      "id": "presentationMode",
+      "label": null,
+      "title": "プレゼンテーションモードに切り替えます"
+    },
+    {
+      "id": "firstPage",
+      "label": null,
+      "title": "最初のページへ移動します"
+    },
+    {
+      "id": "lastPage",
+      "label": null,
+      "title": "最後のページへ移動します"
+    },
+    {
+      "id": "pageRotateCw",
+      "label": null,
+      "title": "ページを右へ回転します"
+    },
+    {
+      "id": "pageRotateCcw",
+      "label": null,
+      "title": "ページを左へ回転します"
+    },
+    {
+      "id": "cursorSelectTool",
+      "label": null,
+      "title": "テキスト選択ツールを有効にします"
+    },
+    {
+      "id": "cursorHandTool",
+      "label": null,
+      "title": "手のひらツールを有効にします"
+    },
+    {
+      "id": "scrollPage",
+      "label": null,
+      "title": "ページ単位でスクロールします"
+    },
+    {
+      "id": "scrollVertical",
+      "label": null,
+      "title": "縦スクロールにします"
+    },
+    {
+      "id": "scrollHorizontal",
+      "label": null,
+      "title": "横スクロールにします"
+    },
+    {
+      "id": "scrollWrapped",
+      "label": null,
+      "title": "折り返しスクロールにします"
+    },
+    {
+      "id": "spreadNone",
+      "label": null,
+      "title": "見開きにしません"
+    },
+    {
+      "id": "spreadOdd",
+      "label": null,
+      "title": "奇数ページ開始で見開きにします"
+    },
+    {
+      "id": "spreadEven",
+      "label": null,
+      "title": "偶数ページ開始で見開きにします"
+    },
+    {
+      "id": "imageAltTextSettings",
+      "label": null,
+      "title": "画像の代替テキスト設定"
+    },
+    {
+      "id": "documentProperties",
+      "label": null,
+      "title": "文書のプロパティ..."
+    },
+    {
+      "id": "passwordCancel",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "passwordSubmit",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "documentPropertiesClose",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "altTextCancel",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "altTextSave",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "newAltTextCreateAutomaticallyButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "newAltTextCloseButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "newAltTextCancel",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "newAltTextNotNow",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "newAltTextSave",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "createModelButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "showAltTextDialogButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "altTextSettingsCloseButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "addSignatureTypeButton",
+      "label": null,
+      "title": "キーボード入力します"
+    },
+    {
+      "id": "addSignatureDrawButton",
+      "label": null,
+      "title": "手書き入力します"
+    },
+    {
+      "id": "addSignatureImageButton",
+      "label": null,
+      "title": "画像を指定します"
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "clearSignatureButton",
+      "label": null,
+      "title": "署名を消去します"
+    },
+    {
+      "id": "addSignatureErrorCloseButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "addSignatureCancelButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "addSignatureAddButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "editSignatureCancelButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "editSignatureUpdateButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "commentManagerCancelButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "commentManagerSaveButton",
+      "label": null,
+      "title": ""
+    },
+    {
+      "id": "editorUndoBarUndoButton",
+      "label": null,
+      "title": "元に戻す"
+    },
+    {
+      "id": "editorUndoBarCloseButton",
+      "label": null,
+      "title": "閉じる"
+    }
+  ],
+  "observed_outline_DOM": [
+    {
+      "classes": "visuallyHidden",
+      "id": "viewer-alert",
+      "text": ""
+    },
+    {
+      "classes": "toolbarHorizontalGroup",
+      "id": "toolbarViewer",
+      "text": "\n              \n                \n                  ページを管理\n                \n                \n                  \n                    \n                      \n                        \n                    "
+    },
+    {
+      "classes": "toolbarHorizontalGroup",
+      "id": "toolbarViewerLeft",
+      "text": "\n                \n                  ページを管理\n                \n                \n                  \n                    \n                      \n                        \n                          ビュー\n     "
+    },
+    {
+      "classes": "toolbarButton toggled",
+      "id": "viewsManagerToggleButton",
+      "text": "\n                  ページを管理\n                "
+    },
+    {
+      "classes": "menuContainer sidebar",
+      "id": "viewsManager",
+      "text": "\n                  \n                    \n                      \n                        \n                          ビュー\n                        \n                        \n                          \n    "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerHeader",
+      "text": "\n                    \n                      \n                        \n                          ビュー\n                        \n                        \n                          \n                       "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerTitle",
+      "text": "\n                      \n                        \n                          ビュー\n                        \n                        \n                          \n                            ページ\n            "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerSelector",
+      "text": "\n                        \n                          ビュー\n                        \n                        \n                          \n                            ページ\n                          \n        "
+    },
+    {
+      "classes": "toolbarButton viewsManagerButton hasPopupMenu",
+      "id": "viewsManagerSelectorButton",
+      "text": "\n                          ビュー\n                        "
+    },
+    {
+      "classes": "popupMenu withMark",
+      "id": "viewsManagerSelectorOptions",
+      "text": "\n                          \n                            ページ\n                          \n                          \n                            文書のアウトライン\n                          \n                     "
+    },
+    {
+      "classes": "",
+      "id": "thumbnailsViewMenu",
+      "text": "\n                            ページ\n                          "
+    },
+    {
+      "classes": "selected",
+      "id": "outlinesViewMenu",
+      "text": "\n                            文書のアウトライン\n                          "
+    },
+    {
+      "classes": "",
+      "id": "attachmentsViewMenu",
+      "text": "\n                            添付データ\n                          "
+    },
+    {
+      "classes": "",
+      "id": "layersViewMenu",
+      "text": "\n                            レイヤー\n                          "
+    },
+    {
+      "classes": "viewsManagerLabel",
+      "id": "viewsManagerHeaderLabel",
+      "text": "文書のアウトライン"
+    },
+    {
+      "classes": "toolbarButton viewsManagerButton",
+      "id": "viewsManagerAddFileButton",
+      "text": "\n                        ファイルを追加\n                        \n                      "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerAddFilePicker",
+      "text": ""
+    },
+    {
+      "classes": "toolbarButton viewsManagerButton",
+      "id": "viewsManagerCurrentOutlineButton",
+      "text": "\n                        現在のアウトライン項目\n                      "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerStatus",
+      "text": "\n                      \n                        \n                          \n                          ページを選択\n                        \n                        新機能\n                          \n           "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerStatusAction",
+      "text": "\n                        \n                          \n                          ページを選択\n                        \n                        新機能\n                          \n                            管理\n   "
+    },
+    {
+      "classes": "viewsManagerStatusLabel",
+      "id": "viewsManagerStatusActionLabelContainer",
+      "text": "\n                          \n                          ページを選択\n                        "
+    },
+    {
+      "classes": "hidden",
+      "id": "viewsManagerStatusActionDeselectButton",
+      "text": ""
+    },
+    {
+      "classes": "viewsManagerStatusLabel",
+      "id": "viewsManagerStatusActionLabel",
+      "text": "ページを選択"
+    },
+    {
+      "classes": "viewsManagerButton hasPopupMenu",
+      "id": "viewsManagerStatusActionButton",
+      "text": "\n                            管理\n                          "
+    },
+    {
+      "classes": "popupMenu",
+      "id": "viewsManagerStatusActionOptions",
+      "text": "\n                            \n                              コピー\n                            \n                            \n                              切り取り\n                            \n              "
+    },
+    {
+      "classes": "noIcon",
+      "id": "viewsManagerStatusActionCopy",
+      "text": "\n                              コピー\n                            "
+    },
+    {
+      "classes": "noIcon",
+      "id": "viewsManagerStatusActionCut",
+      "text": "\n                              切り取り\n                            "
+    },
+    {
+      "classes": "noIcon",
+      "id": "viewsManagerStatusActionDelete",
+      "text": "\n                              削除\n                            "
+    },
+    {
+      "classes": "noIcon",
+      "id": "viewsManagerStatusActionExport",
+      "text": "\n                              選択したページをエクスポート...\n                            "
+    },
+    {
+      "classes": "hidden",
+      "id": "viewsManagerStatusUndo",
+      "text": "\n                        \n                        \n                          \n                            元に戻す\n                          \n                          \n                            閉じる\n   "
+    },
+    {
+      "classes": "viewsManagerStatusLabel",
+      "id": "viewsManagerStatusUndoLabel",
+      "text": ""
+    },
+    {
+      "classes": "viewsManagerButton",
+      "id": "viewsManagerStatusUndoButton",
+      "text": "\n                            元に戻す\n                          "
+    },
+    {
+      "classes": "toolbarButton viewsManagerButton viewsCloseButton",
+      "id": "viewsManagerStatusUndoCloseButton",
+      "text": "\n                            閉じる\n                          "
+    },
+    {
+      "classes": "hidden",
+      "id": "viewsManagerStatusWarning",
+      "text": "\n                        \n                        \n                          閉じる\n                        \n                      "
+    },
+    {
+      "classes": "viewsManagerStatusLabel",
+      "id": "viewsManagerStatusWarningLabel",
+      "text": ""
+    },
+    {
+      "classes": "toolbarButton viewsManagerButton viewsCloseButton",
+      "id": "viewsManagerStatusWarningCloseButton",
+      "text": "\n                          閉じる\n                        "
+    },
+    {
+      "classes": "hidden",
+      "id": "viewsManagerStatusWaiting",
+      "text": "\n                        \n                        \n                          閉じる\n                        \n                      "
+    },
+    {
+      "classes": "viewsManagerStatusLabel",
+      "id": "viewsManagerStatusWaitingLabel",
+      "text": ""
+    },
+    {
+      "classes": "toolbarButton viewsManagerButton viewsCloseButton",
+      "id": "viewsManagerStatusWaitingCloseButton",
+      "text": "\n                          閉じる\n                        "
+    },
+    {
+      "classes": "",
+      "id": "viewsManagerContent",
+      "text": "\n                    \n                    回転・倍率の目次回転0°：中心へ回転90°：中心へ回転180°：中心へ回転270°：中心へ名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する全体 Fit幅 FitH高さ FitV矩形 FitRnull XYZ：位置と倍率を保持UserUnit 2存在しない名前循環した名前無効なページ参照BBo"
+    },
+    {
+      "classes": "thumbnailsView hidden",
+      "id": "thumbnailsView",
+      "text": ""
+    },
+    {
+      "classes": "treeView withNesting",
+      "id": "outlinesView",
+      "text": "回転・倍率の目次回転0°：中心へ回転90°：中心へ回転180°：中心へ回転270°：中心へ名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する全体 Fit幅 FitH高さ FitV矩形 FitRnull XYZ：位置と倍率を保持UserUnit 2存在しない名前循環した名前無効なページ参照BBox 未対応複合アクション 未対応"
+    },
+    {
+      "classes": "hidden",
+      "id": "attachmentsView",
+      "text": ""
+    },
+    {
+      "classes": "treeView hidden",
+      "id": "layersView",
+      "text": ""
+    },
+    {
+      "classes": "sidebarResizer",
+      "id": "viewsManagerResizer",
+      "text": ""
+    },
+    {
+      "classes": "toolbarButton hidden",
+      "id": "viewFindButton",
+      "text": "\n                    検索\n                  "
+    },
+    {
+      "classes": "toolbarHorizontalGroup",
+      "id": "toolbarViewerMiddle",
+      "text": "\n                \n                  \n                    縮小\n                  \n                  \n                  \n                    拡大\n                  \n                \n                \n       "
+    },
+    {
+      "classes": "toolbarHorizontalGroup",
+      "id": "toolbarViewerRight",
+      "text": "\n                \n                  \n                    \n                      デジタル署名のプロパティ\n                    \n                    \n                      \n                        \n                 "
+    },
+    {
+      "classes": "toolbarButton labeled",
+      "id": "viewBookmark",
+      "text": "\n                        現在のページ\n                      "
+    },
+    {
+      "classes": "horizontalToolbarSeparator",
+      "id": "viewBookmarkSeparator",
+      "text": ""
+    },
+    {
+      "classes": "",
+      "id": "viewerContainer",
+      "text": "\n          文書内の参照 — 1交通費を申請します。 English navigation.LINK: 3ページへ移動EXTERNAL: example.invalidSCRIPT: 実行しない文書内の参照 — 2交通費を申請します。 English navigation.LINK: 3ページへ移動EXTERNAL: example.invalidSCRIPT: 実行しない\n      "
+    },
+    {
+      "classes": "pdfViewer",
+      "id": "viewer",
+      "text": "文書内の参照 — 1交通費を申請します。 English navigation.LINK: 3ページへ移動EXTERNAL: example.invalidSCRIPT: 実行しない文書内の参照 — 2交通費を申請します。 English navigation.LINK: 3ページへ移動EXTERNAL: example.invalidSCRIPT: 実行しない"
+    },
+    {
+      "classes": "",
+      "id": "newAltTextImagePreview",
+      "text": ""
+    },
+    {
+      "classes": "",
+      "id": "editSignatureDescriptionAndView",
+      "text": "\n              \n                説明 (代替テキスト)\n                \n                  \n                  \n                \n              \n              \n            "
+    },
+    {
+      "classes": {
+        "animVal": "",
+        "baseVal": ""
+      },
+      "id": "editSignatureView",
+      "text": ""
+    }
+  ],
+  "outline_markup": "<div class=\"treeItem\"><div class=\"treeItemToggler\"></div><a href=\"\">回転・倍率の目次</a><div class=\"treeItems\"><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A4%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C300%2C400%2C3%5D\">回転0°：中心へ</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A12%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C300%2C400%2C3%5D\">回転90°：中心へ</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A14%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C300%2C400%2C3%5D\">回転180°：中心へ</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A16%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C300%2C400%2C3%5D\">回転270°：中心へ</a></div></div></div><div class=\"treeItem\"><a href=\"#named-target\">名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A18%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22Fit%22%7D%5D\">全体 Fit</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A18%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22FitH%22%7D%2C600%5D\">幅 FitH</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A18%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22FitV%22%7D%2C200%5D\">高さ FitV</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A18%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22FitR%22%7D%2C180%2C250%2C420%2C550%5D\">矩形 FitR</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A18%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2Cnull%2Cnull%2Cnull%5D\">null XYZ：位置と倍率を保持</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A20%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C300%2C400%2C3%5D\">UserUnit 2</a></div><div class=\"treeItem\"><a href=\"#missing-target\">存在しない名前</a></div><div class=\"treeItem\"><a href=\"#cycle-a\">循環した名前</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A50%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22Fit%22%7D%5D\">無効なページ参照</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A4%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22FitB%22%7D%5D\">BBox 未対応</a></div><div class=\"treeItem\"><a href=\"#%5B%7B%22num%22%3A12%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22XYZ%22%7D%2C300%2C400%2C3%5D\">複合アクション 未対応</a></div>",
+  "observed_outline_titles": [
+    "回転・倍率の目次",
+    "回転0°：中心へ",
+    "回転90°：中心へ",
+    "回転180°：中心へ",
+    "回転270°：中心へ",
+    "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する",
+    "全体 Fit",
+    "幅 FitH",
+    "高さ FitV",
+    "矩形 FitR",
+    "null XYZ：位置と倍率を保持",
+    "UserUnit 2",
+    "存在しない名前",
+    "循環した名前",
+    "無効なページ参照",
+    "BBox 未対応",
+    "複合アクション 未対応"
+  ],
+  "observed_links": [
+    {
+      "href": "workspace:fixtures/viewer-navigation.pdf#%5B%7B%22num%22%3A12%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22Fit%22%7D%5D",
+      "internal": null
+    },
+    {
+      "href": "workspace:fixtures/viewer-navigation.pdf#named-target",
+      "internal": null
+    },
+    {
+      "href": "https://example.invalid/document?x=%3Ctext%3E",
+      "internal": null
+    },
+    {
+      "href": "workspace:fixtures/viewer-navigation.pdf#%5B%7B%22num%22%3A12%2C%22gen%22%3A0%7D%2C%7B%22name%22%3A%22Fit%22%7D%5D",
+      "internal": null
+    }
+  ],
+  "internal_link": {
+    "expected_physical_page": 3,
+    "actual_physical_page": 3,
+    "status": "PASS"
+  },
+  "public_copy_note": "Only the local workspace prefix in observed file URLs is replaced; hashes, outcomes and expected pages are unchanged. Raw observations are retained in local evidence."
+}

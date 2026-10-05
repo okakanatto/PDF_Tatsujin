@@ -1,0 +1,35 @@
+{
+  "measured_at": "2026-10-05T10:45:58.863298+09:00",
+  "logical_bytes_note": "File lengths, not NTFS allocated size; T: is a subst alias and counted only once. Existing system MSVC/Windows and shared test runtimes are outside this folder.",
+  "project_bytes": 6864837261,
+  "project_GB": 6.864837261,
+  "limit_bytes": 20000000000,
+  "remaining_bytes": 13135162739,
+  "folders": {
+    ".git": 9379581,
+    ".github": 1542,
+    "assets": 53652126,
+    "build": 362105330,
+    "cmake": 1228,
+    "dist": 2222753558,
+    "docs": 4498488,
+    "evidence": 582103421,
+    "fixtures": 16411656,
+    "licenses": 2776793,
+    "scripts": 148931,
+    "src": 186187,
+    "tests": 147744,
+    "tools": 3571554333,
+    "vendor": 38975110
+  },
+  "distribution_bytes": 149638355,
+  "distribution_components": {
+    "app_and_PDF4QT": 10887168,
+    "Qt_and_plugins": 33109184,
+    "native_and_MSVC": 45081952,
+    "OCR_models": 44062091,
+    "fonts": 9589900,
+    "licenses_and_metadata": 6908060
+  },
+  "Qt_source_archives_bytes": 53891276
+}

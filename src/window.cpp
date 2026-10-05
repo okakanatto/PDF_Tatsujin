@@ -37,13 +37,17 @@ Window::Window()
     documentArea->addWidget(welcome);
     documentArea->addWidget(canvas);
     setCentralWidget(documentArea);
-    auto top = addToolBar("文書操作");
+    auto top = documentToolbar = addToolBar("文書操作");
+    top->setObjectName("documentToolbar");
     top->setMovable(false);
     top->setIconSize(QSize(18, 18));
     top->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     auto action = [&](QString label, QKeySequence key, std::function<void()> f, bool edit = false)
     {
         auto a = top->addAction(label);
+        // Window ownership of the shortcut context keeps document commands usable
+        // while the toolbar is hidden for reading. Input widgets still get override.
+        addAction(a);
         a->setShortcut(key);
         connect(a, &QAction::triggered, this, [this, f] { guard(f); });
         if (edit)
@@ -111,6 +115,7 @@ Window::Window()
             refresh();
         },
         true);
+    redoAction->setShortcuts({QKeySequence::Redo, QKeySequence("Ctrl+Shift+Z")});
     top->addSeparator();
     signatureAction = action(
         "署名", {},
@@ -133,6 +138,7 @@ Window::Window()
     ocrAction->setCheckable(true);
     auto left = navigation = new QDockWidget("文書ナビゲーション", this);
     left->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    left->setObjectName("navigationDock");
     auto nav = new QWidget;
     auto nl = new QVBoxLayout(nav);
     auto historyRow = new QHBoxLayout;
@@ -142,6 +148,8 @@ Window::Window()
     forwardView = new QAction("次の表示", this);
     forwardView->setObjectName("nextView");
     forwardView->setToolTip("次の表示へ進む（Alt+→）");
+    backView->setIcon(style()->standardIcon(QStyle::SP_ArrowBack));
+    forwardView->setIcon(style()->standardIcon(QStyle::SP_ArrowForward));
     for (auto a : {backView, forwardView})
     {
         auto button = new QToolButton;
@@ -215,7 +223,9 @@ Window::Window()
             {
                 if (doc.loaded())
                 {
+                    setReadingMode(false);
                     navigationTabs->setCurrentWidget(searchPanel);
+                    syncReadingLayout();
                     query->setFocus();
                     query->selectAll();
                 }
@@ -233,6 +243,12 @@ Window::Window()
                     navigationTabs->setCurrentWidget(searchPanel);
             });
     connect(searchPanel, &SearchPanel::returnToDocument, this, [this] { canvas->setFocus(); });
+    connect(navigationTabs, &QTabWidget::currentChanged, this,
+            [this]
+            {
+                if (pageControl)
+                    syncReadingLayout();
+            });
     connect(searchPanel, &SearchPanel::presentationChanged, this,
             [this] {
                 canvas->setSearchResults(searchPanel->session()->matches(),
@@ -248,12 +264,19 @@ Window::Window()
     {
         if (row < 0 || row >= doc.pages())
             return;
-        rememberView();
+        ++layoutGeneration;
+        const auto before = canvas->viewState();
         canvas->goToPage(row);
+        const auto after = canvas->viewState();
+        if (before.anchor.page != after.anchor.page ||
+            QLineF(before.anchor.point, after.anchor.point).length() > .5 ||
+            qAbs(before.zoom - after.zoom) > .001 || before.fitMode != after.fitMode)
+            rememberView(before);
     };
     connect(pages, &QListWidget::currentRowChanged, this,
             [this](int row) { guard([&] { canvas->navigatePage(row); }); });
     properties = new QDockWidget("設定", this);
+    properties->setObjectName("propertiesDock");
     properties->setFeatures(QDockWidget::DockWidgetClosable);
     properties->setMinimumWidth(280);
     properties->setMaximumWidth(380);
@@ -388,6 +411,8 @@ Window::Window()
             {
                 signatureAction->setChecked(visible && panels->currentIndex() == 0);
                 ocrAction->setChecked(visible && panels->currentIndex() == 1);
+                if (pageControl)
+                    syncReadingLayout();
             });
     canvas->place = [this](QPointF point)
     {
@@ -412,7 +437,11 @@ Window::Window()
     };
     canvas->changed = [this] { refresh(); };
     status = new QLabel("PDFを開いてください");
+    status->setTextFormat(Qt::PlainText);
+    status->setMinimumWidth(0);
+    status->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
     canvas->interactionCancelled = [this] { refreshStatus(); };
+    canvas->escapeReading = [this] { setReadingMode(false); };
     canvas->toolChanged = [this]
     {
         handToolAction->setChecked(canvas->handToolActive());
@@ -426,6 +455,38 @@ Window::Window()
     statusBar()->addWidget(cancel);
     cancel->hide();
     connect(cancel, &QPushButton::clicked, this, &Window::stopOcr);
+    // These controls remain reachable when both docks and the document toolbar are hidden.
+    for (auto a : {backView, forwardView})
+    {
+        auto button = new QToolButton;
+        button->setDefaultAction(a);
+        button->setIcon(
+            style()->standardIcon(a == backView ? QStyle::SP_ArrowBack : QStyle::SP_ArrowForward));
+        button->setAccessibleName(a->text());
+        statusBar()->addPermanentWidget(button);
+    }
+    pageControl = new PageControl;
+    statusBar()->addPermanentWidget(pageControl);
+    connect(pageControl, &PageControl::pageRequested, this,
+            [this](int page) { canvas->navigatePage(page); });
+    connect(pageControl, &PageControl::returnToDocument, this, [this] { canvas->setFocus(); });
+    connect(pageControl, &PageControl::validationChanged, this, [this] { refreshStatus(); });
+    auto pageShortcut = new QShortcut(QKeySequence("Ctrl+L"), this);
+    connect(pageShortcut, &QShortcut::activated, pageControl, &PageControl::focusNumber);
+    readingAction = new QAction("集中表示", this);
+    readingAction->setObjectName("readingMode");
+    readingAction->setCheckable(true);
+    readingAction->setShortcut(QKeySequence("F8"));
+    readingAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    readingAction->setToolTip(
+        "パネルを畳んで読む（本文でF8）。Escで解除。ページ・倍率・表示履歴は引き続き使えます。");
+    canvas->addAction(readingAction);
+    connect(readingAction, &QAction::triggered, this,
+            [this](bool enabled) { setReadingMode(enabled); });
+    auto readingButton = new QToolButton;
+    readingButton->setDefaultAction(readingAction);
+    readingButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    statusBar()->addPermanentWidget(readingButton);
     auto zoom = zoomControl = new QComboBox;
     zoom->setEditable(true);
     zoom->lineEdit()->setReadOnly(true);
@@ -472,6 +533,7 @@ Window::Window()
         QDockWidget > QWidget { background: white; }
         QLineEdit, QPlainTextEdit, QComboBox, QDoubleSpinBox { padding: 7px; background: white; border: 1px solid #cbd5e1; border-radius: 4px; selection-background-color: #d7e6fa; selection-color: #202b3c; }
         QLineEdit:focus, QPlainTextEdit:focus, QComboBox:focus, QDoubleSpinBox:focus { border-color: #377ccf; }
+        QLineEdit[invalidPage="true"] { border-color: #b83a32; }
         QListWidget#pageList { background: #f4f6f9; border: 0; outline: 0; }
         QListWidget#pageList::item { padding: 10px 6px; border: 1px solid transparent; border-radius: 5px; }
         QListWidget#pageList::item:selected { background: #e2ecfa; color: #154a88; border-color: #9dbce6; }
@@ -486,19 +548,96 @@ Window::Window()
 }
 void Window::showPanel(int index)
 {
+    const auto anchor = canvas->anchor();
+    setReadingMode(false);
     canvas->cancelInteraction();
     panels->setCurrentIndex(index);
     properties->setWindowTitle(index == 0 ? "署名" : "OCR");
     properties->show();
     signatureAction->setChecked(index == 0);
     ocrAction->setChecked(index == 1);
+    syncReadingLayout();
+    preserveLayoutAnchor(anchor);
+}
+void Window::preserveLayoutAnchor(const ViewAnchor& anchor)
+{
+    const auto generation = ++layoutGeneration;
+    const auto revision = doc.revision;
+    // Dock visibility and resize events can be delivered while Qt is laying out
+    // the main window. Restore after that pass; never re-enter its layout here.
+    QTimer::singleShot(0, canvas,
+                       [this, generation, revision, anchor]
+                       {
+                           if (generation == layoutGeneration && revision == doc.revision)
+                               canvas->restoreAnchor(anchor);
+                       });
+}
+void Window::syncReadingLayout()
+{
+    const bool narrowProperties = !properties->isHidden() && width() < 1200;
+    const bool searching = navigationTabs->currentWidget() == searchPanel;
+    const bool visible = doc.loaded() && !readingMode && (!narrowProperties || searching);
+    if (!navigation->isHidden() != visible)
+    {
+        const auto anchor = canvas->anchor();
+        navigation->setVisible(visible);
+        preserveLayoutAnchor(anchor);
+    }
+}
+void Window::setReadingMode(bool enabled)
+{
+    enabled = enabled && doc.loaded();
+    if (enabled == readingMode)
+        return;
+    const auto anchor = canvas->anchor();
+    canvas->cancelInteraction();
+    if (enabled)
+        restoreProperties = !properties->isHidden();
+    readingMode = enabled;
+    readingAction->setChecked(enabled);
+    readingAction->setText(enabled ? "集中解除" : "集中表示");
+    documentToolbar->setVisible(!enabled);
+    properties->setVisible(!enabled && restoreProperties);
+    syncReadingLayout();
+    preserveLayoutAnchor(anchor);
+    canvas->setFocus();
+}
+void Window::resizeEvent(QResizeEvent* event)
+{
+    QMainWindow::resizeEvent(event);
+    if (pageControl)
+        QTimer::singleShot(0, this, [this] { syncReadingLayout(); });
+}
+void Window::showEvent(QShowEvent* event)
+{
+    QMainWindow::showEvent(event);
+    if (!initialPlacement)
+        return;
+    initialPlacement = false;
+    // Account for the native title bar and taskbar without changing OS settings.
+    // Offscreen test surfaces have no desktop placement contract.
+    if (QGuiApplication::platformName() == "offscreen" || !screen())
+        return;
+    const auto available = screen()->availableGeometry();
+    const auto extra = frameGeometry().size() - QWidget::size();
+    resize(qMin(width(), available.width() - extra.width()),
+           qMin(height(), available.height() - extra.height()));
+    const auto frame = frameGeometry();
+    const auto left =
+        qMax(available.left(), qMin(frame.left(), available.right() - frame.width() + 1));
+    const auto top =
+        qMax(available.top(), qMin(frame.top(), available.bottom() - frame.height() + 1));
+    move(pos() + QPoint(left - frame.left(), top - frame.top()));
 }
 Window::~Window()
 {
     canvas->viewChanged = {};
     canvas->toolChanged = {};
     canvas->interactionCancelled = {};
+    canvas->escapeReading = {};
     canvas->navigate = {};
+    disconnect(pageControl, nullptr, this, nullptr);
+    disconnect(qApp, nullptr, this, nullptr);
     bookmarksPanel->activated = {};
     delete searchPanel;
     searchPanel = nullptr;
@@ -535,6 +674,8 @@ void Window::openFile(const QString& path)
             return;
         doc.open(path, pwd);
     }
+    ++layoutGeneration;
+    setReadingMode(false);
     canvas->resetView();
     bookmarksPanel->reset();
     canvas->selected = -1;
@@ -544,12 +685,19 @@ void Window::openFile(const QString& path)
     updateHistoryActions();
     refresh(true);
     // Finish the first layout before choosing the initial reading position.
-    QTimer::singleShot(0, canvas, [this] { canvas->goToPage(0); });
+    const auto generation = ++layoutGeneration;
+    QTimer::singleShot(0, canvas,
+                       [this, generation]
+                       {
+                           if (generation == layoutGeneration)
+                               canvas->goToPage(0);
+                       });
 }
 void Window::refresh(bool rebuild, PDFObjectReference selection)
 {
     documentArea->setCurrentIndex(doc.loaded() ? 1 : 0);
-    navigation->setVisible(doc.loaded());
+    syncReadingLayout();
+    readingAction->setEnabled(doc.loaded());
     zoomControl->setEnabled(doc.loaded());
     printAction->setEnabled(doc.loaded());
     selectToolAction->setEnabled(doc.loaded());
@@ -624,6 +772,7 @@ void Window::navigateTarget(const NavigationTarget& target)
         return;
     }
     const auto before = canvas->viewState();
+    ++layoutGeneration;
     canvas->goToDestination(resolved);
     const auto after = canvas->viewState();
     if (before.anchor.page != after.anchor.page ||
@@ -639,6 +788,7 @@ void Window::moveHistory(bool forward)
     auto& target = forward ? backHistory : forwardHistory;
     if (!doc.loaded() || source.isEmpty())
         return;
+    ++layoutGeneration;
     target.append({canvas->viewState(), query->text(), doc.revision});
     auto destination = source.takeLast();
     canvas->restoreView(destination.view);
@@ -660,6 +810,8 @@ void Window::updateHistoryActions()
 }
 void Window::refreshStatus()
 {
+    if (pageControl)
+        pageControl->setPage(canvas->page, doc.pages());
     status->setText(!doc.readOnly.isEmpty() ? doc.readOnly
                     : doc.loaded()          ? QString("%1 / %2 ページ%3")
                                          .arg(canvas->page + 1)
@@ -672,6 +824,9 @@ void Window::refreshStatus()
         status->setText(status->text() + " · 手のひら：ドラッグで表示を移動 · Escで選択に戻る");
     else if (doc.loaded() && !canvas->selectionMessage().isEmpty())
         status->setText(status->text() + " · " + canvas->selectionMessage());
+    if (pageControl && !pageControl->validationMessage().isEmpty())
+        status->setText(pageControl->validationMessage());
+    status->setToolTip(status->text());
 }
 bool Window::saveFile(bool choose)
 {

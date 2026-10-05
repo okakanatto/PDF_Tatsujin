@@ -34,6 +34,7 @@ public:
     std::function<void(int)> select;
     std::function<void()> changed;
     std::function<void()> interactionCancelled;
+    std::function<void()> escapeReading;
     std::function<void()> viewChanged;
     std::function<void()> toolChanged;
     std::function<void(int)> navigatePage;

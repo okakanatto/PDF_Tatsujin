@@ -1045,7 +1045,12 @@ void Canvas::keyPressEvent(QKeyEvent* event)
     }
     if (event->key() == Qt::Key_Escape)
     {
+        const bool active = placing || selected >= 0 || handToolActive() || d->dragging ||
+                            d->selecting || d->panning || d->pressedLink ||
+                            d->selectionStartPage >= 0;
         setHandTool(false);
+        if (!active && escapeReading)
+            escapeReading();
         if (viewChanged)
             viewChanged();
         event->accept();
@@ -1063,6 +1068,35 @@ void Canvas::keyPressEvent(QKeyEvent* event)
         }
         else
             scrollBy(QPoint(0, qRound(direction * viewport()->height() * .9)));
+        event->accept();
+        return;
+    }
+    if (document->loaded() &&
+        (event->matches(QKeySequence::ZoomIn) || event->matches(QKeySequence::ZoomOut) ||
+         (event->key() == Qt::Key_Plus &&
+          (event->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier)))
+    {
+        const bool out = event->matches(QKeySequence::ZoomOut);
+        setZoom(out ? zoom / 1.2 : zoom * 1.2);
+        event->accept();
+        return;
+    }
+    if (document->loaded() && event->modifiers() == Qt::ControlModifier)
+    {
+        if (event->key() == Qt::Key_Home || event->key() == Qt::Key_End)
+        {
+            if (navigatePage)
+                navigatePage(event->key() == Qt::Key_Home ? 0 : document->pages() - 1);
+        }
+        else if (event->key() == Qt::Key_0)
+            fitPage();
+        else if (event->key() == Qt::Key_1)
+            fitWidth();
+        else
+        {
+            QWidget::keyPressEvent(event);
+            return;
+        }
         event->accept();
         return;
     }

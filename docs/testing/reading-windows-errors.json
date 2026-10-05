@@ -1,0 +1,7 @@
+{
+  "denied_directory": "workspace/evidence/access-denial-047c8e9e352b44059bf283d38c90470e",
+  "native_printer_requested": true,
+  "executable_sha256": "c9876c743f4fe1eaa1d34867f6962494b4e2be3ed5ef704a86af31c0272eb0d0",
+  "volume_full": "未実行; NTFS write denial is a separate test",
+  "acl_restored": true
+}

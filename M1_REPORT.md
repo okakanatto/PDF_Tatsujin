@@ -4,7 +4,7 @@
 
 > 公開リポジトリにはソース、合成試験入力、結果要約を含めます。以下の`dist/`と`evidence/`はローカル検証成果物の場所であり、Gitには含めません。公開用整理後の回帰結果は`docs/testing/OSS_PREPARATION.md`を参照してください。
 
-> **最新の閲覧改修:** [しおり・リンク・表示履歴の実装と実行結果](docs/testing/M1_NAVIGATION.md)。階層しおり・内部リンクからの移動と読書位置への復帰、ページラベルを加えました。最新試用版は `dist/PDFTatsujin-M1-navigation/PDFTatsujin.exe`。[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の検証も保持します。以下の「単一ページ表示」等は過去版の記録です。閲覧設計全体の完成、Acrobatとの比較合格、M1全体の合格を意味しません。
+> **2026-10-05の最終検証:** [ページ入力・集中表示とM1の現在の結果](docs/testing/M1_READING.md)。最新試用版は `dist/PDFTatsujin-M1-reading/PDFTatsujin.exe`、ZIPは `dist/PDFTatsujin-M1-reading-windows-x64.zip`。47件のWindows試験はPASS、日英OCRの検索語は各20/20。A01〜A12の実行範囲、外部評価、容量、性能、残課題はリンク先にまとめました。Reader・実容量不足・クリーンWindows等は未実行、Firefox全体Fit宛先の診断はFAILで、M1全体の合格は保留です。以下の「単一ページ表示」や当時の未実行一覧は初回の履歴です。[しおり・リンク](docs/testing/M1_NAVIGATION.md)、[手のひら操作](docs/testing/M1_HAND.md)、[本文選択・コピー](docs/testing/M1_SELECTION.md)、[検索・表示履歴](docs/testing/M1_SEARCH.md)、[連続ビューア](docs/testing/M1_VIEWER.md)の過去版の記録も保持します。閲覧UX完成やAcrobatとの比較合格とはしていません。
 
 > **以前の修正:** [署名の再編集・操作取消・読込エラーの修正](docs/testing/M1_INTERACTION.md)に当該版のexe、27件の自動試験、独立検証、A01〜A12の当時の範囲をまとめました。複数署名の選択ずれ、Esc・ドラッグ中断、誤ったパスワード要求を実行で再現して修正し、未保存で閉じる各経路も検証しました。以前の[検索表示・保存競合の修正](docs/testing/M1_CORRECTIONS.md)も維持しています。以下は初回の履歴であり、最新状態は上記の報告を優先してください。
 
