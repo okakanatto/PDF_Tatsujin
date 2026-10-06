@@ -1,4 +1,5 @@
 #include "canvas.h"
+#include "pdf_viewer_adapter.h"
 #include "pdfannotation.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
@@ -35,6 +36,9 @@ struct Canvas::Impl : IDocumentDrawInterface
     SelectionTextCache text;
     QMap<int, QPair<qsizetype, qsizetype>> ranges;
     QTimer autoScroll;
+    QTimer preparePages;
+    int readingDirection = 1;
+    int readingScroll = 0;
     QPointF pointer, selectionStartPoint, selectionEndPoint;
     int selectionStartPage = -1, selectionEndPage = -1;
     qsizetype startCaret = -1;
@@ -177,7 +181,22 @@ Canvas::Canvas(Document* doc, QWidget* parent)
                     }
                 });
     connect(d->proxy, &PDFDrawWidgetProxy::pageImageChanged, this,
-            [this](bool, const std::vector<PDFInteger>&) { viewport()->update(); });
+            [this](bool, const std::vector<PDFInteger>&)
+            {
+                viewport()->update();
+                d->preparePages.start();
+            });
+    d->preparePages.setSingleShot(true);
+    d->preparePages.setInterval(30);
+    connect(&d->preparePages, &QTimer::timeout, this,
+            [this]
+            {
+                if (!d->snapshot || d->updating || d->resetting || !isVisible())
+                    return;
+                const auto visible = visiblePages();
+                prepareReadingPages(d->proxy, {visible.cbegin(), visible.cend()},
+                                    d->readingDirection);
+            });
     connect(d->proxy, &PDFDrawWidgetProxy::textLayoutChanged, this,
             [this] { viewport()->update(); });
     connect(&d->text, &SelectionTextCache::pageReady, this,
@@ -215,6 +234,7 @@ Canvas::Canvas(Document* doc, QWidget* parent)
 Canvas::~Canvas()
 {
     d->autoScroll.stop();
+    d->preparePages.stop();
     d->updating = true;
     viewport()->removeEventFilter(this);
     if (window() != this)
@@ -241,6 +261,8 @@ void Canvas::resetView()
 {
     setHandTool(false);
     d->resetting = true;
+    d->readingDirection = 1;
+    d->readingScroll = 0;
     d->fitReference = page = 0;
 }
 ViewAnchor Canvas::anchor(QPointF ratio) const
@@ -312,15 +334,21 @@ void Canvas::updateView(bool force)
 {
     if (d->updating || (!force && d->resizePending) || !d->snapshot)
         return;
+    const auto scroll = verticalScrollBar()->value();
+    if (scroll != d->readingScroll)
+        d->readingDirection = scroll > d->readingScroll ? 1 : -1;
+    d->readingScroll = scroll;
     zoom = d->proxy->getZoom();
     auto position = anchor();
     if (position.page >= 0 && position.page != page && !d->dragging)
     {
+        d->readingDirection = position.page > page ? 1 : -1;
         page = position.page;
         selected = -1;
         d->items = signatures(document->pdf(), page);
     }
     d->lastAnchor = position;
+    d->preparePages.start();
     requestSelectionText();
     updatePointerCursor();
     if (viewChanged)
@@ -328,6 +356,7 @@ void Canvas::updateView(bool force)
 }
 void Canvas::refresh(PDFObjectReference identity)
 {
+    d->preparePages.stop();
     if (!identity.isValid() && selected >= 0 && selected < d->items.size())
         identity = d->items[selected].ref;
     auto position = d->resetting ? ViewAnchor() : anchor();
@@ -684,6 +713,8 @@ void Canvas::goToPage(int number)
     cancelInteraction();
     ++d->viewEpoch;
     d->updating = true;
+    if (number != page)
+        d->readingDirection = number > page ? 1 : -1;
     page = number;
     selected = -1;
     d->items = signatures(document->pdf(), page);

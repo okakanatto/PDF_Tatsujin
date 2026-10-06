@@ -1,4 +1,5 @@
 #include "page_previews.h"
+#include "pdfdrawwidget.h"
 #include "window.h"
 #include <QApplication>
 #include <QElapsedTimer>
@@ -58,6 +59,15 @@ int main(int argc, char** argv)
         tatsu::Window window;
         window.resize(1280, 850);
         window.show();
+        const auto renderer = qEnvironmentVariable("TATSU_MEASURE_RENDERER", "product");
+        const auto views = window.canvas->findChildren<pdf::PDFWidget*>();
+        require(views.size() == 1, "Expected one product PDF viewport");
+        if (renderer == "blend2d-single")
+            views.front()->updateRenderer(pdf::RendererEngine::Blend2D_SingleThread);
+        else if (renderer == "blend2d-multi")
+            views.front()->updateRenderer(pdf::RendererEngine::Blend2D_MultiThread);
+        else
+            require(renderer == "product", "Unknown measurement renderer");
         window.openFile(source);
         ready(window.canvas);
         eventsFor(250);
@@ -152,6 +162,7 @@ int main(int argc, char** argv)
         QFile report(output + "/run.json");
         require(report.open(QIODevice::WriteOnly), "Cannot write benchmark report");
         const QJsonObject result{{"status", "PASS"},
+                                 {"renderer_override", renderer},
                                  {"pages", window.doc.pages()},
                                  {"visited_pages", visited.size()},
                                  {"viewport_width", window.canvas->viewport()->width()},

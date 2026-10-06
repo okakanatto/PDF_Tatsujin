@@ -125,6 +125,8 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_focus_layout", [&] { return testReadingLayout(fixtures, output); });
     run("Reading_OCR_cancel", [&] { return testReadingOcrCancel(fixtures, output); });
     run("Reading_initial_panels", [&] { return testReadingInitialPanels(fixtures, output); });
+    run("Reading_compiler_startup", [&] { return testReadingCompilerStartup(fixtures, output); });
+    run("Reading_image_navigation", [&] { return testReadingImageNavigation(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

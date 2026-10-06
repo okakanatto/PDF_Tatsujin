@@ -2,6 +2,10 @@ param([string]$OutputDirectory = 'dist/PDFTatsujin-M1', [switch]$TestSupport)
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 Set-Location $root
+$compilerConfig=Get-Content -LiteralPath (Join-Path $root 'build/app/CMakeCache.txt') -Raw
+if($compilerConfig -match 'TATSU_COMPILER_TEST_DELAY_MS:STRING=[1-9]' -or $compilerConfig -match 'TATSU_FIX_COMPILER_STARTUP:BOOL=OFF'){
+    throw 'Compiler fault-injection build cannot be packaged. Run build.ps1 with the normal defaults first.'
+}
 $out=Join-Path $root $OutputDirectory
 New-Item -ItemType Directory -Force $out,(Join-Path $out 'licenses') | Out-Null
 Copy-Item -LiteralPath 'build/app/bin/PDFTatsujin.exe' -Destination $out

@@ -118,6 +118,30 @@ QJsonObject testPagePreviews(const QString& fixtures, const QString& output)
     check(QTest::qWaitFor([&] { return !panel->preview(0).isNull(); }, 15000),
           "Undo preview ready");
     check(panel->preview(0) == baseline, "Undo restores exact baseline thumbnail");
+    QJsonArray independentPreviews;
+    for (const auto name : {"D05.pdf", "D07.pdf", "D10-image-50.pdf"})
+    {
+        window.openFile(fixtures + "/" + name);
+        std::vector<int> testPages{0};
+        if (window.doc.pages() > 1)
+            testPages.push_back(window.doc.pages() - 1);
+        for (const int page : testPages)
+        {
+            panel->scrollToItem(panel->item(page));
+            check(QTest::qWaitFor([&] { return !panel->preview(page).isNull(); }, 15000),
+                  "scan and existing annotation preview finishes");
+            const auto image = panel->preview(page);
+            const auto size = pageSize(window.doc.pdf().getCatalog()->getPage(page));
+            const auto scale =
+                qMin(96.0 / size.width(), 128.0 / size.height()) * image.devicePixelRatio();
+            auto expected = renderPage(window.doc.pdf(), page, scale);
+            expected.setDevicePixelRatio(image.devicePixelRatio());
+            check(image == expected,
+                  "single-pass preview matches independent body/annotation render");
+            independentPreviews.append(
+                QJsonObject{{"file", name}, {"page", page + 1}, {"pixels_equal", true}});
+        }
+    }
     window.openFile(fixtures + "/D10-image-50.pdf");
     QCoreApplication::processEvents();
     window.openFile(fixtures + "/D01.pdf");
@@ -134,6 +158,7 @@ QJsonObject testPagePreviews(const QString& fixtures, const QString& output)
             {"UI_timer_ticks", ticks},
             {"cache_bytes_after_navigation", bytes},
             {"geometry", dimensions},
+            {"independent_body_annotation_previews", independentPreviews},
             {"signature_Undo", true},
             {"late_generation_rejected", true},
             {"navigation_and_PDF_unchanged", true}};

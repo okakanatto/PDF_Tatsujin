@@ -39,6 +39,11 @@ def main():
     parser.add_argument("--app-directory", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--runs", type=int, default=3, choices=[1, 3])
+    parser.add_argument(
+        "--renderer",
+        default="product",
+        choices=["product", "blend2d-single", "blend2d-multi"],
+    )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     product = args.app_directory.resolve()
@@ -51,10 +56,12 @@ def main():
     env["QT_QPA_PLATFORM"] = "offscreen"
     env["QT_PLUGIN_PATH"] = str(product)
     env["TATSU_ASSETS"] = str(product / "assets")
+    env["TATSU_MEASURE_RENDERER"] = args.renderer
     result = {
         "mode": "Windows Qt offscreen, shared product UI, repeated continuous scrolling",
         "runs_per_document": args.runs,
         "laps_per_run": 3,
+        "renderer_override": args.renderer,
         "harness_sha256": sha(executable),
         "harness_source_sha256": sha(root / "tests/reading_benchmark.cpp"),
         "wrapper_source_sha256": sha(Path(__file__)),

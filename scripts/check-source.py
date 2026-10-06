@@ -72,6 +72,16 @@ def main():
     ).strip()
     if head != lock["pdf4qt"]["commit"]:
         raise RuntimeError("PDF4QT checkout does not match dependency-lock.json")
+    adaptation = lock["pdf4qt"]["compiler_adaptation"]
+    for path_key, hash_key in [
+        ("file", "sha256_LF"),
+        ("source_file", "source_sha256_LF"),
+    ]:
+        contents = (ROOT / adaptation[path_key]).read_bytes().replace(b"\r\n", b"\n")
+        if hashlib.sha256(contents).hexdigest() != adaptation[hash_key]:
+            raise RuntimeError(
+                "Pinned compiler adaptation changed; review and update its lock"
+            )
     print(
         f"PASS: {len(entries)} M1 fixtures, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
     )

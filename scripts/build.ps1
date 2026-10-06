@@ -3,7 +3,9 @@ param(
     [switch]$Upstream,
     [ValidatePattern('^[D-Z]$')][string]$Drive = 'T',
     [string]$VisualStudioPath,
-    [switch]$WithoutSelfTests
+    [switch]$WithoutSelfTests,
+    [ValidateRange(0,1000)][int]$CompilerTestDelayMs = 0,
+    [switch]$WithoutCompilerQueueFix
 )
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
@@ -58,11 +60,12 @@ if (!(Test-Path $cmake) -or !(Test-Path $ninja)) { throw 'Missing pinned depende
 if ($Upstream -and $Target -eq 'PDFTatsujin') { $Target = 'Pdf4QtViewer' }
 $app = if ($Upstream) { 'OFF' } else { 'ON' }
 $selftest = if ($WithoutSelfTests) { 'OFF' } else { 'ON' }
+$queueFix = if ($WithoutCompilerQueueFix) { 'OFF' } else { 'ON' }
 $oldLocation = Get-Location
 try {
     Set-Location $source
     $build = "${source}build/app"
-    & $cmake -S $source -B $build -G Ninja "-DCMAKE_MAKE_PROGRAM=$ninja" "-DTATSU_BUILD_APP=$app" "-DTATSU_ENABLE_SELFTEST=$selftest" '-DCMAKE_BUILD_TYPE=Release' "-DCMAKE_PREFIX_PATH=$qt" "-DCMAKE_TOOLCHAIN_FILE=${source}tools/vcpkg/scripts/buildsystems/vcpkg.cmake" '-DVCPKG_MANIFEST_MODE=OFF'
+    & $cmake -S $source -B $build -G Ninja "-DCMAKE_MAKE_PROGRAM=$ninja" "-DTATSU_BUILD_APP=$app" "-DTATSU_ENABLE_SELFTEST=$selftest" "-DTATSU_FIX_COMPILER_STARTUP=$queueFix" "-DTATSU_COMPILER_TEST_DELAY_MS=$CompilerTestDelayMs" '-DCMAKE_BUILD_TYPE=Release' "-DCMAKE_PREFIX_PATH=$qt" "-DCMAKE_TOOLCHAIN_FILE=${source}tools/vcpkg/scripts/buildsystems/vcpkg.cmake" '-DVCPKG_MANIFEST_MODE=OFF'
     if ($LASTEXITCODE -ne 0) { throw "Configure failed: $LASTEXITCODE" }
     & $cmake --build $build --target $Target --parallel 4
     if ($LASTEXITCODE -ne 0) { throw "Build failed: $LASTEXITCODE" }

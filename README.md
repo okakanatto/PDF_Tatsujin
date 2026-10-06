@@ -6,6 +6,8 @@ Windows 11 x64でビルド・起動・PDF入出力を試験した、署名テキ
 
 ## 起動
 
+2026-10-06の最新ローカル版は `dist/PDFTatsujin-M1-reading-20261006/PDFTatsujin.exe`。[閲覧メモリ・初期描画の修正と54件の回帰](docs/testing/M1_READING_IMPROVED.md)を確認してください。署名と日英OCRの経路を保持し、実画面未実行や旧版の検証範囲も区別しています。
+
 GitHubにはソースと合成試験入力を登録しています。正式なバイナリリリースはまだありません。[開発手順](docs/DEVELOPMENT.md)でビルド・パッケージ化した後、`dist/PDFTatsujin-M1/PDFTatsujin.exe` を開いてください。配布用ZIPを使う場合は、全体を展開し、その中の `PDFTatsujin-M1/PDFTatsujin.exe` を開きます。DLL・assets・plugins・licensesを含むフォルダ一式が必要です。通常利用にPython・Tesseractの別途インストールは不要です。
 
 1. 「PDFを開く」でPDFを選ぶか、単一PDFをウィンドウへドロップします。

@@ -1,4 +1,5 @@
 #include "page_previews.h"
+#include "preview_raster.h"
 #include <QPainter>
 #include <QScrollBar>
 #include <QStyledItemDelegate>
@@ -217,7 +218,7 @@ void PagePreviews::launch()
             {
                 const auto size = pageSize(document->getCatalog()->getPage(page));
                 const auto scale = qMin(96.0 / size.width(), 128.0 / size.height()) * ratio;
-                image = renderPage(*document, page, scale);
+                image = renderPreview(*document, page, scale);
                 image.setDevicePixelRatio(ratio);
             }
             catch (const std::exception&)

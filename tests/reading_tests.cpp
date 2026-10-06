@@ -1,6 +1,7 @@
 #include "reading_tests.h"
 #include "window.h"
 #include <QtTest/QTest>
+#include <algorithm>
 
 namespace tatsu
 {
@@ -99,6 +100,109 @@ QJsonObject testReadingInitialPanels(const QString& fixtures, const QString& out
     settle();
     check(window.canvas->page == 49, "explicit navigation wins over pending initial panel layout");
     return {{"cases", cases}, {"explicit_navigation_wins", true}};
+}
+QJsonObject testReadingImageNavigation(const QString& fixtures, const QString& output)
+{
+    const auto source = fixtures + "/D10-image-50.pdf";
+    const auto hash = fileHash(source);
+    Window window;
+    window.resize(1280, 850);
+    window.show();
+    window.openFile(source);
+    window.canvas->fitPage();
+    // Compare the same navigation route and completed viewport, rather than
+    // the initial fit anchor against an explicit jump (integer scroll rounding).
+    window.canvas->goToPage(0);
+    auto completeViewport = [&]
+    {
+        check(QTest::qWaitFor(
+                  [&]
+                  {
+                      const auto visible = window.canvas->visiblePages();
+                      return !visible.isEmpty() &&
+                             std::all_of(visible.begin(), visible.end(), [&](int number)
+                                         { return window.canvas->pageReady(number); });
+                  },
+                  15000),
+              "all visible image pages finish");
+    };
+    ready(window, 0);
+    completeViewport();
+    settle();
+    const auto original = encodePdf(window.doc.pdf());
+    const auto revision = window.doc.revision;
+    const auto first = window.canvas->viewport()->grab().toImage();
+    const auto initialAnchor = window.canvas->anchor();
+    first.save(output + "/image-navigation-first.png");
+    int ticks = 0;
+    QTimer pulse;
+    QObject::connect(&pulse, &QTimer::timeout, [&] { ++ticks; });
+    pulse.start(10);
+    QJsonArray destinations;
+    for (const int page : {1, 2, 49, 0, 24, 23, 24, 0})
+    {
+        window.canvas->goToPage(page);
+        ready(window, page);
+        completeViewport();
+        if (page == 0)
+            window.canvas->restoreAnchor(initialAnchor);
+        QTest::qWait(80);
+        const auto image = window.canvas->viewport()->grab().toImage();
+        check(!image.isNull(), "image document still draws after forward/backward jumps");
+        if (page == 0)
+        {
+            image.save(output + "/image-navigation-return.png");
+            const auto current = window.canvas->anchor();
+            QFile diagnostic(output + "/image-navigation-anchors.json");
+            diagnostic.open(QIODevice::WriteOnly);
+            diagnostic.write(QJsonDocument(QJsonObject{{"initial_page", initialAnchor.page},
+                                                       {"returned_page", current.page},
+                                                       {"initial_x", initialAnchor.point.x()},
+                                                       {"initial_y", initialAnchor.point.y()},
+                                                       {"returned_x", current.point.x()},
+                                                       {"returned_y", current.point.y()},
+                                                       {"same_pixels", image == first}})
+                                 .toJson());
+            check(image == first, "returning to an evicted image page draws identical pixels");
+        }
+        destinations.append(page + 1);
+    }
+    // Old background work must not take priority over the final destination.
+    for (const int page : {49, 1, 24, 0})
+        window.canvas->goToPage(page);
+    ready(window, 0);
+    completeViewport();
+    window.canvas->restoreAnchor(initialAnchor);
+    QTest::qWait(150);
+    check(window.canvas->page == 0 && window.canvas->viewport()->grab().toImage() == first,
+          "rapid distant jumps converge to the requested page without stale content");
+    pulse.stop();
+    check(ticks > 0 && !window.doc.dirty() && window.doc.cursor == 0 &&
+              window.doc.revision == revision && encodePdf(window.doc.pdf()) == original &&
+              fileHash(source) == hash,
+          "image reading responds and preserves the document, Undo and source");
+    window.grab().save(output + "/reading-image-navigation.png");
+    return {{"destinations", destinations},
+            {"UI_timer_ticks", ticks},
+            {"return_pixels_identical", true},
+            {"rapid_jumps_final_destination", true},
+            {"PDF_Undo_source_unchanged", true}};
+}
+QJsonObject testReadingCompilerStartup(const QString& fixtures, const QString& output)
+{
+    Window window;
+    window.show();
+    QElapsedTimer time;
+    time.start();
+    window.openFile(fixtures + "/D01.pdf");
+    ready(window, 0);
+    check(window.canvas->visiblePages().contains(0) && !window.doc.dirty() &&
+              window.doc.cursor == 0,
+          "single-page startup paints real content without editing");
+    window.grab().save(output + "/compiler-startup.png");
+    return {{"ready_ms", time.elapsed()},
+            {"single_page_rendered", true},
+            {"PDF_and_Undo_unchanged", true}};
 }
 QJsonObject testReadingPageInput(const QString& fixtures, const QString& output)
 {

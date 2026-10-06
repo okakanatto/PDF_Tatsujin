@@ -3,7 +3,14 @@
     "tag": "v1.6.0.0",
     "commit": "23f3829ae0420da801824a0d53d82c53baa2bee9",
     "source": "https://github.com/JakubMelka/PDF4QT",
-    "license": "MIT"
+    "license": "MIT",
+    "compiler_adaptation": {
+      "file": "cmake/AdaptPdf4QtCompiler.cmake",
+      "sha256_LF": "56b719bced657147505a7f4f2e0a3857d397a3669ad03ac39637d9c6a224db74",
+      "source_file": "vendor/PDF4QT/Pdf4QtLibWidgets/sources/pdfcompiler.cpp",
+      "source_sha256_LF": "a6a53b6b776c8802f60ad539fa03255a56d54612ec648194a727d6cea485b36b",
+      "purpose": "Check queued work before waiting and synchronize stop notification. Derive a build-only file; keep the pinned submodule unchanged."
+    }
   },
   "vcpkg": {
     "commit": "5dd2e1600d049b498ff9fb9fe15997533ae0c804",

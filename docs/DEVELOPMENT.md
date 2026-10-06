@@ -75,6 +75,10 @@ PopplerのbinをPATHへ追加する方法も使えます。これらは開発・
 
 ## ソース検査とCI
 
+PDF4QTのワーカー起動修正は、固定元ソースからビルド領域の1ファイルを派生して適用する。サブモジュールは改変せず、依存lockとソース検査で元と適用コードを照合する。通常の`build.ps1`は修正ON・遅延0を必ず指定する。
+
+通知喪失の再現には`build.ps1 -CompilerTestDelayMs 500 -WithoutCompilerQueueFix`、修正後比較には`build.ps1 -CompilerTestDelayMs 500`を使い、`TATSU_TEST_FILTER=Reading_compiler_startup`で固定D01の実描画を比較する。この構成は検証専用で、packagerは拒否する。検証後は通常の`build.ps1`へ戻す。OCR入力・正解・描画待ちの10秒条件は変更しない。
+
 多ページ閲覧の応答・メモリ測定は[測定設計](design/READING_PERFORMANCE.md)に沿って独立した任意ターゲットで実行できます。本製品と同じUIライブラリをリンクし、製品exeや通常の画面には測定操作を追加しません。
 
 ```powershell

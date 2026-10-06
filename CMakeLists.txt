@@ -23,6 +23,12 @@ if(NOT TATSU_BUILD_APP)
     return()
 endif()
 
+# The upstream compiler is private to this DLL. Keep our small adapter in the
+# same target instead of patching upstream or exporting all of its internals.
+target_sources(Pdf4QtLibWidgets PRIVATE src/pdf_viewer_adapter.cpp)
+target_include_directories(Pdf4QtLibWidgets PRIVATE vendor/PDF4QT/Pdf4QtLibWidgets/sources)
+include(cmake/AdaptPdf4QtCompiler.cmake)
+
 find_package(Qt6 6.9 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Tesseract CONFIG REQUIRED)
 
@@ -39,7 +45,7 @@ target_link_libraries(tatsu_document PUBLIC Pdf4QtLibCore Qt6::Gui Qt6::PrintSup
 add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
 
-add_library(tatsu_ui STATIC src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp src/page_previews.cpp)
+add_library(tatsu_ui STATIC src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp src/page_previews.cpp src/preview_raster.cpp)
 target_link_libraries(tatsu_ui PUBLIC tatsu_document Pdf4QtLibWidgets Qt6::Widgets)
 
 add_executable(PDFTatsujin WIN32 src/main.cpp)
