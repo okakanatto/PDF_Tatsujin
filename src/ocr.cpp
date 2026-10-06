@@ -1,5 +1,6 @@
 #include "ocr.h"
 #include "document.h"
+#include "ocr_jobs.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
 #include "pdffont.h"
@@ -189,6 +190,7 @@ int ocrWorker(const QStringList& args)
         if (args.size() != 5)
             fail("OCR引数が不正です。");
         Document session;
+        auto jobLock = lockOwnedOcrWorker(args[1]);
         session.open(args[1]);
         session.editable();
         auto doc = session.pdf();

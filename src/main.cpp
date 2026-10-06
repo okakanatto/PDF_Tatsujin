@@ -1,4 +1,5 @@
 #include "ocr.h"
+#include "ocr_jobs.h"
 #include "window.h"
 #ifdef TATSU_ENABLE_SELFTEST
 #include "selftest.h"
@@ -8,7 +9,7 @@ int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
     app.setApplicationName("PDFTatsujin");
-    app.setApplicationVersion("0.2.0-rc2");
+    app.setApplicationVersion("0.2.0-rc3");
     app.setOrganizationName("PDFTatsujin");
     try
     {
@@ -24,6 +25,7 @@ int main(int argc, char** argv)
     auto args = app.arguments();
     if (args.size() > 1 && args[1] == "--ocr-worker")
         return tatsu::ocrWorker(args.mid(1));
+    tatsu::cleanAbandonedOcrJobs(QDir::tempPath());
 #ifdef TATSU_ENABLE_SELFTEST
     if (args.size() == 4 && args[1] == "--selftest")
         return tatsu::selftest(args[2], args[3]);
@@ -78,24 +80,6 @@ int main(int argc, char** argv)
     }
     try
     {
-        // Remove only marked, unlocked job folders owned by this application. Never follow
-        // symlinks.
-        QDir temp(QDir::tempPath());
-        for (const auto& info : temp.entryInfoList(
-                 {"pdf-tatsujin-job-*"}, QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
-        {
-            QFile marker(info.absoluteFilePath() + "/.tatsujin-owner");
-            if (!marker.open(QIODevice::ReadOnly) || marker.readAll() != "PDFTatsujin job v1")
-                continue;
-            marker.close();
-            QLockFile lock(info.absoluteFilePath() + "/job.lock");
-            lock.setStaleLockTime(0);
-            if (lock.tryLock())
-            {
-                lock.unlock();
-                QDir(info.absoluteFilePath()).removeRecursively();
-            }
-        }
         auto window = new tatsu::Window;
         window->setAttribute(Qt::WA_DeleteOnClose);
         window->show();

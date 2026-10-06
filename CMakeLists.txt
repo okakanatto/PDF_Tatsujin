@@ -29,6 +29,7 @@ target_sources(Pdf4QtLibWidgets PRIVATE src/pdf_viewer_adapter.cpp)
 target_include_directories(Pdf4QtLibWidgets PRIVATE vendor/PDF4QT/Pdf4QtLibWidgets/sources)
 include(cmake/AdaptPdf4QtCompiler.cmake)
 include(cmake/AdaptPdf4QtManipulator.cmake)
+include(cmake/AdaptPdf4QtColorSpace.cmake)
 
 find_package(Qt6 6.9 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Tesseract CONFIG REQUIRED)
@@ -36,6 +37,7 @@ find_package(Tesseract CONFIG REQUIRED)
 # Document state and PDF operations have no dependency on the application window.
 add_library(tatsu_document STATIC
     src/document.cpp
+    src/ocr_jobs.cpp
     src/image_overlay.cpp
     src/signature_library.cpp
     src/page_operations.cpp
@@ -82,6 +84,8 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/page_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/form_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/annotation_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/image_decode_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/ocr_job_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

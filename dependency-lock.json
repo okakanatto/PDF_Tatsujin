@@ -17,6 +17,15 @@
       "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfdocumentmanipulator.cpp",
       "source_sha256_LF": "c9308bc2617d1278038379a0c51caa034bc0f9620b38286ab133a15a25067355",
       "purpose": "Attach collected form, name and layer objects to the merged catalog; ignore absent form/layer entries instead of erasing preceding documents. Derive a build-only source; keep the pinned submodule unchanged."
+    },
+    "image_decode_adaptation": {
+      "file": "cmake/AdaptPdf4QtColorSpace.cmake",
+      "sha256_LF": "33ab8f02a8f1d9a39426ccb07fc2891a7555b6436941b310b0164d2aaf152f26",
+      "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfcolorspaces.cpp",
+      "source_sha256_LF": "cf62ba9c975a8e74f1bb555e1afef75513bacb29102e2e71e1e2f37c9598a213",
+      "cms_source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfcms.cpp",
+      "cms_source_sha256_LF": "8fbcf2e0f99a5399809fdb730e39e6f93564bccc52ad547cd22464af45f8a866",
+      "purpose": "Byte-exact identity decoding for unmasked 8-bit DeviceRGB/Gray with the pinned generic CMS; all other cases use the original conversion. Build-only derivation, unchanged submodule."
     }
   },
   "vcpkg": {

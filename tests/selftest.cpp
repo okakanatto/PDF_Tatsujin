@@ -3,7 +3,9 @@
 #include "annotation_tests.h"
 #include "form_fields.h"
 #include "form_tests.h"
+#include "image_decode_tests.h"
 #include "navigation_tests.h"
+#include "ocr_job_tests.h"
 #include "page_operations.h"
 #include "page_tests.h"
 #include "pan_tests.h"
@@ -116,6 +118,8 @@ int selftest(const QString& fixtures, const QString& output)
     };
     auto input = [&](QString name) { return fixtures + "/" + name; };
     auto dest = [&](QString name) { return output + "/" + name; };
+    run("Reading_device_image_decode", [&] { return testDeviceImageDecode(fixtures); });
+    run("C07_OCR_job_cleanup", [&] { return testOcrJobCleanup(output); });
     run("B01_writing_roundtrip", [&] { return testWritingRoundtrip(fixtures, output); });
     run("B01_writing_coordinates", [&] { return testWritingCoordinates(fixtures, output); });
     run("B01_writing_UI", [&] { return testWritingUi(fixtures, output); });

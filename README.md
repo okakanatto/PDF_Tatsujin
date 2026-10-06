@@ -2,11 +2,11 @@
 
 PDFを読み、申込書へ書き込み、署名や注釈を加え、ページを整理し、日英スキャンを検索できるPDFにするWindowsデスクトップアプリです。文書処理はローカルで行います。自作コードは[MIT](LICENSE)、依存部品はそれぞれのライセンスです。
 
-現在は **0.2.0-rc2 評価版**です。M2の初版機能を同じ文書ウィンドウへ実装し、M3の使い勝手・性能・配布品質を評価しています。[最新の結果と制約](M3_REPORT.md) · [ロードマップ](ROADMAP.md) · [構成](docs/ARCHITECTURE.md) · [開発手順](docs/DEVELOPMENT.md) · [貢献方法](CONTRIBUTING.md)。Acrobatを上回る操作性は目標であり、比較試験の結果ではありません。
+現在は **0.2.0-rc3 評価版**です。M2の初版機能を同じ文書ウィンドウへ実装し、M3の使い勝手・性能・配布品質を評価しています。画像50ページの同日比較では描画待ちの95%点が257msから116msへ短縮し、代表画面の全画素が一致しました。[最新の結果と制約](M3_RC3_REPORT.md) · [ロードマップ](ROADMAP.md) · [構成](docs/ARCHITECTURE.md) · [開発手順](docs/DEVELOPMENT.md) · [貢献方法](CONTRIBUTING.md)。Acrobatを上回る操作性は目標であり、比較試験の結果ではありません。
 
 ## 起動
 
-この作業環境の評価版は `dist/PDFTatsujin-0.2.0-rc2-windows-x64/PDFTatsujin.exe` です。ZIPは全体を展開し、そのフォルダのexeを起動します。DLL、plugins、assets、licensesが必要です。日本語フォントと日英OCRモデルを同梱しており、通常利用にPythonやTesseractの追加インストールは不要です。GitHubではソースを管理し、正式なバイナリ公開はまだ行っていません。
+この作業環境の評価版は `dist/PDFTatsujin-0.2.0-rc3-windows-x64/PDFTatsujin.exe` です。ZIPは全体を展開し、そのフォルダのexeを起動します。DLL、plugins、assets、licensesが必要です。日本語フォントと日英OCRモデルを同梱しており、通常利用にPythonやTesseractの追加インストールは不要です。GitHubではソースを管理し、正式なバイナリ公開はまだ行っていません。
 
 ## できること
 
@@ -30,6 +30,6 @@ OCRの基準試験は鮮明な横書きの印刷文字です。古い縦書き�
 
 `fixtures/D01.pdf` は日本語・英語のデジタル文書、`D03.pdf` は日英の画像文書8ページ、`D07.pdf` は標準フォームです。合成入力と正解は固定しています。`fixtures/real-scans/manifest.json` に、実スキャンの出典・再利用条件・ハッシュとOCR前に固定した正解を記録しています。
 
-[SPEC.md](SPEC.md)、[TECH.md](TECH.md)、[ACCEPTANCE.md](ACCEPTANCE.md) が要件・試験契約です。[M1_REPORT.md](M1_REPORT.md) と `docs/testing/M1_*.md` は過去版の証拠を保持します。最新の成果物と判断は [M3_REPORT.md](M3_REPORT.md) に集約します。ソースCIは整形・固定入力・依存版を検査し、Windowsでの実行試験を代替しません。
+[SPEC.md](SPEC.md)、[TECH.md](TECH.md)、[ACCEPTANCE.md](ACCEPTANCE.md) が要件・試験契約です。[M1_REPORT.md](M1_REPORT.md)、[RC2の報告](M3_REPORT.md) と `docs/testing/M1_*.md` は過去版の証拠を保持します。最新の成果物と判断は [RC3の報告](M3_RC3_REPORT.md) に集約します。ソースCIは整形・固定入力・依存版を検査し、Windowsでの実行試験を代替しません。
 
 プロジェクトの保存量上限は20GBです。依存・ビルド・配布物・証拠を含めて計測します。PDF4QTはMIT、TesseractとモデルはApache-2.0、NotoはOFL、Qtは動的リンクのLGPL-3.0構成です。[第三者部品の扱い](docs/THIRD_PARTY.md)を参照してください。

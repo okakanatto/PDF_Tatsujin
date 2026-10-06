@@ -39,6 +39,6 @@ foreach($sample in @('D01.pdf','D03.pdf','D07.pdf')){Copy-Item -LiteralPath (Joi
 Copy-Item vendor/PDF4QT/LICENSE -Destination (Join-Path $out 'licenses/PDF4QT-MIT.txt')
 Get-ChildItem tools/vcpkg/installed/x64-windows/share -Directory | ForEach-Object { $copyright=Join-Path $_.FullName copyright; if(Test-Path $copyright){Copy-Item $copyright (Join-Path $out ('licenses/'+$_.Name+'.txt'))} }
 if(Test-Path README.md){Copy-Item README.md $out}
-foreach($metadata in @('LICENSE','M1_REPORT.md','M3_REPORT.md','ROADMAP.md','dependency-lock.json')){if(Test-Path $metadata){Copy-Item $metadata $out}}
+foreach($metadata in @('LICENSE','M1_REPORT.md','M3_REPORT.md','M3_RC3_REPORT.md','ROADMAP.md','dependency-lock.json')){if(Test-Path $metadata){Copy-Item $metadata $out}}
 Get-ChildItem -LiteralPath $out -Recurse -File | Get-FileHash -Algorithm SHA256 | Select-Object Path,Hash | ConvertTo-Json | Set-Content evidence/distribution-hashes.json
 & scripts/measure-storage.ps1 | Set-Content evidence/storage.json

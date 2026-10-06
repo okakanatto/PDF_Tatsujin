@@ -136,3 +136,28 @@ python scripts/test-firefox-m2.py evidence/new-acceptance evidence/new-firefox-m
 ```
 
 Pythonの独立評価・計測には固定済み試験依存を使います。通常利用には不要です。全試験時は `TATSU_TEST_FILTER` を解除します。最小画面の追加検査は `TATSU_UI_REVIEW=1`。PowerShellの `process-result.json` の終了コード・完了と `selftest.json` の結果を両方確認します。途中停止した部分結果を全件合格にしません。実NTFS権限拒否試験は自身が作ったフォルダだけを変更し、finallyで元のACLを復元します。実容量不足・クリーンWindows・OS表示倍率・初見評価は別試験です。
+
+## RC3の実行記録
+
+2026-10-07の製品候補は `dist/PDFTatsujin-0.2.0-rc3-windows-x64`。ビルド後のworking配布物で次を実行し、バイナリを変更せず最終候補へコピーしました。再実行は新しい証拠先を使います。通常のビルド設定はRelease・selftest ON・コンパイラー開始修正ON・試験遅延0。新しい画像変換の条件はCMakeの固定ソースhashと `dependency-lock.json` に記録しています。
+
+```powershell
+& scripts/build.ps1
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc3-working -TestSupport
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+$env:TATSU_UI_REVIEW = '1'
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc3-working -OutputDirectory evidence/new-rc3-regression -IncludeNativePrinter
+python scripts/evaluate.py evidence/new-rc3-regression
+python scripts/evaluate-m2.py evidence/new-rc3-regression
+& scripts/test-startup-cleanup.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc3-working -OutputDirectory evidence/new-rc3-startup
+python scripts/measure-candidate.py --app-directory dist/PDFTatsujin-0.2.0-rc3-working --output evidence/new-rc3-performance
+& scripts/build.ps1 -Target PDFTatsujinReadingBenchmark
+python scripts/benchmark-reading.py --harness build/app/bin/PDFTatsujinReadingBenchmark.exe --app-directory dist/PDFTatsujin-0.2.0-rc3-working --output evidence/new-rc3-reading
+python scripts/compare-reading.py --baseline evidence/previous-reading --candidate evidence/new-rc3-reading --output evidence/new-rc3-comparison.json
+```
+
+`benchmark-reading.py` は計測exeだけを出力先のrunnerへコピーし、指定候補のDLL・plugins・assetsを使います。WindowsはPATHよりexeの隣のDLLを優先するため、build/binにexeを置いたままPATHだけ変更する比較は避けてください。比較ツールは固定PDFの同一hash、各3回・3周の完了、同じ製品描画方法、代表画面の全画素一致を要求します。全画面／全条件の一致保証ではありません。RC2の同日基準はRC3のCore DLLをビルドする前に測定し、その時点で実際に読み込むDLLがRC2のものと同一であることを照合しました。
+
+回収試験は自身の新しい作業ディレクトリと、その子に限定した実NTFSジャンクションを作ります。TMP／TEMPは試験子プロセスだけに変更し、終了後に戻します。無関係な領域・リンク先は保持します。OS設定・権限・ネットワークを変更するクリーン／オフライン試験ではありません。
+
+製品版のネイティブ署名・IME・保存・再読込はComputer Useで確認し、Qt offscreenの71件とは別の証拠へ記録しました。GitHub Actionsのソース検査を、これらのWindows動作試験の代わりにはしません。

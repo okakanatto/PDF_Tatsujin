@@ -82,7 +82,11 @@ def main():
     ).strip()
     if head != lock["pdf4qt"]["commit"]:
         raise RuntimeError("PDF4QT checkout does not match dependency-lock.json")
-    for name in ("compiler_adaptation", "manipulator_adaptation"):
+    for name in (
+        "compiler_adaptation",
+        "manipulator_adaptation",
+        "image_decode_adaptation",
+    ):
         adaptation = lock["pdf4qt"][name]
         for path_key, hash_key in [
             ("file", "sha256_LF"),
@@ -93,6 +97,17 @@ def main():
             )
             if hashlib.sha256(contents).hexdigest() != adaptation[hash_key]:
                 raise RuntimeError(f"Pinned {name} changed; review and update its lock")
+        if name == "image_decode_adaptation":
+            contents = (
+                (ROOT / adaptation["cms_source_file"])
+                .read_bytes()
+                .replace(b"\r\n", b"\n")
+            )
+            if (
+                hashlib.sha256(contents).hexdigest()
+                != adaptation["cms_source_sha256_LF"]
+            ):
+                raise RuntimeError("Pinned generic CMS conversion changed")
     print(
         f"PASS: {len(entries)} M1 fixtures, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
     )
