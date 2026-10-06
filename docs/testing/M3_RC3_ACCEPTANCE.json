@@ -1,0 +1,532 @@
+{
+  "version": "0.2.0-rc3",
+  "executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+  "contract": "ACCEPTANCE.md",
+  "contract_sha256": "57e71f0f4eda73424f0b71704ff51c5f60cf2ec8fce4af1ba3db543dce6d8483",
+  "note": "Expected text is copied from the unchanged contract. PASS is limited to the stated scope; unexecuted portions are not accepted. Detailed steps and fixed fixtures are in scripts and the report.",
+  "report": "M3_RC3_REPORT.md",
+  "rows": [
+    {
+      "ID": "A01",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D01を開く、ズーム、移動、検索・コピー",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）"
+      ],
+      "expected": "表示・既存文字操作が動く。署名・OCRの入口を同じウィンドウで使える",
+      "actual": "PDF表示・ページ移動・検索・選択コピー・同一画面の作業経路PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/"
+      ],
+      "remaining": "初見評価はC02"
+    },
+    {
+      "ID": "A02",
+      "status": "一部実行／未実行あり",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "「山田 太郎」「髙橋」「2026年10月4日」等をIMEで追加・配置・移動・サイズ変更",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "Computer Use：IME候補変換、Unicode改行、署名配置・移動・Undo/Redo・保存・開き直し・再移動・保存"
+      ],
+      "expected": "入力確定が正しく、欠字を黙って保存しない。ドラッグ1回をUndo／Redoできる",
+      "actual": "日本語署名・移動・Undo／Redo・欠字拒否PASS。今回の製品版でIME変換と複数行を実操作",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-native-20261007/result.json"
+      ],
+      "remaining": "全署名をIMEだけで入力、IME製品の比較"
+    },
+    {
+      "ID": "A03",
+      "status": "一部実行／未実行あり",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "A02を別名保存、本アプリと外部ビューアで開く",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py",
+        "scripts/test-firefox.py",
+        "scripts/test-firefox-m2.py",
+        "Computer Use：IME候補変換、Unicode改行、署名配置・移動・Undo/Redo・保存・開き直し・再移動・保存"
+      ],
+      "expected": "見た目・印刷結果を確認。本アプリでは追加文字と署名を再編集でき、原本は不変",
+      "actual": "保存・再読込・再編集・原本保持、PDFium／Poppler／Firefox、Qt／Windows PDFプリンターPASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json",
+        "evidence/m3-rc3-firefox-20261007/",
+        "evidence/m3-rc3-firefox-m2-20261007/",
+        "evidence/m3-rc3-native-20261007/result.json"
+      ],
+      "remaining": "Reader GUI・物理印刷"
+    },
+    {
+      "ID": "A04",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D02へ追加・移動・回転・保存し、表示倍率も変更",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py"
+      ],
+      "expected": "計算上の保存位置と期待位置の差は0.5pt以下。表示上も意図したページ位置を保つ",
+      "actual": "4回転・CropBox・UserUnit・倍率の座標試験PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json"
+      ],
+      "remaining": "OS表示倍率はC03"
+    },
+    {
+      "ID": "A05",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D03へ日英OCR、検索・コピー、保存、外部確認",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py",
+        "scripts/test-firefox.py",
+        "scripts/test-firefox-m2.py"
+      ],
+      "expected": "第3節の設定固定後精度・検索・読み順・位置条件を満たす",
+      "actual": "固定日英OCR評価、検索・コピー・位置・保存後利用PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json",
+        "evidence/m3-rc3-firefox-20261007/",
+        "evidence/m3-rc3-firefox-m2-20261007/"
+      ],
+      "remaining": "外部GUIのOSクリップボード・Reader"
+    },
+    {
+      "ID": "A06",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D04で対象ページを指定、D05で混在ページへOCR",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py"
+      ],
+      "expected": "既存文字・画像・署名・注釈を保持し、画像本文が検索できる。対象外ページの可視内容を変えず、二重コピーを生まない",
+      "actual": "混在ページ、既存本文・画像・署名・注釈・フォーム保持PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json"
+      ],
+      "remaining": "一般の全実文書の保証ではない"
+    },
+    {
+      "ID": "A07",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D06へOCRを再実行",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）"
+      ],
+      "expected": "二重文字層を増やさない。処理不要と文字未検出を区別して通知する",
+      "actual": "OCR済み・空白・写真、文字層の重複防止PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/"
+      ],
+      "remaining": "—"
+    },
+    {
+      "ID": "A08",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "署名追加→ページ回転→OCR→OCRをUndo→Redo→保存",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py"
+      ],
+      "expected": "Undoは署名追加前まで戻りすぎない。各段階で正しい内容が保存され、回転後も検索位置が合う",
+      "actual": "署名→回転→OCR→Undo／Redo→保存、OCRだけを取消PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json"
+      ],
+      "remaining": "—"
+    },
+    {
+      "ID": "A09",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "署名など未保存の変更がある状態でOCRを開始し、途中キャンセル／ワーカー異常終了",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）"
+      ],
+      "expected": "作業前の未保存変更と文書を保持。部分OCRを反映しない。閲覧とキャンセルUIが応答する",
+      "actual": "途中取消・ワーカー異常終了、部分反映なし・未保存編集保持PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/"
+      ],
+      "remaining": "親プロセス強制終了の全タイミングは未評価"
+    },
+    {
+      "ID": "A10",
+      "status": "一部実行／未実行あり",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D09で別名保存キャンセル、権限不足、容量不足、保存先の外部変更",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）"
+      ],
+      "expected": "原本・既存保存先を破損させない。未保存表示を消さず、競合を通知する",
+      "actual": "取消、実NTFS権限拒否、読取専用、外部変更、パス競合、再試行PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/"
+      ],
+      "remaining": "隔離ボリュームの実容量不足"
+    },
+    {
+      "ID": "A11",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "D08の暗号化・証明書署名付き文書を開く",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）"
+      ],
+      "expected": "誤パスワードを受け付けない。読取専用を表示し、編集・OCR・暗黙の平文保存をしない",
+      "actual": "誤パスワード・破損拒否、暗号化・証明書署名・非対応フォームの読取専用PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/"
+      ],
+      "remaining": "証明書の信頼性検証は対象外"
+    },
+    {
+      "ID": "A12",
+      "status": "環境制約／未実行",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "クリーンな対象Windowsで起動し、通信を止めてA02・A05を実行",
+      "execution": [
+        "同一開発PCのZIP展開後B08だけ実行。契約のクリーン／オフラインA02/A05は未実行"
+      ],
+      "expected": "開発環境や追加ダウンロードなしで動く。実行できなければ環境制約としてM1合格を保留",
+      "actual": "開発DLLのPATHを外した同一PC実行・ZIP展開確認",
+      "evidence": [
+        "evidence/m3-rc3-zip-smoke-20261007/"
+      ],
+      "remaining": "クリーンWindows・通信を止めたA02/A05は未実行"
+    },
+    {
+      "ID": "B01",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "テキスト・日付・画像・署名",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py",
+        "scripts/test-firefox.py",
+        "scripts/test-firefox-m2.py"
+      ],
+      "expected": "追加／移動／変更／削除／保存／再編集。日付が後日変わらず、画像の縦横比が崩れない",
+      "actual": "文字・日付・PNG/JPEG・画像署名、更新／削除／Undo／保存後再編集PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json",
+        "evidence/m3-rc3-firefox-20261007/",
+        "evidence/m3-rc3-firefox-m2-20261007/"
+      ],
+      "remaining": "—"
+    },
+    {
+      "ID": "B02",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "注釈",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py",
+        "scripts/test-firefox.py",
+        "scripts/test-firefox-m2.py"
+      ],
+      "expected": "ハイライト・コメント・矩形・直線・矢印の作成／変更／削除、保存、外部表示",
+      "actual": "ハイライト・コメント・矩形・直線・矢印、更新／削除／Undo／保存PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json",
+        "evidence/m3-rc3-firefox-20261007/",
+        "evidence/m3-rc3-firefox-m2-20261007/"
+      ],
+      "remaining": "Reader GUI"
+    },
+    {
+      "ID": "B03",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "フォーム入力",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py",
+        "scripts/test-firefox.py",
+        "scripts/test-firefox-m2.py"
+      ],
+      "expected": "対応項目をキーボード操作でき、日本語と選択値が外部表示・印刷に反映される",
+      "actual": "フォーム6種類のキー／Tab／下書きUndo、日本語の値・外観・選択保存PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json",
+        "evidence/m3-rc3-firefox-20261007/",
+        "evidence/m3-rc3-firefox-m2-20261007/"
+      ],
+      "remaining": "ネイティブIMEによる全フォーム行程"
+    },
+    {
+      "ID": "B04",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "ページ削除・移動・回転・挿入",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py"
+      ],
+      "expected": "内容・注釈・フォーム・OCRがページに追従し、Undoで元に戻る。最後の1ページは消さない",
+      "actual": "複数ページ移動・削除・回転・挿入、内容追従、最後のページ保護PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json"
+      ],
+      "remaining": "極端に複雑な文書は未保証"
+    },
+    {
+      "ID": "B05",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "結合・抽出・分割",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py"
+      ],
+      "expected": "ページ・順序・出力先が指定通り。元文書不変。フォーム名衝突などを無言で壊さない",
+      "actual": "結合・抽出・分割、フォーム階層・順序・原本保持・衝突拒否PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json"
+      ],
+      "remaining": "同名フォームを自動改名する結合は未提供"
+    },
+    {
+      "ID": "B06",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "複数出力の途中失敗",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）"
+      ],
+      "expected": "成功／失敗ファイルを区別し、既存ファイルを勝手に上書きしない。失敗を全件成功としない",
+      "actual": "複数出力の個別成功／失敗、重複指定拒否PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/"
+      ],
+      "remaining": "—"
+    },
+    {
+      "ID": "B07",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "保存・閉じる",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "Computer Use：IME候補変換、Unicode改行、署名配置・移動・Undo/Redo・保存・開き直し・再移動・保存"
+      ],
+      "expected": "保存先選択、上書き確認、未保存確認、保存後Undo、保存失敗後の再試行が一貫する",
+      "actual": "未保存状態、保存／終了取消、失敗後再試行PASS。今回ネイティブ保存・再読込も実行",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-native-20261007/result.json"
+      ],
+      "remaining": "ネイティブ異常系ダイアログの全組合せ"
+    },
+    {
+      "ID": "B08",
+      "status": "実行範囲PASS",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "混在した一連の実務作業",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "scripts/evaluate.py",
+        "scripts/evaluate-m2.py",
+        "scripts/test-firefox.py",
+        "scripts/test-firefox-m2.py"
+      ],
+      "expected": "フォーム入力→署名→注釈→ページ操作→OCR→保存・印刷を同じ文書で完結できる",
+      "actual": "フォーム→署名→注釈→ページ操作→OCR→検索→保存→再編集→印刷PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-regression-20261007/independent-verification.json",
+        "evidence/m3-rc3-regression-20261007/independent-m2.json",
+        "evidence/m3-rc3-firefox-20261007/",
+        "evidence/m3-rc3-firefox-m2-20261007/"
+      ],
+      "remaining": "Reader・物理印刷"
+    },
+    {
+      "ID": "C01",
+      "status": "実行範囲を評価",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "全体のUI",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "Computer Use：IME候補変換、Unicode改行、署名配置・移動・Undo/Redo・保存・開き直し・再移動・保存"
+      ],
+      "expected": "閲覧、書き込み、署名、ページ整理、OCRの画面を実アプリで確認。不要な機能群や巨大な設定を主画面へ露出させない",
+      "actual": "製品実画面の署名行程、最小画面と主要作業のQt操作PASS",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-native-20261007/result.json"
+      ],
+      "remaining": "操作性の優越比較は未実行"
+    },
+    {
+      "ID": "C02",
+      "status": "未評価",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "初見操作",
+      "execution": [
+        "未実行"
+      ],
+      "expected": "利用者が、署名配置・ページ整理・OCR・別名保存を操作説明なしで試せるかを確認。第三者の評価がなければ「未評価」であり、自動テストで置換しない",
+      "actual": "第三者の説明なし試用は未評価",
+      "evidence": [],
+      "remaining": "自動試験で代替しない"
+    },
+    {
+      "ID": "C03",
+      "status": "一部実行／未実行あり",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "入力・表示",
+      "execution": [
+        "scripts/test-windows-errors.ps1 -IncludeNativePrinter（全件実行）",
+        "Computer Use：IME候補変換、Unicode改行、署名配置・移動・Undo/Redo・保存・開き直し・再移動・保存"
+      ],
+      "expected": "日本語IME、キーボード、フォーカス、画面拡大率100／150／200%、ウィンドウ縮小で主要操作が失われない",
+      "actual": "ネイティブIME変換、複数行・異体字、キー・Tab・フォーカス・最小画面",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-native-20261007/result.json"
+      ],
+      "remaining": "OS100／150／200%、複数IME等は未実行。過去のQt強制倍率とは別"
+    },
+    {
+      "ID": "C04",
+      "status": "実行範囲を評価",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "反応性",
+      "execution": [
+        "scripts/measure-candidate.py",
+        "scripts/benchmark-reading.py（各3回、3周）",
+        "scripts/compare-reading.py",
+        "PDFTatsujinInteractionBenchmark（隔離した計測exe、各3回）"
+      ],
+      "expected": "起動、ページ表示、スクロール、署名ドラッグ、OCR中の閲覧とキャンセルの応答を計測。操作待ちの理由が見える",
+      "actual": "初回表示・全周回・OCR・ドラッグ・OCR中の閲覧／取消の3回測定、画素一致",
+      "evidence": [
+        "evidence/m3-rc3-performance-20261007/",
+        "evidence/m3-rc3-reading-comparison-20261007.json",
+        "evidence/m3-rc3-interactions-20261007/"
+      ],
+      "remaining": "FPS・冷状態・長時間・Acrobat比較"
+    },
+    {
+      "ID": "C05",
+      "status": "実行範囲を評価",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "容量・メモリ",
+      "execution": [
+        "scripts/measure-candidate.py",
+        "scripts/benchmark-reading.py",
+        "scripts/storage-breakdown.py",
+        "scripts/archive-distribution.py"
+      ],
+      "expected": "配布・展開後サイズを部品別に報告。通常閲覧・OCR中のプロセス群合計メモリとピークを報告",
+      "actual": "閲覧・OCR親子RSS、部品別配布容量、ZIP照合",
+      "evidence": [
+        "evidence/m3-rc3-performance-20261007/",
+        "evidence/m3-rc3-storage-20261007.json",
+        "evidence/m3-rc3-archive-20261007.json"
+      ],
+      "remaining": "全文書・全操作の上限保証ではない"
+    },
+    {
+      "ID": "C06",
+      "status": "実行／失敗ケース確認",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "実文書",
+      "execution": [
+        "scripts/diagnose-real-scans.py（固定R01/R02）"
+      ],
+      "expected": "合成文書以外の利用条件が明確な実スキャンで精度・読み順・失敗ケースを確認し、対応範囲表示へ反映",
+      "actual": "固定した実書籍スキャンを再実行。英語CER0.3268%・検索3/4、古い縦書き日本語CER約99.34%・検索0/4",
+      "evidence": [
+        "evidence/m3-rc3-real-scans-20261007/real-scans.json"
+      ],
+      "remaining": "縦書き・ルビは実用失敗。現代横書き日本語の実スキャンは未実行"
+    },
+    {
+      "ID": "C07",
+      "status": "一部実行／未実行あり",
+      "environment": "Windows 11 Home 25H2 x64 / Qt 6.9.3 / MSVC 19.50; development PC. Qt offscreen unless native UI is stated.",
+      "version": "0.2.0-rc3",
+      "input": "配布・安全",
+      "execution": [
+        "C07_OCR_job_cleanup（実Qtロック）",
+        "scripts/test-startup-cleanup.ps1（実起動とNTFSジャンクション）",
+        "scripts/archive-distribution.py"
+      ],
+      "expected": "クリーン環境・オフライン実行、外部送信なし、一時ファイル、ライセンス通知・必要資料の同梱",
+      "actual": "実ロックで活動中の親／ワーカーを保持。実Windows起動で孤立ジョブ回収、実NTFSジャンクションとリンク先を保持。通知・モデル・フォント・Qtソース同梱",
+      "evidence": [
+        "evidence/m3-rc3-regression-20261007/",
+        "evidence/m3-rc3-startup-cleanup-20261007/",
+        "evidence/m3-rc3-archive-20261007.json"
+      ],
+      "remaining": "クリーン／オフライン、長期放置、親強制終了の全タイミング"
+    }
+  ]
+}

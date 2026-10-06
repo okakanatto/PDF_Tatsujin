@@ -1,0 +1,67 @@
+{
+  "version": "0.2.0-rc3",
+  "source_commit": "6f3a09602bb7267926d645811c7a0239d009dc6d",
+  "source_PR": "https://github.com/okakanatto/PDF_Tatsujin/pull/1",
+  "app_directory": "dist/PDFTatsujin-0.2.0-rc3-windows-x64",
+  "ZIP": "dist/PDFTatsujin-0.2.0-rc3-windows-x64.zip",
+  "archive_verification": {
+    "all_files_match": true,
+    "files": 390,
+    "exe_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+    "zip_sha256": "344329db6b7fa1971f9d899e6b2a9e8a07148e815ec35f87c5a4e2f06eb90d0e",
+    "zip_bytes": 146465087,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "application_bytes": 155801048,
+  "Qt_corresponding_sources_bytes": 53891276,
+  "extracted_application_and_Qt_sources_bytes": 209692324,
+  "components_bytes": {
+    "app_and_PDF4QT": 11415552,
+    "Qt_and_plugins": 33109184,
+    "native_and_MSVC": 45081952,
+    "OCR_models": 44062091,
+    "fonts": 9589900,
+    "licenses_and_metadata": 12542369
+  },
+  "project_storage": {
+    "measured_at": "2026-10-07T08:42:12.203185+09:00",
+    "logical_bytes_note": "File lengths, not NTFS allocated size; T: is a subst alias and counted only once. Existing system MSVC/Windows and shared test runtimes are outside this folder.",
+    "project_bytes": 10615060451,
+    "project_GB": 10.615060451,
+    "limit_bytes": 20000000000,
+    "remaining_bytes": 9384939549
+  },
+  "storage_device": {
+    "media_type": "SSD",
+    "bus_type": "NVMe",
+    "bytes": 500107862016
+  },
+  "extracted_B08_probe": {
+    "status": "PASS",
+    "tests": 1,
+    "completed": true,
+    "process_exit": 0,
+    "executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+    "details": {
+      "form_signature_annotation_pages_OCR": true,
+      "same_window": true,
+      "save_retry": true,
+      "search_save_reedit_print": true
+    },
+    "scope": "Same development Windows PC, offscreen, packaged DLLs/models, System32-only PATH; not clean/offline acceptance"
+  },
+  "additional_interaction_measurements": "M3_RC3_INTERACTIONS.json",
+  "source_CI_for_implementation": {
+    "status": "PASS",
+    "source_commit": "6f3a09602bb7267926d645811c7a0239d009dc6d",
+    "url": "https://github.com/okakanatto/PDF_Tatsujin/actions/runs/37547511449",
+    "scope": "Source style, syntax, frozen input and dependency hashes; not Windows runtime acceptance"
+  },
+  "frozen_archive_note": "Archive holds report/results available when frozen. Distribution record and later interaction measurements are maintained outside ZIP in source control. Product binary is unchanged.",
+  "evidence_sha256": {
+    "m3-rc3-archive-20261007.json": "08d41abdf3d178ebef437feaedb3c2b1e632c9bcec280bd8561664f6d2ede6d2",
+    "m3-rc3-storage-20261007.json": "8793bf9644e46966938d38aec079787df48223fa74d1c62ca38889bcb097537a",
+    "process-result.json": "737cfe44c5a6471117628ebb0d4f724806fe6652a7aa1307ca4b8d58c8629c11",
+    "selftest.json": "b1a4a9776a7a62a385a70c61176048568a7bf01dacd75740dce3880f582921ca"
+  }
+}
