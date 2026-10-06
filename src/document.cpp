@@ -1,4 +1,5 @@
 #include "document.h"
+#include "annotation_operations.h"
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
 #include "pdfpainter.h"
@@ -9,6 +10,14 @@ namespace tatsu
 {
 using namespace pdf;
 using namespace detail;
+bool isImage(OverlayKind kind)
+{
+    return kind == OverlayKind::Image || kind == OverlayKind::SignatureImage;
+}
+bool isAnnotation(OverlayKind kind)
+{
+    return kind >= OverlayKind::Comment && kind <= OverlayKind::Highlight;
+}
 QVector<Signature> signatures(const PDFDocument& doc, int page)
 {
     QVector<Signature> out;
@@ -18,6 +27,8 @@ QVector<Signature> signatures(const PDFDocument& doc, int page)
         return out;
     for (const auto& ref : *ann.getArray())
     {
+        if (!ref.isReference())
+            continue;
         auto o = doc.getObject(ref);
         if (!o.isDictionary())
             continue;
@@ -30,22 +41,26 @@ QVector<Signature> signatures(const PDFDocument& doc, int page)
         auto a = doc.getObject(o.getDictionary()->get("Rect"));
         if (!a.isArray() || a.getArray()->getCount() != 4)
             continue;
-        auto value = [&](int i)
-        {
-            auto v = a.getArray()->getItem(i);
-            return v.isReal() ? v.getReal() : double(v.getInteger());
-        };
-        out.push_back(
-            {ref.getReference(), QRectF(QPointF(value(0), value(1)), QPointF(value(2), value(3))),
-             data["text"].toString(), data["size"].toDouble(), QColor(data["color"].toString())});
+        PDFDocumentDataLoaderDecorator loader(&doc);
+        const auto rectangle = loader.readRectangle(a, {});
+        if (!rectangle.isValid())
+            continue;
+        const int kind = data["kind"].toInt(0);
+        if (kind < 0 || kind > int(OverlayKind::Highlight))
+            continue;
+        QPolygonF geometry;
+        auto coordinates = loader.readNumberArrayFromDictionary(
+            o.getDictionary(), kind == int(OverlayKind::Highlight) ? "QuadPoints" : "L");
+        for (size_t i = 0; i + 1 < coordinates.size(); i += 2)
+            geometry.append({coordinates[i], coordinates[i + 1]});
+        out.push_back({ref.getReference(), rectangle, data["text"].toString(),
+                       data["size"].toDouble(), QColor(data["color"].toString()), OverlayKind(kind),
+                       QSize(data["pixelWidth"].toInt(), data["pixelHeight"].toInt()), geometry});
     }
     return out;
 }
-void Document::open(const QString& path, const QString& password)
+QString editingRestriction(const PDFDocument& doc)
 {
-    if (busy)
-        fail("OCR処理中です。");
-    auto doc = readPdf(path, password);
     QString restriction;
     if (doc.getStorage().getSecurityHandler()->getMode() != EncryptionMode::None)
         restriction = "暗号化されたPDF（読み取り専用）";
@@ -63,6 +78,14 @@ void Document::open(const QString& path, const QString& password)
         if (d->hasKey("XFA") || (d->hasKey("FT") && d->hasKey("AA")))
             restriction = "非対応フォーム／スクリプト付き文書（読み取り専用）";
     }
+    return restriction;
+}
+void Document::open(const QString& path, const QString& password)
+{
+    if (busy)
+        fail("OCR処理中です。");
+    auto doc = readPdf(path, password);
+    const auto restriction = editingRestriction(doc);
     copyAllowed = doc.getStorage().getSecurityHandler()->isAllowed(
         PDFSecurityHandler::Permission::CopyContent);
     history = {std::move(doc)};
@@ -72,6 +95,7 @@ void Document::open(const QString& path, const QString& password)
     target.clear();
     targetHash.clear();
     readOnly = restriction;
+    pendingInput = false;
     ++revision;
 }
 void Document::editable() const
@@ -117,7 +141,14 @@ void Document::redo()
 Signature Document::putSignature(int page, const QString& text, QPointF point, double size,
                                  QColor color, PDFObjectReference old)
 {
+    return putText(page, OverlayKind::SignatureText, text, point, size, color, old);
+}
+Signature Document::putText(int page, OverlayKind kind, const QString& text, QPointF point,
+                            double size, QColor color, PDFObjectReference old)
+{
     editable();
+    if (isImage(kind) || isAnnotation(kind))
+        fail("文字の種類が不正です。");
     if (text.trimmed().isEmpty() || text.size() > 2000 || size < 6 || size > 144)
         fail("署名は1～2000文字、サイズは6～144ptで指定してください。");
     const double unit = pdf().getCatalog()->getPage(page)->getUserUnit();
@@ -177,12 +208,16 @@ Signature Document::putSignature(int page, const QString& text, QPointF point, d
     set(d, "Rect", rectObject(rect));
     set(d, "AP", dictObject(appearance));
     set(d, "F", PDFObject::createInteger(4));
-    QJsonObject meta{{"version", 1}, {"text", text}, {"size", size}, {"color", color.name()}};
+    QJsonObject meta{{"version", 1},
+                     {"text", text},
+                     {"size", size},
+                     {"color", color.name()},
+                     {"kind", int(kind)}};
     set(d, "Tatsujin", PDFObject::createString(QJsonDocument(meta).toJson(QJsonDocument::Compact)));
     set(d, "NM", PDFObject::createString(QUuid::createUuid().toByteArray()));
     b.setObject(ref, dictObject(d));
     commit(b.build());
-    return {ref, rect, text, size, color};
+    return {ref, rect, text, size, color, kind};
 }
 void Document::moveSignature(int page, const Signature& sig, QPointF delta)
 {
@@ -193,14 +228,30 @@ void Document::moveSignature(int page, const Signature& sig, QPointF delta)
     PDFDocumentBuilder b(&pdf());
     auto d = *b.getObjectByReference(sig.ref).getDictionary();
     set(d, "Rect", rectObject(rect));
+    if (isAnnotation(sig.kind) && !sig.geometry.isEmpty())
+    {
+        std::vector<PDFObject> coordinates;
+        for (auto point : sig.geometry)
+        {
+            point += delta;
+            coordinates.push_back(number(point.x()));
+            coordinates.push_back(number(point.y()));
+        }
+        set(d, sig.kind == OverlayKind::Highlight ? "QuadPoints" : "L", arrObject(coordinates));
+    }
     b.setObject(sig.ref, dictObject(d));
+    if (isAnnotation(sig.kind))
+    {
+        updateOwnedAnnotationAppearance(b, sig.ref);
+        completeAnnotationStreams(b);
+    }
     commit(b.build());
 }
 void Document::eraseSignature(int page, const Signature& s)
 {
     editable();
     PDFDocumentBuilder b(&pdf());
-    b.removeAnnotation(pdf().getCatalog()->getPage(page)->getPageReference(), s.ref);
+    removeOwnedAnnotation(b, pdf().getCatalog()->getPage(page)->getPageReference(), s.ref);
     commit(b.build());
 }
 void Document::rotate(int page)
@@ -214,6 +265,8 @@ void Document::rotate(int page)
 void Document::save(const QString& path, const QByteArray& expected)
 {
     editable();
+    if (pendingInput)
+        fail("フォーム入力を確定してから保存してください。");
     QString dest = QFileInfo(path).absoluteFilePath();
     QByteArray baseline = expected;
     if (sameFilePath(dest, target))

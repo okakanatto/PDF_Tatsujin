@@ -17,5 +17,7 @@ SPEC.md -text
 TECH.md -text
 ACCEPTANCE.md -text
 fixtures/*.json -text whitespace=cr-at-eol
+fixtures/real-scans/manifest.json -text whitespace=cr-at-eol
+*.jpg binary
 assets/revisions.json -text whitespace=cr-at-eol
 licenses/** -text

@@ -1,5 +1,11 @@
 #include "selftest.h"
+#include "annotation_operations.h"
+#include "annotation_tests.h"
+#include "form_fields.h"
+#include "form_tests.h"
 #include "navigation_tests.h"
+#include "page_operations.h"
+#include "page_tests.h"
 #include "pan_tests.h"
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
@@ -8,6 +14,7 @@
 #include "selection_tests.h"
 #include "viewer_tests.h"
 #include "window.h"
+#include "writing_tests.h"
 #include <QPrinterInfo>
 #include <QtTest/QTest>
 #include <windows.h>
@@ -109,6 +116,20 @@ int selftest(const QString& fixtures, const QString& output)
     };
     auto input = [&](QString name) { return fixtures + "/" + name; };
     auto dest = [&](QString name) { return output + "/" + name; };
+    run("B01_writing_roundtrip", [&] { return testWritingRoundtrip(fixtures, output); });
+    run("B01_writing_coordinates", [&] { return testWritingCoordinates(fixtures, output); });
+    run("B01_writing_UI", [&] { return testWritingUi(fixtures, output); });
+    run("B01_signature_library", [&] { return testSignatureLibrary(fixtures, output); });
+    run("B04_page_arrange", [&] { return testPageArrange(fixtures, output); });
+    run("B05_page_merge_insert", [&] { return testPageMerge(fixtures, output); });
+    run("B06_page_exports", [&] { return testPageExports(fixtures, output); });
+    run("B04_page_organizer_UI", [&] { return testPageOrganizer(fixtures, output); });
+    run("B03_form_values", [&] { return testFormValues(fixtures, output); });
+    run("B03_form_input_UI", [&] { return testFormInput(fixtures, output); });
+    run("B03_form_keyboard", [&] { return testFormKeyboard(fixtures, output); });
+    run("M2_visible_panel_lifetime", [&] { return testWindowPanelLifetime(fixtures, output); });
+    run("B02_annotations", [&] { return testAnnotations(fixtures, output); });
+    run("B02_annotations_UI", [&] { return testAnnotationInput(fixtures, output); });
     auto searchReady = [&](Window& window)
     {
         auto session = window.findChild<SearchPanel*>("searchPanel")->session();
@@ -118,6 +139,121 @@ int selftest(const QString& fixtures, const QString& output)
                     15000),
                 "asynchronous search finished");
     };
+    run("B08_combined_workflow",
+        [&]
+        {
+            Window window;
+            QStringList dialogs;
+            QTimer dismiss;
+            QObject::connect(&dismiss, &QTimer::timeout,
+                             [&]
+                             {
+                                 for (auto widget : QApplication::topLevelWidgets())
+                                     if (auto box = qobject_cast<QMessageBox*>(widget))
+                                     {
+                                         dialogs.append(box->windowTitle());
+                                         box->accept();
+                                     }
+                             });
+            dismiss.start(25);
+            window.show();
+            window.openFile(input("D07.pdf"));
+            const auto originalHash = fileHash(input("D07.pdf"));
+            auto fields = formFields(window.doc.pdf());
+            auto name = std::find_if(fields.begin(), fields.end(),
+                                     [](const auto& field) { return field.name == "name"; });
+            require(name != fields.end(), "input name field");
+            putFormValue(window.doc, name->widget, {"髙橋 香織"});
+            window.doc.putSignature(0, "山田 太郎", {350, 350}, 18, Qt::black);
+            putAnnotation(window.doc, 0, OverlayKind::Rectangle, {345, 340, 130, 45}, "署名を確認",
+                          Qt::blue, 1.5);
+            auto scan = readPdf(input("D05.pdf"));
+            window.doc.commit(insertPages(window.doc.pdf(), scan, {0}, 1));
+            window.doc.rotate(1);
+            window.refresh(true);
+            const auto beforeOcr = window.doc.pdf();
+            writeCandidate(beforeOcr, dest("m2-combined-before-OCR.pdf"));
+            window.scope->setCurrentIndex(0);
+            window.startOcr();
+            require(window.doc.busy, "same-window OCR starts after form and page edits");
+            require(QTest::qWaitFor([&] { return !window.worker; }, 180000),
+                    "combined OCR completes");
+            require(!window.doc.busy && window.doc.pdf() != beforeOcr,
+                    "completed OCR is committed");
+            require(dialogs == QStringList{"OCR結果"}, "combined OCR has only its result dialog");
+            window.undoAction->trigger();
+            require(window.doc.pdf() == beforeOcr, "OCR Undo preserves all preceding edits");
+            window.redoAction->trigger();
+            const auto ocr = window.doc.pdf();
+            writeCandidate(ocr, dest("m2-combined-after-OCR.pdf"));
+            window.doc.commit(selectPages(window.doc.pdf(), {1, 0}));
+            window.refresh(true);
+            require(pageText(window.doc.pdf(), 0).contains("図書館"),
+                    "OCR text follows reordered page");
+            window.doc.undo();
+            require(window.doc.pdf() == ocr, "page reorder Undo retains form and OCR");
+            window.doc.redo();
+            window.refresh(true);
+            window.query->setText("図書館");
+            QTest::keyClick(window.query, Qt::Key_Return);
+            searchReady(window);
+            require(window.findChild<SearchPanel*>("searchPanel")->session()->rowCount() == 1,
+                    "search works after combined page edits and OCR");
+            auto savedFields = formFields(window.doc.pdf());
+            writeCandidate(window.doc.pdf(), dest("m2-combined-after-reorder.pdf"));
+            QJsonArray fieldReport;
+            for (const auto& field : savedFields)
+                fieldReport.append(
+                    QJsonObject{{"page", field.page},
+                                {"name", field.name},
+                                {"values", QJsonArray::fromStringList(field.values)}});
+            QFile fieldFile(dest("m2-combined-fields.json"));
+            require(fieldFile.open(QIODevice::WriteOnly), "combined field diagnostics");
+            fieldFile.write(QJsonDocument(fieldReport).toJson());
+            fieldFile.close();
+            require(std::any_of(savedFields.begin(), savedFields.end(),
+                                [](const auto& field) {
+                                    return field.page == 1 && field.name == "name" &&
+                                           field.values == QStringList{"髙橋 香織"};
+                                }),
+                    "Japanese form follows its page");
+            require(signatures(window.doc.pdf(), 1).size() == 2,
+                    "signature and annotation follow original form page");
+            window.doc.save(dest("m2-combined.pdf"));
+            const auto rendered = renderPage(window.doc.pdf(), 1, 1.2);
+            window.doc.undo();
+            require(window.doc.dirty(), "Undo after save marks document unsaved");
+            window.doc.redo();
+            require(!window.doc.dirty(), "Redo to saved state clears unsaved indicator");
+            Document reopened;
+            reopened.open(dest("m2-combined.pdf"));
+            require(renderPage(reopened.pdf(), 1, 1.2) == rendered,
+                    "combined saved appearance retained");
+            reopened.moveSignature(1, signatures(reopened.pdf(), 1).front(), {3, 4});
+            bool refused = false;
+            try
+            {
+                reopened.save(dest("missing-folder/m2-combined.pdf"));
+            }
+            catch (const std::exception&)
+            {
+                refused = true;
+            }
+            require(refused && reopened.dirty(), "failed save retains all edits");
+            reopened.save(dest("m2-combined-reedited.pdf"));
+            QPrinter printer(QPrinter::HighResolution);
+            printer.setOutputFormat(QPrinter::PdfFormat);
+            printer.setOutputFileName(dest("m2-combined-print.pdf"));
+            printDocument(window.doc.pdf(), printer);
+            require(readPdf(dest("m2-combined-print.pdf")).getCatalog()->getPageCount() == 2,
+                    "combined document prints both pages");
+            require(fileHash(input("D07.pdf")) == originalHash,
+                    "combined workflow protects source");
+            return QJsonObject{{"same_window", true},
+                               {"form_signature_annotation_pages_OCR", true},
+                               {"search_save_reedit_print", true},
+                               {"save_retry", true}};
+        });
     run("Navigation_bookmarks", [&] { return testNavigationBookmarks(fixtures, output); });
     run("Navigation_links", [&] { return testNavigationLinks(fixtures, output); });
     run("Navigation_lifecycle", [&] { return testNavigationLifecycle(fixtures, output); });

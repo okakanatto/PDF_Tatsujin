@@ -8,6 +8,7 @@ int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
     app.setApplicationName("PDFTatsujin");
+    app.setApplicationVersion("0.2.0-rc2");
     app.setOrganizationName("PDFTatsujin");
     try
     {

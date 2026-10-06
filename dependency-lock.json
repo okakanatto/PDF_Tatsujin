@@ -10,6 +10,13 @@
       "source_file": "vendor/PDF4QT/Pdf4QtLibWidgets/sources/pdfcompiler.cpp",
       "source_sha256_LF": "a6a53b6b776c8802f60ad539fa03255a56d54612ec648194a727d6cea485b36b",
       "purpose": "Check queued work before waiting and synchronize stop notification. Derive a build-only file; keep the pinned submodule unchanged."
+    },
+    "manipulator_adaptation": {
+      "file": "cmake/AdaptPdf4QtManipulator.cmake",
+      "sha256_LF": "620e9b48c903490df4b50d2a66d975e6104c69a7d9551b94c855f1e0a03de17a",
+      "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfdocumentmanipulator.cpp",
+      "source_sha256_LF": "c9308bc2617d1278038379a0c51caa034bc0f9620b38286ab133a15a25067355",
+      "purpose": "Attach collected form, name and layer objects to the merged catalog; ignore absent form/layer entries instead of erasing preceding documents. Derive a build-only source; keep the pinned submodule unchanged."
     }
   },
   "vcpkg": {

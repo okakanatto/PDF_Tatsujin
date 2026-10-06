@@ -31,6 +31,7 @@ public:
     int selected = -1;
     QString copied;
     std::function<void(QPointF)> place;
+    std::function<void(QPointF, QPointF)> draw;
     std::function<void(int)> select;
     std::function<void()> changed;
     std::function<void()> interactionCancelled;
@@ -44,6 +45,11 @@ public:
     void refresh(PDFObjectReference selection = {});
     void resetView();
     void beginPlacement();
+    void beginDrawing(bool line);
+    bool drawingActive() const;
+    QMap<int, QVector<QRectF>> selectedTextRects() const;
+    void finishFormEdit();
+    void cancelFormEdit();
     void cancelInteraction();
     void setHandTool(bool enabled);
     bool handToolActive() const;

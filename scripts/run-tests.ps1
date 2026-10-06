@@ -17,7 +17,9 @@ try {
     if($Headless){$env:QT_QPA_PLATFORM='offscreen'}
     $arguments=@('--selftest',('"'+$fixtures+'"'),('"'+$OutputDirectory+'"'))
     $process=Start-Process -FilePath $exe -ArgumentList $arguments -WindowStyle Hidden -Wait -PassThru
-    Get-Content -LiteralPath (Join-Path $OutputDirectory 'selftest.json')
+    New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
+    [ordered]@{exit_code=$process.ExitCode;exe_sha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLower();completed=($process.ExitCode -eq 0);headless=[bool]$Headless;filter=$env:TATSU_TEST_FILTER} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $OutputDirectory 'process-result.json')
+    if(Test-Path -LiteralPath (Join-Path $OutputDirectory 'selftest.json')){Get-Content -LiteralPath (Join-Path $OutputDirectory 'selftest.json')}
     if($process.ExitCode -ne 0){throw "Selftest failed with exit code $($process.ExitCode). Evidence: $OutputDirectory"}
 } finally {
     $env:PATH=$previousPath

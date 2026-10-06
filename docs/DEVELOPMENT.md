@@ -95,3 +95,44 @@ Get-ChildItem src,tests -Recurse -Include *.cpp,*.h | ForEach-Object { clang-for
 ```
 
 GitHub Actionsは書式、Python・PowerShell構文、試験文書と正解のハッシュ、PDF4QTの固定コミットを検査します。CIは現時点でWindowsアプリのビルド・GUI試験を実行しません。実行環境の異なるCIの成功をM1合格と解釈しません。
+
+## M2/M3の再現
+
+2026-10-06の評価版は `dist/PDFTatsujin-0.2.0-rc2-windows-x64`。新しい出力先を指定し、過去の証拠を上書きしません。M1の固定入力・閾値は同じまま、B01〜B08の保存・再編集・複合作業も製品のselftestから実行します。
+
+```powershell
+& scripts/build.ps1
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc2-windows-x64 -TestSupport
+$env:TATSU_UI_REVIEW = '1'
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc2-windows-x64 -OutputDirectory evidence/new-acceptance -IncludeNativePrinter
+python scripts/evaluate.py evidence/new-acceptance
+python scripts/evaluate-m2.py evidence/new-acceptance
+python scripts/diagnose-real-scans.py --app-directory dist/PDFTatsujin-0.2.0-rc2-windows-x64 --output evidence/new-real-scans
+python scripts/measure-candidate.py --app-directory dist/PDFTatsujin-0.2.0-rc2-windows-x64 --output evidence/new-measurements
+& scripts/build.ps1 -Target PDFTatsujinReadingBenchmark
+python scripts/benchmark-reading.py --harness build/app/bin/PDFTatsujinReadingBenchmark.exe --app-directory dist/PDFTatsujin-0.2.0-rc2-windows-x64 --output evidence/new-reading
+```
+
+署名ドラッグ・OCR中の閲覧／取消は、別の任意ターゲットで製品UIをリンクします。製品のexeは変更せず、各3回を記録します。以下を同じPowerShellで実行しました。`Start-Process -Wait`でWin32測定アプリの終了を待ち、終了コードと `interactions.json` の完了を確認してください。
+
+```powershell
+& scripts/build.ps1 -Target PDFTatsujinInteractionBenchmark
+$candidate = (Resolve-Path dist/PDFTatsujin-0.2.0-rc2-windows-x64).Path
+$env:PATH = $candidate + ';' + $env:SystemRoot + '/System32'
+$env:QT_QPA_PLATFORM = 'offscreen'
+$env:QT_PLUGIN_PATH = $candidate
+$env:TATSU_ASSETS = Join-Path $candidate 'assets'
+$inputPath = (Resolve-Path fixtures).Path
+$outputPath = Join-Path (Get-Location) 'evidence/new-interactions'
+$result = Start-Process -FilePath build/app/bin/PDFTatsujinInteractionBenchmark.exe -ArgumentList @(('"'+$inputPath+'"'), ('"'+$outputPath+'"')) -WindowStyle Hidden -Wait -PassThru
+$result.ExitCode
+```
+
+Firefoxの外部検証は、既存の開発用Firefox 157.0／geckodriver 0.37.1と `scripts/requirements-viewer-test.txt` のSelenium環境で次を実行しました。別プロファイルのheadless PDF.js検索・選択とWebDriver印刷を検査します。通常アプリの依存ではありません。ネイティブブラウザ操作／OSクリップボードとは区別します。
+
+```powershell
+python scripts/test-firefox.py evidence/new-acceptance evidence/new-firefox --firefox tools/viewer-test/firefox/core/firefox.exe --geckodriver tools/viewer-test/geckodriver/geckodriver.exe
+python scripts/test-firefox-m2.py evidence/new-acceptance evidence/new-firefox-m2 --firefox tools/viewer-test/firefox/core/firefox.exe --geckodriver tools/viewer-test/geckodriver/geckodriver.exe
+```
+
+Pythonの独立評価・計測には固定済み試験依存を使います。通常利用には不要です。全試験時は `TATSU_TEST_FILTER` を解除します。最小画面の追加検査は `TATSU_UI_REVIEW=1`。PowerShellの `process-result.json` の終了コード・完了と `selftest.json` の結果を両方確認します。途中停止した部分結果を全件合格にしません。実NTFS権限拒否試験は自身が作ったフォルダだけを変更し、finallyで元のACLを復元します。実容量不足・クリーンWindows・OS表示倍率・初見評価は別試験です。

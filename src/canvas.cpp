@@ -1,4 +1,5 @@
 #include "canvas.h"
+#include "form_editor.h"
 #include "pdf_viewer_adapter.h"
 #include "pdfannotation.h"
 #include "pdfcms.h"
@@ -34,6 +35,7 @@ struct Canvas::Impl : IDocumentDrawInterface
     QVector<SearchMatch> searchRows;
     quint64 activeMatch = 0;
     SelectionTextCache text;
+    FormEditor forms;
     QMap<int, QPair<qsizetype, qsizetype>> ranges;
     QTimer autoScroll;
     QTimer preparePages;
@@ -53,12 +55,13 @@ struct Canvas::Impl : IDocumentDrawInterface
     QPointF start, last;
     QTransform gestureMatrix;
     bool dragging = false, selecting = false;
+    bool boxPlacement = false, drawing = false, linePlacement = false;
     bool hand = false, temporaryHand = false, panning = false;
     QPointF panPoint;
     const PDFLinkAnnotation* pressedLink = nullptr;
     QPointF pressPosition;
 
-    explicit Impl(Canvas* canvas) : owner(canvas)
+    explicit Impl(Canvas* canvas) : owner(canvas), forms(canvas->document, canvas)
     {
         view = std::make_unique<PDFWidget>(&cms, RendererEngine::QPainter, canvas);
         proxy = view->getDrawWidgetProxy();
@@ -95,6 +98,15 @@ struct Canvas::Impl : IDocumentDrawInterface
                   const PDFColorConvertor& convertor, QList<PDFRenderError>& errors) const override
     {
         annotations->drawPage(painter, number, compiled, getter, matrix, convertor, errors);
+        if (drawing && number == gesturePage)
+        {
+            painter->setPen(QPen(QColor("#1464c0"), 1.5));
+            painter->setBrush(QColor(70, 125, 210, 20));
+            if (linePlacement)
+                painter->drawLine(matrix.map(start), matrix.map(last));
+            else
+                painter->drawRect(matrix.mapRect(QRectF(start, last).normalized()));
+        }
         auto it =
             std::lower_bound(searchRows.begin(), searchRows.end(), int(number),
                              [](const SearchMatch& match, int page) { return match.page < page; });
@@ -158,6 +170,16 @@ struct Canvas::Impl : IDocumentDrawInterface
 Canvas::Canvas(Document* doc, QWidget* parent)
     : QWidget(parent), document(doc), d(std::make_unique<Impl>(this))
 {
+    d->forms.changed = [this]
+    {
+        if (changed)
+            changed();
+    };
+    d->forms.draftChanged = [this]
+    {
+        if (viewChanged)
+            viewChanged();
+    };
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(d->view.get());
@@ -348,6 +370,7 @@ void Canvas::updateView(bool force)
         d->items = signatures(document->pdf(), page);
     }
     d->lastAnchor = position;
+    d->forms.reposition();
     d->preparePages.start();
     requestSelectionText();
     updatePointerCursor();
@@ -356,6 +379,7 @@ void Canvas::updateView(bool force)
 }
 void Canvas::refresh(PDFObjectReference identity)
 {
+    d->forms.refresh();
     d->preparePages.stop();
     if (!identity.isValid() && selected >= 0 && selected < d->items.size())
         identity = d->items[selected].ref;
@@ -427,15 +451,61 @@ void Canvas::refresh(PDFObjectReference identity)
 }
 void Canvas::beginPlacement()
 {
+    finishFormEdit();
+    d->boxPlacement = false;
     setHandTool(false);
     placing = true;
     updateTool();
     setFocus(Qt::OtherFocusReason);
 }
+void Canvas::beginDrawing(bool line)
+{
+    beginPlacement();
+    d->boxPlacement = true;
+    d->linePlacement = line;
+}
+bool Canvas::drawingActive() const
+{
+    return d->boxPlacement || d->drawing;
+}
+QMap<int, QVector<QRectF>> Canvas::selectedTextRects() const
+{
+    QMap<int, QVector<QRectF>> result;
+    if (!document->loaded() || !document->copyAllowed || !d->selectionComplete || copied.isEmpty())
+        return result;
+    for (auto it = d->ranges.cbegin(); it != d->ranges.cend(); ++it)
+    {
+        const auto contents = d->text.get(it.key());
+        if (!contents)
+            return {};
+        for (const auto& line : contents->lines)
+        {
+            QRectF bounds;
+            const auto first = qMax(it->first, line.first), end = qMin(it->second, line.end);
+            for (auto index = first; index < end; ++index)
+                if (contents->boxes[index].isValid())
+                    bounds = bounds.united(contents->boxes[index]);
+            bounds =
+                bounds.intersected(document->pdf().getCatalog()->getPage(it.key())->getCropBox());
+            if (bounds.isValid())
+                result[it.key()].append(bounds);
+        }
+    }
+    return result;
+}
+void Canvas::finishFormEdit()
+{
+    d->forms.finish();
+}
+void Canvas::cancelFormEdit()
+{
+    d->forms.cancel();
+}
 void Canvas::cancelInteraction()
 {
-    const bool active =
-        placing || d->dragging || d->selecting || d->panning || d->temporaryHand || d->pressedLink;
+    const bool active = placing || d->drawing || d->dragging || d->selecting || d->panning ||
+                        d->temporaryHand || d->pressedLink;
+    d->boxPlacement = d->drawing = false;
     placing = d->dragging = d->selecting = false;
     d->panning = d->temporaryHand = false;
     d->pressedLink = nullptr;
@@ -467,7 +537,7 @@ void Canvas::setHandTool(bool enabled)
 }
 void Canvas::updateTool()
 {
-    const auto cursor = placing ? Qt::CrossCursor
+    const auto cursor = placing || d->drawing ? Qt::CrossCursor
                         : handToolActive()
                             ? (d->panning ? Qt::ClosedHandCursor : Qt::OpenHandCursor)
                             : Qt::ArrowCursor;
@@ -479,7 +549,7 @@ void Canvas::updateTool()
 }
 void Canvas::stopTransientInteraction()
 {
-    if (placing || d->dragging || d->selecting || d->pressedLink)
+    if (placing || d->drawing || d->dragging || d->selecting || d->pressedLink)
         cancelInteraction();
     else if (d->panning || d->temporaryHand)
     {
@@ -489,7 +559,7 @@ void Canvas::stopTransientInteraction()
 }
 void Canvas::updatePointerCursor()
 {
-    if (placing || handToolActive() || !document->loaded() || !d->pointerInside ||
+    if (placing || d->drawing || handToolActive() || !document->loaded() || !d->pointerInside ||
         d->revision != document->revision)
         return;
     const int hit = d->hit(d->pointer);
@@ -499,6 +569,8 @@ void Canvas::updatePointerCursor()
         const auto point = d->matrix(hit).inverted().map(d->pointer);
         if (signatureAt(hit, point))
             cursor = Qt::SizeAllCursor;
+        else if (const auto formCursor = d->forms.cursorAt(hit, point))
+            cursor = *formCursor;
         else if (linkAt(hit, point))
             cursor = Qt::PointingHandCursor;
         else if (document->copyAllowed)
@@ -845,6 +917,19 @@ void Canvas::showSearchMatch(const SearchMatch& match)
 }
 void Canvas::mousePress(QMouseEvent* event)
 {
+    if (d->forms.active())
+    {
+        try
+        {
+            finishFormEdit();
+        }
+        catch (const std::exception& error)
+        {
+            QMessageBox::warning(this, "フォーム入力を確定できません",
+                                 QString::fromUtf8(error.what()));
+            return;
+        }
+    }
     setFocus();
     d->suppressWordDoubleClick = false;
     if (handToolActive())
@@ -859,6 +944,8 @@ void Canvas::mousePress(QMouseEvent* event)
     if (hit < 0)
         return;
     const bool placeHere = placing && !document->busy && document->readOnly.isEmpty();
+    const bool drawHere = placeHere && d->boxPlacement;
+    const bool lineHere = d->linePlacement;
     const auto point = d->matrix(hit).inverted().map(event->position());
     if (!placeHere && document->copyAllowed && d->selectionStartPage >= 0 &&
         event->modifiers().testFlag(Qt::ShiftModifier) && !signatureAt(hit, point) &&
@@ -880,13 +967,20 @@ void Canvas::mousePress(QMouseEvent* event)
     if (placeHere)
     {
         d->suppressWordDoubleClick = true;
+        if (drawHere)
+        {
+            d->drawing = true;
+            d->linePlacement = lineHere;
+            updateTool();
+            return;
+        }
         if (place)
             place(d->start);
         return;
     }
     if (!document->busy && document->readOnly.isEmpty())
         for (int i = d->items.size() - 1; i >= 0; --i)
-            if (d->items[i].rect.contains(d->start))
+            if (d->items[i].kind != OverlayKind::Highlight && d->items[i].rect.contains(d->start))
             {
                 selected = i;
                 break;
@@ -898,6 +992,20 @@ void Canvas::mousePress(QMouseEvent* event)
     }
     else
     {
+        try
+        {
+            if (!placeHere && d->forms.press(page, d->start))
+            {
+                d->suppressWordDoubleClick = true;
+                return;
+            }
+        }
+        catch (const std::exception& error)
+        {
+            QMessageBox::warning(this, "フォーム入力を確定できません",
+                                 QString::fromUtf8(error.what()));
+            return;
+        }
         d->pressedLink = linkAt(page, d->start);
         d->suppressWordDoubleClick = d->pressedLink != nullptr;
         d->pressPosition = event->position();
@@ -954,7 +1062,7 @@ void Canvas::mouseMove(QMouseEvent* event)
         scrollBy(delta);
         return;
     }
-    if (d->dragging)
+    if (d->dragging || d->drawing)
     {
         d->last = d->gestureMatrix.inverted().map(event->position());
         viewport()->update();
@@ -969,6 +1077,15 @@ void Canvas::mouseMove(QMouseEvent* event)
 void Canvas::mouseRelease(QMouseEvent* event)
 {
     mouseMove(event);
+    if (d->drawing)
+    {
+        const auto start = d->start, finish = d->last;
+        const bool valid = d->gestureMatrix == d->matrix(d->gesturePage);
+        cancelInteraction();
+        if (valid && draw && QLineF(start, finish).length() >= .5)
+            draw(start, finish);
+        return;
+    }
     if (d->pressedLink && d->gestureMatrix == d->matrix(d->gesturePage) &&
         linkAt(d->gesturePage, d->gestureMatrix.inverted().map(event->position())) ==
             d->pressedLink)
@@ -1041,7 +1158,9 @@ bool Canvas::signatureAt(int number, QPointF point) const
         d->hoverPage = number;
     }
     return std::any_of(d->hoverSignatures.cbegin(), d->hoverSignatures.cend(),
-                       [point](const Signature& item) { return item.rect.contains(point); });
+                       [point](const Signature& item) {
+                           return item.kind != OverlayKind::Highlight && item.rect.contains(point);
+                       });
 }
 bool Canvas::eventFilter(QObject* watched, QEvent* event)
 {
@@ -1119,7 +1238,7 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
         return true;
     }
     if (event->type() == QEvent::MouseMove &&
-        (d->dragging || d->selecting || d->panning || d->pressedLink))
+        (d->drawing || d->dragging || d->selecting || d->panning || d->pressedLink))
     {
         mouseMove(static_cast<QMouseEvent*>(event));
         return true;
@@ -1185,6 +1304,41 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
 }
 void Canvas::keyPressEvent(QKeyEvent* event)
 {
+    if (document->loaded() && !document->busy && document->readOnly.isEmpty() &&
+        (event->key() == Qt::Key_Tab || event->key() == Qt::Key_Backtab))
+    {
+        try
+        {
+            if (d->forms.focusNext(event->key() == Qt::Key_Tab &&
+                                   !event->modifiers().testFlag(Qt::ShiftModifier)))
+            {
+                event->accept();
+                return;
+            }
+        }
+        catch (const std::exception& error)
+        {
+            QMessageBox::warning(this, "フォーム入力を確定できません",
+                                 QString::fromUtf8(error.what()));
+        }
+    }
+    if (event->key() == Qt::Key_Delete && selected >= 0 && !document->busy &&
+        document->readOnly.isEmpty())
+    {
+        try
+        {
+            document->eraseSignature(page, d->items.at(selected));
+            selected = -1;
+            if (changed)
+                changed();
+        }
+        catch (const std::exception& error)
+        {
+            QMessageBox::warning(this, "要素を削除できません", QString::fromUtf8(error.what()));
+        }
+        event->accept();
+        return;
+    }
     if (document->loaded() && event->key() == Qt::Key_Space &&
         event->modifiers() == Qt::NoModifier && viewport()->hasFocus())
     {

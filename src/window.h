@@ -1,8 +1,11 @@
 #pragma once
+#include "annotation_panel.h"
 #include "bookmarks_panel.h"
 #include "canvas.h"
 #include "page_control.h"
+#include "page_organizer.h"
 #include "search_panel.h"
+#include "writing_panel.h"
 #include <QtWidgets>
 #include <functional>
 
@@ -75,6 +78,22 @@ private:
     QAction* selectToolAction;
     QAction* handToolAction;
     QToolBar* documentToolbar;
+    QToolBar* workToolbar;
+    QAction* writingAction = nullptr;
+    WritingPanel *writingPanel, *imageSignaturePanel;
+    void setupWriting();
+    void saveSignatureTemplate(SignatureTemplate item);
+    void openSignatureLibrary();
+    PageOrganizer* organizer;
+    QAction* organizeAction;
+    bool organizing = false;
+    ViewState organizerReadingState;
+    void setupOrganizer();
+    void setOrganizing(bool enabled);
+    void mergeFiles(QStringList paths = {});
+    AnnotationPanel* annotationPanel;
+    QAction* annotationAction;
+    void setupAnnotations();
     PageControl* pageControl = nullptr;
     QAction* readingAction;
     bool readingMode = false, restoreProperties = false;

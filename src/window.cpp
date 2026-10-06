@@ -7,7 +7,7 @@ namespace tatsu
 {
 Window::Window()
 {
-    setWindowTitle("PDF達人 — M1 試作");
+    setWindowTitle("PDF達人 — 評価版");
     resize(1280, 850);
     setMinimumSize(1024, 720);
     setAcceptDrops(true);
@@ -119,7 +119,17 @@ Window::Window()
         },
         true);
     redoAction->setShortcuts({QKeySequence::Redo, QKeySequence("Ctrl+Shift+Z")});
-    top->addSeparator();
+    addToolBarBreak();
+    top = workToolbar = addToolBar("作業");
+    top->setObjectName("workToolbar");
+    top->setMovable(false);
+    top->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    writingAction = action("書き込み", {}, [this] { showPanel(2); }, true);
+    writingAction->setObjectName("writingAction");
+    writingAction->setCheckable(true);
+    annotationAction = action("注釈", {}, [this] { showPanel(5); }, true);
+    annotationAction->setObjectName("annotationAction");
+    annotationAction->setCheckable(true);
     signatureAction = action(
         "署名", {},
         [this]
@@ -137,8 +147,27 @@ Window::Window()
         },
         true);
     ocrAction = action("OCR", {}, [this] { showPanel(1); }, true);
+    organizeAction = action("ページ整理", {}, [this] { setOrganizing(!organizing); }, true);
+    organizeAction->setObjectName("organizeAction");
+    organizeAction->setCheckable(true);
+    auto mergeAction = action("PDFを結合", {}, [this] { mergeFiles(); });
+    auto mergeButton = new QPushButton("PDFを結合");
+    mergeButton->setMinimumHeight(44);
+    mergeButton->setMaximumWidth(240);
+    welcomeLayout->insertWidget(welcomeLayout->indexOf(openButton) + 1, mergeButton, 0,
+                                Qt::AlignHCenter);
+    connect(mergeButton, &QPushButton::clicked, mergeAction, &QAction::trigger);
     signatureAction->setCheckable(true);
     ocrAction->setCheckable(true);
+    auto signatureMenu = new QMenu(this);
+    signatureMenu->addAction("テキスト署名", this, [this] { showPanel(0); });
+    signatureMenu->addAction("画像署名", this, [this] { showPanel(3); });
+    signatureMenu->addSeparator();
+    signatureMenu->addAction("保存済み署名から配置", this,
+                             [this] { guard([&] { openSignatureLibrary(); }); });
+    signatureAction->setMenu(signatureMenu);
+    if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(signatureAction)))
+        button->setPopupMode(QToolButton::MenuButtonPopup);
     auto left = navigation = new QDockWidget("文書ナビゲーション", this);
     left->setFeatures(QDockWidget::NoDockWidgetFeatures);
     left->setObjectName("navigationDock");
@@ -379,6 +408,28 @@ Window::Window()
                         }
                     });
             });
+    auto reuse = new QToolButton;
+    reuse->setText("署名をこのPCに保存・再利用");
+    reuse->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    reuse->setPopupMode(QToolButton::InstantPopup);
+    auto reuseMenu = new QMenu(reuse);
+    reuseMenu->addAction("この署名をPCに保存", this,
+                         [this]
+                         {
+                             guard(
+                                 [&]
+                                 {
+                                     SignatureTemplate item;
+                                     item.text = signature->toPlainText();
+                                     item.size = size->value();
+                                     item.color = ink;
+                                     saveSignatureTemplate(item);
+                                 });
+                         });
+    reuseMenu->addAction("保存済み署名から配置", this,
+                         [this] { guard([&] { openSignatureLibrary(); }); });
+    reuse->setMenu(reuseMenu);
+    sl->addWidget(reuse);
     sl->addStretch();
     panels->addWidget(sign);
     auto ocr = new QWidget;
@@ -392,6 +443,10 @@ Window::Window()
         new QLabel("スキャンを検索・コピーできるPDFにする\n元の画像・署名・注釈を保持します。");
     desc->setWordWrap(true);
     ol->addWidget(desc);
+    auto accuracy = new QLabel("横書きの鮮明な印刷文字を対象とします。縦書き・ルビ・段組みや不鮮明"
+                               "な原稿は、認識結果を原文と照合してください。");
+    accuracy->setWordWrap(true);
+    ol->addWidget(accuracy);
     ol->addWidget(new QLabel("文書の言語"));
     language = new QComboBox;
     language->addItems({"日本語＋英語", "日本語", "英語"});
@@ -412,11 +467,17 @@ Window::Window()
     connect(run, &QPushButton::clicked, this, [this] { guard([&] { startOcr(); }); });
     ol->addStretch();
     panels->addWidget(ocr);
+    setupWriting();
+    setupOrganizer();
+    setupAnnotations();
     properties->hide();
     connect(properties, &QDockWidget::visibilityChanged, this,
             [this](bool visible)
             {
-                signatureAction->setChecked(visible && panels->currentIndex() == 0);
+                signatureAction->setChecked(
+                    visible && (panels->currentIndex() == 0 || panels->currentIndex() == 3));
+                writingAction->setChecked(visible && panels->currentIndex() == 2);
+                annotationAction->setChecked(visible && panels->currentIndex() == 5);
                 ocrAction->setChecked(visible && panels->currentIndex() == 1);
                 if (pageControl)
                     syncReadingLayout();
@@ -426,9 +487,19 @@ Window::Window()
         guard(
             [&]
             {
-                auto added = doc.putSignature(canvas->page, signature->toPlainText(), point,
-                                              size->value(), ink);
-                refresh(false, added.ref);
+                if (panels->currentIndex() == 5)
+                    refresh(false, annotationPanel->place(point));
+                else if (panels->currentIndex() == 2 || panels->currentIndex() == 3)
+                {
+                    auto editor = panels->currentIndex() == 2 ? writingPanel : imageSignaturePanel;
+                    refresh(false, editor->place(point));
+                }
+                else
+                {
+                    auto added = doc.putSignature(canvas->page, signature->toPlainText(), point,
+                                                  size->value(), ink);
+                    refresh(false, added.ref);
+                }
             });
     };
     canvas->select = [this](int i)
@@ -436,6 +507,20 @@ Window::Window()
         auto ss = signatures(doc.pdf(), canvas->page);
         if (i >= 0 && i < ss.size())
         {
+            if (isAnnotation(ss[i].kind))
+            {
+                annotationPanel->setSelection(ss[i]);
+                showPanel(5);
+                return;
+            }
+            if (ss[i].kind != OverlayKind::SignatureText)
+            {
+                auto editor =
+                    ss[i].kind == OverlayKind::SignatureImage ? imageSignaturePanel : writingPanel;
+                editor->setSelection(ss[i]);
+                showPanel(ss[i].kind == OverlayKind::SignatureImage ? 3 : 2);
+                return;
+            }
             signature->setPlainText(ss[i].text);
             size->setValue(ss[i].size);
             ink = ss[i].color;
@@ -443,6 +528,8 @@ Window::Window()
         }
     };
     canvas->changed = [this] { refresh(); };
+    canvas->draw = [this](QPointF start, QPointF finish)
+    { guard([&] { refresh(false, annotationPanel->draw(start, finish)); }); };
     status = new QLabel("PDFを開いてください");
     status->setTextFormat(Qt::PlainText);
     status->setMinimumWidth(0);
@@ -521,6 +608,7 @@ Window::Window()
         else
             zoomControl->setEditText(QString("%1%").arg(qRound(canvas->zoom * 100)));
         searchPanel->setCurrentPage(canvas->page);
+        annotationPanel->refresh();
         refreshStatus();
     };
     setStyleSheet(R"(
@@ -555,13 +643,19 @@ Window::Window()
 }
 void Window::showPanel(int index)
 {
+    if (organizing && index != 4)
+        setOrganizing(false);
     const auto anchor = canvas->anchor();
     setReadingMode(false);
-    canvas->cancelInteraction();
+    if (index != 5 || canvas->placing)
+        canvas->cancelInteraction();
     panels->setCurrentIndex(index);
-    properties->setWindowTitle(index == 0 ? "署名" : "OCR");
+    properties->setWindowTitle(
+        QStringList{"署名", "OCR", "書き込み", "画像署名", "ページ整理", "注釈"}.value(index));
     properties->show();
-    signatureAction->setChecked(index == 0);
+    signatureAction->setChecked(index == 0 || index == 3);
+    writingAction->setChecked(index == 2);
+    annotationAction->setChecked(index == 5);
     ocrAction->setChecked(index == 1);
     syncReadingLayout();
     preserveLayoutAnchor(anchor);
@@ -591,7 +685,8 @@ void Window::syncReadingLayout()
 {
     const bool narrowProperties = !properties->isHidden() && width() < 1200;
     const bool searching = navigationTabs->currentWidget() == searchPanel;
-    const bool visible = doc.loaded() && !readingMode && (!narrowProperties || searching);
+    const bool visible =
+        doc.loaded() && !readingMode && !organizing && (!narrowProperties || searching);
     if (!navigation->isHidden() != visible)
     {
         const auto anchor = canvas->anchor();
@@ -601,6 +696,8 @@ void Window::syncReadingLayout()
 }
 void Window::setReadingMode(bool enabled)
 {
+    if (enabled && organizing)
+        setOrganizing(false);
     enabled = enabled && doc.loaded();
     if (enabled == readingMode)
         return;
@@ -612,6 +709,7 @@ void Window::setReadingMode(bool enabled)
     readingAction->setChecked(enabled);
     readingAction->setText(enabled ? "集中解除" : "集中表示");
     documentToolbar->setVisible(!enabled);
+    workToolbar->setVisible(!enabled);
     properties->setVisible(!enabled && restoreProperties);
     syncReadingLayout();
     preserveLayoutAnchor(anchor);
@@ -661,11 +759,19 @@ Window::~Window()
         worker->kill();
         worker->waitForFinished(3000);
     }
+    // Child visibility/focus signals can fire while QMainWindow removes its
+    // docks. Disconnect before deleting the canvas or destroying Document.
+    for (auto child : findChildren<QObject*>())
+        disconnect(child, nullptr, this, nullptr);
+    canvas->cancelFormEdit();
+    delete canvas;
+    canvas = nullptr;
 }
 void Window::guard(const std::function<void()>& f)
 {
     try
     {
+        canvas->finishFormEdit();
         f();
     }
     catch (const std::exception& e)
@@ -690,6 +796,8 @@ void Window::openFile(const QString& path)
         doc.open(path, pwd);
     }
     ++layoutGeneration;
+    organizing = false;
+    organizeAction->setChecked(false);
     initialPagePending = true;
     setReadingMode(false);
     canvas->resetView();
@@ -714,7 +822,9 @@ void Window::openFile(const QString& path)
 }
 void Window::refresh(bool rebuild, PDFObjectReference selection)
 {
-    documentArea->setCurrentIndex(doc.loaded() ? 1 : 0);
+    rebuild = rebuild || pages->count() != doc.pages();
+    documentArea->setCurrentIndex(doc.loaded() ? (organizing ? 2 : 1) : 0);
+    organizer->refresh();
     syncReadingLayout();
     readingAction->setEnabled(doc.loaded());
     zoomControl->setEnabled(doc.loaded());
@@ -738,14 +848,18 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
         pages->setCurrentRow(canvas->page);
     }
     canvas->refresh(selection);
+    annotationPanel->refresh();
     searchPanel->setDocument(doc.loaded() ? &doc.pdf() : nullptr, doc.revision, canvas->page);
     static_cast<PagePreviews*>(pages)->setDocument(doc.loaded() ? &doc.pdf() : nullptr,
                                                    doc.revision);
     setWindowTitle(
-        QString("%1%2 — PDF達人 M1")
+        QString("%1%2 — PDF達人 評価版")
             .arg(doc.dirty() ? "● " : "")
-            .arg(doc.loaded() ? QFileInfo(doc.target.isEmpty() ? doc.source : doc.target).fileName()
-                              : "PDFを開く"));
+            .arg(doc.loaded()
+                     ? (doc.source.isEmpty() && doc.target.isEmpty()
+                            ? "新しい文書"
+                            : QFileInfo(doc.target.isEmpty() ? doc.source : doc.target).fileName())
+                     : "PDFを開く"));
     bool can = doc.loaded() && doc.readOnly.isEmpty() && !doc.busy;
     for (auto a : edits)
         a->setEnabled(can);
@@ -828,6 +942,14 @@ void Window::updateHistoryActions()
 }
 void Window::refreshStatus()
 {
+    setWindowTitle(
+        QString("%1%2 — PDF達人 評価版")
+            .arg(doc.dirty() ? "● " : "")
+            .arg(doc.loaded()
+                     ? (doc.source.isEmpty() && doc.target.isEmpty()
+                            ? "新しい文書"
+                            : QFileInfo(doc.target.isEmpty() ? doc.source : doc.target).fileName())
+                     : "PDFを開く"));
     if (pageControl)
         pageControl->setPage(canvas->page, doc.pages());
     status->setText(!doc.readOnly.isEmpty() ? doc.readOnly
@@ -848,13 +970,16 @@ void Window::refreshStatus()
 }
 bool Window::saveFile(bool choose)
 {
+    canvas->finishFormEdit();
     doc.editable();
     QString path = doc.target;
     if (choose || path.isEmpty())
         path = QFileDialog::getSaveFileName(
             this, "PDFとして保存",
-            path.isEmpty() ? QFileInfo(doc.source).absolutePath() + "/" +
-                                 QFileInfo(doc.source).completeBaseName() + "_編集.pdf"
+            path.isEmpty() ? (doc.source.isEmpty()
+                                  ? QDir::homePath() + "/結合した文書.pdf"
+                                  : QFileInfo(doc.source).absolutePath() + "/" +
+                                        QFileInfo(doc.source).completeBaseName() + "_編集.pdf")
                            : path,
             "PDF (*.pdf)");
     if (path.isEmpty())
@@ -873,6 +998,7 @@ bool Window::saveFile(bool choose)
 }
 void Window::startOcr()
 {
+    canvas->finishFormEdit();
     doc.editable();
     QString selection = scope->currentIndex() == 0   ? QString("1-%1").arg(doc.pages())
                         : scope->currentIndex() == 1 ? QString::number(canvas->page + 1)
@@ -1030,24 +1156,54 @@ bool Window::safeToClose()
 }
 void Window::closeEvent(QCloseEvent* e)
 {
-    if (safeToClose())
+    bool close = false;
+    guard([&] { close = safeToClose(); });
+    if (close)
         e->accept();
     else
         e->ignore();
 }
 void Window::dragEnterEvent(QDragEnterEvent* e)
 {
-    if (e->mimeData()->hasUrls() && e->mimeData()->urls().size() == 1)
+    if (e->mimeData()->hasUrls() && !e->mimeData()->urls().isEmpty())
         e->acceptProposedAction();
 }
 void Window::dropEvent(QDropEvent* e)
 {
     auto urls = e->mimeData()->urls();
-    if (urls.size() != 1)
+    if (urls.isEmpty())
         return;
     guard(
         [&]
         {
+            if (urls.size() > 1)
+            {
+                QStringList paths;
+                for (const auto& url : urls)
+                {
+                    if (!url.isLocalFile())
+                        fail("ローカルのPDFを指定してください。");
+                    paths.append(url.toLocalFile());
+                }
+                const auto answer = QMessageBox::question(
+                    this, "複数のPDF", "結合しますか？「いいえ」で個別の文書ウィンドウを開きます。",
+                    QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+                if (answer == QMessageBox::Cancel)
+                    return;
+                if (answer == QMessageBox::Yes)
+                {
+                    mergeFiles(paths);
+                    return;
+                }
+                for (const auto& path : paths)
+                {
+                    auto window = new Window;
+                    window->setAttribute(Qt::WA_DeleteOnClose);
+                    window->show();
+                    window->openFile(path);
+                }
+                return;
+            }
             if (doc.loaded())
             {
                 auto w = new Window;

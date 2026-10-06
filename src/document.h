@@ -22,6 +22,7 @@ QString signatureFont();
 PDFDocument correctFontUnicode(const PDFDocument& document, const QString& text,
                                const QRawFont& font);
 PDFDocument readPdf(const QString& path, const QString& password = {});
+QString editingRestriction(const PDFDocument& document);
 QByteArray encodePdf(const PDFDocument& doc);
 void writeCandidate(const PDFDocument& doc, const QString& path);
 QTransform pageMatrix(const PDFPage* page, double scale = 1, bool rotate = true);
@@ -36,6 +37,21 @@ QImage renderPage(PDFDocument& doc, int page, double scale, bool annotations = t
 PDFTextLayout textLayout(PDFDocument& doc, int page, const QTransform& matrix = {});
 QString pageText(PDFDocument& doc, int page);
 void printDocument(PDFDocument& doc, QPrinter& printer, int currentPage = 0);
+enum class OverlayKind
+{
+    SignatureText,
+    Text,
+    Date,
+    Image,
+    SignatureImage,
+    Comment,
+    Rectangle,
+    Line,
+    Arrow,
+    Highlight
+};
+bool isImage(OverlayKind kind);
+bool isAnnotation(OverlayKind kind);
 struct Signature
 {
     PDFObjectReference ref;
@@ -43,8 +59,12 @@ struct Signature
     QString text;
     double size = 20;
     QColor color = Qt::black;
+    OverlayKind kind = OverlayKind::SignatureText;
+    QSize imagePixels;
+    QPolygonF geometry;
 };
 QVector<Signature> signatures(const PDFDocument& doc, int page);
+QImage overlayImage(const PDFDocument& doc, const Signature& image);
 class Document
 {
 public:
@@ -54,6 +74,7 @@ public:
     QString source, target, readOnly;
     QByteArray sourceHash, targetHash;
     bool busy = false;
+    bool pendingInput = false;
     bool copyAllowed = true;
     bool loaded() const
     {
@@ -61,7 +82,7 @@ public:
     }
     bool dirty() const
     {
-        return loaded() && cursor != saved;
+        return loaded() && (cursor != saved || pendingInput);
     }
     PDFDocument& pdf()
     {
@@ -82,6 +103,11 @@ public:
     void redo();
     Signature putSignature(int page, const QString& text, QPointF point, double size, QColor color,
                            PDFObjectReference old = {});
+    Signature putText(int page, OverlayKind kind, const QString& text, QPointF point, double size,
+                      QColor color, PDFObjectReference old = {});
+    Signature putImage(int page, OverlayKind kind, const QImage& image, QPointF point,
+                       double widthPoints, PDFObjectReference old = {});
+    void resizeImage(int page, const Signature& image, double widthPoints);
     void moveSignature(int page, const Signature& sig, QPointF delta);
     void eraseSignature(int page, const Signature& sig);
     void rotate(int page);

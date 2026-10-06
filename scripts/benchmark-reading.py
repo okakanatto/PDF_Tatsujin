@@ -51,7 +51,14 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     env = os.environ.copy()
     env["PATH"] = (
-        str(product) + os.pathsep + str(Path(os.environ["SystemRoot"]) / "System32")
+        str(product)
+        + os.pathsep
+        + str(
+            Path(
+                os.environ.get("SystemRoot", os.environ.get("SYSTEMROOT", "C:/Windows"))
+            )
+            / "System32"
+        )
     )
     env["QT_QPA_PLATFORM"] = "offscreen"
     env["QT_PLUGIN_PATH"] = str(product)
