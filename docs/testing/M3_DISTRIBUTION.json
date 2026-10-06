@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0-rc2",
+  "source_commit": "14fea12d659d6244f8952d8d87df58cb01a241d6",
+  "date": "2026-10-06",
+  "archive": {
+    "all_files_match": true,
+    "files": 385,
+    "exe_sha256": "a829a2e17da44860a3a515962a2299b3029c9ea81766455e8e1c1ada83efd19a",
+    "zip_sha256": "d791bca2db7856ba337b4d888c3e1242b6b4d1bcdbd22074e800894daca061c6",
+    "zip_bytes": 146373624,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "application_bytes": 155658686,
+  "application_components": {
+    "app_and_PDF4QT": 11392512,
+    "Qt_and_plugins": 33109184,
+    "native_and_MSVC": 45081952,
+    "OCR_models": 44062091,
+    "fonts": 9589900,
+    "licenses_and_metadata": 12423047
+  },
+  "Qt_source_archives_bytes": 53891276,
+  "project_bytes": 9892028372,
+  "project_limit_bytes": 20000000000,
+  "project_remaining_bytes": 10107971628,
+  "storage_note": "Logical file lengths, including earlier candidates, test evidence and this extracted archive; existing system tools and shared runtime outside this folder are excluded",
+  "extracted_launch_exit": 0,
+  "extracted_workflow_exit": 0,
+  "extracted_workflow": "B08_combined_workflow",
+  "extracted_status": "PASS",
+  "extracted_scope": "Archive extracted on same Windows PC, Qt offscreen, PATH System32 only; not clean/offline acceptance",
+  "clean_offline_acceptance": "未実行"
+}
