@@ -1,0 +1,61 @@
+{
+  "cycles": 94,
+  "elapsed_ms": 902254,
+  "pages_visited": 7050,
+  "requested_seconds": 900,
+  "scope": "Repeated product Window open/read/close, alternating frozen digital/image PDFs; offscreen, no FPS claim",
+  "status": "PASS",
+  "executable_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+  "harness_sha256": "5ba3a17594a162960ccd522bda94f1a20918c7067608d3dafbd3db2058a8c820",
+  "peak_RSS_bytes": 217264128,
+  "peak_private_bytes": 236957696,
+  "peak_threads": 32,
+  "peak_handles": 301,
+  "idle_sampling": "Last preceding sample within the 300ms closed-window interval",
+  "idle_median_first_3": {
+    "rss": 37769216,
+    "private": 15077376,
+    "threads": 28,
+    "handles": 288
+  },
+  "idle_median_last_3": {
+    "rss": 68194304,
+    "private": 43565056,
+    "threads": 25,
+    "handles": 288
+  },
+  "limits": "Same development PC, shared product UI in isolated harness, other user activity and OS cache uncontrolled; duration is stated, not hours-long proof",
+  "idle_medians_by_cycle_range": [
+    {
+      "cycles": "1-15",
+      "RSS": 41385984,
+      "private": 17805312,
+      "handles": 288
+    },
+    {
+      "cycles": "21-35",
+      "RSS": 52486144,
+      "private": 29089792,
+      "handles": 288
+    },
+    {
+      "cycles": "41-55",
+      "RSS": 60653568,
+      "private": 36642816,
+      "handles": 288
+    },
+    {
+      "cycles": "61-75",
+      "RSS": 65896448,
+      "private": 41193472,
+      "handles": 288
+    },
+    {
+      "cycles": "81-94",
+      "RSS": 67323904.0,
+      "private": 42868736.0,
+      "handles": 288.0
+    }
+  ],
+  "interpretation": "Initial retained memory grows; later growth is smaller. This 15-minute observation does not prove absence of long-term leaks."
+}

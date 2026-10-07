@@ -121,6 +121,15 @@ python scripts/audit-distribution.py --app-directory dist/PDFTatsujin-0.2.0-rc4-
 
 `candidate-smoke.yml`は公開候補ZIPのSHA-256・展開・A02/A05/B08を別のGitHub Windows Server 2025 runnerで確認するための手動workflowです。公開条件を確認してZIPを公開した後に実行します。現在は**未実行**です。クリーンWindows 11やオフライン・ネイティブIMEの受入とは区別します。
 
+最終配布の実行経路は次のとおりです。`source-commit`は試験した製品ソースを指し、生成時点の`src`・`tests`・CMake・上流に差があれば停止します。完成したバイナリと資産をコピーし、最新資料だけを加えます。元の試験・既存ZIPは上書きしません。
+
+```powershell
+python scripts/finalize-candidate.py --candidate dist/PDFTatsujin-0.2.0-rc4-desktop --output dist/PDFTatsujin-0.2.0-rc4-windows-x64 --regression evidence/m3-rc4-desktop-regression-20261007 --source-commit f42fc036a5417e6c7e8df32d9c7ad9bc8af36089
+python scripts/archive-distribution.py --app-directory dist/PDFTatsujin-0.2.0-rc4-windows-x64 --output dist/PDFTatsujin-0.2.0-rc4-windows-x64.zip --verification evidence/new-archive.json
+```
+
+対応Qtソースは`dist/third-party-sources`に、dependency-lockと一致するアーカイブを用意します。ZIP全体のメンバーをCRC/SHA-256で照合し、新しいフォルダへ展開した版でもB08を再実行しました。バイナリの外部公開条件は[第三者部品](THIRD_PARTY.md)の別項目です。
+
 ## M2/M3の再現
 
 2026-10-06の評価版は `dist/PDFTatsujin-0.2.0-rc2-windows-x64`。新しい出力先を指定し、過去の証拠を上書きしません。M1の固定入力・閾値は同じまま、B01〜B08の保存・再編集・複合作業も製品のselftestから実行します。

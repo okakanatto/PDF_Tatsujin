@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0-rc4",
+  "date": "2026-10-07",
+  "all_files_match": true,
+  "files": 403,
+  "exe_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+  "zip_sha256": "4b2266ebcf0ef8edaa568343539a85df3f75db7d5b1a35d3c30159a94d5b171b",
+  "zip_bytes": 139019340,
+  "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source",
+  "application_bytes": 139778353,
+  "components": {
+    "app_and_PDF4QT": 11424768,
+    "Qt_and_plugins": 33109184,
+    "native_and_MSVC": 28801896,
+    "OCR_models": 44062091,
+    "fonts": 9589900,
+    "licenses_and_metadata": 12790514
+  },
+  "Qt_source_archives_bytes": 53891276,
+  "application_and_Qt_sources_bytes": 193669629,
+  "project_bytes": 14535429494,
+  "project_limit_bytes": 20000000000,
+  "logical_size_note": "File lengths, not NTFS allocated size; T: is a subst alias and counted only once. Existing system MSVC/Windows and shared test runtimes are outside this folder.",
+  "extracted_workflow": {
+    "test": "B08_combined_workflow",
+    "status": "PASS",
+    "exit_code": 0,
+    "completed": true,
+    "scope": "Same development Windows 11 PC; System32-only PATH, Qt offscreen. Not clean Windows/native IME acceptance"
+  },
+  "binary_publication": "pending publisher MSVC redistribution eligibility confirmation",
+  "public_Windows_runner_smoke": "未実行; prepared workflow awaits published ZIP",
+  "evidence_sha256": {
+    "m3-rc4-archive-20261007.json": "da5bb29c24cdb7a6af8a395ab995f5de2706118cba074cc6f8284010f4760e1a",
+    "m3-rc4-extracted-workflow-20261007/process-result.json": "d386680495eb9bdf00b8d7d25e2d094d8c2e87479a6867a78c06d0d74ba4759e",
+    "m3-rc4-extracted-workflow-20261007/selftest.json": "8ae24bc8f0966b6a1426c3550975693ca4d556e505bf8bd52856fcc5713281c9",
+    "m3-rc4-storage-20261007.json": "b3b0129afc40313ef37c7ec8b912ffcd27a5cb6e05a9b394d92cd0a2614ca44a"
+  }
+}
