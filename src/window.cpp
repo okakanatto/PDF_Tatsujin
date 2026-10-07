@@ -1,6 +1,7 @@
 #include "window.h"
 #include "page_previews.h"
 #include "pdfsecurityhandler.h"
+#include "private_temp.h"
 #include <QtPrintSupport>
 
 namespace tatsu
@@ -1004,7 +1005,7 @@ void Window::startOcr()
                         : scope->currentIndex() == 1 ? QString::number(canvas->page + 1)
                                                      : range->text();
     parsePages(selection, doc.pages());
-    work = std::make_unique<QTemporaryDir>(QDir::tempPath() + "/pdf-tatsujin-job-XXXXXX");
+    work = privateTemporaryDirectory(QDir::tempPath() + "/pdf-tatsujin-job-XXXXXX");
     if (!work->isValid())
         fail("OCR一時領域を作成できません。");
     QFile owner(work->filePath(".tatsujin-owner"));
@@ -1025,28 +1026,38 @@ void Window::startOcr()
                                       {"pages", selection}})
                 .toJson());
     f.close();
+    auto nextWorker = std::make_unique<QProcess>(this);
+    auto nextChannels = std::make_unique<WorkerChannels>(*nextWorker, work->path());
+    worker = nextWorker.release();
+    workerChannels = std::move(nextChannels);
     startRevision = doc.revision;
     doc.busy = true;
     refresh();
     progress->setText("OCRを開始しています…");
     cancel->show();
     progressBuffer.clear();
-    worker = new QProcess(this);
-    connect(worker, &QProcess::readyReadStandardOutput, this,
-            [this]
-            {
-                progressBuffer += worker->readAllStandardOutput();
-                while (progressBuffer.contains('\n'))
-                {
-                    auto line = progressBuffer.left(progressBuffer.indexOf('\n'));
-                    progressBuffer.remove(0, line.size() + 1);
-                    auto p = QJsonDocument::fromJson(line).object();
-                    if (!p.isEmpty())
-                        progress->setText(QString("OCR %1 / %2 ページ")
-                                              .arg(p["done"].toInt())
-                                              .arg(p["total"].toInt()));
-                }
-            });
+    auto updateProgress = [this]
+    {
+        if (!worker || !workerChannels)
+            return;
+        progressBuffer += workerChannels->progress();
+        while (progressBuffer.contains('\n'))
+        {
+            auto line = progressBuffer.left(progressBuffer.indexOf('\n'));
+            progressBuffer.remove(0, line.size() + 1);
+            auto p = QJsonDocument::fromJson(line).object();
+            if (!p.isEmpty())
+                progress->setText(
+                    QString("OCR %1 / %2 ページ").arg(p["done"].toInt()).arg(p["total"].toInt()));
+        }
+    };
+    connect(worker, &QProcess::readyReadStandardOutput, this, updateProgress);
+    if (workerChannels->usesFiles())
+    {
+        auto poll = new QTimer(worker);
+        connect(poll, &QTimer::timeout, this, updateProgress);
+        poll->start(100);
+    }
     connect(worker, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this,
             &Window::finishOcr);
     connect(worker, &QProcess::errorOccurred, this,
@@ -1055,9 +1066,6 @@ void Window::startOcr()
                 if (e == QProcess::FailedToStart)
                     finishOcr(-1, QProcess::CrashExit);
             });
-    worker->start(QCoreApplication::applicationFilePath(),
-                  {"--ocr-worker", work->filePath("input.pdf"), work->filePath("result.pdf"),
-                   work->filePath("options.json"), work->filePath("report.json")});
     QTimer::singleShot(15 * 60 * 1000, worker,
                        [this]
                        {
@@ -1067,6 +1075,9 @@ void Window::startOcr()
                                worker->kill();
                            }
                        });
+    worker->start(QCoreApplication::applicationFilePath(),
+                  {"--ocr-worker", work->filePath("input.pdf"), work->filePath("result.pdf"),
+                   work->filePath("options.json"), work->filePath("report.json")});
 }
 void Window::stopOcr()
 {
@@ -1083,7 +1094,8 @@ void Window::finishOcr(int code, QProcess::ExitStatus exitStatus)
         return;
     bool cancelled = worker->property("cancelled").toBool();
     bool timedOut = worker->property("timedOut").toBool();
-    auto err = QString::fromUtf8(worker->readAllStandardError());
+    auto err = workerChannels->error();
+    workerChannels.reset();
     worker->deleteLater();
     worker = nullptr;
     doc.busy = false;

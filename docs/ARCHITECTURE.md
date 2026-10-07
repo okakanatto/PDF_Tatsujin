@@ -45,6 +45,8 @@ flowchart TD
 | 操作経路・文書ウィンドウ・OCR監督 | `src/window.*` | ワーカーの異常終了と取消を同じ未反映状態へ戻す |
 | OCR解析・不可視文字層・合成 | `src/ocr.*` | 元の画像・既存文字・署名・注釈を保持する |
 | OCR一時領域の所有・回収・ワーカーロック | `src/ocr_jobs.*` | 活動中の親／ワーカーを保持し、リンクを含む領域を辿らない |
+| Windowsの専用一時領域 | `src/private_temp.*` | 通常はQtの私有領域。AppContainerでは利用者と現在のpackage SIDだけへ作成時に権限を付ける |
+| OCRワーカーの進捗・エラー通信 | `src/worker_channels.*` | 通常はQtのパイプ。AppContainerでは私有ファイルを使い、通信権限を追加しない |
 | 恒等色変換の画像展開 | `src/device_image_decode.*` | 固定したGeneric CMSのRGB／Gray8だけに適用し、元の変換との全画素一致を保つ |
 | 受入試験 | `tests/selftest.*` | 正解・閾値・検索語を結果に合わせて変えない |
 
@@ -62,11 +64,15 @@ flowchart TD
 
 画像のあるページを300dpiで描画し、既存の可視文字を認識対象から除外します。認識した文字列をNoto Sans JPで埋め込み、不可視のForm XObjectとして既存Contentsに追加します。既存の不可視文字を検出したページは保持します。OCRモデルはローカルで使用し、文書・署名をオンラインサービスへ送る処理はありません。
 
+RC4では、Windows AppContainerで通信権限をゼロにした実行経路も試験します。Qtのownerだけを許す一時フォルダではpackage SIDの照合に失敗するため、`PrivateTemporaryDirectory`はこの実行形態に限り、利用者SIDと現在のpackage SIDの2件だけを持つ保護DACLでディレクトリを作ります。全アプリケーションへ権限を広げません。通常の実行では元のQTemporaryDirを使います。専用領域の回収はリンク・ジャンクションを検出した場合に中止します。
+
+Qt 6.9.3のQProcessが使う通常の名前付きパイプはAppContainerで作成できません。`WorkerChannels`はこの場合だけ、同じ私有領域にstdin・進捗・エラーのファイルを用意し、100msのタイマーで進捗を読みます。1回の読取は64KiB、表示するエラーは500bytesに制限します。正常終了・revision・完成PDFを検査して取り込む境界は共通です。通信準備が成功してからbusyに入り、起動失敗時には無効なパイプを読まず、取消と未保存変更の保持へ戻します。通常の実行経路とQtのDLLは変更しません。[MicrosoftのIPC条件](https://learn.microsoft.com/en-us/windows/apps/develop/communication/interprocess-communication)、[固定QtのQProcess実装](https://github.com/qt/qtbase/blob/v6.9.3/src/corelib/io/qprocess_win.cpp)。
+
 ## 回帰しやすい箇所
 
 RC3の `device_image_decode` はCore DLL内で呼び出します。DeviceRGB／DeviceGrayとGeneric CMSの実型、8ビット、マスクなし、恒等Decode、入力長・strideを確認してRGB888へ展開します。その他の条件は上流の変換に戻します。`AdaptPdf4QtColorSpace.cmake` は色空間とCMSの固定ソースhashを検査し、ビルド領域だけの派生ソースへ呼出しを追加します。依存更新時はCMSの恒等性と例外条件を再確認してください。画素・解像度を減らす最適化ではありません。
 
-`ocr_jobs` の回収は指定temp直下のアプリ名・所有マーカーが一致する領域だけです。親の `job.lock` とワーカーの `worker.lock` を両方取得できない限り保持します。ワーカーは自身の処理中にロックを所有し、親が消えても活動中の領域を回収しません。トップと子のシンボリックリンク／NTFSジャンクションを検出した場合は領域全体を保持します。残ったリンク先を辿って削除しません。親強制終了の全タイミングと長期放置は別途評価が残ります。
+`ocr_jobs` の回収は指定temp直下のアプリ名・所有マーカーが一致する領域だけです。親の `job.lock` とワーカーの `worker.lock` を両方取得できない限り保持します。ワーカーは自身の処理中にロックを所有し、親が消えても活動中の領域を回収しません。トップと子のシンボリックリンク／NTFSジャンクションを検出した場合は領域全体を保持します。残ったリンク先を辿って削除しません。RC4では実際の親プロセス終了・活動中ワーカーの保持・終了後の回収を試験しました。全終了タイミングと長期放置は未評価です。
 
 - PDF4QTのStamp生成は既定のスタンプに合わせてRectを変えるため、署名生成後に要求したRectを明示します。
 - `/Contents`内のストリームは間接オブジェクトとして保持します。PDF4QTで表示できても、直接ストリームを配列に入れると外部ビューアで壊れます。

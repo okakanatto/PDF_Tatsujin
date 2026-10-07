@@ -17,4 +17,6 @@
 
 Windowsバイナリを配布する場合は`licenses/NOTICE.txt`と各部品の通知を同梱し、Qtの対応ソースを同時に提供してください。`scripts/package.ps1`は通知と実行ファイル群をまとめますが、Qtソースを自動取得する処理ではありません。Qtの対象はqtbase、qtsvg、qtimageformats 6.9.3です。取得先は `https://download.qt.io/archive/qt/6.9/6.9.3/submodules/`、検証用ハッシュは`dependency-lock.json`にあります。
 
-MSVCランタイムはMicrosoftの再頒布条件が別途適用されるバイナリです。MITのアプリコード公開を、すべての同梱部品の無条件の再配布許諾と解釈しないでください。現時点ではソースを公開し、ローカルにM3の評価用配布候補を作成します。正式なバイナリリリースはクリーンWindows・オフライン等の未実行試験と配布条件の確認後に判断します。
+MSVCランタイムはMicrosoftの再頒布条件が別途適用されるバイナリです。RC4の梱包ではデスクトップx64 ReleaseのCRTを明示し、OneCore・debug_nonredistを除外します。元の再頒布フォルダとの全DLLのSHA-256一致を検査し、`runtime-origin.json`と`licenses/MSVC-RUNTIME-NOTICE.txt`へ記録します。[Microsoftの配布リスト](https://learn.microsoft.com/en-us/visualstudio/releases/2026/redistribution)は有効なVisual Studioライセンスを条件としています。ライセンス保有の確認はPCへのBuild Tools導入確認とは別です。
+
+MITのアプリコード公開を、すべての同梱部品の無条件の再配布許諾と解釈しないでください。RC4のバイナリはローカルの評価用ZIPとして準備し、公開前に配布主体のMSVCライセンス条件を確認します。正式な一般配布はクリーンWindows等の未実行試験も含めて判断します。候補の品質試験はこの確認と並行して進めます。

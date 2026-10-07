@@ -4,7 +4,9 @@
 #include "canvas.h"
 #include "page_control.h"
 #include "page_organizer.h"
+#include "private_temp.h"
 #include "search_panel.h"
+#include "worker_channels.h"
 #include "writing_panel.h"
 #include <QtWidgets>
 #include <functional>
@@ -29,8 +31,9 @@ public:
     QPushButton* cancel;
     QLineEdit* query;
     QProcess* worker = nullptr;
-    std::unique_ptr<QTemporaryDir> work;
+    std::unique_ptr<PrivateTemporaryDirectory> work;
     std::unique_ptr<QLockFile> workLock;
+    std::unique_ptr<WorkerChannels> workerChannels;
     QList<QAction*> edits;
     QAction* undoAction;
     QAction* redoAction;

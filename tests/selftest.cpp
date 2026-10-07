@@ -31,26 +31,31 @@ static void require(bool ok, const QString& why)
 static QJsonObject workerTest(const PDFDocument& doc, const QString& output, const QString& pages,
                               const QString& lang = "jpn+eng", bool cancel = false)
 {
-    QTemporaryDir temp;
-    require(temp.isValid(), "temporary directory");
-    writeCandidate(doc, temp.filePath("input.pdf"));
-    QFile opt(temp.filePath("options.json"));
+    auto temp = privateTemporaryDirectory(QDir::tempPath() + "/pdf-tatsujin-worker-test-XXXXXX");
+    require(temp->isValid(), "temporary directory");
+    writeCandidate(doc, temp->filePath("input.pdf"));
+    QFile opt(temp->filePath("options.json"));
     opt.open(QIODevice::WriteOnly);
     opt.write(QJsonDocument(QJsonObject{{"pages", pages}, {"language", lang}}).toJson());
     opt.close();
     QProcess p;
+    WorkerChannels channels(p, temp->path());
     p.start(QCoreApplication::applicationFilePath(),
-            {"--ocr-worker", temp.filePath("input.pdf"), output, temp.filePath("options.json"),
-             temp.filePath("report.json")});
-    require(p.waitForStarted(), "worker started");
+            {"--ocr-worker", temp->filePath("input.pdf"), output, temp->filePath("options.json"),
+             temp->filePath("report.json")});
+    const bool started = p.waitForStarted();
+    require(started, "worker started: " + p.errorString());
     QElapsedTimer timer;
     timer.start();
     QByteArray progress;
     int ticks = 0;
     while (p.state() != QProcess::NotRunning && timer.elapsed() < 300000)
     {
-        p.waitForReadyRead(30);
-        progress += p.readAllStandardOutput();
+        if (channels.usesFiles())
+            p.waitForFinished(30);
+        else
+            p.waitForReadyRead(30);
+        progress += channels.progress();
         QCoreApplication::processEvents();
         ++ticks;
         if (cancel && progress.contains("\n"))
@@ -73,8 +78,8 @@ static QJsonObject workerTest(const PDFDocument& doc, const QString& output, con
                 {"event_loop_ticks", ticks}};
     }
     require(p.exitCode() == 0 && p.exitStatus() == QProcess::NormalExit,
-            "OCR worker: " + QString::fromUtf8(p.readAllStandardError()));
-    QFile report(temp.filePath("report.json"));
+            "OCR worker: " + channels.error());
+    QFile report(temp->filePath("report.json"));
     report.open(QIODevice::ReadOnly);
     auto result = QJsonDocument::fromJson(report.readAll()).object();
     result["elapsed_ms"] = timer.elapsed();

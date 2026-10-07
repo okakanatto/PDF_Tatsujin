@@ -38,6 +38,8 @@ find_package(Tesseract CONFIG REQUIRED)
 add_library(tatsu_document STATIC
     src/document.cpp
     src/ocr_jobs.cpp
+    src/private_temp.cpp
+    src/worker_channels.cpp
     src/image_overlay.cpp
     src/signature_library.cpp
     src/page_operations.cpp
@@ -50,6 +52,7 @@ add_library(tatsu_document STATIC
 )
 target_include_directories(tatsu_document PUBLIC src vendor/PDF4QT/Pdf4QtLibCore/sources)
 target_link_libraries(tatsu_document PUBLIC Pdf4QtLibCore Qt6::Gui Qt6::PrintSupport)
+target_link_libraries(tatsu_document PRIVATE advapi32)
 
 add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
@@ -77,6 +80,20 @@ target_link_libraries(PDFTatsujinInteractionBenchmark PRIVATE tatsu_ui tatsu_ocr
 set_target_properties(PDFTatsujinInteractionBenchmark PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
+add_executable(PDFTatsujinSoakTest WIN32 EXCLUDE_FROM_ALL tests/soak_test.cpp)
+target_link_libraries(PDFTatsujinSoakTest PRIVATE tatsu_ui)
+set_target_properties(PDFTatsujinSoakTest PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+if(WIN32)
+    add_executable(PDFTatsujinNetworkProbe EXCLUDE_FROM_ALL tests/network_probe.cpp)
+    target_link_libraries(PDFTatsujinNetworkProbe PRIVATE ws2_32 advapi32)
+    target_compile_definitions(PDFTatsujinNetworkProbe PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+    set_target_properties(PDFTatsujinNetworkProbe PROPERTIES
+        AUTOMOC OFF
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    )
+endif()
 
 if(TATSU_ENABLE_SELFTEST)
     find_package(Qt6 REQUIRED COMPONENTS Test)
@@ -91,7 +108,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)
 endif()
 
-foreach(target tatsu_document tatsu_ocr tatsu_ui PDFTatsujin PDFTatsujinReadingBenchmark PDFTatsujinInteractionBenchmark)
+foreach(target tatsu_document tatsu_ocr tatsu_ui PDFTatsujin PDFTatsujinReadingBenchmark PDFTatsujinInteractionBenchmark PDFTatsujinSoakTest)
     if(MSVC)
         target_compile_options(${target} PRIVATE /utf-8 /bigobj)
         target_compile_definitions(${target} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)

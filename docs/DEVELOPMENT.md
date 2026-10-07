@@ -96,6 +96,31 @@ Get-ChildItem src,tests -Recurse -Include *.cpp,*.h | ForEach-Object { clang-for
 
 GitHub Actionsは書式、Python・PowerShell構文、試験文書と正解のハッシュ、PDF4QTの固定コミットを検査します。CIは現時点でWindowsアプリのビルド・GUI試験を実行しません。実行環境の異なるCIの成功をM1合格と解釈しません。
 
+## RC4の配布・制限環境の検証
+
+次の経路を2026-10-07のWindows 11開発PCで実行しました。通常のビルドと梱包に加えて、通信権限ゼロのAppContainer、実際の親プロセス強制終了、繰り返し閲覧、配布DLLの依存を検査します。出力先は毎回新しいフォルダにしてください。psutilを含む固定試験環境が必要です。
+
+```powershell
+& scripts/build.ps1
+& scripts/build.ps1 -Target PDFTatsujinNetworkProbe
+& scripts/build.ps1 -Target PDFTatsujinSoakTest
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc4-desktop -TestSupport
+$env:TATSU_UI_REVIEW = '1'
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc4-desktop -OutputDirectory evidence/new-rc4 -IncludeNativePrinter
+python scripts/test-no-network.py --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --probe build/app/bin/PDFTatsujinNetworkProbe.exe --output evidence/new-net4
+python scripts/test-ocr-parent-crash.py --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --output evidence/new-parent-crash
+python scripts/soak-candidate.py --harness build/app/bin/PDFTatsujinSoakTest.exe --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --output evidence/new-soak --seconds 900
+python scripts/audit-distribution.py --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --dumpbin 'C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/dumpbin.exe' --crt-directory 'C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Redist/MSVC/14.50.35710/x64/Microsoft.VC145.CRT' --output evidence/new-audit.json
+```
+
+`test-no-network`はコピーした合成入力とアプリだけに、使い捨てのpackage SIDでアクセスを許可します。実際の親・OCR子のtokenを検査し、ネットワーク能力がゼロであることと、制御用の接続が成功する一方で制限したプロセスの接続が失敗することを確認します。ホストの通信アダプター・ファイアウォール設定は変更しません。終了時に追加した権限とprofileを除去します。AppContainerで解決されたTempの親もテスト側で準備します。出力パスが長いとネイティブ経路のパス制約に当たるため、短い新規出力名を使います。
+
+`soak-candidate`は製品と共通のWindowを使う任意の計測exeを隔離して、指定候補のDLLを読み込みます。文書を閉じた300msの区間内で直前のプロセスサンプルを採用し、キャッシュ上限・文書・履歴・原本の不変を確認します。時間と入力は記録に残し、15分の観測を数時間の保証へ読み替えません。
+
+`audit-distribution`はdumpbinで全PEの通常・遅延importを検査します。解決先を同梱DLL、System32、実際に解決できるWindows API contractに限定し、開発PATHを使いません。資産・通知・Desktop Release CRTのハッシュも照合します。対象Windowsでの動作試験と、ライセンス保有の確認を代替しません。
+
+`candidate-smoke.yml`は公開候補ZIPのSHA-256・展開・A02/A05/B08を別のGitHub Windows Server 2025 runnerで確認するための手動workflowです。公開条件を確認してZIPを公開した後に実行します。現在は**未実行**です。クリーンWindows 11やオフライン・ネイティブIMEの受入とは区別します。
+
 ## M2/M3の再現
 
 2026-10-06の評価版は `dist/PDFTatsujin-0.2.0-rc2-windows-x64`。新しい出力先を指定し、過去の証拠を上書きしません。M1の固定入力・閾値は同じまま、B01〜B08の保存・再編集・複合作業も製品のselftestから実行します。
