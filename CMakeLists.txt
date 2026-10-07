@@ -48,6 +48,7 @@ add_library(tatsu_document STATIC
     src/annotation_operations.cpp
     src/pdf_io.cpp
     src/pdf_font.cpp
+    src/text_font.cpp
     src/pdf_render.cpp
 )
 target_include_directories(tatsu_document PUBLIC src vendor/PDF4QT/Pdf4QtLibCore/sources)
@@ -57,7 +58,7 @@ target_link_libraries(tatsu_document PRIVATE advapi32)
 add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
 
-add_library(tatsu_ui STATIC src/writing_panel.cpp src/window_writing.cpp src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp src/page_previews.cpp src/preview_raster.cpp)
+add_library(tatsu_ui STATIC src/writing_panel.cpp src/text_font_picker.cpp src/window_writing.cpp src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp src/page_previews.cpp src/preview_raster.cpp)
 target_sources(tatsu_ui PRIVATE src/page_organizer.cpp src/window_pages.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
 target_sources(tatsu_ui PRIVATE src/annotation_panel.cpp src/window_annotations.cpp)
@@ -103,6 +104,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/annotation_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/image_decode_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/ocr_job_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/font_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

@@ -62,6 +62,7 @@ struct Signature
     OverlayKind kind = OverlayKind::SignatureText;
     QSize imagePixels;
     QPolygonF geometry;
+    QString fontFamily;
 };
 QVector<Signature> signatures(const PDFDocument& doc, int page);
 QImage overlayImage(const PDFDocument& doc, const Signature& image);
@@ -102,9 +103,9 @@ public:
     void undo();
     void redo();
     Signature putSignature(int page, const QString& text, QPointF point, double size, QColor color,
-                           PDFObjectReference old = {});
+                           PDFObjectReference old = {}, const QString& fontFamily = {});
     Signature putText(int page, OverlayKind kind, const QString& text, QPointF point, double size,
-                      QColor color, PDFObjectReference old = {});
+                      QColor color, PDFObjectReference old = {}, const QString& fontFamily = {});
     Signature putImage(int page, OverlayKind kind, const QImage& image, QPointF point,
                        double widthPoints, PDFObjectReference old = {});
     void resizeImage(int page, const Signature& image, double widthPoints);

@@ -10,6 +10,7 @@ struct SignatureTemplate
     double size = 20, width = 144;
     QColor color = Qt::black;
     QImage image;
+    QString fontFamily;
 };
 class SignatureLibrary
 {

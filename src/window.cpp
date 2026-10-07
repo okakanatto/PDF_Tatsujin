@@ -340,15 +340,30 @@ Window::Window()
     signature->setAccessibleName("署名テキスト");
     signature->setMaximumHeight(160);
     sl->addWidget(signature);
-    sl->addWidget(new QLabel("文字のサイズ"));
+    auto typography = new QHBoxLayout;
+    auto familyColumn = new QVBoxLayout;
+    signatureFontPicker = new TextFontPicker;
+    signatureFontPicker->setObjectName("signatureFont");
+    signatureFontPicker->setAccessibleName("署名の書体");
+    auto fontLabel = new QLabel("書体");
+    fontLabel->setBuddy(signatureFontPicker);
+    familyColumn->addWidget(fontLabel);
+    familyColumn->addWidget(signatureFontPicker);
+    typography->addLayout(familyColumn, 2);
+    auto sizeColumn = new QVBoxLayout;
+    sizeColumn->addWidget(new QLabel("文字サイズ"));
     size = new QDoubleSpinBox;
     size->setRange(6, 144);
     size->setValue(20);
     size->setSuffix(" pt");
     size->setButtonSymbols(QAbstractSpinBox::PlusMinus);
     size->setAccessibleName("署名サイズ");
-    sl->addWidget(size);
-    sl->addWidget(new QLabel("書体：Noto Sans JP"));
+    sizeColumn->addWidget(size);
+    typography->addLayout(sizeColumn, 1);
+    sl->addLayout(typography);
+    connect(signatureFontPicker, &QComboBox::currentIndexChanged, this,
+            [this] { signature->setFont(QFont(signatureFontPicker->family(), 10)); });
+    signature->setFont(QFont(signatureFontPicker->family(), 10));
     auto color = new QPushButton("文字色を選ぶ");
     sl->addWidget(color);
     connect(color, &QPushButton::clicked, this,
@@ -386,9 +401,9 @@ Window::Window()
                         if (canvas->selected < 0 || canvas->selected >= ss.size())
                             fail("署名の枠を選択してください。");
                         auto s = ss[canvas->selected];
-                        auto updated =
-                            doc.putSignature(canvas->page, signature->toPlainText(),
-                                             s.rect.topLeft(), size->value(), ink, s.ref);
+                        auto updated = doc.putSignature(canvas->page, signature->toPlainText(),
+                                                        s.rect.topLeft(), size->value(), ink, s.ref,
+                                                        signatureFontPicker->family());
                         refresh(false, updated.ref);
                     });
             });
@@ -424,6 +439,7 @@ Window::Window()
                                      item.text = signature->toPlainText();
                                      item.size = size->value();
                                      item.color = ink;
+                                     item.fontFamily = signatureFontPicker->family();
                                      saveSignatureTemplate(item);
                                  });
                          });
@@ -497,8 +513,9 @@ Window::Window()
                 }
                 else
                 {
-                    auto added = doc.putSignature(canvas->page, signature->toPlainText(), point,
-                                                  size->value(), ink);
+                    auto added =
+                        doc.putSignature(canvas->page, signature->toPlainText(), point,
+                                         size->value(), ink, {}, signatureFontPicker->family());
                     refresh(false, added.ref);
                 }
             });
@@ -523,6 +540,7 @@ Window::Window()
                 return;
             }
             signature->setPlainText(ss[i].text);
+            signatureFontPicker->setFamily(ss[i].fontFamily);
             size->setValue(ss[i].size);
             ink = ss[i].color;
             showPanel(0);

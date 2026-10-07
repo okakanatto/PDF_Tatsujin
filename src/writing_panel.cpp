@@ -26,15 +26,30 @@ WritingPanel::WritingPanel(Document* doc, Canvas* view, bool signature, QWidget*
     text->setAccessibleName("追加する文字");
     text->setMaximumHeight(130);
     layout->addWidget(text);
-    sizeLabel = new QLabel("文字サイズ（Noto Sans JP）");
-    layout->addWidget(sizeLabel);
+    fontPicker = new TextFontPicker;
+    fontPicker->setObjectName("writingFont");
+    auto typography = new QHBoxLayout;
+    auto familyColumn = new QVBoxLayout;
+    fontLabel = new QLabel("書体");
+    fontLabel->setBuddy(fontPicker);
+    familyColumn->addWidget(fontLabel);
+    familyColumn->addWidget(fontPicker);
+    typography->addLayout(familyColumn, 2);
+    connect(fontPicker, &QComboBox::currentIndexChanged, this,
+            [this] { text->setFont(QFont(fontPicker->family(), 10)); });
+    text->setFont(QFont(fontPicker->family(), 10));
+    sizeLabel = new QLabel("文字サイズ");
+    auto sizeColumn = new QVBoxLayout;
+    sizeColumn->addWidget(sizeLabel);
     size = new QDoubleSpinBox;
     size->setObjectName("writingSize");
     size->setRange(6, 144);
     size->setValue(20);
     size->setSuffix(" pt");
     size->setAccessibleName("追加文字のサイズ");
-    layout->addWidget(size);
+    sizeColumn->addWidget(size);
+    typography->addLayout(sizeColumn, 1);
+    layout->addLayout(typography);
     colorButton = new QPushButton("文字色を選ぶ");
     layout->addWidget(colorButton);
     connect(colorButton, &QPushButton::clicked, this,
@@ -156,7 +171,7 @@ OverlayKind WritingPanel::currentKind() const
 void WritingPanel::syncKind(bool initializeDate)
 {
     const bool picture = isImage(currentKind());
-    for (auto widget : QList<QWidget*>{text, sizeLabel, size, colorButton})
+    for (auto widget : QList<QWidget*>{text, fontLabel, fontPicker, sizeLabel, size, colorButton})
         widget->setVisible(!picture);
     for (auto widget : QList<QWidget*>{imageButton, preview, widthLabel, width})
         widget->setVisible(picture);
@@ -194,6 +209,7 @@ void WritingPanel::setSelection(const Signature& item)
     if (!imageSignature)
         kind->setCurrentIndex(item.kind == OverlayKind::Date ? 1 : isImage(item.kind) ? 2 : 0);
     text->setPlainText(item.text);
+    fontPicker->setFamily(item.fontFamily);
     size->setValue(item.size ? item.size : 20);
     ink = item.color;
     image = {};
@@ -214,7 +230,7 @@ PDFObjectReference WritingPanel::put(QPointF point, PDFObjectReference old)
     if (!isImage(currentKind()))
         return document
             ->putText(canvas->page, currentKind(), text->toPlainText(), point, size->value(), ink,
-                      old)
+                      old, fontPicker->family())
             .ref;
     if (old.isValid() && !replacement && isImage(selected().kind))
     {

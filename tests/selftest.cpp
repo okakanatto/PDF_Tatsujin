@@ -1,6 +1,7 @@
 #include "selftest.h"
 #include "annotation_operations.h"
 #include "annotation_tests.h"
+#include "font_tests.h"
 #include "form_fields.h"
 #include "form_tests.h"
 #include "image_decode_tests.h"
@@ -128,6 +129,9 @@ int selftest(const QString& fixtures, const QString& output)
     run("B01_writing_roundtrip", [&] { return testWritingRoundtrip(fixtures, output); });
     run("B01_writing_coordinates", [&] { return testWritingCoordinates(fixtures, output); });
     run("B01_writing_UI", [&] { return testWritingUi(fixtures, output); });
+    run("B01_fonts_roundtrip", [&] { return testFontRoundtrip(fixtures, output); });
+    run("B01_fonts_failures", [&] { return testFontFailures(fixtures, output); });
+    run("B01_fonts_UI", [&] { return testFontUi(fixtures, output); });
     run("B01_signature_library", [&] { return testSignatureLibrary(fixtures, output); });
     run("B04_page_arrange", [&] { return testPageArrange(fixtures, output); });
     run("B05_page_merge_insert", [&] { return testPageMerge(fixtures, output); });

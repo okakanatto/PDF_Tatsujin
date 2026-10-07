@@ -26,8 +26,16 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--regression", required=True, type=Path)
     parser.add_argument("--source-commit", required=True)
+    parser.add_argument("--version", default="0.2.0-rc4")
+    parser.add_argument("--report", default="M3_RC4_REPORT.md")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
+    if Path(args.report).name != args.report or not (root / args.report).is_file():
+        raise RuntimeError("Report must be a saved file in the checkout root")
+    if not args.version or any(
+        c not in "0123456789abcdefghijklmnopqrstuvwxyz.-" for c in args.version
+    ):
+        raise RuntimeError("Invalid version identifier")
     output = args.output.resolve()
     if output.parent != root / "dist" or output.exists():
         raise RuntimeError("Use a new direct child of this checkout's dist directory")
@@ -80,6 +88,7 @@ def main():
         "M3_RC4_REPORT.md",
     ):
         shutil.copyfile(root / name, output / name)
+    shutil.copyfile(root / args.report, output / args.report)
     for path in args.candidate.rglob("*"):
         relative = path.relative_to(args.candidate)
         if path.is_file() and (
@@ -88,7 +97,7 @@ def main():
             if sha256(path) != sha256(output / relative):
                 raise RuntimeError(f"Tested binary/resource changed: {relative}")
     manifest = {
-        "version": "0.2.0-rc4",
+        "version": args.version,
         "source_commit": source,
         "source_url": "https://github.com/okakanatto/PDF_Tatsujin/commit/" + source,
         "configuration": "Release, TATSU_ENABLE_SELFTEST=ON, compiler startup fix ON, test delay 0; Desktop x64 Release CRT",
@@ -96,7 +105,7 @@ def main():
         "executable_sha256": executable,
         "regression_tests_passed": len(suite["tests"]),
         "selftest_process_exit": process["exit_code"],
-        "full_acceptance": "not declared; see M3_RC4_REPORT.md",
+        "full_acceptance": "not declared; see " + args.report,
         "binary_publication": "pending publisher's MSVC redistribution eligibility confirmation",
         "files": [
             {

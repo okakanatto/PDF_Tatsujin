@@ -21,6 +21,7 @@ public:
     QListWidget* pages;
     QPlainTextEdit* signature;
     QDoubleSpinBox* size;
+    TextFontPicker* signatureFontPicker;
     QComboBox* language;
     QComboBox* scope;
     QLineEdit* range;

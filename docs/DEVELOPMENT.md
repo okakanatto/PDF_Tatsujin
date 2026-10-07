@@ -195,3 +195,27 @@ python scripts/compare-reading.py --baseline evidence/previous-reading --candida
 回収試験は自身の新しい作業ディレクトリと、その子に限定した実NTFSジャンクションを作ります。TMP／TEMPは試験子プロセスだけに変更し、終了後に戻します。無関係な領域・リンク先は保持します。OS設定・権限・ネットワークを変更するクリーン／オフライン試験ではありません。
 
 製品版のネイティブ署名・IME・保存・再読込はComputer Useで確認し、Qt offscreenの71件とは別の証拠へ記録しました。GitHub Actionsのソース検査を、これらのWindows動作試験の代わりにはしません。
+
+## RC5の書体選択と実行記録
+
+2026-10-08。Meiryo UIを含む書体選択は、文書処理を `text_font`、UIを `text_font_picker` に分けます。Windows標準書体をOSの既存ファイルからプロセス内へ登録し、配布物へコピーしません。既存のフォントなしメタデータはNotoとして読み、書体が使えない場合の黙った置換を禁止します。
+
+実際に使ったビルド・梱包・検査のコマンドです。下の証拠先は再実行用の例で、新しい名前へ変更してください。
+
+```powershell
+& scripts/build.ps1
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc5-windows-x64 -TestSupport
+$env:TATSU_UI_REVIEW = '1'
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc5-windows-x64 -OutputDirectory evidence/new-rc5-regression -IncludeNativePrinter
+python scripts/evaluate.py evidence/new-rc5-regression
+python scripts/evaluate-m2.py evidence/new-rc5-regression
+python scripts/evaluate-fonts.py evidence/new-rc5-regression
+$env:TATSU_TEST_FILTER = 'B01_fonts_roundtrip'
+& scripts/run-tests.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc5-windows-x64 -OutputDirectory evidence/new-rc5-windows-fonts
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+```
+
+Windowsバックエンドの最後の検査は文書処理のみで可視ウィンドウを出しません。ネイティブIME試験ではありません。全回帰は通常のWindows利用者環境で74件PASS。独立した書体検査は9書体の保存・再編集後18PDFで、埋め込み書体・Unicodeマップ・権利フラグを検査し、PDFium・Popplerで描画しました。
+
+制限付きシェルでは一時ファイル利用2件とWebDriverの接続が拒否されたため、通常ユーザー環境で再実行しました。通信権限ゼロのAppContainerでは長い検証先の一時領域作成がWindowsエラー206になり、短い専用先で同じ8件を完了しました。途中結果と最終結果を混ぜません。詳細と未実行項目は [RC5報告](../M3_RC5_REPORT.md)。

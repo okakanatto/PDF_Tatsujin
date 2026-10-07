@@ -5,6 +5,7 @@
 #include "pdfpainter.h"
 #include "pdfsecurityhandler.h"
 #include "private_temp.h"
+#include "text_font.h"
 #include <windows.h>
 
 namespace tatsu
@@ -56,7 +57,8 @@ QVector<Signature> signatures(const PDFDocument& doc, int page)
             geometry.append({coordinates[i], coordinates[i + 1]});
         out.push_back({ref.getReference(), rectangle, data["text"].toString(),
                        data["size"].toDouble(), QColor(data["color"].toString()), OverlayKind(kind),
-                       QSize(data["pixelWidth"].toInt(), data["pixelHeight"].toInt()), geometry});
+                       QSize(data["pixelWidth"].toInt(), data["pixelHeight"].toInt()), geometry,
+                       data["fontFamily"].toString(signatureFont())});
     }
     return out;
 }
@@ -140,12 +142,13 @@ void Document::redo()
     }
 }
 Signature Document::putSignature(int page, const QString& text, QPointF point, double size,
-                                 QColor color, PDFObjectReference old)
+                                 QColor color, PDFObjectReference old, const QString& fontFamily)
 {
-    return putText(page, OverlayKind::SignatureText, text, point, size, color, old);
+    return putText(page, OverlayKind::SignatureText, text, point, size, color, old, fontFamily);
 }
 Signature Document::putText(int page, OverlayKind kind, const QString& text, QPointF point,
-                            double size, QColor color, PDFObjectReference old)
+                            double size, QColor color, PDFObjectReference old,
+                            const QString& fontFamily)
 {
     editable();
     if (isImage(kind) || isAnnotation(kind))
@@ -154,9 +157,14 @@ Signature Document::putText(int page, OverlayKind kind, const QString& text, QPo
         fail("署名は1～2000文字、サイズは6～144ptで指定してください。");
     const double unit = pdf().getCatalog()->getPage(page)->getUserUnit();
     const double fontScale = size / (100.0 * unit);
-    QFont font(signatureFont());
-    font.setPixelSize(100);
-    font.setStyleStrategy(QFont::NoFontMerging);
+    QString family = fontFamily;
+    if (family.isEmpty() && old.isValid())
+        for (const auto& existing : signatures(pdf(), page))
+            if (existing.ref == old)
+                family = existing.fontFamily;
+    if (family.isEmpty())
+        family = signatureFont();
+    QFont font = textFont(family);
     auto raw = QRawFont::fromFont(font);
     for (auto cp : text.toUcs4())
         if (cp != 10 && cp != 13 && !raw.supportsCharacter(cp))
@@ -209,16 +217,13 @@ Signature Document::putText(int page, OverlayKind kind, const QString& text, QPo
     set(d, "Rect", rectObject(rect));
     set(d, "AP", dictObject(appearance));
     set(d, "F", PDFObject::createInteger(4));
-    QJsonObject meta{{"version", 1},
-                     {"text", text},
-                     {"size", size},
-                     {"color", color.name()},
-                     {"kind", int(kind)}};
+    QJsonObject meta{{"version", 1},          {"text", text},      {"size", size},
+                     {"color", color.name()}, {"kind", int(kind)}, {"fontFamily", family}};
     set(d, "Tatsujin", PDFObject::createString(QJsonDocument(meta).toJson(QJsonDocument::Compact)));
     set(d, "NM", PDFObject::createString(QUuid::createUuid().toByteArray()));
     b.setObject(ref, dictObject(d));
     commit(b.build());
-    return {ref, rect, text, size, color, kind};
+    return {ref, rect, text, size, color, kind, {}, {}, family};
 }
 void Document::moveSignature(int page, const Signature& sig, QPointF delta)
 {

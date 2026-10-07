@@ -15,6 +15,10 @@
 
 モデル・フォント・ビルド依存はGit履歴に含めず、固定参照から開発環境へ取得します。実行時には必要な資産をローカルに同梱します。
 
+RC5の書体選択では、Windowsにインストール済みのMeiryo UI、Meiryo、游ゴシック・明朝、MSゴシック・明朝、Arial、Times New Romanを、そのPCで利用できる場合に選べます。Windowsのフォントファイルをアプリのassets・配布ZIP・公開リポジトリへコピーしません。PDFへの文書埋め込みは、実際に使う書体のOpenType `OS/2.fsType` を調べ、再編集とサブセット埋め込みに適合する場合に限ります。権利情報不明、埋め込み禁止、表示・印刷のみ、サブセット禁止、ビットマップのみは拒否します。このPCの上記Windows書体はEditable embedding（8）、同梱NotoはInstallable embedding（0）でした。保存後のサブセットにも元のフラグを保持することを検査します。
+
+条件の確認元：[Microsoftのフォント再配布FAQ](https://learn.microsoft.com/en-us/typography/fonts/font-faq)、[OpenTypeのfsType](https://learn.microsoft.com/en-us/typography/opentype/spec/os2#fstype)。独自に入手した他のフォントの利用条件までこの確認で保証するものではありません。保存済み書体がないPCでは外観を保持し、変更前に別書体の明示選択を求めます。フォント本体の配布を伴う変更は別途条件を確認します。
+
 Windowsバイナリを配布する場合は`licenses/NOTICE.txt`と各部品の通知を同梱し、Qtの対応ソースを同時に提供してください。`scripts/package.ps1`は通知と実行ファイル群をまとめますが、Qtソースを自動取得する処理ではありません。Qtの対象はqtbase、qtsvg、qtimageformats 6.9.3です。取得先は `https://download.qt.io/archive/qt/6.9/6.9.3/submodules/`、検証用ハッシュは`dependency-lock.json`にあります。
 
 MSVCランタイムはMicrosoftの再頒布条件が別途適用されるバイナリです。RC4の梱包ではデスクトップx64 ReleaseのCRTを明示し、OneCore・debug_nonredistを除外します。元の再頒布フォルダとの全DLLのSHA-256一致を検査し、`runtime-origin.json`と`licenses/MSVC-RUNTIME-NOTICE.txt`へ記録します。[Microsoftの配布リスト](https://learn.microsoft.com/en-us/visualstudio/releases/2026/redistribution)は有効なVisual Studioライセンスを条件としています。ライセンス保有の確認はPCへのBuild Tools導入確認とは別です。

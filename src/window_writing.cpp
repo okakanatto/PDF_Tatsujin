@@ -108,6 +108,7 @@ void Window::openSignatureLibrary()
     else
     {
         signature->setPlainText(item.text);
+        signatureFontPicker->setFamily(item.fontFamily);
         size->setValue(item.size);
         ink = item.color;
         showPanel(0);

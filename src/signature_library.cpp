@@ -24,6 +24,7 @@ QVector<SignatureTemplate> SignatureLibrary::load() const
         item.name = object["name"].toString();
         item.kind = OverlayKind(object["kind"].toInt());
         item.text = object["text"].toString();
+        item.fontFamily = object["fontFamily"].toString(signatureFont());
         item.size = object["size"].toDouble(20);
         item.width = object["width"].toDouble(144);
         item.color = QColor(object["color"].toString());
@@ -44,13 +45,15 @@ void SignatureLibrary::save(const QVector<SignatureTemplate>& items,
     QJsonArray array;
     for (const auto& item : items)
     {
-        QJsonObject object{{"id", item.id},
-                           {"name", item.name},
-                           {"kind", int(item.kind)},
-                           {"text", item.text},
-                           {"size", item.size},
-                           {"width", item.width},
-                           {"color", item.color.name()}};
+        QJsonObject object{
+            {"id", item.id},
+            {"name", item.name},
+            {"kind", int(item.kind)},
+            {"text", item.text},
+            {"size", item.size},
+            {"width", item.width},
+            {"color", item.color.name()},
+            {"fontFamily", item.fontFamily.isEmpty() ? signatureFont() : item.fontFamily}};
         if (isImage(item.kind))
         {
             QByteArray bytes;

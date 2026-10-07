@@ -2,16 +2,16 @@
 
 PDFを読み、申込書へ書き込み、署名や注釈を加え、ページを整理し、日英スキャンを検索できるPDFにするWindowsデスクトップアプリです。文書処理はローカルで行います。自作コードは[MIT](LICENSE)、依存部品はそれぞれのライセンスです。
 
-現在は **0.2.0-rc4 評価版**です。初版機能を同じ文書ウィンドウへ実装し、全71件の回帰試験、通信権限ゼロでの署名・日英OCR・取消8件、15分／7,050ページの繰り返し閲覧を実行しました。RC3で改善した画像表示も維持しています。[最新の結果と制約](M3_RC4_REPORT.md) · [ロードマップ](ROADMAP.md) · [構成](docs/ARCHITECTURE.md) · [開発手順](docs/DEVELOPMENT.md) · [貢献方法](CONTRIBUTING.md)。Acrobatを上回る操作性は目標であり、比較試験の結果ではありません。
+現在は **0.2.0-rc5 評価版**です。Meiryo UIを含む書体選択を追加し、全74件の回帰試験、Windows標準バックエンドでの書体9種、通信権限ゼロでの署名・日英OCR・取消8件を実行しました。RC4の15分／7,050ページは過去版の試験として保持します。[最新の結果と制約](M3_RC5_REPORT.md) · [ロードマップ](ROADMAP.md) · [構成](docs/ARCHITECTURE.md) · [開発手順](docs/DEVELOPMENT.md) · [貢献方法](CONTRIBUTING.md)。初版はAcrobat代替へ向けた最初の出荷範囲です。全機能同等・操作性の優越は未実証です。
 
 ## 起動
 
-この作業環境の評価版は `dist/PDFTatsujin-0.2.0-rc4-windows-x64/PDFTatsujin.exe` です。ZIPは全体を展開し、そのフォルダのexeを起動します。DLL、plugins、assets、licensesが必要です。日本語フォントと日英OCRモデルを同梱しており、通常利用にPythonやTesseractの追加インストールは不要です。GitHubではソースを管理しています。バイナリの公開は配布主体のMSVC再配布資格の確認待ち、正式な一般配布品質の合格は未宣言です。[初見試用の記録欄](docs/testing/M3_FIRST_USE.md)。
+この作業環境の評価版は `dist/PDFTatsujin-0.2.0-rc5-final/PDFTatsujin.exe` です。ZIPは全体を展開し、そのフォルダのexeを起動します。DLL、plugins、assets、licensesが必要です。日本語フォントと日英OCRモデルを同梱しており、通常利用にPythonやTesseractの追加インストールは不要です。GitHubではソースを管理しています。バイナリの公開は配布主体のMSVC再配布資格の確認待ち、正式な一般配布品質の合格は未宣言です。[初見試用の記録欄](docs/testing/M3_FIRST_USE.md)。
 
 ## できること
 
 - **読む**：連続スクロール、ページ縮小画像、ページ番号・しおり、幅／全体に合わせる、ポインターを基準にしたズーム、手のひら移動、前の表示へ戻る、検索結果への移動、ページをまたいだ文字選択・コピー、印刷。
-- **書き込む・署名する**：日本語テキスト、固定日付、PNG/JPEG画像、文字・画像署名。配置、移動、文字・色・サイズ変更、削除、Undo／Redo、通常PDFへの保存と再編集。再利用する署名だけを明示的にローカル保存できます。
+- **書き込む・署名する**：日本語テキスト、固定日付、PNG/JPEG画像、文字・画像署名。配置、移動、文字・書体・色・サイズ変更、削除、Undo／Redo、通常PDFへの保存と再編集。Meiryo UIなど利用PCで使える書体と同梱Notoを選べます。再利用する署名だけを明示的にローカル保存できます。
 - **注釈する**：本文を選択したハイライト、コメント、矩形、直線、矢印。標準PDF注釈と外観情報を保存し、追加した注釈を再編集できます。
 - **フォームへ入力する**：標準AcroFormの単行／複数行テキスト、チェックボックス、ラジオボタン、コンボ／リスト選択。Tabで移動し、日本語の値と外観をPDFに保存します。
 - **ページを整理する**：複数選択、ドラッグや指定位置での移動、削除、回転、別PDFのページ挿入、文書結合、抽出、範囲別・1ページずつの分割。フォーム名が衝突する結合は通知して拒否します。
@@ -30,6 +30,6 @@ OCRの基準試験は鮮明な横書きの印刷文字です。古い縦書き�
 
 `fixtures/D01.pdf` は日本語・英語のデジタル文書、`D03.pdf` は日英の画像文書8ページ、`D07.pdf` は標準フォームです。合成入力と正解は固定しています。`fixtures/real-scans/manifest.json` に、実スキャンの出典・再利用条件・ハッシュとOCR前に固定した正解を記録しています。
 
-[SPEC.md](SPEC.md)、[TECH.md](TECH.md)、[ACCEPTANCE.md](ACCEPTANCE.md) が要件・試験契約です。[M1_REPORT.md](M1_REPORT.md)、[RC2の報告](M3_REPORT.md)、[RC3の報告](M3_RC3_REPORT.md)と `docs/testing/M1_*.md` は過去版の証拠を保持します。最新の成果物と判断は [RC4の報告](M3_RC4_REPORT.md) に集約します。ソースCIは整形・固定入力・依存版を検査し、Windowsでの実行試験を代替しません。
+[SPEC.md](SPEC.md)、[TECH.md](TECH.md)、[ACCEPTANCE.md](ACCEPTANCE.md) が要件・試験契約です。[M1_REPORT.md](M1_REPORT.md)、[RC2の報告](M3_REPORT.md)、[RC3の報告](M3_RC3_REPORT.md)、[RC4の報告](M3_RC4_REPORT.md)と `docs/testing/M1_*.md` は過去版の証拠を保持します。最新の成果物と判断は [RC5の報告](M3_RC5_REPORT.md) に集約します。ソースCIは整形・固定入力・依存版を検査し、Windowsでの実行試験を代替しません。
 
 プロジェクトの保存量上限は20GBです。依存・ビルド・配布物・証拠を含めて計測します。PDF4QTはMIT、TesseractとモデルはApache-2.0、NotoはOFL、Qtは動的リンクのLGPL-3.0構成です。[第三者部品の扱い](docs/THIRD_PARTY.md)を参照してください。

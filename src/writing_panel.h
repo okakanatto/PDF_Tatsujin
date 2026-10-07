@@ -1,6 +1,7 @@
 #pragma once
 #include "canvas.h"
 #include "signature_library.h"
+#include "text_font_picker.h"
 
 namespace tatsu
 {
@@ -22,9 +23,10 @@ private:
     Canvas* canvas;
     bool imageSignature;
     QComboBox* kind;
+    TextFontPicker* fontPicker;
     QPlainTextEdit* text;
     QDoubleSpinBox *size, *width;
-    QLabel *preview, *sizeLabel, *widthLabel;
+    QLabel *preview, *fontLabel, *sizeLabel, *widthLabel;
     QPushButton *imageButton, *colorButton;
     QColor ink = Qt::black;
     QImage image;
