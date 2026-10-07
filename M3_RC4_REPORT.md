@@ -12,7 +12,7 @@
 4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45
 ```
 
-製品ソースはコミット `f42fc036a5417e6c7e8df32d9c7ad9bc8af36089`。最終配布フォルダは試験したDesktop CRT版のバイナリ・資産をそのままコピーし、最新資料とファイル別SHA-256を追加します。Qtの対応ソース3アーカイブもZIPへ同梱します。確定したZIPの容量・ハッシュ・全ファイル照合・展開後の試験は、ZIP外の[配布結果](https://github.com/okakanatto/PDF_Tatsujin/blob/main/docs/testing/M3_RC4_DISTRIBUTION.json)に記録します。ZIP内の資料を自己参照するために作り直すことはしません。
+製品ソースはコミット `f42fc036a5417e6c7e8df32d9c7ad9bc8af36089`。最終配布フォルダは試験したDesktop CRT版のバイナリ・資産をそのままコピーし、最新資料とファイル別SHA-256を追加します。Qtの対応ソース3アーカイブもZIPへ同梱します。確定したZIPの容量・ハッシュ・全ファイル照合・展開後の試験は、ZIP外の[配布結果](https://github.com/okakanatto/PDF_Tatsujin/blob/codex/m2-m3-candidate/docs/testing/M3_RC4_DISTRIBUTION.json)に記録します。ZIP内の資料を自己参照するために作り直すことはしません。ZIP内のmainへの配布結果リンクは、PR統合後に利用できる参照です。統合前の最新結果は本リンクを使います。
 
 確定後の追記：**403ファイルのCRC・SHA-256がすべて一致**。ZIPは139,019,340 bytes、SHA-256は `4b2266ebcf0ef8edaa568343539a85df3f75db7d5b1a35d3c30159a94d5b171b`。別フォルダへ展開し、B08のフォーム→署名→注釈→ページ操作→OCR→検索→保存→再編集→印刷を再実行して1件PASS・終了0・全件完了を確認しました。同じ開発PCのoffscreen試験で、クリーンWindowsの合格ではありません。
 
@@ -97,3 +97,5 @@ PDF4QTライブラリ＋独自Qt Widgets UI＋TesseractのローカルOCRを継�
 ## 6. 次の判断
 
 初版機能と追加の制限環境・継続使用試験を備えた、**ローカルで試用できるRC4候補**です。初見試用で迷いを収集して修正し、残る環境評価に基づいて正式版の可否を更新します。MSVCの再配布資格を確認できれば、検査済みZIPをGitHubの評価用prereleaseとして公開できます。現時点のソース管理、ローカル候補完成、一般配布の合格、バイナリ公開はそれぞれ区別して報告します。
+
+ソースは[PR #1](https://github.com/okakanatto/PDF_Tatsujin/pull/1)の候補ブランチへpush済みです。自動承認レビューがDraft解除とmainへのマージを、既定ブランチ変更への明示承認がないとして拒否しました。PRはDraft・未マージのままです。本文の最終結果更新とブランチのソース管理は進め、統合には利用者の承認を待ちます。
