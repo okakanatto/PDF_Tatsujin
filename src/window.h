@@ -2,9 +2,9 @@
 #include "annotation_panel.h"
 #include "bookmarks_panel.h"
 #include "canvas.h"
+#include "ocr_job.h"
 #include "page_control.h"
 #include "page_organizer.h"
-#include "private_temp.h"
 #include "search_panel.h"
 #include "worker_channels.h"
 #include "writing_panel.h"
@@ -32,15 +32,13 @@ public:
     QPushButton* cancel;
     QLineEdit* query;
     QProcess* worker = nullptr;
-    std::unique_ptr<PrivateTemporaryDirectory> work;
-    std::unique_ptr<QLockFile> workLock;
+    std::unique_ptr<OcrJob> work;
     std::unique_ptr<WorkerChannels> workerChannels;
     QList<QAction*> edits;
     QAction* undoAction;
     QAction* redoAction;
     QAction* signatureAction;
     QAction* ocrAction;
-    quint64 startRevision = 0;
     QByteArray progressBuffer;
     explicit Window();
     ~Window() override;

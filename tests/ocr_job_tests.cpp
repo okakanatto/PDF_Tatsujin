@@ -1,7 +1,182 @@
 #include "ocr_job_tests.h"
 #include "document.h"
+#include "ocr_job.h"
 #include "ocr_jobs.h"
 #include "private_temp.h"
+#include "window.h"
+#include <QtTest/QTest>
+#include <functional>
+#include <windows.h>
+
+QJsonObject testOcrWindowTeardown(const QString& fixtures, const QString&)
+{
+    const auto source = fixtures + "/D03.pdf";
+    const auto original = tatsu::fileHash(source);
+    auto window = std::make_unique<tatsu::Window>();
+    window->openFile(source);
+    window->doc.putSignature(0, "破棄時の署名", {50, 40}, 16, Qt::black);
+    window->refresh();
+    window->startOcr();
+    const auto directory = window->work->path();
+    if (!QTest::qWaitFor(
+            [&] { return window->worker && window->progress->text().startsWith("OCR 1 /"); },
+            90000))
+        tatsu::fail("Worker did not reach partial progress before Window destruction");
+    QPointer<QProcess> worker = window->worker;
+    const auto process = OpenProcess(SYNCHRONIZE, FALSE, DWORD(worker->processId()));
+    if (!process)
+        tatsu::fail("Cannot observe owned OCR process teardown");
+    const auto close = qScopeGuard([&] { CloseHandle(process); });
+    int dialogs = 0;
+    QTimer dismiss;
+    QObject::connect(&dismiss, &QTimer::timeout,
+                     [&]
+                     {
+                         for (auto widget : QApplication::topLevelWidgets())
+                             if (auto box = qobject_cast<QMessageBox*>(widget))
+                             {
+                                 ++dialogs;
+                                 box->reject();
+                             }
+                     });
+    dismiss.start(20);
+    window.reset();
+    QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+    if (dialogs || worker || WaitForSingleObject(process, 0) != WAIT_OBJECT_0 ||
+        QFileInfo::exists(directory) || tatsu::fileHash(source) != original)
+        tatsu::fail("Window destruction leaked worker/job or invoked completion on destroyed UI");
+    return {{"partial_progress_before_destruction", true},
+            {"no_completion_dialog", true},
+            {"worker_terminated_and_QObject_destroyed", true},
+            {"owned_job_removed_and_source_unchanged", true}};
+}
+
+QJsonObject testOcrResultValidation(const QString& fixtures, const QString& output)
+{
+    using namespace tatsu;
+    QTemporaryDir root(output + "/result-contract-XXXXXX");
+    if (!root.isValid())
+        fail("Cannot create result contract test root");
+    Document document;
+    document.open(fixtures + "/D03.pdf");
+    const auto original = fileHash(document.source);
+    document.putSignature(0, "結果異常でも保持する署名", {50, 40}, 16, Qt::black);
+    auto job = OcrJob::prepare(document, {"jpn+eng", "1,3"}, root.path());
+    const auto directory = job->path();
+    const QJsonObject valid{
+        {"language", "jpn+eng"},
+        {"pages", QJsonArray{QJsonObject{{"page", 1}, {"status", "処理済み"}},
+                             QJsonObject{{"page", 3}, {"status", "既存OCR保持"}}}}};
+    auto write = [&](const QByteArray& bytes)
+    {
+        QFile file(job->filePath("report.json"));
+        if (!file.open(QIODevice::WriteOnly) || file.write(bytes) != bytes.size())
+            fail("Cannot write synthetic worker report");
+    };
+    auto report = [&](const QJsonObject& value) { write(QJsonDocument(value).toJson()); };
+    QJsonArray rejected;
+    auto reject = [&](const QString& name, const std::function<void()>& operation)
+    {
+        const auto before = encodePdf(document.pdf());
+        const auto cursor = document.cursor, saved = document.saved;
+        const auto revision = document.revision;
+        const auto history = document.history.size();
+        bool refused = false;
+        try
+        {
+            operation();
+        }
+        catch (const std::exception&)
+        {
+            refused = true;
+        }
+        if (!refused || encodePdf(document.pdf()) != before || document.cursor != cursor ||
+            document.saved != saved || document.revision != revision ||
+            document.history.size() != history || !document.dirty() ||
+            fileHash(document.source) != original)
+            fail("Result rejection changed document or history: " + name);
+        rejected.append(name);
+    };
+    // Keep a valid PDF for malformed-report cases: rejection must come from the
+    // report contract rather than an unrelated missing output file.
+    writeCandidate(document.pdf(), job->filePath("result.pdf"));
+    reject("missing report", [&] { job->readResult(document); });
+    for (const auto& bytes : {QByteArray(), QByteArray("{"), QByteArray("[]"), QByteArray("{}")})
+    {
+        write(bytes);
+        reject("invalid JSON/schema: " + QString::fromUtf8(bytes),
+               [&] { job->readResult(document); });
+    }
+    auto invalid = valid;
+    invalid["language"] = "eng";
+    report(invalid);
+    reject("wrong language", [&] { job->readResult(document); });
+    const auto rows = valid["pages"].toArray();
+    const QVector<QPair<QString, QJsonArray>> invalidPages{
+        {"partial report", {rows[0]}},
+        {"duplicate page", {rows[0], rows[0]}},
+        {"reordered pages", {rows[1], rows[0]}},
+        {"unexpected page", {rows[0], QJsonObject{{"page", 4}, {"status", "処理済み"}}}},
+        {"fractional page", {QJsonObject{{"page", 1.5}, {"status", "処理済み"}}, rows[1]}},
+        {"string page", {QJsonObject{{"page", "1"}, {"status", "処理済み"}}, rows[1]}},
+        {"unknown status", {QJsonObject{{"page", 1}, {"status", "unknown"}}, rows[1]}},
+        {"missing status", {QJsonObject{{"page", 1}}, rows[1]}},
+        {"non-object row", {false, rows[1]}}};
+    for (const auto& bad : invalidPages)
+    {
+        invalid = valid;
+        invalid["pages"] = bad.second;
+        report(invalid);
+        reject(bad.first, [&] { job->readResult(document); });
+    }
+    report(valid);
+    if (!QFile::remove(job->filePath("result.pdf")))
+        fail("Cannot remove owned synthetic output for missing-PDF case");
+    reject("missing result PDF", [&] { job->readResult(document); });
+    QFile broken(job->filePath("result.pdf"));
+    if (!broken.open(QIODevice::WriteOnly) || broken.write("broken PDF") != 10)
+        fail("Cannot write synthetic broken result");
+    broken.close();
+    reject("invalid result PDF", [&] { job->readResult(document); });
+    writeCandidate(readPdf(fixtures + "/D01.pdf"), job->filePath("result.pdf"));
+    reject("wrong PDF page count", [&] { job->readResult(document); });
+    writeCandidate(document.pdf(), job->filePath("result.pdf"));
+    const auto accepted = job->readResult(document);
+    if (!accepted.changed() || accepted.pages.size() != 2 || accepted.pages[1].page != 3 ||
+        signatures(accepted.document, 0).size() != 1 || !document.dirty())
+        fail("Complete synthetic protocol result rejected or signature lost");
+    invalid = valid;
+    invalid["pages"] = QJsonArray{QJsonObject{{"page", 1}, {"status", "文字未検出"}}, rows[1]};
+    report(invalid);
+    if (job->readResult(document).changed())
+        fail("No-op OCR result incorrectly reports new text");
+    document.rotate(0);
+    reject("stale document revision", [&] { job->readResult(document); });
+    reject("invalid request language",
+           [&] { OcrJob::prepare(document, {"invalid", "1"}, root.path()); });
+    reject("duplicate requested page",
+           [&] { OcrJob::prepare(document, {"jpn", "1,1"}, root.path()); });
+    QFile blocker(root.filePath("not-a-directory"));
+    if (!blocker.open(QIODevice::WriteOnly))
+        fail("Cannot prepare owned file as invalid temporary root");
+    blocker.close();
+    reject("temporary preparation failure",
+           [&] { OcrJob::prepare(document, {"jpn", "1"}, blocker.fileName()); });
+    if (!cleanAbandonedOcrJobs(root.path()).isEmpty() || !QFileInfo::exists(directory))
+        fail("Startup reclaimed live prepared OCR job");
+    job.reset();
+    if (QFileInfo::exists(directory))
+        fail("Result job did not release lock and remove owned files");
+    document.undo();
+    document.redo();
+    if (signatures(document.pdf(), 0).size() != 1 || fileHash(document.source) != original)
+        fail("Result failure damaged Undo or original");
+    return {{"rejected_cases", rejected},
+            {"complete_and_no_op_results_accepted", true},
+            {"state_history_source_and_signature_preserved", true},
+            {"live_lock_and_cleanup", true},
+            {"scope", "Synthetic worker protocol boundary cases; real OCR is tested separately"}};
+}
 
 QJsonObject testOcrJobCleanup(const QString& output)
 {

@@ -38,6 +38,7 @@ find_package(Tesseract CONFIG REQUIRED)
 add_library(tatsu_document STATIC
     src/document.cpp
     src/ocr_jobs.cpp
+    src/ocr_job.cpp
     src/private_temp.cpp
     src/windows_path.cpp
     src/worker_channels.cpp

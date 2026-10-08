@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
     app.setApplicationName("PDFTatsujin");
-    app.setApplicationVersion("0.2.0-rc6");
+    app.setApplicationVersion("0.2.0-rc7");
     app.setOrganizationName("PDFTatsujin");
     const auto args = app.arguments();
     try

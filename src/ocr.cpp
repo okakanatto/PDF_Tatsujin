@@ -295,7 +295,10 @@ int ocrWorker(const QStringList& args)
         QFile report(args[4]);
         if (!report.open(QIODevice::WriteOnly))
             fail("OCR結果を記録できません。");
-        report.write(QJsonDocument(QJsonObject{{"pages", results}, {"language", lang}}).toJson());
+        const auto bytes =
+            QJsonDocument(QJsonObject{{"pages", results}, {"language", lang}}).toJson();
+        if (report.write(bytes) != bytes.size() || !report.flush())
+            fail("OCR結果を記録できません。");
         return 0;
     }
     catch (const std::exception& e)

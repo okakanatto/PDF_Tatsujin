@@ -1,7 +1,6 @@
 #include "window.h"
 #include "page_previews.h"
 #include "pdfsecurityhandler.h"
-#include "private_temp.h"
 #include <QtPrintSupport>
 
 namespace tatsu
@@ -771,6 +770,9 @@ Window::~Window()
     disconnect(pageControl, nullptr, this, nullptr);
     disconnect(qApp, nullptr, this, nullptr);
     bookmarksPanel->activated = {};
+    // Worker completion and dock visibility signals must not refresh torn-down UI.
+    for (auto child : findChildren<QObject*>())
+        disconnect(child, nullptr, this, nullptr);
     delete searchPanel;
     searchPanel = nullptr;
     if (worker)
@@ -778,10 +780,6 @@ Window::~Window()
         worker->kill();
         worker->waitForFinished(3000);
     }
-    // Child visibility/focus signals can fire while QMainWindow removes its
-    // docks. Disconnect before deleting the canvas or destroying Document.
-    for (auto child : findChildren<QObject*>())
-        disconnect(child, nullptr, this, nullptr);
     canvas->cancelFormEdit();
     delete canvas;
     canvas = nullptr;
@@ -1022,41 +1020,21 @@ void Window::startOcr()
     QString selection = scope->currentIndex() == 0   ? QString("1-%1").arg(doc.pages())
                         : scope->currentIndex() == 1 ? QString::number(canvas->page + 1)
                                                      : range->text();
-    parsePages(selection, doc.pages());
-    work = privateTemporaryDirectory(QDir::tempPath() + "/pdf-tatsujin-job-XXXXXX");
-    if (!work->isValid())
-        fail("OCR一時領域を作成できません。");
-    QFile owner(work->filePath(".tatsujin-owner"));
-    if (!owner.open(QIODevice::WriteOnly))
-        fail(owner.errorString());
-    owner.write("PDFTatsujin job v1");
-    owner.close();
-    workLock = std::make_unique<QLockFile>(work->filePath("job.lock"));
-    workLock->setStaleLockTime(0);
-    if (!workLock->tryLock())
-        fail("OCR一時領域を確保できません。");
-    writeCandidate(doc.pdf(), work->filePath("input.pdf"));
-    QFile f(work->filePath("options.json"));
-    if (!f.open(QIODevice::WriteOnly))
-        fail(f.errorString());
-    f.write(QJsonDocument(QJsonObject{{"language", QStringList{"jpn+eng", "jpn",
-                                                               "eng"}[language->currentIndex()]},
-                                      {"pages", selection}})
-                .toJson());
-    f.close();
+    auto nextJob = OcrJob::prepare(
+        doc, {QStringList{"jpn+eng", "jpn", "eng"}[language->currentIndex()], selection});
     auto nextWorker = std::make_unique<QProcess>(this);
-    auto nextChannels = std::make_unique<WorkerChannels>(*nextWorker, work->path());
+    auto nextChannels = std::make_unique<WorkerChannels>(*nextWorker, nextJob->path());
+    work = std::move(nextJob);
     worker = nextWorker.release();
     workerChannels = std::move(nextChannels);
-    startRevision = doc.revision;
     doc.busy = true;
     refresh();
     progress->setText("OCRを開始しています…");
     cancel->show();
     progressBuffer.clear();
-    auto updateProgress = [this]
+    auto updateProgress = [this, observed = worker]
     {
-        if (!worker || !workerChannels)
+        if (worker != observed || !workerChannels)
             return;
         progressBuffer += workerChannels->progress();
         while (progressBuffer.contains('\n'))
@@ -1077,25 +1055,27 @@ void Window::startOcr()
         poll->start(100);
     }
     connect(worker, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), this,
-            &Window::finishOcr);
-    connect(worker, &QProcess::errorOccurred, this,
-            [this](QProcess::ProcessError e)
+            [this, observed = worker](int code, QProcess::ExitStatus exitStatus)
             {
-                if (e == QProcess::FailedToStart)
+                if (worker == observed)
+                    finishOcr(code, exitStatus);
+            });
+    connect(worker, &QProcess::errorOccurred, this,
+            [this, observed = worker](QProcess::ProcessError e)
+            {
+                if (worker == observed && e == QProcess::FailedToStart)
                     finishOcr(-1, QProcess::CrashExit);
             });
     QTimer::singleShot(15 * 60 * 1000, worker,
-                       [this]
+                       [this, observed = worker]
                        {
-                           if (worker && worker->state() != QProcess::NotRunning)
+                           if (worker == observed && worker->state() != QProcess::NotRunning)
                            {
                                worker->setProperty("timedOut", true);
                                worker->kill();
                            }
                        });
-    worker->start(QCoreApplication::applicationFilePath(),
-                  {"--ocr-worker", work->filePath("input.pdf"), work->filePath("result.pdf"),
-                   work->filePath("options.json"), work->filePath("report.json")});
+    worker->start(QCoreApplication::applicationFilePath(), work->workerArguments());
 }
 void Window::stopOcr()
 {
@@ -1116,6 +1096,9 @@ void Window::finishOcr(int code, QProcess::ExitStatus exitStatus)
     workerChannels.reset();
     worker->deleteLater();
     worker = nullptr;
+    // A result dialog runs a nested event loop. Keep the completed job local so
+    // its cleanup cannot release a later job started during that loop.
+    auto finishedJob = std::move(work);
     doc.busy = false;
     cancel->hide();
     guard(
@@ -1130,31 +1113,18 @@ void Window::finishOcr(int code, QProcess::ExitStatus exitStatus)
                 fail(timedOut
                          ? "OCRが時間制限を超えました。開始前の変更を保持しました。"
                          : "OCRに失敗しました。開始前の変更を保持しました。\n" + err.left(500));
-            if (doc.revision != startRevision)
-                fail("文書の版が変わったためOCRを反映しませんでした。");
-            auto result = readPdf(work->filePath("result.pdf"));
-            if (int(result.getCatalog()->getPageCount()) != doc.pages())
-                fail("OCR結果のページ数が一致しません。");
-            QFile rf(work->filePath("report.json"));
-            rf.open(QIODevice::ReadOnly);
-            auto report = QJsonDocument::fromJson(rf.readAll()).object();
+            auto result = finishedJob->readResult(doc);
             QStringList summary;
-            bool changed = false;
-            for (auto value : report["pages"].toArray())
-            {
-                auto o = value.toObject();
-                auto s = o["status"].toString();
-                changed |= s == "処理済み";
-                summary << QString("%1ページ: %2").arg(o["page"].toInt()).arg(s);
-            }
+            const bool changed = result.changed();
+            for (const auto& page : result.pages)
+                summary << QString("%1ページ: %2").arg(page.page).arg(page.status);
             if (changed)
-                doc.commit(std::move(result));
+                doc.commit(std::move(result.document));
             progress->setText(changed ? "OCR反映済み。元に戻すで取り消せます。"
                                       : "OCR終了。追加された文字はありません。");
             QMessageBox::information(this, "OCR結果", summary.join('\n'));
         });
-    workLock.reset();
-    work.reset();
+    finishedJob.reset();
     refresh();
 }
 bool Window::safeToClose()

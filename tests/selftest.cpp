@@ -127,6 +127,8 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_device_image_decode", [&] { return testDeviceImageDecode(fixtures); });
     run("C07_OCR_job_cleanup", [&] { return testOcrJobCleanup(output); });
     run("C07_LongPaths", [&] { return testLongWindowsPaths(fixtures, output); });
+    run("A09_OCR_result_contract", [&] { return testOcrResultValidation(fixtures, output); });
+    run("A09_OCR_window_teardown", [&] { return testOcrWindowTeardown(fixtures, output); });
     run("B01_writing_roundtrip", [&] { return testWritingRoundtrip(fixtures, output); });
     run("B01_writing_coordinates", [&] { return testWritingCoordinates(fixtures, output); });
     run("B01_writing_UI", [&] { return testWritingUi(fixtures, output); });
