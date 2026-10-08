@@ -88,6 +88,15 @@ set_target_properties(PDFTatsujinSoakTest PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 if(WIN32)
+    add_executable(PDFTatsujinFilesystemProbe WIN32 EXCLUDE_FROM_ALL tests/filesystem_probe.cpp)
+    target_link_libraries(PDFTatsujinFilesystemProbe PRIVATE tatsu_document)
+    target_compile_definitions(PDFTatsujinFilesystemProbe PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
+    if(MSVC)
+        target_compile_options(PDFTatsujinFilesystemProbe PRIVATE /utf-8 /bigobj)
+    endif()
+    set_target_properties(PDFTatsujinFilesystemProbe PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    )
     add_executable(PDFTatsujinNetworkProbe EXCLUDE_FROM_ALL tests/network_probe.cpp)
     target_link_libraries(PDFTatsujinNetworkProbe PRIVATE ws2_32 advapi32)
     target_compile_definitions(PDFTatsujinNetworkProbe PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
