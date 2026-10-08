@@ -126,6 +126,7 @@ int selftest(const QString& fixtures, const QString& output)
     auto dest = [&](QString name) { return output + "/" + name; };
     run("Reading_device_image_decode", [&] { return testDeviceImageDecode(fixtures); });
     run("C07_OCR_job_cleanup", [&] { return testOcrJobCleanup(output); });
+    run("C07_LongPaths", [&] { return testLongWindowsPaths(fixtures, output); });
     run("B01_writing_roundtrip", [&] { return testWritingRoundtrip(fixtures, output); });
     run("B01_writing_coordinates", [&] { return testWritingCoordinates(fixtures, output); });
     run("B01_writing_UI", [&] { return testWritingUi(fixtures, output); });

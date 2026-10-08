@@ -39,6 +39,7 @@ add_library(tatsu_document STATIC
     src/document.cpp
     src/ocr_jobs.cpp
     src/private_temp.cpp
+    src/windows_path.cpp
     src/worker_channels.cpp
     src/image_overlay.cpp
     src/signature_library.cpp

@@ -1,5 +1,6 @@
 #include "private_temp.h"
 #include "document.h"
+#include "windows_path.h"
 #include <QDirIterator>
 #include <QScopeGuard>
 #include <QUuid>
@@ -74,7 +75,8 @@ PrivateTemporaryDirectory::PrivateTemporaryDirectory(const QString& pattern)
     for (int attempt = 0; attempt < 16; ++attempt)
     {
         const auto candidate = prefix + QUuid::createUuid().toString(QUuid::Id128);
-        if (CreateDirectoryW(reinterpret_cast<LPCWSTR>(candidate.utf16()), &attributes))
+        const auto native = extendedWindowsPath(candidate);
+        if (CreateDirectoryW(reinterpret_cast<LPCWSTR>(native.utf16()), &attributes))
         {
             location = candidate;
             return;

@@ -27,6 +27,7 @@ def main():
     parser.add_argument("--app-directory", required=True, type=Path)
     parser.add_argument("--probe", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--with-long-paths", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -122,11 +123,14 @@ def main():
                 pass
 
         results = []
-        for name, filter in [
+        cases = [
             ("signature", "A02"),
             ("OCR", "A05"),
             ("cancel", "A09_UI_cancel"),
-        ]:
+        ]
+        if args.with_long_paths:
+            cases.append(("long-paths", "C07_LongPaths"))
+        for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
             code = container.run(

@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
     app.setApplicationName("PDFTatsujin");
-    app.setApplicationVersion("0.2.0-rc5");
+    app.setApplicationVersion("0.2.0-rc6");
     app.setOrganizationName("PDFTatsujin");
     try
     {

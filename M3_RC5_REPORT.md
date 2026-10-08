@@ -8,7 +8,11 @@
 
 「書き込み→テキスト」の右側に「書体」があります。Meiryo UIが使えるPCでは新しい文字で優先します。配置済みの文字を選び、書体を変えて「選択した要素を更新」で再編集できます。文字署名にも同じ選択欄があります。
 
-検証したexeのSHA-256は `02d20bb8311bc89c77c163ae8c4a824f57098ac2a72995b7c8f81e4f051c3363`。試験済みバイナリを変更せず最終候補へコピーし、ソース・試験数・ファイル別ハッシュを `build-manifest.json` に記録します。ZIP確定後の結果は[配布検査](docs/testing/M3_RC5_DISTRIBUTION.json)へ記録します。
+検証したexeのSHA-256は `02d20bb8311bc89c77c163ae8c4a824f57098ac2a72995b7c8f81e4f051c3363`。試験済みバイナリを変更せず最終候補へコピーし、ソース・試験数・ファイル別ハッシュを `build-manifest.json` に記録しました。
+
+ZIP `dist/PDFTatsujin-0.2.0-rc5-windows-x64.zip` は139,104,595 bytes、407ファイルすべてのCRCとSHA-256を照合済み。新しいフォルダへ展開し、同一exeでフォーム→署名→注釈→ページ操作→OCR→保存・印刷のB08試験もPASSしました。同じ開発PCでの検査です。[配布検査](docs/testing/M3_RC5_DISTRIBUTION.json)。ZIP自体のSHA-256は `9c2c9d10100298e5e4355e0f28297f060566d40b76534a41436276230602fabb`。
+
+書体選択のソースは[ec6e23c](https://github.com/okakanatto/PDF_Tatsujin/commit/ec6e23c8fd4b4cd8f2ebec8f70c492d81a67196b)として公開作業ブランチへ反映済み。同コミットのGitHub Actionsソース検査はpush・PRとも成功しました。main統合とバイナリ公開は別の判断です。
 
 ## 2. 実際にできたこと
 

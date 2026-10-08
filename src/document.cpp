@@ -6,6 +6,7 @@
 #include "pdfsecurityhandler.h"
 #include "private_temp.h"
 #include "text_font.h"
+#include "windows_path.h"
 #include <windows.h>
 
 namespace tatsu
@@ -288,10 +289,12 @@ void Document::save(const QString& path, const QByteArray& expected)
     writeCandidate(pdf(), tempPath);
     if (fileHash(dest) != baseline)
         fail("保存先の外部変更を検出しました。");
-    BOOL ok = baseline.isEmpty() ? MoveFileExW((LPCWSTR)tempPath.utf16(), (LPCWSTR)dest.utf16(),
-                                               MOVEFILE_WRITE_THROUGH)
-                                 : ReplaceFileW((LPCWSTR)dest.utf16(), (LPCWSTR)tempPath.utf16(),
-                                                nullptr, 0, nullptr, nullptr);
+    const auto nativeTemp = extendedWindowsPath(tempPath), nativeDest = extendedWindowsPath(dest);
+    BOOL ok = baseline.isEmpty()
+                  ? MoveFileExW((LPCWSTR)nativeTemp.utf16(), (LPCWSTR)nativeDest.utf16(),
+                                MOVEFILE_WRITE_THROUGH)
+                  : ReplaceFileW((LPCWSTR)nativeDest.utf16(), (LPCWSTR)nativeTemp.utf16(), nullptr,
+                                 0, nullptr, nullptr);
     if (!ok)
         fail(QString("保存の置換に失敗しました（Windowsエラー "
                      "%1）。元ファイルと未保存変更は保持しました。")

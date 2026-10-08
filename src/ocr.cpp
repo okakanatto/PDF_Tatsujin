@@ -6,14 +6,27 @@
 #include "pdffont.h"
 #include "pdfrenderer.h"
 #include "pdftextlayoutgenerator.h"
-#include "private_temp.h"
 #include <cstdio>
 #include <tesseract/baseapi.h>
-#include <tesseract/renderer.h>
 #include <tesseract/resultiterator.h>
 
 namespace tatsu
 {
+static bool readOcrModel(const char* filename, std::vector<char>* data)
+{
+    if (!filename || !data)
+        return false;
+    const auto name = QFileInfo(QString::fromUtf8(filename)).fileName();
+    if (name != "jpn.traineddata" && name != "eng.traineddata" && name != "jpn_vert.traineddata")
+        return false;
+    // Read the same bundled bytes through Qt's Unicode/long-path filesystem
+    // support. Do not let model names address files supplied by a PDF.
+    QFile file(asset("tessdata/" + name));
+    if (!file.open(QIODevice::ReadOnly) || file.size() <= 0 || file.size() > 128 * 1024 * 1024)
+        return false;
+    data->resize(size_t(file.size()));
+    return file.read(data->data(), qint64(data->size())) == qint64(data->size()) && file.atEnd();
+}
 static void put(PDFDictionary& d, const char* k, PDFObject v)
 {
     d.setEntry(PDFInplaceOrMemoryString(k), std::move(v));
@@ -204,20 +217,10 @@ int ocrWorker(const QStringList& args)
             fail("OCR言語が不正です。");
         auto pages = parsePages(config["pages"].toString(), session.pages());
         QJsonArray results;
-        auto temp = privateTemporaryDirectory(QFileInfo(args[1]).absolutePath() + "/worker-XXXXXX");
-        if (!temp->isValid())
-            fail("OCR一時領域を作成できません。");
-        // Tesseract's C file interfaces require a locally representable path. Reject unsupported
-        // paths explicitly.
-        if (QString::fromLocal8Bit(temp->path().toLocal8Bit()) != temp->path())
-            fail("OCR一時領域のパスを扱えません。");
-        for (auto file :
-             QStringList{"jpn.traineddata", "jpn_vert.traineddata", "eng.traineddata", "pdf.ttf"})
-            if (!QFile::copy(asset("tessdata/" + file), temp->filePath(file)))
-                fail("OCRモデルまたはPDFフォントが見つかりません。");
         tesseract::TessBaseAPI api;
-        if (api.Init(temp->path().toLocal8Bit().constData(), lang.toLatin1().constData(),
-                     tesseract::OEM_LSTM_ONLY) != 0)
+        const auto models = asset("tessdata").toUtf8();
+        if (api.Init(models.constData(), 0, lang.toLatin1().constData(), tesseract::OEM_LSTM_ONLY,
+                     nullptr, 0, nullptr, nullptr, false, readOcrModel) != 0)
             fail("OCRモデルの初期化に失敗しました。");
         api.SetPageSegMode(tesseract::PSM_AUTO);
         api.SetVariable("user_defined_dpi", "300");
