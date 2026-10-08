@@ -8,4 +8,5 @@ QJsonObject testReadingOcrCancel(const QString& fixtures, const QString& output)
 QJsonObject testReadingInitialPanels(const QString& fixtures, const QString& output);
 QJsonObject testReadingImageNavigation(const QString& fixtures, const QString& output);
 QJsonObject testReadingCompilerStartup(const QString& fixtures, const QString& output);
+QJsonObject testReadingIcons();
 } // namespace tatsu

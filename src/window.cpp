@@ -1,6 +1,7 @@
 #include "window.h"
 #include "page_previews.h"
 #include "pdfsecurityhandler.h"
+#include "ui_icons.h"
 #include <QtPrintSupport>
 
 namespace tatsu
@@ -73,11 +74,11 @@ Window::Window()
                            openFile(path);
                    }
                });
-    openAction->setIcon(style()->standardIcon(QStyle::SP_DialogOpenButton));
+    openAction->setIcon(uiIcon(QStyle::SP_DialogOpenButton));
     connect(openButton, &QPushButton::clicked, openAction, &QAction::trigger);
     action(
         "保存", QKeySequence::Save, [this] { saveFile(false); }, true)
-        ->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
+        ->setIcon(uiIcon(QStyle::SP_DialogSaveButton));
     action("別名保存", QKeySequence::SaveAs, [this] { saveFile(true); }, true);
     top->addSeparator();
     printAction = action("印刷", QKeySequence::Print,
@@ -180,15 +181,13 @@ Window::Window()
     forwardView = new QAction("次の表示", this);
     forwardView->setObjectName("nextView");
     forwardView->setToolTip("次の表示へ進む（Alt+→）");
-    backView->setIcon(style()->standardIcon(QStyle::SP_ArrowBack));
-    forwardView->setIcon(style()->standardIcon(QStyle::SP_ArrowForward));
+    backView->setIcon(uiIcon(QStyle::SP_ArrowBack));
+    forwardView->setIcon(uiIcon(QStyle::SP_ArrowForward));
     for (auto a : {backView, forwardView})
     {
         auto button = new QToolButton;
         button->setDefaultAction(a);
         button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-        button->setIcon(
-            style()->standardIcon(a == backView ? QStyle::SP_ArrowBack : QStyle::SP_ArrowForward));
         historyRow->addWidget(button);
     }
     nl->addLayout(historyRow);
@@ -570,8 +569,6 @@ Window::Window()
     {
         auto button = new QToolButton;
         button->setDefaultAction(a);
-        button->setIcon(
-            style()->standardIcon(a == backView ? QStyle::SP_ArrowBack : QStyle::SP_ArrowForward));
         button->setAccessibleName(a->text());
         statusBar()->addPermanentWidget(button);
     }

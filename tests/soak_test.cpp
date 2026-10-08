@@ -1,9 +1,8 @@
+#include "memory_diagnostics.h"
 #include "page_previews.h"
 #include "window.h"
+#include <QPixmapCache>
 #include <cstdio>
-#ifdef Q_OS_WIN
-#include <windows.h>
-#endif
 
 namespace
 {
@@ -37,44 +36,6 @@ void idle(int milliseconds)
         QThread::msleep(10);
     }
 }
-QJsonObject heapDiagnostic()
-{
-#ifdef Q_OS_WIN
-    // Inspect only the process default heap: third-party private heaps can be
-    // destroyed concurrently. Do not allocate/report while this heap is locked.
-    const auto heap = GetProcessHeap();
-    if (!HeapLock(heap))
-    {
-        const auto error = GetLastError();
-        return {{"status", "FAIL"}, {"lock_error", int(error)}};
-    }
-    PROCESS_HEAP_ENTRY entry{};
-    qint64 busyBytes = 0, freeBytes = 0, busyBlocks = 0;
-    while (HeapWalk(heap, &entry))
-    {
-        if (entry.wFlags & PROCESS_HEAP_ENTRY_BUSY)
-        {
-            busyBytes += entry.cbData;
-            ++busyBlocks;
-        }
-        else if (!(entry.wFlags & (PROCESS_HEAP_REGION | PROCESS_HEAP_UNCOMMITTED_RANGE)))
-            freeBytes += entry.cbData;
-    }
-    const auto error = GetLastError();
-    const bool unlocked = HeapUnlock(heap);
-    return {{"status", error == ERROR_NO_MORE_ITEMS && unlocked ? "PASS" : "FAIL"},
-            {"walk_error", int(error)},
-            {"heap_unlocked", unlocked},
-            {"default_heap_busy_bytes", busyBytes},
-            {"default_heap_free_bytes", freeBytes},
-            {"default_heap_busy_blocks", busyBlocks},
-            {"scope", "Default Win32 heap only, diagnostic harness. Includes runtime "
-                      "allocations; excludes other heaps and virtual mappings. Not "
-                      "a product performance or leak-freedom test."}};
-#else
-    return {{"status", "unsupported"}};
-#endif
-}
 } // namespace
 
 int main(int argc, char** argv)
@@ -91,6 +52,12 @@ int main(int argc, char** argv)
         const auto output = QFileInfo(args[2]).absoluteFilePath();
         require(!QFileInfo::exists(output) && QDir().mkpath(output), "Output already exists");
         app.setFont(QFont(tatsu::signatureFont(), 10));
+        const auto mode = qEnvironmentVariable("TATSU_SOAK_MODE", "mixed");
+        require(QStringList{"mixed", "empty", "digital", "image", "reuse"}.contains(mode),
+                "Unsupported soak mode");
+        std::unique_ptr<tatsu::Window> reused;
+        if (mode == "reuse")
+            reused = std::make_unique<tatsu::Window>();
         QFile observations(output + "/cycles.jsonl");
         require(observations.open(QIODevice::WriteOnly), "Cannot write observations");
         QElapsedTimer elapsed;
@@ -98,45 +65,61 @@ int main(int argc, char** argv)
         int cycle = 0, pagesVisited = 0;
         while (elapsed.elapsed() < seconds * 1000LL)
         {
-            const auto name = cycle % 2 ? "D10-image-50.pdf" : "D10-digital-100.pdf";
+            const auto name = mode == "empty" ? QString()
+                              : mode == "image" || (mode != "digital" && cycle % 2)
+                                  ? QString("D10-image-50.pdf")
+                                  : QString("D10-digital-100.pdf");
             const auto source = fixtures + "/" + name;
-            const auto sourceHash = tatsu::fileHash(source);
+            const auto sourceHash = name.isEmpty() ? QByteArray() : tatsu::fileHash(source);
             int pages = 0;
             qint64 maxText = 0, maxPreviews = 0;
             {
-                tatsu::Window window;
+                auto owned =
+                    reused ? std::unique_ptr<tatsu::Window>() : std::make_unique<tatsu::Window>();
+                auto& window = reused ? *reused : *owned;
                 window.resize(1280, 850);
                 window.show();
-                window.openFile(source);
-                ready(window.canvas);
-                const auto snapshot = tatsu::encodePdf(window.doc.pdf());
-                const auto revision = window.doc.revision;
-                const auto history = window.doc.history.size();
-                auto previews = static_cast<tatsu::PagePreviews*>(window.pages);
-                pages = window.doc.pages();
-                for (int sequence = 0; sequence < pages; ++sequence)
+                if (name.isEmpty())
                 {
-                    const int page = cycle % 4 < 2 ? sequence : pages - sequence - 1;
-                    window.canvas->goToPage(page);
-                    ready(window.canvas);
-                    window.canvas->viewport()->repaint();
-                    idle(100);
-                    maxText = qMax(maxText, window.canvas->selectionCacheBytes());
-                    maxPreviews = qMax(maxPreviews, previews->cacheBytes());
-                    ++pagesVisited;
+                    idle(50);
+                    require(!window.doc.loaded() && !window.doc.dirty(),
+                            "Empty window has a document");
+                    window.close();
                 }
-                require(!window.doc.dirty() && window.doc.cursor == 0 &&
-                            window.doc.revision == revision &&
-                            window.doc.history.size() == history &&
-                            tatsu::encodePdf(window.doc.pdf()) == snapshot,
-                        "Reading changed document or Undo state");
-                require(maxText <= 16 * 1024 * 1024 && maxPreviews <= 8 * 1024 * 1024,
-                        "Existing selection/preview cache limit exceeded");
-                window.close();
+                else
+                {
+                    window.openFile(source);
+                    ready(window.canvas);
+                    const auto snapshot = tatsu::encodePdf(window.doc.pdf());
+                    const auto revision = window.doc.revision;
+                    const auto history = window.doc.history.size();
+                    auto previews = static_cast<tatsu::PagePreviews*>(window.pages);
+                    pages = window.doc.pages();
+                    for (int sequence = 0; sequence < pages; ++sequence)
+                    {
+                        const int page = cycle % 4 < 2 ? sequence : pages - sequence - 1;
+                        window.canvas->goToPage(page);
+                        ready(window.canvas);
+                        window.canvas->viewport()->repaint();
+                        idle(100);
+                        maxText = qMax(maxText, window.canvas->selectionCacheBytes());
+                        maxPreviews = qMax(maxPreviews, previews->cacheBytes());
+                        ++pagesVisited;
+                    }
+                    require(!window.doc.dirty() && window.doc.cursor == 0 &&
+                                window.doc.revision == revision &&
+                                window.doc.history.size() == history &&
+                                tatsu::encodePdf(window.doc.pdf()) == snapshot,
+                            "Reading changed document or Undo state");
+                    require(maxText <= 16 * 1024 * 1024 && maxPreviews <= 8 * 1024 * 1024,
+                            "Existing selection/preview cache limit exceeded");
+                    window.close();
+                }
             }
             QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
             idle(300);
-            require(tatsu::fileHash(source) == sourceHash, "Source PDF changed");
+            if (!name.isEmpty())
+                require(tatsu::fileHash(source) == sourceHash, "Source PDF changed");
             QJsonObject observation{{"cycle", ++cycle},
                                     {"file", name},
                                     {"pages", pages},
@@ -146,17 +129,41 @@ int main(int argc, char** argv)
                                     {"max_preview_cache_bytes", maxPreviews},
                                     {"document_and_Undo_unchanged", true}};
             if (qEnvironmentVariableIsSet("TATSU_HEAP_DIAGNOSTICS"))
-                observation.insert("heap_diagnostic", heapDiagnostic());
+                observation.insert("heap_diagnostic", tatsu::diagnostics::defaultHeap());
+            if (qEnvironmentVariableIsSet("TATSU_MEMORY_DIAGNOSTICS"))
+                observation.insert("memory_diagnostic", tatsu::diagnostics::memorySnapshot());
             observations.write(QJsonDocument(observation).toJson(QJsonDocument::Compact) + "\n");
             observations.flush();
         }
-        const QJsonObject result{{"status", "PASS"},
-                                 {"requested_seconds", seconds},
-                                 {"elapsed_ms", elapsed.elapsed()},
-                                 {"cycles", cycle},
-                                 {"pages_visited", pagesVisited},
-                                 {"scope", "Repeated product Window open/read/close, alternating "
-                                           "frozen digital/image PDFs; offscreen, no FPS claim"}};
+        QJsonObject result{{"status", "PASS"},
+                           {"requested_seconds", seconds},
+                           {"elapsed_ms", elapsed.elapsed()},
+                           {"cycles", cycle},
+                           {"pages_visited", pagesVisited},
+                           {"mode", mode},
+                           {"scope",
+                            "Product Window lifecycle with explicitly recorded mode; "
+                            "frozen digital/image PDFs where used, offscreen, no FPS claim"}};
+        reused.reset();
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+        idle(300);
+        if (qEnvironmentVariableIsSet("TATSU_PIXMAP_DIAGNOSTICS"))
+        {
+            result.insert("before_pixmap_clear", tatsu::diagnostics::memorySnapshot());
+            result.insert("before_pixmap_heap", tatsu::diagnostics::defaultHeap());
+            result.insert("pixmap_cache_limit_KiB", QPixmapCache::cacheLimit());
+            QPixmapCache::clear();
+            idle(300);
+            result.insert("after_pixmap_clear", tatsu::diagnostics::memorySnapshot());
+            result.insert("after_pixmap_heap", tatsu::diagnostics::defaultHeap());
+        }
+        if (qEnvironmentVariableIsSet("TATSU_TRIM_DIAGNOSTICS"))
+        {
+            result.insert("before_trim", tatsu::diagnostics::memorySnapshot());
+            result.insert("heap_trim", tatsu::diagnostics::trimHeapCaches());
+            idle(300);
+            result.insert("after_trim", tatsu::diagnostics::memorySnapshot());
+        }
         QFile report(output + "/result.json");
         require(report.open(QIODevice::WriteOnly), "Cannot write result");
         report.write(QJsonDocument(result).toJson());

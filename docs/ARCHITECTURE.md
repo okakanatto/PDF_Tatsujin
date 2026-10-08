@@ -42,6 +42,7 @@ flowchart TD
 | 宛先・しおり・ページラベルの読取 | `src/navigation.*` | 宛先を検証して値で渡す。無効参照を先頭へ代替せず、元の辞書で複合アクションを検出する |
 | しおりの階層・選択 | `src/bookmarks_panel.*` | revisionごとに更新し、長いタイトルで本文幅を変えない。閲覧でPDFを変更しない |
 | 閲覧位置・戻る／進むの履歴 | `src/view_state.h`、`src/view_history.*` | QWidget・PDF・編集Undoに依存しない値モデル。両方向を最大200件に制限し、新しい移動で先の履歴を破棄する |
+| 標準アイコンの共有 | `src/ui_icons.*` | 同じQStyle・アプリのパレットでは同じQIconエンジンを使う。スタイルの寿命・パレット変更を照合し、文書ごとの不要な画像キャッシュキーを増やさない |
 | 物理ページ入力・検証・フォーカス | `src/page_control.*` | 入力中の文字を表示更新で上書きしない。無効値を丸めず、確定要求だけWindowへ渡す |
 | 操作経路・文書ウィンドウ・OCR監督 | `src/window.*` | 起動・進捗・取消と表示を担当する。異常終了では文書へ反映しない |
 | OCRの入力スナップショット・完成結果の検証 | `src/ocr_job.*` | 私有領域と親ロックを一緒に所有。全結果を検証して値で返し、Documentへ直接commitしない |
@@ -79,6 +80,8 @@ RC4では、Windows AppContainerで通信権限をゼロにした実行経路も
 Qt 6.9.3のQProcessが使う通常の名前付きパイプはAppContainerで作成できません。`WorkerChannels`はこの場合だけ、同じ私有領域にstdin・進捗・エラーのファイルを用意し、100msのタイマーで進捗を読みます。1回の読取は64KiB、表示するエラーは500bytesに制限します。正常終了・revision・完成PDFを検査して取り込む境界は共通です。通信準備が成功してからbusyに入り、起動失敗時には無効なパイプを読まず、取消と未保存変更の保持へ戻します。通常の実行経路とQtのDLLは変更しません。[MicrosoftのIPC条件](https://learn.microsoft.com/en-us/windows/apps/develop/communication/interprocess-communication)、[固定QtのQProcess実装](https://github.com/qt/qtbase/blob/v6.9.3/src/corelib/io/qprocess_win.cpp)。
 
 ## 回帰しやすい箇所
+
+標準アイコンは文書ウィンドウごとに作り直さず共有します。左の閲覧履歴と集中表示のボタンはQActionからアイコンを継承し、個別の再生成を避けます。QStyleはQPointerで追跡し、パレットのcacheKeyも照合するため、別のスタイル・パレットで古い選択を再利用しません。画像の解像度・キャッシュ上限・PDF表示品質を下げる変更ではありません。[診断方法](design/MEMORY_DIAGNOSTICS.md)は製品の処理と分離しています。
 
 RC3の `device_image_decode` はCore DLL内で呼び出します。DeviceRGB／DeviceGrayとGeneric CMSの実型、8ビット、マスクなし、恒等Decode、入力長・strideを確認してRGB888へ展開します。その他の条件は上流の変換に戻します。`AdaptPdf4QtColorSpace.cmake` は色空間とCMSの固定ソースhashを検査し、ビルド領域だけの派生ソースへ呼出しを追加します。依存更新時はCMSの恒等性と例外条件を再確認してください。画素・解像度を減らす最適化ではありません。
 

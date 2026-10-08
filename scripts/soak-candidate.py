@@ -23,13 +23,42 @@ def main():
     parser.add_argument("--app-directory", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--seconds", type=int, default=900)
+    parser.add_argument(
+        "--source-commit",
+        help="Optional committed product/harness source to verify before launch",
+    )
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
+    source_commit = None
+    if args.source_commit:
+        source_commit = subprocess.check_output(
+            ["git", "rev-parse", args.source_commit + "^{commit}"], cwd=root, text=True
+        ).strip()
+        if subprocess.check_output(
+            [
+                "git",
+                "diff",
+                source_commit,
+                "--",
+                "src",
+                "tests",
+                "CMakeLists.txt",
+                "cmake",
+                "vendor",
+            ],
+            cwd=root,
+        ):
+            raise RuntimeError("Product/harness source differs from the stated commit")
     args.output.mkdir(exist_ok=False, parents=True)
     runner = args.output / "runner"
     runner.mkdir()
     executable = runner / args.harness.name
     shutil.copyfile(args.harness, executable)
+    harness_sources = {
+        name: sha256(root / "tests" / name)
+        for name in ("soak_test.cpp", "memory_diagnostics.cpp", "memory_diagnostics.h")
+    }
+    wrapper_sha = sha256(Path(__file__))
     product = args.app_directory.resolve()
     env = os.environ.copy()
     env.update(
@@ -77,6 +106,8 @@ def main():
             if process.returncode:
                 raise RuntimeError(f"Soak failed: {process.returncode}; inspect stderr")
     result = json.loads((args.output / "run/result.json").read_text(encoding="utf-8"))
+    if result.get("mode") != env.get("TATSU_SOAK_MODE", "mixed"):
+        raise RuntimeError("Soak mode did not match the requested workload")
     cycles = [
         json.loads(line)
         for line in (args.output / "run/cycles.jsonl")
@@ -89,6 +120,33 @@ def main():
             raise RuntimeError("Default-heap diagnosis did not complete every cycle")
     elif any(diagnostics):
         raise RuntimeError("Unexpected heap diagnostics in a normal soak")
+    memory_diagnostics = [c.get("memory_diagnostic") for c in cycles]
+    if "TATSU_MEMORY_DIAGNOSTICS" in env:
+        if not all(d and d.get("status") == "PASS" for d in memory_diagnostics):
+            raise RuntimeError(
+                "Own-process memory diagnosis did not complete every cycle"
+            )
+    elif any(memory_diagnostics):
+        raise RuntimeError("Unexpected memory diagnostics in a normal soak")
+    if "TATSU_TRIM_DIAGNOSTICS" in env:
+        if not all(
+            result.get(key, {}).get("status") == "PASS"
+            for key in ("before_trim", "heap_trim", "after_trim")
+        ):
+            raise RuntimeError("Heap-cache comparison did not complete")
+    elif any(key in result for key in ("before_trim", "heap_trim", "after_trim")):
+        raise RuntimeError("Unexpected heap-cache intervention in a normal soak")
+    pixmap_keys = (
+        "before_pixmap_clear",
+        "after_pixmap_clear",
+        "before_pixmap_heap",
+        "after_pixmap_heap",
+    )
+    if "TATSU_PIXMAP_DIAGNOSTICS" in env:
+        if not all(result.get(key, {}).get("status") == "PASS" for key in pixmap_keys):
+            raise RuntimeError("Pixmap-cache comparison did not complete")
+    elif any(key in result for key in pixmap_keys):
+        raise RuntimeError("Unexpected pixmap-cache intervention in a normal soak")
     idle_samples = []
     for cycle in cycles:
         preceding = [s for s in samples if s["unix_ms"] <= cycle["idle_unix_ms"]]
@@ -101,9 +159,14 @@ def main():
     result.update(
         executable_sha256=sha256(product / "PDFTatsujin.exe"),
         harness_sha256=sha256(executable),
-        harness_source_sha256=sha256(root / "tests/soak_test.cpp"),
-        wrapper_source_sha256=sha256(Path(__file__)),
+        harness_source_sha256=harness_sources["soak_test.cpp"],
+        harness_sources_sha256=harness_sources,
+        wrapper_source_sha256=wrapper_sha,
+        source_commit=source_commit,
         heap_diagnostics="TATSU_HEAP_DIAGNOSTICS" in env,
+        memory_diagnostics="TATSU_MEMORY_DIAGNOSTICS" in env,
+        trim_diagnostics="TATSU_TRIM_DIAGNOSTICS" in env,
+        pixmap_diagnostics="TATSU_PIXMAP_DIAGNOSTICS" in env,
         peak_RSS_bytes=max(s["rss"] for s in samples),
         peak_private_bytes=max(s["private"] for s in samples),
         peak_threads=max(s["threads"] for s in samples),

@@ -280,6 +280,7 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_initial_panels", [&] { return testReadingInitialPanels(fixtures, output); });
     run("Reading_compiler_startup", [&] { return testReadingCompilerStartup(fixtures, output); });
     run("Reading_image_navigation", [&] { return testReadingImageNavigation(fixtures, output); });
+    run("Reading_shared_icons", [&] { return testReadingIcons(); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

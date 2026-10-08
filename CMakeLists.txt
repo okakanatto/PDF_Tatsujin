@@ -64,6 +64,7 @@ add_library(tatsu_ui STATIC src/writing_panel.cpp src/text_font_picker.cpp src/w
 target_sources(tatsu_ui PRIVATE src/page_organizer.cpp src/window_pages.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
 target_sources(tatsu_ui PRIVATE src/view_history.cpp)
+target_sources(tatsu_ui PRIVATE src/ui_icons.cpp)
 target_sources(tatsu_ui PRIVATE src/annotation_panel.cpp src/window_annotations.cpp)
 target_link_libraries(tatsu_ui PUBLIC tatsu_document Pdf4QtLibWidgets Qt6::Widgets)
 
@@ -84,7 +85,7 @@ target_link_libraries(PDFTatsujinInteractionBenchmark PRIVATE tatsu_ui tatsu_ocr
 set_target_properties(PDFTatsujinInteractionBenchmark PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
-add_executable(PDFTatsujinSoakTest WIN32 EXCLUDE_FROM_ALL tests/soak_test.cpp)
+add_executable(PDFTatsujinSoakTest WIN32 EXCLUDE_FROM_ALL tests/soak_test.cpp tests/memory_diagnostics.cpp)
 target_link_libraries(PDFTatsujinSoakTest PRIVATE tatsu_ui)
 set_target_properties(PDFTatsujinSoakTest PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
