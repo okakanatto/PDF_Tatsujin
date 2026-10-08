@@ -1,6 +1,7 @@
 #include "selftest.h"
 #include "annotation_operations.h"
 #include "annotation_tests.h"
+#include "compact_viewer_tests.h"
 #include "font_tests.h"
 #include "form_fields.h"
 #include "form_tests.h"
@@ -13,6 +14,7 @@
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
+#include "save_candidate_tests.h"
 #include "search_tests.h"
 #include "selection_tests.h"
 #include "viewer_tests.h"
@@ -126,6 +128,7 @@ int selftest(const QString& fixtures, const QString& output)
     auto dest = [&](QString name) { return output + "/" + name; };
     run("Reading_device_image_decode", [&] { return testDeviceImageDecode(fixtures); });
     run("C07_OCR_job_cleanup", [&] { return testOcrJobCleanup(output); });
+    run("C07_save_candidate_cleanup", [&] { return testSaveCandidateCleanup(fixtures, output); });
     run("C07_LongPaths", [&] { return testLongWindowsPaths(fixtures, output); });
     run("A09_OCR_result_contract", [&] { return testOcrResultValidation(fixtures, output); });
     run("A09_OCR_window_teardown", [&] { return testOcrWindowTeardown(fixtures, output); });
@@ -281,6 +284,8 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_compiler_startup", [&] { return testReadingCompilerStartup(fixtures, output); });
     run("Reading_image_navigation", [&] { return testReadingImageNavigation(fixtures, output); });
     run("Reading_shared_icons", [&] { return testReadingIcons(); });
+    run("Reading_compact_layout", [&] { return testCompactViewer(fixtures, output); });
+    run("Reading_compact_OCR", [&] { return testCompactOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

@@ -5,6 +5,7 @@
 #include "pdfpainter.h"
 #include "pdfsecurityhandler.h"
 #include "private_temp.h"
+#include "save_candidate.h"
 #include "text_font.h"
 #include "windows_path.h"
 #include <windows.h>
@@ -282,10 +283,8 @@ void Document::save(const QString& path, const QByteArray& expected)
         baseline = sourceHash;
     if (fileHash(dest) != baseline)
         fail("保存先が外部で変更されたか、既に存在します。別の名前で保存してください。");
-    auto temp = privateTemporaryDirectory(QFileInfo(dest).absolutePath() + "/.pdf-tatsujin-XXXXXX");
-    if (!temp->isValid())
-        fail("保存先に一時領域を作成できません。");
-    QString tempPath = temp->filePath("candidate.pdf");
+    SaveCandidate candidate(QFileInfo(dest).absolutePath());
+    const auto tempPath = candidate.filePath();
     writeCandidate(pdf(), tempPath);
     if (fileHash(dest) != baseline)
         fail("保存先の外部変更を検出しました。");

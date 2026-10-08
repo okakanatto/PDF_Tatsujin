@@ -33,8 +33,10 @@ scripts/test-disk-full.ps1 -Mode Execute -OutputDirectory evidence/capacity-new-
 `--boundary candidate-created` と `--boundary candidate-written` を別々に実行できます。後者では候補の全バイトが事前検証したPDFと一致し、保存先をまだ置換していないことを確認します。開始した自身の実行ファイルとPIDを照合してから一時停止・終了し、新規宛先の不在と既存宛先のハッシュ・読み取り可能性を検証します。GUIや利用者の他のプロセスへ入力しません。
 
 ~~~powershell
-python scripts/test-save-interruption.py --harness build/app/bin/PDFTatsujinFilesystemProbe.exe --app-directory dist/PDFTatsujin-0.2.0-rc9-working --output evidence/save-created-new --boundary candidate-created
-python scripts/test-save-interruption.py --harness build/app/bin/PDFTatsujinFilesystemProbe.exe --app-directory dist/PDFTatsujin-0.2.0-rc9-working --output evidence/save-written-new --boundary candidate-written
+python scripts/test-save-interruption.py --harness build/app/bin/PDFTatsujinFilesystemProbe.exe --app-directory dist/PDFTatsujin-0.2.0-rc10-working --output evidence/save-created-new --boundary candidate-created --check-cleanup
+python scripts/test-save-interruption.py --harness build/app/bin/PDFTatsujinFilesystemProbe.exe --app-directory dist/PDFTatsujin-0.2.0-rc10-working --output evidence/save-written-new --boundary candidate-written --check-cleanup
 ~~~
 
-有限の観察で、停電・全タイミング・置換後の異常終了まで保証しません。プロセス終了後の未保存メモリの復旧も対象外です。強制終了では専用の一時候補フォルダが残るため、その実結果と保存した証拠を記録してください。通常の例外時の片付けと区別します。
+`--check-cleanup` は実際の終了後に、事前検証した合成PDFを別の保存先へ再保存し、再読込・外観・署名・元の保存先の保持を確認します。この保存は、[所有マーカーとプロセスロックによる整理](../design/SAVE_CANDIDATES.md)も通り、中断した候補だけが除去されたことを照合します。指定しない場合は中断候補を証拠として保持します。
+
+有限の観察で、停電・全タイミング・置換後の異常終了まで保証しません。プロセス終了後の未保存メモリの復旧も対象外です。強制終了直後に残る候補と、次回保存時の整理は、通常の例外時の片付けと区別して記録してください。旧版や識別できない候補は自動除去しません。

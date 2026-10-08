@@ -1,14 +1,11 @@
+#include "ui_widgets.h"
 #include "window.h"
 namespace tatsu
 {
 void Window::setupAnnotations()
 {
     annotationPanel = new AnnotationPanel(&doc, canvas);
-    auto scroll = new QScrollArea;
-    scroll->setWidgetResizable(true);
-    scroll->setFrameShape(QFrame::NoFrame);
-    scroll->setWidget(annotationPanel);
-    panels->addWidget(scroll);
+    panels->addWidget(scrollableSettings(annotationPanel));
     annotationPanel->changed = [this](PDFObjectReference reference) { refresh(false, reference); };
     annotationPanel->requestPlacement = [this](bool region)
     {

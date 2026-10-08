@@ -40,6 +40,11 @@ def main():
     parser.add_argument("--app-directory", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument(
+        "--check-cleanup",
+        action="store_true",
+        help="After termination, run the new owned-candidate cleanup and verify the destination.",
+    )
+    parser.add_argument(
         "--boundary",
         choices=("candidate-created", "candidate-written"),
         default="candidate-created",
@@ -73,6 +78,8 @@ def main():
             "tests/save_interruption_worker.cpp",
             "src/document.cpp",
             "src/pdf_io.cpp",
+            "src/save_candidate.cpp",
+            "src/private_temp.cpp",
         )
     }
     wrapper_hash = sha256(Path(__file__))
@@ -144,21 +151,56 @@ def main():
                     raise RuntimeError(
                         "Existing PDF is unreadable after interrupted save"
                     )
-                rows.append(
-                    {
-                        "case": case,
-                        "status": "PASS",
-                        "actual_owned_process_terminated": True,
-                        "boundary": args.boundary + "; destination not yet replaced",
-                        "complete_candidate_verified": args.boundary
-                        == "candidate-written",
-                        "candidate_bytes_at_suspension": candidate_bytes,
-                        "expected_pdf_bytes": prepared["expected_bytes"],
-                        "destination_sha256": sha256(destination),
-                        "destination_unchanged_or_absent": True,
-                        "orphan_private_candidate_retained": candidate.exists(),
-                    }
-                )
+                row = {
+                    "case": case,
+                    "status": "PASS",
+                    "actual_owned_process_terminated": True,
+                    "boundary": args.boundary + "; destination not yet replaced",
+                    "complete_candidate_verified": args.boundary == "candidate-written",
+                    "candidate_bytes_at_suspension": candidate_bytes,
+                    "expected_pdf_bytes": prepared["expected_bytes"],
+                    "destination_sha256": sha256(destination),
+                    "destination_unchanged_or_absent": True,
+                    "orphan_private_candidate_retained": candidate.exists(),
+                }
+                if args.check_cleanup:
+                    cleanup_report = work / "cleanup-result.json"
+                    subprocess.run(
+                        [
+                            str(executable),
+                            "--cleanup-save-candidates",
+                            str(work),
+                            str(cleanup_report),
+                        ],
+                        env=environment,
+                        stdout=subprocess.DEVNULL,
+                        stderr=errors,
+                        creationflags=subprocess.CREATE_NO_WINDOW,
+                        timeout=10,
+                        check=True,
+                    )
+                    cleanup = json.loads(cleanup_report.read_text(encoding="utf-8"))
+                    if (
+                        not cleanup["actual_save_retry_and_reopen"]
+                        or len(PdfReader(work / "retry.pdf").pages) != 8
+                        or sha256(work / "expected.pdf") != prepared["expected_sha256"]
+                    ):
+                        raise RuntimeError(
+                            "Actual save retry failed or changed the expected PDF"
+                        )
+                    if (
+                        cleanup["removed"] != [candidate.parent.name]
+                        or candidate.parent.exists()
+                    ):
+                        raise RuntimeError(
+                            "Interrupted owned candidate was not cleaned exactly"
+                        )
+                    if sha256(destination) != prepared["baseline_sha256"]:
+                        raise RuntimeError("Cleanup changed the saved destination")
+                    row["next_cleanup_removed_only_owned_candidate"] = True
+                    row["actual_save_retry_reopened_eight_pages"] = True
+                    row["orphan_private_candidate_retained"] = False
+                rows.append(row)
             finally:
                 if process.poll() is None:
                     if suspended:
@@ -181,8 +223,15 @@ def main():
             "all termination timings",
             "post-replacement crash",
         ],
-        "limits": "Unsaved in-memory work is not recovered after a crash. Private candidate "
-        "directories survive abrupt termination and are retained here as local test evidence.",
+        "cleanup_requested": args.check_cleanup,
+        "limits": (
+            "Unsaved in-memory work is not recovered after a crash. "
+            + (
+                "Only marked abandoned candidates were removed after actual termination."
+                if args.check_cleanup
+                else "Private candidates survive abrupt termination and are retained as evidence."
+            )
+        ),
     }
     (output / "result.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"

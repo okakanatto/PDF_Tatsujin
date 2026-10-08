@@ -2,6 +2,7 @@
 #include "page_previews.h"
 #include "pdfsecurityhandler.h"
 #include "ui_icons.h"
+#include "ui_widgets.h"
 #include <QtPrintSupport>
 
 namespace tatsu
@@ -10,7 +11,7 @@ Window::Window()
 {
     setWindowTitle("PDF達人 — 評価版");
     resize(1280, 850);
-    setMinimumSize(1024, 720);
+    setMinimumSize(800, 480);
     setAcceptDrops(true);
     canvas = new Canvas(&doc, this);
     documentArea = new QStackedWidget;
@@ -370,6 +371,7 @@ Window::Window()
                     ink = c;
             });
     auto place = new QPushButton("ページをクリックして配置");
+    place->setObjectName("placeSignature");
     place->setProperty("primary", true);
     sl->addWidget(place);
     connect(place, &QPushButton::clicked, this,
@@ -444,7 +446,7 @@ Window::Window()
     reuse->setMenu(reuseMenu);
     sl->addWidget(reuse);
     sl->addStretch();
-    panels->addWidget(sign);
+    panels->addWidget(scrollableSettings(sign));
     auto ocr = new QWidget;
     auto ol = new QVBoxLayout(ocr);
     ol->setContentsMargins(18, 16, 18, 18);
@@ -479,7 +481,7 @@ Window::Window()
     ol->addWidget(run);
     connect(run, &QPushButton::clicked, this, [this] { guard([&] { startOcr(); }); });
     ol->addStretch();
-    panels->addWidget(ocr);
+    panels->addWidget(scrollableSettings(ocr));
     setupWriting();
     setupOrganizer();
     setupAnnotations();
@@ -545,10 +547,8 @@ Window::Window()
     canvas->changed = [this] { refresh(); };
     canvas->draw = [this](QPointF start, QPointF finish)
     { guard([&] { refresh(false, annotationPanel->draw(start, finish)); }); };
-    status = new QLabel("PDFを開いてください");
-    status->setTextFormat(Qt::PlainText);
-    status->setMinimumWidth(0);
-    status->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+    status = new ElidedLabel("PDFを開いてください");
+    status->setObjectName("documentStatus");
     canvas->interactionCancelled = [this] { refreshStatus(); };
     canvas->escapeReading = [this] { setReadingMode(false); };
     canvas->toolChanged = [this]
@@ -558,9 +558,11 @@ Window::Window()
         refreshStatus();
     };
     statusBar()->addWidget(status, 1);
-    progress = new QLabel;
-    statusBar()->addWidget(progress);
+    progress = new ElidedLabel;
+    progress->setObjectName("operationProgress");
+    statusBar()->addWidget(progress, 1);
     cancel = new QPushButton("OCRを中止");
+    cancel->setObjectName("ocrCancel");
     statusBar()->addWidget(cancel);
     cancel->hide();
     connect(cancel, &QPushButton::clicked, this, &Window::stopOcr);
@@ -595,6 +597,7 @@ Window::Window()
     readingButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
     statusBar()->addPermanentWidget(readingButton);
     auto zoom = zoomControl = new QComboBox;
+    zoom->setObjectName("zoomControl");
     zoom->setEditable(true);
     zoom->lineEdit()->setReadOnly(true);
     zoom->addItems(

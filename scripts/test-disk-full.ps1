@@ -1,7 +1,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
     [ValidateSet('Check','Create','Execute')][string]$Mode = 'Check',
-    [string]$AppDirectory = 'dist/PDFTatsujin-0.2.0-rc9-working',
+    [string]$AppDirectory = 'dist/PDFTatsujin-0.2.0-rc10-working',
     [string]$Harness = 'build/app/bin/PDFTatsujinFilesystemProbe.exe'
 )
 $ErrorActionPreference = 'Stop'
@@ -139,6 +139,10 @@ try {
     Copy-Item -LiteralPath $taskHarness -Destination $taskExe
     $taskRecord.harness_sha256 = (Get-FileHash -LiteralPath $taskExe -Algorithm SHA256).Hash.ToLower()
     $taskRecord.product_exe_sha256 = (Get-FileHash -LiteralPath (Join-Path $taskProduct 'PDFTatsujin.exe') -Algorithm SHA256).Hash.ToLower()
+    $taskRecord.sources_sha256 = [ordered]@{}
+    foreach ($taskSource in @('tests/filesystem_probe.cpp','tests/disk_full_tests.cpp','src/document.cpp','src/save_candidate.cpp','src/private_temp.cpp','src/pdf_io.cpp')) {
+        $taskRecord.sources_sha256[$taskSource] = (Get-FileHash -LiteralPath (Join-Path $taskRoot $taskSource) -Algorithm SHA256).Hash.ToLower()
+    }
     $taskOldPath = $env:PATH
     $taskOldAssets = $env:TATSU_ASSETS
     $taskOldPlugins = $env:QT_PLUGIN_PATH

@@ -1,3 +1,4 @@
+#include "ui_widgets.h"
 #include "window.h"
 
 namespace tatsu
@@ -6,11 +7,7 @@ void Window::setupOrganizer()
 {
     organizer = new PageOrganizer(&doc);
     documentArea->addWidget(organizer);
-    auto scroll = new QScrollArea;
-    scroll->setWidgetResizable(true);
-    scroll->setFrameShape(QFrame::NoFrame);
-    scroll->setWidget(organizer->settings());
-    panels->addWidget(scroll);
+    panels->addWidget(scrollableSettings(organizer->settings()));
     organizer->returnToDocument = [this] { setOrganizing(false); };
     organizer->changed = [this](QVector<int> order)
     {

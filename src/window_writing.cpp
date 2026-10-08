@@ -1,3 +1,4 @@
+#include "ui_widgets.h"
 #include "window.h"
 
 namespace tatsu
@@ -10,8 +11,8 @@ void Window::setupWriting()
 {
     writingPanel = new WritingPanel(&doc, canvas, false);
     imageSignaturePanel = new WritingPanel(&doc, canvas, true);
-    panels->addWidget(writingPanel);
-    panels->addWidget(imageSignaturePanel);
+    panels->addWidget(scrollableSettings(writingPanel));
+    panels->addWidget(scrollableSettings(imageSignaturePanel));
     for (auto panel : {writingPanel, imageSignaturePanel})
     {
         panel->requestPlacement = [this]

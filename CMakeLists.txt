@@ -40,6 +40,7 @@ add_library(tatsu_document STATIC
     src/ocr_jobs.cpp
     src/ocr_job.cpp
     src/private_temp.cpp
+    src/save_candidate.cpp
     src/windows_path.cpp
     src/worker_channels.cpp
     src/image_overlay.cpp
@@ -65,6 +66,7 @@ target_sources(tatsu_ui PRIVATE src/page_organizer.cpp src/window_pages.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
 target_sources(tatsu_ui PRIVATE src/view_history.cpp)
 target_sources(tatsu_ui PRIVATE src/ui_icons.cpp)
+target_sources(tatsu_ui PRIVATE src/ui_widgets.cpp)
 target_sources(tatsu_ui PRIVATE src/annotation_panel.cpp src/window_annotations.cpp)
 target_link_libraries(tatsu_ui PUBLIC tatsu_document Pdf4QtLibWidgets Qt6::Widgets)
 
@@ -118,6 +120,8 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/image_decode_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/ocr_job_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/font_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/compact_viewer_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/save_candidate_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

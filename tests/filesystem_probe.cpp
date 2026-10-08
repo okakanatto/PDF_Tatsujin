@@ -1,5 +1,6 @@
 #include "disk_full_tests.h"
 #include "document.h"
+#include "save_candidate.h"
 #include "save_interruption_worker.h"
 #include "windows_path.h"
 #include <QScopeGuard>
@@ -100,6 +101,41 @@ int main(int argc, char** argv)
     try
     {
         const auto arguments = app.arguments();
+        if (arguments.size() == 4 && arguments[1] == "--cleanup-save-candidates")
+        {
+            const auto path = QFileInfo(arguments[2]).absoluteFilePath();
+            require(QFileInfo::exists(path + "/prepared.json") &&
+                        QFileInfo::exists(path + "/expected.pdf") &&
+                        QFileInfo::exists(path + "/begin"),
+                    "Cleanup probe requires the prepared owned interruption test");
+            const auto before = QDir(path).entryList(
+                {".pdf-tatsujin-save-*"}, QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot);
+            const auto expected = path + "/expected.pdf";
+            const auto original = tatsu::fileHash(expected);
+            tatsu::Document retry;
+            retry.open(expected);
+            const auto image = tatsu::renderPage(retry.pdf(), 0, 1);
+            const auto text = tatsu::signatures(retry.pdf(), 0).front().text;
+            retry.save(path + "/retry.pdf");
+            tatsu::Document reopened;
+            reopened.open(path + "/retry.pdf");
+            require(!retry.dirty() && reopened.pages() == retry.pages() &&
+                        tatsu::renderPage(reopened.pdf(), 0, 1) == image &&
+                        tatsu::signatures(reopened.pdf(), 0).front().text == text &&
+                        tatsu::fileHash(expected) == original,
+                    "Actual retry changed the expected PDF, appearance or editability");
+            QStringList removed;
+            for (const auto& name : before)
+                if (!QFileInfo::exists(path + "/" + name))
+                    removed.append(name);
+            QFile record(arguments[3]);
+            require(record.open(QIODevice::WriteOnly | QIODevice::NewOnly),
+                    "Cleanup report must be new");
+            record.write(QJsonDocument(QJsonObject{{"removed", QJsonArray::fromStringList(removed)},
+                                                   {"actual_save_retry_and_reopen", true}})
+                             .toJson());
+            return 0;
+        }
         const bool diskFull = arguments.size() == 5 && arguments[1] == "--disk-full";
         const bool interrupt = arguments.size() == 5 && arguments[1] == "--interrupt-save-worker";
         require(arguments.size() == 3 || diskFull || interrupt,
