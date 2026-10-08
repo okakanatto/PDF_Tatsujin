@@ -19,4 +19,6 @@
 
 ハーネス・診断ソース・ラッパーのハッシュを起動時に固定し、完了後の作業ツリーを過去のハーネスへ結び付けません。全開閉で有効な診断の完了を要求します。実行した負荷・回数・時間・版を報告し、有限の試験を全PDFでの漏れなしの保証とは呼びません。
 
+完了した通常試験には `python scripts/summarize-soak.py evidence/new-completed-run` を使えます。300 msの文書ウィンドウ破棄後の区間にあるサンプルだけを使い、5分ごとの中央値、最後の10分の中央値、開始15分後からの記述的な傾きをJSONとCSVへ出力します。傾きを新しい合否閾値にせず、起動時の増加と後半の変化を分けて解釈します。診断変数の有無・入力ハッシュ・解析ソースのハッシュも保持します。
+
 参照：[Microsoft VirtualQuery](https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualquery)、[HeapSetInformation](https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heapsetinformation)、[Qt QPixmapCache](https://doc.qt.io/qt-6/qpixmapcache.html)。

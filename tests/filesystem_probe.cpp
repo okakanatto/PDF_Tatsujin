@@ -1,4 +1,6 @@
+#include "disk_full_tests.h"
 #include "document.h"
+#include "save_interruption_worker.h"
 #include "windows_path.h"
 #include <QScopeGuard>
 #include <cstdio>
@@ -98,12 +100,28 @@ int main(int argc, char** argv)
     try
     {
         const auto arguments = app.arguments();
-        require(arguments.size() == 3, "Expected fixtures and new output directory");
-        const auto output = QFileInfo(arguments[2]).absoluteFilePath();
+        const bool diskFull = arguments.size() == 5 && arguments[1] == "--disk-full";
+        const bool interrupt = arguments.size() == 5 && arguments[1] == "--interrupt-save-worker";
+        require(arguments.size() == 3 || diskFull || interrupt,
+                "Expected fixtures/output, --disk-full fixtures/output/volume, or "
+                "--interrupt-save-worker fixtures/output/new|existing");
+        const bool worker = diskFull || interrupt;
+        const auto fixtureRoot = arguments[worker ? 2 : 1];
+        const auto output = QFileInfo(arguments[worker ? 3 : 2]).absoluteFilePath();
         require(!QFileInfo::exists(output) && QDir().mkpath(output), "Output must be new");
-        const auto fixture = arguments[1] + "/D01.pdf";
+        if (interrupt)
+        {
+            require(arguments[4] == "new" || arguments[4] == "existing", "Invalid worker case");
+            tatsu::saveInterruptionWorker(fixtureRoot, output, arguments[4] == "existing");
+            return 0;
+        }
+        const auto fixture = fixtureRoot + "/D01.pdf";
         const auto original = tatsu::fileHash(fixture);
-        QJsonArray tests{lockedSave(fixture, output, false), lockedSave(fixture, output, true)};
+        QJsonArray tests;
+        if (diskFull)
+            tests.append(tatsu::testDiskFullSave(fixtureRoot, arguments[4]));
+        else
+            tests = {lockedSave(fixture, output, false), lockedSave(fixture, output, true)};
         require(tatsu::fileHash(fixture) == original, "Frozen fixture changed");
         QJsonArray screens;
         for (auto screen : app.screens())
@@ -116,13 +134,16 @@ int main(int argc, char** argv)
         QFile report(output + "/filesystem-probe.json");
         require(report.open(QIODevice::WriteOnly), "Cannot write probe record");
         report.write(
-            QJsonDocument(QJsonObject{{"status", "PASS"},
-                                      {"tests", tests},
-                                      {"screens", screens},
-                                      {"platform", QGuiApplication::platformName()},
-                                      {"scope", "real Windows sharing locks and PDF API; "
-                                                "no window or GUI input; screen metadata "
-                                                "does not establish OS scaling acceptance"}})
+            QJsonDocument(
+                QJsonObject{{"status", "PASS"},
+                            {"tests", tests},
+                            {"screens", screens},
+                            {"platform", QGuiApplication::platformName()},
+                            {"scope", diskFull ? "real space-limited NTFS VHD and PDF API; "
+                                                 "no window or GUI input"
+                                               : "real Windows sharing locks and PDF API; "
+                                                 "no window or GUI input; screen metadata "
+                                                 "does not establish OS scaling acceptance"}})
                 .toJson());
         return 0;
     }
