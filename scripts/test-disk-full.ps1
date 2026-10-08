@@ -110,7 +110,7 @@ $taskCleanupErrors = @()
 function Get-OwnedCapacityDisk {
     $taskFound = @((Get-DiskImage -ImagePath $taskImage) | Get-Disk)
     if ($taskFound.Count -ne 1 -or $taskFound[0].Size -ne 67108864 -or
-        $taskFound[0].BusType -ne 'File Backed Virtual' -or $taskFound[0].IsBoot -or
+        $taskFound[0].CimInstanceProperties['BusType'].Value -ne 15 -or $taskFound[0].IsBoot -or
         $taskFound[0].IsSystem -or $taskFound[0].Number -in $taskExistingNumbers -or
         ($null -ne $taskNumber -and $taskFound[0].Number -ne $taskNumber)) {
         throw 'Refusing a disk which is not the newly attached owned 64 MiB VHD.'
