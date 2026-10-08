@@ -1,6 +1,9 @@
 #include "page_previews.h"
 #include "window.h"
 #include <cstdio>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
 namespace
 {
@@ -33,6 +36,44 @@ void idle(int milliseconds)
         QCoreApplication::processEvents();
         QThread::msleep(10);
     }
+}
+QJsonObject heapDiagnostic()
+{
+#ifdef Q_OS_WIN
+    // Inspect only the process default heap: third-party private heaps can be
+    // destroyed concurrently. Do not allocate/report while this heap is locked.
+    const auto heap = GetProcessHeap();
+    if (!HeapLock(heap))
+    {
+        const auto error = GetLastError();
+        return {{"status", "FAIL"}, {"lock_error", int(error)}};
+    }
+    PROCESS_HEAP_ENTRY entry{};
+    qint64 busyBytes = 0, freeBytes = 0, busyBlocks = 0;
+    while (HeapWalk(heap, &entry))
+    {
+        if (entry.wFlags & PROCESS_HEAP_ENTRY_BUSY)
+        {
+            busyBytes += entry.cbData;
+            ++busyBlocks;
+        }
+        else if (!(entry.wFlags & (PROCESS_HEAP_REGION | PROCESS_HEAP_UNCOMMITTED_RANGE)))
+            freeBytes += entry.cbData;
+    }
+    const auto error = GetLastError();
+    const bool unlocked = HeapUnlock(heap);
+    return {{"status", error == ERROR_NO_MORE_ITEMS && unlocked ? "PASS" : "FAIL"},
+            {"walk_error", int(error)},
+            {"heap_unlocked", unlocked},
+            {"default_heap_busy_bytes", busyBytes},
+            {"default_heap_free_bytes", freeBytes},
+            {"default_heap_busy_blocks", busyBlocks},
+            {"scope", "Default Win32 heap only, diagnostic harness. Includes runtime "
+                      "allocations; excludes other heaps and virtual mappings. Not "
+                      "a product performance or leak-freedom test."}};
+#else
+    return {{"status", "unsupported"}};
+#endif
 }
 } // namespace
 
@@ -96,14 +137,16 @@ int main(int argc, char** argv)
             QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
             idle(300);
             require(tatsu::fileHash(source) == sourceHash, "Source PDF changed");
-            const QJsonObject observation{{"cycle", ++cycle},
-                                          {"file", name},
-                                          {"pages", pages},
-                                          {"at_ms", elapsed.elapsed()},
-                                          {"idle_unix_ms", QDateTime::currentMSecsSinceEpoch()},
-                                          {"max_text_cache_bytes", maxText},
-                                          {"max_preview_cache_bytes", maxPreviews},
-                                          {"document_and_Undo_unchanged", true}};
+            QJsonObject observation{{"cycle", ++cycle},
+                                    {"file", name},
+                                    {"pages", pages},
+                                    {"at_ms", elapsed.elapsed()},
+                                    {"idle_unix_ms", QDateTime::currentMSecsSinceEpoch()},
+                                    {"max_text_cache_bytes", maxText},
+                                    {"max_preview_cache_bytes", maxPreviews},
+                                    {"document_and_Undo_unchanged", true}};
+            if (qEnvironmentVariableIsSet("TATSU_HEAP_DIAGNOSTICS"))
+                observation.insert("heap_diagnostic", heapDiagnostic());
             observations.write(QJsonDocument(observation).toJson(QJsonDocument::Compact) + "\n");
             observations.flush();
         }

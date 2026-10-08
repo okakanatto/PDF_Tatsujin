@@ -83,6 +83,12 @@ def main():
         .read_text(encoding="utf-8")
         .splitlines()
     ]
+    diagnostics = [c.get("heap_diagnostic") for c in cycles]
+    if "TATSU_HEAP_DIAGNOSTICS" in env:
+        if not all(d and d.get("status") == "PASS" for d in diagnostics):
+            raise RuntimeError("Default-heap diagnosis did not complete every cycle")
+    elif any(diagnostics):
+        raise RuntimeError("Unexpected heap diagnostics in a normal soak")
     idle_samples = []
     for cycle in cycles:
         preceding = [s for s in samples if s["unix_ms"] <= cycle["idle_unix_ms"]]
@@ -95,6 +101,9 @@ def main():
     result.update(
         executable_sha256=sha256(product / "PDFTatsujin.exe"),
         harness_sha256=sha256(executable),
+        harness_source_sha256=sha256(root / "tests/soak_test.cpp"),
+        wrapper_source_sha256=sha256(Path(__file__)),
+        heap_diagnostics="TATSU_HEAP_DIAGNOSTICS" in env,
         peak_RSS_bytes=max(s["rss"] for s in samples),
         peak_private_bytes=max(s["private"] for s in samples),
         peak_threads=max(s["threads"] for s in samples),
