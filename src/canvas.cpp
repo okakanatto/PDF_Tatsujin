@@ -318,7 +318,27 @@ void Canvas::restoreAnchor(const ViewAnchor& position)
     const auto point = pdfToViewport(position.page, position.point);
     const QPointF target(viewport()->width() * position.ratio.x(),
                          viewport()->height() * position.ratio.y());
+    const bool wasUpdating = d->updating;
+    d->updating = true;
     d->proxy->scrollByPixels((target - point).toPoint());
+    if (d->fit && position.page == d->fitReference)
+    {
+        const auto snapshot = d->proxy->getSnapshot();
+        if (const auto item = snapshot.getPageSnapshot(position.page))
+        {
+            // Preserve the reading point as far as possible, but do not crop
+            // a reference page that fits after a layout change. Scrolling to
+            // other pages never changes the fit reference or jumps back here.
+            const auto bounds = item->rect;
+            QPointF correction;
+            if (bounds.width() <= viewport()->width())
+                correction.setX(qBound(-bounds.left(), 0.0, viewport()->width() - bounds.right()));
+            if (d->fit == 2 && bounds.height() <= viewport()->height())
+                correction.setY(qBound(-bounds.top(), 0.0, viewport()->height() - bounds.bottom()));
+            d->proxy->scrollByPixels(correction.toPoint());
+        }
+    }
+    d->updating = wasUpdating;
     updateView(true);
 }
 QPointF Canvas::pdfToViewport(int number, QPointF point) const
@@ -738,12 +758,18 @@ void Canvas::updateAutoScroll()
     else
         d->autoScroll.stop();
 }
-void Canvas::applyZoom(double value, const ViewAnchor& position)
+void Canvas::applyZoom(double value, const ViewAnchor& position, ZoomPolicy policy)
 {
     ++d->viewEpoch;
     const bool wasUpdating = d->updating;
     d->updating = true;
-    d->proxy->zoom(qBound(.25, value, 4.0));
+    // Fitting, PDF destinations and history can legitimately be outside the
+    // manual control range. The renderer retains its own safety bounds.
+    if (policy == ZoomPolicy::Manual)
+        value = qBound(.25, value, 4.0);
+    else if (policy == ZoomPolicy::Relative)
+        value = qBound(qMin(.25, zoom), value, qMax(4.0, zoom));
+    d->proxy->zoom(value);
     restoreAnchor(position);
     d->updating = wasUpdating;
     updateView(true);
@@ -754,13 +780,21 @@ void Canvas::setZoom(double value)
     if (d->dragging || d->selecting || d->panning || d->pressedLink)
         cancelInteraction();
     d->fit = 0;
-    applyZoom(value, position);
+    applyZoom(value, position, ZoomPolicy::Manual);
+}
+void Canvas::zoomBy(double factor, const ViewAnchor& position)
+{
+    if (d->dragging || d->selecting || d->panning || d->pressedLink)
+        cancelInteraction();
+    d->fit = 0;
+    // A fit outside the manual range must never make +/- reverse direction.
+    applyZoom(zoom * factor, position, ZoomPolicy::Relative);
 }
 void Canvas::applyFit(const ViewAnchor& position)
 {
     const auto hint =
         d->fit == 2 ? PDFDrawWidgetProxy::ZoomHint::Fit : PDFDrawWidgetProxy::ZoomHint::FitWidth;
-    applyZoom(d->proxy->getZoomHintForPage(hint, d->fitReference), position);
+    applyZoom(d->proxy->getZoomHintForPage(hint, d->fitReference), position, ZoomPolicy::Automatic);
 }
 void Canvas::fitWidth()
 {
@@ -833,7 +867,8 @@ void Canvas::goToDestination(const NavigationTarget& target)
         break;
     case DestinationType::FitV:
         applyZoom(
-            d->proxy->getZoomHintForPage(PDFDrawWidgetProxy::ZoomHint::FitHeight, target.page), {});
+            d->proxy->getZoomHintForPage(PDFDrawWidgetProxy::ZoomHint::FitHeight, target.page), {},
+            ZoomPolicy::Automatic);
         restoreAnchor({target.page,
                        {destination.hasLeft() ? destination.getLeft() : previous.point.x(),
                         crop.center().y()},
@@ -847,7 +882,7 @@ void Canvas::goToDestination(const NavigationTarget& target)
         if (actual.width() > 0 && actual.height() > 0)
             applyZoom(zoom * qMin(viewport()->width() * .96 / actual.width(),
                                   viewport()->height() * .96 / actual.height()),
-                      {target.page, rectangle.center(), {.5, .5}});
+                      {target.page, rectangle.center(), {.5, .5}}, ZoomPolicy::Automatic);
         break;
     }
     case DestinationType::XYZ:
@@ -855,7 +890,7 @@ void Canvas::goToDestination(const NavigationTarget& target)
         const QPointF point(destination.hasLeft() ? destination.getLeft() : previous.point.x(),
                             destination.hasTop() ? destination.getTop() : previous.point.y());
         applyZoom(destination.hasZoom() && destination.getZoom() > 0 ? destination.getZoom() : zoom,
-                  {target.page, point, {0, 0}});
+                  {target.page, point, {0, 0}}, ZoomPolicy::Automatic);
         break;
     }
     default:
@@ -883,7 +918,7 @@ void Canvas::restoreView(const ViewState& state)
     if (d->fit)
         applyFit(state.anchor);
     else
-        applyZoom(state.zoom, state.anchor);
+        applyZoom(state.zoom, state.anchor, ZoomPolicy::Automatic);
 }
 void Canvas::showSearchMatch(const SearchMatch& match)
 {
@@ -1277,9 +1312,8 @@ bool Canvas::eventFilter(QObject* watched, QEvent* event)
         {
             auto position = anchor({wheel->position().x() / viewport()->width(),
                                     wheel->position().y() / viewport()->height()});
-            d->fit = 0;
             cancelInteraction();
-            applyZoom(zoom * std::pow(1.2, wheel->angleDelta().y() / 120.0), position);
+            zoomBy(std::pow(1.2, wheel->angleDelta().y() / 120.0), position);
             return true;
         }
         if (!wheel->pixelDelta().isNull())
@@ -1391,7 +1425,7 @@ void Canvas::keyPressEvent(QKeyEvent* event)
           (event->modifiers() & ~Qt::ShiftModifier) == Qt::ControlModifier)))
     {
         const bool out = event->matches(QKeySequence::ZoomOut);
-        setZoom(out ? zoom / 1.2 : zoom * 1.2);
+        zoomBy(out ? 1 / 1.2 : 1.2, anchor());
         event->accept();
         return;
     }

@@ -6,6 +6,7 @@
 #include "form_fields.h"
 #include "form_tests.h"
 #include "image_decode_tests.h"
+#include "layout_transition_tests.h"
 #include "navigation_tests.h"
 #include "ocr_job_tests.h"
 #include "page_operations.h"
@@ -286,6 +287,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_shared_icons", [&] { return testReadingIcons(); });
     run("Reading_compact_layout", [&] { return testCompactViewer(fixtures, output); });
     run("Reading_compact_OCR", [&] { return testCompactOcr(fixtures, output); });
+    run("Reading_layout_transitions", [&] { return testLayoutTransitions(fixtures, output); });
+    run("Reading_resize_navigation_input",
+        [&] { return testResizeNavigationInput(fixtures, output); });
+    run("Reading_automatic_fit", [&] { return testAutomaticFit(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

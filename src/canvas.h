@@ -85,8 +85,15 @@ private:
     void updateAutoScroll();
     struct Impl;
     std::unique_ptr<Impl> d;
+    enum class ZoomPolicy
+    {
+        Manual,
+        Relative,
+        Automatic
+    };
     void updateView(bool force = false);
-    void applyZoom(double value, const ViewAnchor& position);
+    void applyZoom(double value, const ViewAnchor& position, ZoomPolicy policy);
+    void zoomBy(double factor, const ViewAnchor& position);
     void applyFit(const ViewAnchor& position);
     void mousePress(QMouseEvent*);
     void mouseDoubleClick(QMouseEvent*);
