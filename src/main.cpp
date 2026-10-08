@@ -11,6 +11,7 @@ int main(int argc, char** argv)
     app.setApplicationName("PDFTatsujin");
     app.setApplicationVersion("0.2.0-rc6");
     app.setOrganizationName("PDFTatsujin");
+    const auto args = app.arguments();
     try
     {
         // Use the shipped family for controls as well as PDF text. This keeps
@@ -19,10 +20,13 @@ int main(int argc, char** argv)
     }
     catch (const std::exception& e)
     {
-        QMessageBox::critical(nullptr, "起動エラー", QString::fromUtf8(e.what()));
+        fprintf(stderr, "%s\n", e.what());
+        // Worker/diagnostic failures must exit rather than wait on a hidden dialog.
+        if (args.size() < 2 ||
+            !QStringList{"--ocr-worker", "--selftest", "--measure"}.contains(args[1]))
+            QMessageBox::critical(nullptr, "起動エラー", QString::fromUtf8(e.what()));
         return 1;
     }
-    auto args = app.arguments();
     if (args.size() > 1 && args[1] == "--ocr-worker")
         return tatsu::ocrWorker(args.mid(1));
     tatsu::cleanAbandonedOcrJobs(QDir::tempPath());

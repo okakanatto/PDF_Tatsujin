@@ -222,6 +222,11 @@ int ocrWorker(const QStringList& args)
         if (api.Init(models.constData(), 0, lang.toLatin1().constData(), tesseract::OEM_LSTM_ONLY,
                      nullptr, 0, nullptr, nullptr, false, readOcrModel) != 0)
             fail("OCRモデルの初期化に失敗しました。");
+        std::vector<std::string> loaded;
+        api.GetLoadedLanguagesAsVector(&loaded);
+        for (const auto& requested : lang.split('+'))
+            if (std::find(loaded.begin(), loaded.end(), requested.toStdString()) == loaded.end())
+                fail("指定したOCR言語のモデルを読み込めません。結果は反映しません。");
         api.SetPageSegMode(tesseract::PSM_AUTO);
         api.SetVariable("user_defined_dpi", "300");
         api.SetVariable("preserve_interword_spaces", "1");
