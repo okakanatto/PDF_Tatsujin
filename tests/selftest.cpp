@@ -273,6 +273,7 @@ int selftest(const QString& fixtures, const QString& output)
     run("Navigation_bookmarks", [&] { return testNavigationBookmarks(fixtures, output); });
     run("Navigation_links", [&] { return testNavigationLinks(fixtures, output); });
     run("Navigation_lifecycle", [&] { return testNavigationLifecycle(fixtures, output); });
+    run("Navigation_history", [&] { return testViewHistory(); });
     run("Reading_page_input", [&] { return testReadingPageInput(fixtures, output); });
     run("Reading_focus_layout", [&] { return testReadingLayout(fixtures, output); });
     run("Reading_OCR_cancel", [&] { return testReadingOcrCancel(fixtures, output); });

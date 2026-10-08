@@ -63,6 +63,7 @@ target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtess
 add_library(tatsu_ui STATIC src/writing_panel.cpp src/text_font_picker.cpp src/window_writing.cpp src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp src/page_previews.cpp src/preview_raster.cpp)
 target_sources(tatsu_ui PRIVATE src/page_organizer.cpp src/window_pages.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
+target_sources(tatsu_ui PRIVATE src/view_history.cpp)
 target_sources(tatsu_ui PRIVATE src/annotation_panel.cpp src/window_annotations.cpp)
 target_link_libraries(tatsu_ui PUBLIC tatsu_document Pdf4QtLibWidgets Qt6::Widgets)
 

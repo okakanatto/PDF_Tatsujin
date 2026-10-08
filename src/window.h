@@ -6,6 +6,7 @@
 #include "page_control.h"
 #include "page_organizer.h"
 #include "search_panel.h"
+#include "view_history.h"
 #include "worker_channels.h"
 #include "writing_panel.h"
 #include <QtWidgets>
@@ -69,13 +70,7 @@ private:
     QAction* forwardView;
     QShortcut* backShortcut;
     QShortcut* forwardShortcut;
-    struct HistoryEntry
-    {
-        ViewState view;
-        QString query;
-        quint64 revision;
-    };
-    QVector<HistoryEntry> backHistory, forwardHistory;
+    ViewHistory viewHistory;
     QAction* printAction;
     QAction* selectToolAction;
     QAction* handToolAction;

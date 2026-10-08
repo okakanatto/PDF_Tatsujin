@@ -2,11 +2,11 @@
 
 PDFを読み、申込書へ書き込み、署名や注釈を加え、ページを整理し、日英スキャンを検索できるPDFにするWindowsデスクトップアプリです。文書処理はローカルで行います。自作コードは[MIT](LICENSE)、依存部品はそれぞれのライセンスです。
 
-現在は **0.2.0-rc6 評価版**です。Meiryo UIを含む書体選択を維持し、長い日本語パスでの保存・OCRと資材不足時の失敗処理を改善しました。全75件の回帰、通信権限ゼロの9件、Qtの3倍率で各14件、独立PDF検査と5分／2,400ページの閲覧を実行しました。[最新の結果と制約](M3_RC6_REPORT.md) · [ロードマップ](ROADMAP.md) · [構成](docs/ARCHITECTURE.md) · [開発手順](docs/DEVELOPMENT.md) · [貢献方法](CONTRIBUTING.md)。初版はAcrobat代替へ向けた最初の出荷範囲です。全機能同等・操作性の優越は未実証です。
+現在は **0.2.0-rc8 評価版**の開発段階です。Meiryo UIを含む書体選択、長い日本語パス、OCR結果の一括反映を扱い、閲覧履歴を独立したモデルに整理しています。[ロードマップ](ROADMAP.md) · [構成](docs/ARCHITECTURE.md) · [開発手順](docs/DEVELOPMENT.md) · [貢献方法](CONTRIBUTING.md)。実行結果は候補版ごとの報告に記録します。初版はAcrobat代替へ向けた最初の出荷範囲です。全機能同等・操作性の優越は未実証です。
 
 ## 起動
 
-この作業環境の評価版は `dist/PDFTatsujin-0.2.0-rc6-final/PDFTatsujin.exe` です。ZIPは全体を短いフォルダへ展開し、そのフォルダのexeを起動します。DLL、plugins、assets、licensesが必要です。日本語フォントと日英OCRモデルを同梱しており、通常利用にPythonやTesseractの追加インストールは不要です。GitHubではソースを管理しています。バイナリの公開は配布主体のMSVC再配布資格の確認待ち、正式な一般配布品質の合格は未宣言です。[初見試用の記録欄](docs/testing/M3_FIRST_USE.md)。
+配布ZIPは全体をフォルダへ展開し、展開先の `PDFTatsujin.exe` を起動します。このREADMEと同じフォルダにexeがある場合は、そのexeを使ってください。exeだけを移動せず、DLL、plugins、assets、licensesも保持します。ソースチェックアウトからのビルドは[開発手順](docs/DEVELOPMENT.md)を参照してください。日本語フォントと日英OCRモデルを同梱しており、通常利用にPythonやTesseractの追加インストールは不要です。GitHubではソースを管理しています。バイナリの公開は配布主体のMSVC再配布資格の確認待ち、正式な一般配布品質の合格は未宣言です。[初見試用の記録欄](docs/testing/M3_FIRST_USE.md)。
 
 ## できること
 
@@ -30,6 +30,6 @@ OCRの基準試験は鮮明な横書きの印刷文字です。古い縦書き�
 
 `fixtures/D01.pdf` は日本語・英語のデジタル文書、`D03.pdf` は日英の画像文書8ページ、`D07.pdf` は標準フォームです。合成入力と正解は固定しています。`fixtures/real-scans/manifest.json` に、実スキャンの出典・再利用条件・ハッシュとOCR前に固定した正解を記録しています。
 
-[SPEC.md](SPEC.md)、[TECH.md](TECH.md)、[ACCEPTANCE.md](ACCEPTANCE.md) が要件・試験契約です。[M1_REPORT.md](M1_REPORT.md)、[RC2の報告](M3_REPORT.md)、[RC3の報告](M3_RC3_REPORT.md)、[RC4の報告](M3_RC4_REPORT.md)、[RC5の報告](M3_RC5_REPORT.md)と `docs/testing/M1_*.md` は過去版の証拠を保持します。最新の成果物と判断は [RC6の報告](M3_RC6_REPORT.md) に集約します。ソースCIは整形・固定入力・依存版を検査し、Windowsでの実行試験を代替しません。
+[SPEC.md](SPEC.md)、[TECH.md](TECH.md)、[ACCEPTANCE.md](ACCEPTANCE.md) が要件・試験契約です。[M1_REPORT.md](M1_REPORT.md)、[RC2の報告](M3_REPORT.md)、[RC3の報告](M3_RC3_REPORT.md)、[RC4の報告](M3_RC4_REPORT.md)、[RC5の報告](M3_RC5_REPORT.md)、[RC6の報告](M3_RC6_REPORT.md)と `docs/testing/M1_*.md` は各版の証拠を保持します。報告の測定結果は記載された候補版にだけ適用し、ソースの現在版へ引き継いだ結果として扱いません。ソースCIは整形・固定入力・依存版を検査し、Windowsでの実行試験を代替しません。
 
 プロジェクトの保存量上限は20GBです。依存・ビルド・配布物・証拠を含めて計測します。PDF4QTはMIT、TesseractとモデルはApache-2.0、NotoはOFL、Qtは動的リンクのLGPL-3.0構成です。[第三者部品の扱い](docs/THIRD_PARTY.md)を参照してください。

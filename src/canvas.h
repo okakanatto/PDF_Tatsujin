@@ -2,25 +2,13 @@
 #include "document.h"
 #include "navigation.h"
 #include "search_session.h"
+#include "view_state.h"
 #include <QtWidgets>
 #include <functional>
 #include <memory>
 
 namespace tatsu
 {
-struct ViewAnchor
-{
-    int page = -1;
-    QPointF point;
-    QPointF ratio{.5, .5};
-};
-struct ViewState
-{
-    ViewAnchor anchor;
-    double zoom = 1;
-    int fitMode = 0, fitReference = 0;
-    quint64 activeSearch = 0;
-};
 class Canvas : public QWidget
 {
 public:

@@ -304,9 +304,7 @@ Window::Window()
         const auto before = canvas->viewState();
         canvas->goToPage(row);
         const auto after = canvas->viewState();
-        if (before.anchor.page != after.anchor.page ||
-            QLineF(before.anchor.point, after.anchor.point).length() > .5 ||
-            qAbs(before.zoom - after.zoom) > .001 || before.fitMode != after.fitMode)
+        if (!before.samePosition(after))
             rememberView(before);
     };
     connect(pages, &QListWidget::currentRowChanged, this,
@@ -821,8 +819,7 @@ void Window::openFile(const QString& path)
     bookmarksPanel->reset();
     canvas->selected = -1;
     query->clear();
-    backHistory.clear();
-    forwardHistory.clear();
+    viewHistory.clear();
     updateHistoryActions();
     refresh(true);
     // Finish the first layout before choosing the initial reading position.
@@ -891,18 +888,7 @@ void Window::rememberView()
 }
 void Window::rememberView(const ViewState& state)
 {
-    if (state.anchor.page < 0)
-        return;
-    if (backHistory.isEmpty() || backHistory.back().view.anchor.page != state.anchor.page ||
-        QLineF(backHistory.back().view.anchor.point, state.anchor.point).length() > .5 ||
-        qAbs(backHistory.back().view.zoom - state.zoom) > .001 ||
-        backHistory.back().view.fitMode != state.fitMode ||
-        backHistory.back().view.activeSearch != state.activeSearch ||
-        backHistory.back().query != query->text() || backHistory.back().revision != doc.revision)
-        backHistory.append({state, query->text(), doc.revision});
-    if (backHistory.size() > 200)
-        backHistory.removeFirst();
-    forwardHistory.clear();
+    viewHistory.remember({state, query->text(), doc.revision});
     updateHistoryActions();
 }
 void Window::navigateTarget(const NavigationTarget& target)
@@ -923,34 +909,30 @@ void Window::navigateTarget(const NavigationTarget& target)
     ++layoutGeneration;
     canvas->goToDestination(resolved);
     const auto after = canvas->viewState();
-    if (before.anchor.page != after.anchor.page ||
-        QLineF(before.anchor.point, after.anchor.point).length() > .5 ||
-        qAbs(before.zoom - after.zoom) > .001 || before.fitMode != after.fitMode)
+    if (!before.samePosition(after))
         rememberView(before);
     canvas->setFocus();
     statusBar()->showMessage(pageDescription(resolved.page, pageLabels) + "へ移動しました", 4000);
 }
 void Window::moveHistory(bool forward)
 {
-    auto& source = forward ? forwardHistory : backHistory;
-    auto& target = forward ? backHistory : forwardHistory;
-    if (!doc.loaded() || source.isEmpty())
+    if (!doc.loaded())
+        return;
+    const auto destination =
+        viewHistory.move(forward ? ViewHistory::Direction::Forward : ViewHistory::Direction::Back,
+                         {canvas->viewState(), query->text(), doc.revision});
+    if (!destination)
         return;
     initialPagePending = false;
     ++layoutGeneration;
-    target.append({canvas->viewState(), query->text(), doc.revision});
-    auto destination = source.takeLast();
-    canvas->restoreView(destination.view);
-    searchPanel->restoreActive(destination.query == query->text() &&
-                                       destination.revision == doc.revision
-                                   ? destination.view.activeSearch
-                                   : 0);
+    canvas->restoreView(destination->view);
+    searchPanel->restoreActive(destination->activeSearchFor(query->text(), doc.revision));
     updateHistoryActions();
 }
 void Window::updateHistoryActions()
 {
-    backView->setEnabled(doc.loaded() && !backHistory.isEmpty());
-    forwardView->setEnabled(doc.loaded() && !forwardHistory.isEmpty());
+    backView->setEnabled(doc.loaded() && viewHistory.canMove(ViewHistory::Direction::Back));
+    forwardView->setEnabled(doc.loaded() && viewHistory.canMove(ViewHistory::Direction::Forward));
     QWidget* focus = QApplication::focusWidget();
     const bool editing = qobject_cast<QLineEdit*>(focus) || qobject_cast<QPlainTextEdit*>(focus) ||
                          qobject_cast<QTextEdit*>(focus) || qobject_cast<QAbstractSpinBox*>(focus);
