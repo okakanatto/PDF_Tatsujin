@@ -219,3 +219,24 @@ Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
 Windowsバックエンドの最後の検査は文書処理のみで可視ウィンドウを出しません。ネイティブIME試験ではありません。全回帰は通常のWindows利用者環境で74件PASS。独立した書体検査は9書体の保存・再編集後18PDFで、埋め込み書体・Unicodeマップ・権利フラグを検査し、PDFium・Popplerで描画しました。
 
 制限付きシェルでは一時ファイル利用2件とWebDriverの接続が拒否されたため、通常ユーザー環境で再実行しました。通信権限ゼロのAppContainerでは長い検証先の一時領域作成がWindowsエラー206になり、短い専用先で同じ8件を完了しました。途中結果と最終結果を混ぜません。詳細と未実行項目は [RC5報告](../M3_RC5_REPORT.md)。
+
+## RC6の実行記録
+
+2026-10-08。RC5の検証済み配布構成を複製し、静的文書・OCRコードを含む再ビルド済みexeを差し替えました。DLL・資材・通知とDesktop Release CRTを改めて監査しています。新しい開発環境からの梱包は既存の `build.ps1`／`package.ps1` の経路を使用します。以下は今回実際に実行した検査です。証拠先を上書きせず、新しい名前で再実行してください。
+
+```powershell
+& scripts/build.ps1
+$env:TATSU_UI_REVIEW = '1'
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+& scripts/test-windows-errors.ps1 -IncludeNativePrinter -AppDirectory dist/PDFTatsujin-0.2.0-rc6-working-r2 -OutputDirectory evidence/m3-rc6-final-regression-20261008
+python scripts/evaluate.py evidence/m3-rc6-final-regression-20261008
+python scripts/evaluate-m2.py evidence/m3-rc6-final-regression-20261008
+python scripts/evaluate-fonts.py evidence/m3-rc6-final-regression-20261008
+python scripts/test-assets.py --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --output evidence/m3-rc6-assets-r3-20261008
+python scripts/test-no-network.py --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --probe build/app/bin/PDFTatsujinNetworkProbe.exe --output evidence/m3-rc6-final-network-20261008 --with-long-paths
+python scripts/measure-candidate.py --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --output evidence/m3-rc6-final-performance-r2-20261008
+& scripts/build.ps1 -Target PDFTatsujinSoakTest
+python scripts/soak-candidate.py --harness build/app/bin/PDFTatsujinSoakTest.exe --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --output evidence/m3-rc6-final-soak-20261008 --seconds 300
+```
+
+資材異常試験の期待値は、既存APIのOCRワーカー失敗終了2、起動時フォント失敗終了1です。精度の正解・閾値とは別に固定しています。起動計測はQt初期化後の `first_readable_ms` と、起動前から完全な最初のPNGを観測する `startup_capture_complete_ms` を区別します。後者はキャプチャ保存も含む上限の観測で、物理表示遅延ではありません。試験中の候補は変更せず、exe・ハーネスのSHAを確認します。RC6の最終版の連続試験は5分です。[結果と制約](../M3_RC6_REPORT.md)。

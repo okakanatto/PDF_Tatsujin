@@ -44,6 +44,7 @@ def main():
         "runs_per_case": 3,
         "memory_scope": "parent plus recursive OCR children, sampled every 20ms",
         "mode": "Windows real Qt application, offscreen; OS file cache not cleared",
+        "timing_scope": "first_readable_ms starts after QApplication/font initialization. startup_capture_complete_ms starts before process launch, includes PNG encoding/writing, and is an observed upper bound sampled every 20ms; neither is physical-display latency.",
         "unexecuted": ["physical-display FPS", "Acrobat comparison", "hours-long soak"],
         "cases": {},
     }
@@ -51,6 +52,10 @@ def main():
     def run(arguments, case_env):
         started = time.perf_counter()
         samples = []
+        capture = (
+            Path(str(arguments[-1]) + ".png") if arguments[0] == "--measure" else None
+        )
+        capture_ms = None
         with subprocess.Popen(
             [str(executable), *map(str, arguments)],
             env=case_env,
@@ -76,16 +81,30 @@ def main():
                     )
                 except psutil.Error:
                     pass
+                if capture is not None and capture_ms is None:
+                    try:
+                        with capture.open("rb") as screenshot:
+                            screenshot.seek(-12, os.SEEK_END)
+                            if (
+                                screenshot.read()
+                                == b"\x00\x00\x00\x00IEND\xaeB\x60\x82"
+                            ):
+                                capture_ms = (time.perf_counter() - started) * 1000
+                    except OSError:
+                        pass
                 time.sleep(0.02)
             _, error = process.communicate()
         if process.returncode or not samples:
             raise RuntimeError(
                 f"Measurement failed {process.returncode}: {error.decode('utf-8', 'replace')}"
             )
+        if capture is not None and capture_ms is None:
+            raise RuntimeError("First readable screenshot completion was not observed")
         return {
             "elapsed_seconds": time.perf_counter() - started,
             "peak_process_group_rss_bytes": max(row["rss_bytes"] for row in samples),
             "max_process_count": max(row["processes"] for row in samples),
+            "startup_capture_complete_ms": capture_ms,
             "samples": samples,
         }
 
@@ -103,6 +122,9 @@ def main():
             "runs": rows,
             "median_first_readable_ms": statistics.median(
                 row["first_readable_ms"] for row in rows
+            ),
+            "median_startup_capture_complete_ms": statistics.median(
+                row["startup_capture_complete_ms"] for row in rows
             ),
             "peak_rss_bytes": max(row["peak_process_group_rss_bytes"] for row in rows),
         }

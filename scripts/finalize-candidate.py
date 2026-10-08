@@ -84,10 +84,10 @@ def main():
         "dependency-lock.json",
         "M1_REPORT.md",
         "M3_REPORT.md",
-        "M3_RC3_REPORT.md",
-        "M3_RC4_REPORT.md",
     ):
         shutil.copyfile(root / name, output / name)
+    for report in root.glob("M3_RC*_REPORT.md"):
+        shutil.copyfile(report, output / report.name)
     shutil.copyfile(root / args.report, output / args.report)
     for path in args.candidate.rglob("*"):
         relative = path.relative_to(args.candidate)

@@ -146,3 +146,9 @@ Canvasは表示中のリンクのRect／QuadPointsを既存のPDF座標変換で
 PageControlは表示中の物理ページと総数、利用者の編集中の値、IME未確定状態を区別します。確定した有効な番号だけを要求として渡し、Windowが既存の表示履歴と移動へ接続します。PageLabelsは別の表示で扱い、物理番号へ黙って読み替えません。
 
 Windowは集中表示と右設定の復元状態を持ちます。狭い画面で右設定を開くとページ／しおりを畳み、検索タブは残します。配置変更前のPDFアンカーを予約復元し、明示移動・文書revision・世代番号で古い復元を破棄します。Qtの配置処理中に強制再配置しません。保存・Undo／RedoのQActionはWindowにも登録し、隠れたツールバーへ依存させません。入力欄のShortcutOverrideを優先し、CanvasのEscは進行中の操作を先に解除します。[操作設計](design/READING_CONTROLS.md)と[最終実行結果](testing/M1_READING.md)。
+
+## RC6の資材とWindowsパス
+
+`windows_path`はUnicode Win32ファイルAPI向けの拡張パスを作り、保存置換とAppContainerの専用一時領域だけで使用します。Document内のパスはQtの通常表記を保持します。専用DACL・所有領域の回収範囲は維持します。
+
+OCRはTesseractのFileReaderコールバックで固定したbundledモデルをQtから読みます。要求言語の実ロードを確認してから認識へ進み、部分的な言語のロード成功を全成功と扱いません。同梱NotoはQtで読んだバイト列を登録し、プラットフォームのファイル名処理に依存しません。ワーカー・試験・計測の起動失敗はstderrと失敗終了へ返し、対話モードのエラー表示と区別します。[実行結果](../M3_RC6_REPORT.md)。
