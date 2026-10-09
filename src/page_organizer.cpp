@@ -1,4 +1,5 @@
 #include "page_organizer.h"
+#include "page_crop_dialog.h"
 #include "pdfdocumentbuilder.h"
 #include <QtWidgets>
 
@@ -130,6 +131,27 @@ PageOrganizer::PageOrganizer(Document* doc, QWidget* parent) : QWidget(parent), 
     changes->addWidget(rotate);
     changes->addWidget(remove);
     settings->addLayout(changes);
+    auto crop = new QPushButton("余白・表示範囲を調整");
+    crop->setObjectName("cropOrganizerPages");
+    settings->addWidget(crop);
+    connect(crop, &QPushButton::clicked, this,
+            [this]
+            {
+                guard(
+                    [&]
+                    {
+                        document->editable();
+                        if (finishEditing)
+                            finishEditing();
+                        const auto selection = selected();
+                        PageCropDialog dialog(document->pdf(), selection, this);
+                        if (dialog.exec() != QDialog::Accepted || dialog.margins().isNull())
+                            return;
+                        document->commit(cropPages(document->pdf(), selection, dialog.margins()));
+                        if (changed)
+                            changed({});
+                    });
+            });
     connect(rotate, &QPushButton::clicked, this,
             [this]
             {

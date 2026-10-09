@@ -26,6 +26,13 @@
       "cms_source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfcms.cpp",
       "cms_source_sha256_LF": "8fbcf2e0f99a5399809fdb730e39e6f93564bccc52ad547cd22464af45f8a866",
       "purpose": "Byte-exact identity decoding for unmasked 8-bit DeviceRGB/Gray with the pinned generic CMS; all other cases use the original conversion. Build-only derivation, unchanged submodule."
+    },
+    "writer_adaptation": {
+      "file": "cmake/AdaptPdf4QtWriter.cmake",
+      "sha256_LF": "b6caa722224d4473a205c6cc830ae4259d71ead1d21691475a52ba4cbdfe1136",
+      "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfdocumentwriter.cpp",
+      "source_sha256_LF": "f1c0e55f44c2707e1c2076c75ef1e3aa60cb00998fb3233d823baedb04ed852d",
+      "purpose": "Keep ten fractional decimal digits in serialized real values to preserve crop geometry. Build-only derivation of the fixed MIT writer; unchanged submodule. Viewer arithmetic precision is evaluated separately."
     }
   },
   "vcpkg": {

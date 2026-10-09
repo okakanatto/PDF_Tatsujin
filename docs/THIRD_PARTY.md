@@ -15,6 +15,8 @@
 
 モデル・フォント・ビルド依存はGit履歴に含めず、固定参照から開発環境へ取得します。実行時には必要な資産をローカルに同梱します。
 
+PDF4QTの必要な修正は、コンパイラー・文書結合・画像復号・実数保存の派生ソースをビルド領域へ生成するCMake手順として管理しています。サブモジュールを変更せず、元ソースと手順のhashを`dependency-lock.json`とソース検査で照合します。実数保存の補正は、小数5桁の丸めで失われる用紙座標を小数10桁で保持する変更です。PDF4QTのMIT通知と元の著作権表示を維持します。各ビューアの演算精度を同じ桁数として保証する変更ではありません。
+
 RC5の書体選択では、Windowsにインストール済みのMeiryo UI、Meiryo、游ゴシック・明朝、MSゴシック・明朝、Arial、Times New Romanを、そのPCで利用できる場合に選べます。Windowsのフォントファイルをアプリのassets・配布ZIP・公開リポジトリへコピーしません。PDFへの文書埋め込みは、実際に使う書体のOpenType `OS/2.fsType` を調べ、再編集とサブセット埋め込みに適合する場合に限ります。権利情報不明、埋め込み禁止、表示・印刷のみ、サブセット禁止、ビットマップのみは拒否します。このPCの上記Windows書体はEditable embedding（8）、同梱NotoはInstallable embedding（0）でした。保存後のサブセットにも元のフラグを保持することを検査します。
 
 条件の確認元：[Microsoftのフォント再配布FAQ](https://learn.microsoft.com/en-us/typography/fonts/font-faq)、[OpenTypeのfsType](https://learn.microsoft.com/en-us/typography/opentype/spec/os2#fstype)。独自に入手した他のフォントの利用条件までこの確認で保証するものではありません。保存済み書体がないPCでは外観を保持し、変更前に別書体の明示選択を求めます。フォント本体の配布を伴う変更は別途条件を確認します。

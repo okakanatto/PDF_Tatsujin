@@ -11,6 +11,7 @@
 #include "layout_transition_tests.h"
 #include "navigation_tests.h"
 #include "ocr_job_tests.h"
+#include "page_crop_tests.h"
 #include "page_geometry_tests.h"
 #include "page_operations.h"
 #include "page_tests.h"
@@ -310,6 +311,9 @@ int selftest(const QString& fixtures, const QString& output)
     run("M4E03_image_export_UI", [&] { return testImageExportUi(fixtures, output); });
     run("Geometry01_page_axes", [&] { return testPageAxes(fixtures); });
     run("Geometry02_page_render", [&] { return testPageGeometryRender(fixtures, output); });
+    run("M4C01_page_crop_geometry", [&] { return testPageCropGeometry(fixtures, output); });
+    run("M4C02_page_crop_failures", [&] { return testPageCropFailures(fixtures); });
+    run("M4C03_page_crop_UI", [&] { return testPageCropUi(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

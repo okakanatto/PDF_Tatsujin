@@ -9,6 +9,7 @@ void Window::setupOrganizer()
     documentArea->addWidget(organizer);
     panels->addWidget(scrollableSettings(organizer->settings()));
     organizer->returnToDocument = [this] { setOrganizing(false); };
+    organizer->finishEditing = [this] { canvas->finishFormEdit(); };
     organizer->changed = [this](QVector<int> order)
     {
         if (!order.isEmpty())

@@ -25,6 +25,7 @@ public:
     void refresh();
     std::function<void(QVector<int>)> changed;
     std::function<void()> returnToDocument;
+    std::function<void()> finishEditing;
     OrganizerPreviews* previews;
 
 private:
