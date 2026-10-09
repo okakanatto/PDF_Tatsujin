@@ -32,7 +32,14 @@ def main():
         action="store_true",
         help="Check explicit owner copies without a password",
     )
+    parser.add_argument(
+        "--batch",
+        action="store_true",
+        help="Check saved batch OCR outputs without passwords",
+    )
     args = parser.parse_args()
+    if args.owner_copy and args.batch:
+        parser.error("Choose either --owner-copy or --batch")
     args.output.mkdir(parents=True, exist_ok=False)
     result = {
         "status": "FAIL",
@@ -75,9 +82,14 @@ def main():
                 wait = WebDriverWait(driver, 30)
                 suffix = ("copy" if args.owner_copy else "after") if role else "before"
                 prefix = "unprotected" if args.owner_copy else "encryption"
-                uri = (args.input / f"{prefix}-{kind}-{suffix}.pdf").resolve().as_uri()
+                path = args.input / f"{prefix}-{kind}-{suffix}.pdf"
+                if args.batch:
+                    path = (
+                        args.input / "batch-ocr-output" / f"batch-scan-{kind}_ocr.pdf"
+                    )
+                uri = path.resolve().as_uri()
                 driver.get(uri)
-                if role and not args.owner_copy:
+                if role and not args.owner_copy and not args.batch:
                     wait.until(
                         lambda d: d.find_elements(
                             "css selector", "#passwordDialog[open] #password"
@@ -119,29 +131,45 @@ def main():
                 check(isinstance(text, list), "Text content unavailable: " + str(text))
                 if not role:
                     return text
-                check(
-                    text == expected, "PDF.js text, reading order or geometry changed"
-                )
+                if expected is not None:
+                    check(
+                        text == expected,
+                        "PDF.js text, reading order or geometry changed",
+                    )
+                if args.batch:
+                    check(
+                        len(text) == len(PdfReader(path).pages),
+                        "Batch PDF.js page count",
+                    )
                 row = {
                     "document": kind,
-                    "password": "none" if args.owner_copy else role,
+                    "password": "none" if args.owner_copy or args.batch else role,
                     "pages": len(text),
-                    "text_geometry_exact": True,
+                    "text_geometry_exact": True if expected is not None else None,
+                    "text_content_available": True,
                 }
-                if kind == "form" or (kind == "rich" and args.owner_copy):
-                    if args.owner_copy:
+                if (
+                    kind == "form"
+                    or (kind == "rich" and args.owner_copy)
+                    or (args.batch and kind == "jpn")
+                ):
+                    if args.owner_copy or args.batch:
                         field = driver.find_element("id", "pageNumber")
                         field.send_keys(Keys.CONTROL, "a")
-                        field.send_keys("5", Keys.ENTER)
+                        field.send_keys("2" if args.batch else "5", Keys.ENTER)
                     wait.until(
                         lambda d: d.execute_script(
-                            "return [...document.querySelectorAll('.annotationLayer input')].some(e=>e.value==='髙橋 香織');"
+                            "return [...document.querySelectorAll('.annotationLayer input')].some(e=>e.value===arguments[0]);",
+                            "一括OCRのフォーム" if args.batch else "髙橋 香織",
                         )
                     )
                     row["Japanese_form_DOM_value"] = True
-                if kind == "ocr":
+                if kind == "ocr" or args.batch:
                     selections = []
-                    for number, term in ((1, "市民公園"), (2, "coastal")):
+                    terms = ((1, "市民公園"), (2, "coastal"))
+                    if args.batch:
+                        terms = ((1, "市民公園" if kind == "jpn" else "coastal"),)
+                    for number, term in terms:
                         field = driver.find_element("id", "pageNumber")
                         field.send_keys(Keys.CONTROL, "a")
                         field.send_keys(str(number), Keys.ENTER)
@@ -181,14 +209,18 @@ def main():
                         )
                     row["DOM_selection_and_search"] = selections
                 driver.save_screenshot(str(args.output / (label + ".png")))
-                if kind == "rich" and role in ("user", "copy"):
+                if (kind == "rich" and role in ("user", "copy")) or args.batch:
                     print_options = PrintOptions()
                     print_options.background = True
                     printed = base64.b64decode(driver.print_page(print_options))
                     path = args.output / (
-                        "owner-copy-rich-firefox-print.pdf"
-                        if args.owner_copy
-                        else "encrypted-rich-firefox-print.pdf"
+                        f"batch-{kind}-firefox-print.pdf"
+                        if args.batch
+                        else (
+                            "owner-copy-rich-firefox-print.pdf"
+                            if args.owner_copy
+                            else "encrypted-rich-firefox-print.pdf"
+                        )
                     )
                     path.write_bytes(printed)
                     check(
@@ -202,10 +234,14 @@ def main():
                 return text
 
     try:
-        for kind in ("rich", "ocr") if args.owner_copy else ("rich", "form", "ocr"):
-            before = verify(kind)
-            for role in ("copy",) if args.owner_copy else ("user", "owner"):
-                verify(kind, role, before)
+        if args.batch:
+            for kind in ("jpn", "eng"):
+                verify(kind, "batch")
+        else:
+            for kind in ("rich", "ocr") if args.owner_copy else ("rich", "form", "ocr"):
+                before = verify(kind)
+                for role in ("copy",) if args.owner_copy else ("user", "owner"):
+                    verify(kind, role, before)
         result["status"] = "PASS"
     except Exception as error:
         result["error"] = str(error)
@@ -213,17 +249,25 @@ def main():
         result["input_sha256"] = {
             p.name: hashlib.sha256(p.read_bytes()).hexdigest()
             for p in args.input.glob(
-                "unprotected-*-copy.pdf"
-                if args.owner_copy
-                else "encryption-*-after.pdf"
+                "batch-ocr-output/*.pdf"
+                if args.batch
+                else (
+                    "unprotected-*-copy.pdf"
+                    if args.owner_copy
+                    else "encryption-*-after.pdf"
+                )
             )
         }
         (
             args.output
             / (
-                "firefox-owner-copy.json"
-                if args.owner_copy
-                else "firefox-encryption.json"
+                "firefox-batch.json"
+                if args.batch
+                else (
+                    "firefox-owner-copy.json"
+                    if args.owner_copy
+                    else "firefox-encryption.json"
+                )
             )
         ).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(
