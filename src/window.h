@@ -70,6 +70,9 @@ private:
     QAction* forwardView;
     QShortcut* backShortcut;
     QShortcut* forwardShortcut;
+    QToolButton* referenceControl = nullptr;
+    QAction* referenceAction = nullptr;
+    bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;
     QAction* selectToolAction;
@@ -99,6 +102,7 @@ private:
     bool initialPagePending = false;
     void setReadingMode(bool enabled);
     void syncReadingLayout();
+    void showNavigation(int index);
     void preserveLayoutAnchor(const ViewAnchor& anchor);
     void refreshStatus();
     void rememberView();

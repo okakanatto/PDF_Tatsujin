@@ -15,6 +15,7 @@
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
+#include "reference_workflow_tests.h"
 #include "save_candidate_tests.h"
 #include "search_tests.h"
 #include "selection_tests.h"
@@ -291,6 +292,11 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reading_resize_navigation_input",
         [&] { return testResizeNavigationInput(fixtures, output); });
     run("Reading_automatic_fit", [&] { return testAutomaticFit(fixtures, output); });
+    run("Reference_compact", [&] { return testCompactReferences(fixtures, output); });
+    run("Reference_repeat_search", [&] { return testRepeatSearchReference(fixtures, output); });
+    run("Reference_result_resize", [&] { return testSearchResultResize(fixtures, output); });
+    run("Reference_OCR_reading", [&] { return testReferenceDuringOcr(fixtures, output); });
+    run("Reference_contexts", [&] { return testReferenceContexts(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

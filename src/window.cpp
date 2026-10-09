@@ -255,13 +255,7 @@ Window::Window()
             [this]
             {
                 if (doc.loaded())
-                {
-                    setReadingMode(false);
-                    navigationTabs->setCurrentWidget(searchPanel);
-                    syncReadingLayout();
-                    query->setFocus();
-                    query->selectAll();
-                }
+                    showNavigation(2);
             });
     for (int direction : {-1, 1})
     {
@@ -277,10 +271,16 @@ Window::Window()
             });
     connect(searchPanel, &SearchPanel::returnToDocument, this, [this] { canvas->setFocus(); });
     connect(navigationTabs, &QTabWidget::currentChanged, this,
-            [this]
+            [this](int index)
             {
                 if (pageControl)
+                {
+                    navigationRequested = true;
+                    if (referenceControl)
+                        for (int i = 0; i < referenceControl->menu()->actions().size(); ++i)
+                            referenceControl->menu()->actions()[i]->setChecked(i == index);
                     syncReadingLayout();
+                }
             });
     connect(searchPanel, &SearchPanel::presentationChanged, this,
             [this] {
@@ -292,8 +292,10 @@ Window::Window()
             {
                 initialPagePending = false;
                 ++layoutGeneration;
-                rememberView();
+                const auto before = canvas->viewState();
                 canvas->showSearchMatch(match);
+                if (!before.samePosition(canvas->viewState()) || before.activeSearch != match.id)
+                    rememberView(before);
             });
     canvas->navigatePage = [this](int row)
     {
@@ -582,6 +584,32 @@ Window::Window()
     connect(pageControl, &PageControl::validationChanged, this, [this] { refreshStatus(); });
     auto pageShortcut = new QShortcut(QKeySequence("Ctrl+L"), this);
     connect(pageShortcut, &QShortcut::activated, pageControl, &PageControl::focusNumber);
+    referenceAction = new QAction("参照", this);
+    referenceAction->setObjectName("showReferences");
+    referenceAction->setToolTip("ページ・しおり・検索を開く。矢印から参照先を選べます。");
+    connect(referenceAction, &QAction::triggered, this,
+            [this] { showNavigation(navigationTabs->currentIndex()); });
+    referenceControl = new QToolButton;
+    referenceControl->setObjectName("referenceControl");
+    referenceControl->setDefaultAction(referenceAction);
+    referenceControl->setAccessibleName("ページ・しおり・検索を開く");
+    referenceControl->setPopupMode(QToolButton::MenuButtonPopup);
+    auto referenceMenu = new QMenu(referenceControl);
+    auto referenceGroup = new QActionGroup(referenceMenu);
+    const QStringList referenceNames{"ページ", "しおり", "検索"};
+    const QStringList referenceIds{"showPageReferences", "showBookmarkReferences",
+                                   "showSearchReferences"};
+    for (int i = 0; i < referenceNames.size(); ++i)
+    {
+        auto action = new QAction(referenceNames[i], referenceGroup);
+        action->setObjectName(referenceIds[i]);
+        action->setCheckable(true);
+        action->setChecked(i == navigationTabs->currentIndex());
+        referenceMenu->addAction(action);
+        connect(action, &QAction::triggered, this, [this, i] { showNavigation(i); });
+    }
+    referenceControl->setMenu(referenceMenu);
+    statusBar()->addPermanentWidget(referenceControl);
     readingAction = new QAction("集中表示", this);
     readingAction->setObjectName("readingMode");
     readingAction->setCheckable(true);
@@ -662,6 +690,7 @@ void Window::showPanel(int index)
     if (organizing && index != 4)
         setOrganizing(false);
     const auto anchor = canvas->anchor();
+    navigationRequested = false;
     setReadingMode(false);
     if (index != 5 || canvas->placing)
         canvas->cancelInteraction();
@@ -701,13 +730,40 @@ void Window::syncReadingLayout()
 {
     const bool narrowProperties = !properties->isHidden() && width() < 1200;
     const bool searching = navigationTabs->currentWidget() == searchPanel;
-    const bool visible =
-        doc.loaded() && !readingMode && !organizing && (!narrowProperties || searching);
+    const bool visible = doc.loaded() && !readingMode && !organizing &&
+                         (!narrowProperties || searching || navigationRequested);
     if (!navigation->isHidden() != visible)
     {
         const auto anchor = canvas->anchor();
         navigation->setVisible(visible);
         preserveLayoutAnchor(anchor);
+    }
+}
+void Window::showNavigation(int index)
+{
+    if (!doc.loaded() || index < 0 || index >= navigationTabs->count())
+        return;
+    if (organizing)
+        setOrganizing(false);
+    const auto anchor = canvas->anchor();
+    navigationRequested = true;
+    setReadingMode(false);
+    navigationTabs->setCurrentIndex(index);
+    syncReadingLayout();
+    preserveLayoutAnchor(anchor);
+    if (index == 2)
+    {
+        query->setFocus();
+        query->selectAll();
+    }
+    else
+    {
+        auto target =
+            index == 1
+                ? static_cast<QWidget*>(bookmarksPanel->findChild<QTreeWidget*>("bookmarkTree"))
+                : static_cast<QWidget*>(pages);
+        (target->isVisible() ? target : static_cast<QWidget*>(navigationTabs->tabBar()))
+            ->setFocus();
     }
 }
 void Window::setReadingMode(bool enabled)
@@ -811,6 +867,7 @@ void Window::openFile(const QString& path)
         doc.open(path, pwd);
     }
     ++layoutGeneration;
+    navigationRequested = false;
     organizing = false;
     organizeAction->setChecked(false);
     initialPagePending = true;
@@ -841,6 +898,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     organizer->refresh();
     syncReadingLayout();
     readingAction->setEnabled(doc.loaded());
+    referenceAction->setEnabled(doc.loaded());
     zoomControl->setEnabled(doc.loaded());
     printAction->setEnabled(doc.loaded());
     selectToolAction->setEnabled(doc.loaded());
