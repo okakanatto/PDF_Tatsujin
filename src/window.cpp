@@ -168,6 +168,15 @@ Window::Window()
     imageExportAction->setObjectName("exportPdfImages");
     imageExportAction->setShortcut(QKeySequence("Ctrl+Shift+E"));
     addAction(imageExportAction);
+    createMenu->addSeparator();
+    auto headers = createMenu->addAction(
+        "ヘッダー／フッター・ページ番号…", this,
+        [this] { guard([&] { editPageDecoration(DecorationKind::HeaderFooter); }); });
+    headers->setObjectName("editHeadersFooters");
+    auto watermark = createMenu->addAction(
+        "透かし…", this, [this] { guard([&] { editPageDecoration(DecorationKind::Watermark); }); });
+    watermark->setObjectName("editWatermark");
+    edits << headers << watermark;
     createAction->setMenu(createMenu);
     if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
         button->setPopupMode(QToolButton::MenuButtonPopup);

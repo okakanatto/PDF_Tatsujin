@@ -4,6 +4,7 @@
 #include "canvas.h"
 #include "ocr_job.h"
 #include "page_control.h"
+#include "page_decoration.h"
 #include "page_organizer.h"
 #include "search_panel.h"
 #include "view_history.h"
@@ -46,6 +47,7 @@ public:
     void openFile(const QString& path);
     void createFromImages(QStringList paths = {});
     void exportDocumentImages();
+    void editPageDecoration(DecorationKind kind);
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();

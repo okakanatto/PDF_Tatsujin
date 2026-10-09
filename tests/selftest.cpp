@@ -12,6 +12,7 @@
 #include "navigation_tests.h"
 #include "ocr_job_tests.h"
 #include "page_crop_tests.h"
+#include "page_decoration_tests.h"
 #include "page_geometry_tests.h"
 #include "page_operations.h"
 #include "page_tests.h"
@@ -314,6 +315,11 @@ int selftest(const QString& fixtures, const QString& output)
     run("M4C01_page_crop_geometry", [&] { return testPageCropGeometry(fixtures, output); });
     run("M4C02_page_crop_failures", [&] { return testPageCropFailures(fixtures); });
     run("M4C03_page_crop_UI", [&] { return testPageCropUi(fixtures, output); });
+    run("M4D01_decoration_lifecycle", [&] { return testDecorationLifecycle(fixtures, output); });
+    run("M4D02_decoration_failures", [&] { return testDecorationFailures(fixtures); });
+    run("M4D03_decoration_UI", [&] { return testDecorationUi(fixtures, output); });
+    run("M4D04_decoration_cancel", [&] { return testDecorationCancel(fixtures); });
+    run("M4D05_decoration_OCR", [&] { return testDecorationOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

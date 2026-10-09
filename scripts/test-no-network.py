@@ -32,6 +32,7 @@ def main():
     parser.add_argument("--with-image-export", action="store_true")
     parser.add_argument("--with-page-geometry", action="store_true")
     parser.add_argument("--with-page-crop", action="store_true")
+    parser.add_argument("--with-page-decorations", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -143,6 +144,8 @@ def main():
             cases.append(("page-geometry", "Geometry"))
         if args.with_page_crop:
             cases.append(("page-crop", "M4C"))
+        if args.with_page_decorations:
+            cases.append(("page-decorations", "M4D"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
