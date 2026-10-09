@@ -6,6 +6,7 @@
 #include "form_fields.h"
 #include "form_tests.h"
 #include "image_decode_tests.h"
+#include "image_pdf_tests.h"
 #include "layout_transition_tests.h"
 #include "navigation_tests.h"
 #include "ocr_job_tests.h"
@@ -297,6 +298,11 @@ int selftest(const QString& fixtures, const QString& output)
     run("Reference_result_resize", [&] { return testSearchResultResize(fixtures, output); });
     run("Reference_OCR_reading", [&] { return testReferenceDuringOcr(fixtures, output); });
     run("Reference_contexts", [&] { return testReferenceContexts(fixtures, output); });
+    run("M4I01_image_pdf_geometry", [&] { return testImagePdfGeometry(output); });
+    run("M4I02_image_pdf_failures", [&] { return testImagePdfFailures(output); });
+    run("M4I03_image_pdf_window", [&] { return testImagePdfWindow(fixtures, output); });
+    run("M4I04_image_pdf_cancel_retry", [&] { return testImagePdfCancelRetry(output); });
+    run("M4I05_image_pdf_OCR", [&] { return testImagePdfOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

@@ -159,6 +159,20 @@ Window::Window()
     welcomeLayout->insertWidget(welcomeLayout->indexOf(openButton) + 1, mergeButton, 0,
                                 Qt::AlignHCenter);
     connect(mergeButton, &QPushButton::clicked, mergeAction, &QAction::trigger);
+    auto createAction = action("作成", QKeySequence::New, [this] { createFromImages(); });
+    createAction->setObjectName("createPdfAction");
+    auto createMenu = new QMenu(this);
+    createMenu->addAction("画像からPDF…", this, [this] { guard([&] { createFromImages(); }); });
+    createAction->setMenu(createMenu);
+    if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
+        button->setPopupMode(QToolButton::MenuButtonPopup);
+    auto createButton = new QPushButton("画像からPDFを作成");
+    createButton->setObjectName("imagePdfWelcomeButton");
+    createButton->setMinimumHeight(44);
+    createButton->setMaximumWidth(240);
+    welcomeLayout->insertWidget(welcomeLayout->indexOf(mergeButton) + 1, createButton, 0,
+                                Qt::AlignHCenter);
+    connect(createButton, &QPushButton::clicked, createAction, &QAction::trigger);
     signatureAction->setCheckable(true);
     ocrAction->setCheckable(true);
     auto signatureMenu = new QMenu(this);

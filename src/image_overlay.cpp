@@ -1,4 +1,5 @@
 #include "document.h"
+#include "image_embedding.h"
 #include "pdf_objects.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
@@ -66,26 +67,7 @@ Signature Document::putImage(int page, OverlayKind kind, const QImage& image, QP
     PDFDocumentBuilder builder(&pdf());
     if (old.isValid())
         builder.removeAnnotation(pdf().getCatalog()->getPage(page)->getPageReference(), old);
-    PDFImage::ImageEncodeOptions options;
-    options.compression = PDFImage::ImageCompression::Flate;
-    options.colorMode = PDFImage::ImageColorMode::Color;
-    options.alphaHandling = PDFImage::AlphaHandling::DropAlphaPreserveColors;
-    auto encoded = PDFImage::createStreamFromImage(image, options);
-    auto imageDictionary = *encoded.getDictionary();
-    if (image.hasAlphaChannel())
-    {
-        QImage alpha(image.size(), QImage::Format_Grayscale8);
-        for (int y = 0; y < image.height(); ++y)
-            for (int x = 0; x < image.width(); ++x)
-                alpha.scanLine(y)[x] = image.pixelColor(x, y).alpha();
-        auto maskOptions = options;
-        maskOptions.colorMode = PDFImage::ImageColorMode::Grayscale;
-        auto mask = PDFImage::createStreamFromImage(alpha, maskOptions);
-        auto maskReference = builder.addObject(
-            PDFObject::createStream(std::make_shared<PDFStream>(std::move(mask))));
-        set(imageDictionary, "SMask", PDFObject::createReference(maskReference));
-    }
-    auto imageReference = builder.addObject(streamObject(imageDictionary, *encoded.getContent()));
+    auto imageReference = embedImage(builder, image);
     PDFDictionary xobjects;
     set(xobjects, "Image", PDFObject::createReference(imageReference));
     PDFDictionary resources;

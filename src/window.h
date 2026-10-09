@@ -44,6 +44,7 @@ public:
     explicit Window();
     ~Window() override;
     void openFile(const QString& path);
+    void createFromImages(QStringList paths = {});
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();

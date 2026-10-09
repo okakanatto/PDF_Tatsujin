@@ -28,6 +28,7 @@ def main():
     parser.add_argument("--probe", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--with-long-paths", action="store_true")
+    parser.add_argument("--with-image-creation", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -63,6 +64,8 @@ def main():
     )
     observations = {}
     container = AppContainer()
+    failure = None
+    results = []
     try:
         subprocess.run(
             [
@@ -122,7 +125,6 @@ def main():
             except psutil.NoSuchProcess:
                 pass
 
-        results = []
         cases = [
             ("signature", "A02"),
             ("OCR", "A05"),
@@ -130,6 +132,8 @@ def main():
         ]
         if args.with_long_paths:
             cases.append(("long-paths", "C07_LongPaths"))
+        if args.with_image_creation:
+            cases.append(("image-creation", "M4I"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
@@ -167,6 +171,14 @@ def main():
             "flows": results,
             "scope": "Windows AppContainer, no network capabilities; same development PC, Qt offscreen and synthetic UI input. Not clean Windows or native IME acceptance.",
         }
+    except Exception as error:
+        failure = {
+            "status": "FAIL",
+            "error": str(error),
+            "flows": results,
+            "executable_sha256": sha256(app / "PDFTatsujin.exe"),
+        }
+        raise
     finally:
         try:
             subprocess.run(
@@ -176,6 +188,11 @@ def main():
             )
         finally:
             container.remove()
+            if failure is not None:
+                failure["temporary_profile_removed"] = container.removed
+                (out / "failure.json").write_text(
+                    json.dumps(failure, indent=2) + "\n", encoding="utf-8"
+                )
     result["temporary_profile_removed"] = container.removed
     (out / "result.json").write_text(
         json.dumps(result, indent=2) + "\n", encoding="utf-8"
