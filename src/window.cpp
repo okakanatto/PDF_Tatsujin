@@ -181,6 +181,10 @@ Window::Window()
         createMenu->addAction("リンクを編集…", this, [this] { guard([&] { editLinks(); }); });
     links->setObjectName("editDocumentLinks");
     edits << links;
+    auto optimize = createMenu->addAction("PDFの容量を最適化…", this,
+                                          [this] { guard([&] { optimizeDocument(); }); });
+    optimize->setObjectName("optimizePdfDocument");
+    edits << optimize;
     createAction->setMenu(createMenu);
     if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
         button->setPopupMode(QToolButton::MenuButtonPopup);

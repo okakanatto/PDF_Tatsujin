@@ -35,6 +35,7 @@ def main():
     parser.add_argument("--with-page-decorations", action="store_true")
     parser.add_argument("--with-bookmark-editing", action="store_true")
     parser.add_argument("--with-link-editing", action="store_true")
+    parser.add_argument("--with-optimization", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -152,6 +153,8 @@ def main():
             cases.append(("bookmark-editing", "M4B"))
         if args.with_link_editing:
             cases.append(("link-editing", "M4L"))
+        if args.with_optimization:
+            cases.append(("optimization", "M4O"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter

@@ -20,6 +20,7 @@
 #include "page_tests.h"
 #include "pan_tests.h"
 #include "pdf_objects.h"
+#include "pdf_optimization_tests.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
 #include "reference_workflow_tests.h"
@@ -330,6 +331,11 @@ int selftest(const QString& fixtures, const QString& output)
     run("M4L02_link_failures", [&] { return testLinkFailures(fixtures); });
     run("M4L03_link_UI", [&] { return testLinkUi(fixtures, output); });
     run("M4L04_link_OCR", [&] { return testLinkOcr(fixtures, output); });
+    run("M4O01_optimization_lifecycle",
+        [&] { return testOptimizationLifecycle(fixtures, output); });
+    run("M4O02_optimization_failures", [&] { return testOptimizationFailures(fixtures); });
+    run("M4O03_optimization_UI", [&] { return testOptimizationUi(fixtures, output); });
+    run("M4O04_optimization_OCR", [&] { return testOptimizationOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

@@ -34,6 +34,7 @@ include(cmake/AdaptPdf4QtWriter.cmake)
 
 find_package(Qt6 6.9 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Tesseract CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 
 # Document state and PDF operations have no dependency on the application window.
 add_library(tatsu_document STATIC
@@ -54,6 +55,7 @@ add_library(tatsu_document STATIC
     src/page_decoration.cpp
     src/bookmark_edit.cpp
     src/link_edit.cpp
+    src/pdf_optimization.cpp
     src/navigation.cpp
     src/pdf_appearance.cpp
     src/form_fields.cpp
@@ -65,7 +67,7 @@ add_library(tatsu_document STATIC
 )
 target_include_directories(tatsu_document PUBLIC src vendor/PDF4QT/Pdf4QtLibCore/sources)
 target_link_libraries(tatsu_document PUBLIC Pdf4QtLibCore Qt6::Gui Qt6::PrintSupport)
-target_link_libraries(tatsu_document PRIVATE advapi32)
+target_link_libraries(tatsu_document PRIVATE advapi32 ZLIB::ZLIB)
 
 add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
@@ -76,6 +78,7 @@ target_sources(tatsu_ui PRIVATE src/page_crop_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/page_decoration_dialog.cpp src/window_formatting.cpp)
 target_sources(tatsu_ui PRIVATE src/bookmark_edit_dialog.cpp src/window_bookmarks.cpp)
 target_sources(tatsu_ui PRIVATE src/link_edit_dialog.cpp src/link_preview.cpp src/window_links.cpp)
+target_sources(tatsu_ui PRIVATE src/pdf_optimization_dialog.cpp src/window_optimization.cpp)
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
 target_sources(tatsu_ui PRIVATE src/image_export_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
@@ -146,6 +149,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/page_decoration_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/bookmark_edit_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/link_edit_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/pdf_optimization_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

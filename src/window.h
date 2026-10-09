@@ -50,6 +50,7 @@ public:
     void editPageDecoration(DecorationKind kind);
     void editBookmarks();
     void editLinks();
+    void optimizeDocument();
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();
