@@ -162,6 +162,7 @@ void BookmarkEditDialog::update()
 {
     if (loading || job || !tree->currentItem())
         return;
+    message->setText("候補を編集しています。文書へ適用して確定できます。");
     auto item = tree->currentItem();
     auto& value = values[item->data(0, Qt::UserRole).toInt()];
     value.title = title->text();

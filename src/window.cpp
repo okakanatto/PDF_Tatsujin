@@ -177,6 +177,10 @@ Window::Window()
         "透かし…", this, [this] { guard([&] { editPageDecoration(DecorationKind::Watermark); }); });
     watermark->setObjectName("editWatermark");
     edits << headers << watermark;
+    auto links =
+        createMenu->addAction("リンクを編集…", this, [this] { guard([&] { editLinks(); }); });
+    links->setObjectName("editDocumentLinks");
+    edits << links;
     createAction->setMenu(createMenu);
     if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
         button->setPopupMode(QToolButton::MenuButtonPopup);

@@ -10,6 +10,7 @@
 #include "image_export_tests.h"
 #include "image_pdf_tests.h"
 #include "layout_transition_tests.h"
+#include "link_edit_tests.h"
 #include "navigation_tests.h"
 #include "ocr_job_tests.h"
 #include "page_crop_tests.h"
@@ -325,6 +326,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M4B02_bookmark_failures", [&] { return testBookmarkFailures(fixtures); });
     run("M4B03_bookmark_UI", [&] { return testBookmarkEditUi(fixtures, output); });
     run("M4B04_bookmark_cancel", [&] { return testBookmarkCancel(fixtures); });
+    run("M4L01_link_lifecycle", [&] { return testLinkLifecycle(fixtures, output); });
+    run("M4L02_link_failures", [&] { return testLinkFailures(fixtures); });
+    run("M4L03_link_UI", [&] { return testLinkUi(fixtures, output); });
+    run("M4L04_link_OCR", [&] { return testLinkOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });
