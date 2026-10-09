@@ -205,6 +205,7 @@ QJsonObject testPageCropUi(const QString& fixtures, const QString& output)
     QElapsedTimer elapsed;
     elapsed.start();
     QTimer automation;
+    automation.setTimerType(Qt::PreciseTimer);
     QObject::connect(
         &automation, &QTimer::timeout,
         [&]
@@ -247,15 +248,29 @@ QJsonObject testPageCropUi(const QString& fixtures, const QString& output)
                 }
                 else if (state == 1 && apply->isEnabled())
                 {
+                    dialog->grab().save(output + "/m4-page-crop-preview-4.png");
+                    dialog->findChild<QComboBox*>("cropPreviewPage")->setCurrentIndex(0);
+                    state = 2;
+                }
+                else if (state == 2 && apply->isEnabled())
+                {
+                    dialog->grab().save(output + "/m4-page-crop-preview-2.png");
+                    dialog->findChild<QComboBox*>("cropPreviewPage")->setCurrentIndex(1);
+                    state = 3;
+                }
+                else if (state == 3 && apply->isEnabled())
+                {
                     auto left = dialog->findChild<QDoubleSpinBox*>("cropLeft");
                     left->setValue(500);
                     check(!apply->isEnabled(), "Invalid all-page margin is blocked inline");
                     left->setValue(4);
                     check(apply->isEnabled(), "Valid input recovers without rebuilding document");
                     check(ticks > 2 && busyTicks > 0,
-                          "GUI events handled while preview worker runs");
+                          QString("GUI events handled while preview worker runs: ticks=%1, busy=%2")
+                              .arg(ticks)
+                              .arg(busyTicks));
                     dialog->grab().save(output + "/m4-page-crop-dialog.png");
-                    state = 2;
+                    state = 4;
                     QTest::mouseClick(apply, Qt::LeftButton);
                 }
             }
@@ -269,7 +284,7 @@ QJsonObject testPageCropUi(const QString& fixtures, const QString& output)
     QTest::mouseClick(button, Qt::LeftButton);
     automation.stop();
     check(error.isEmpty(), error);
-    check(state == 2 && window.doc.cursor == cursor + 1, "Actual crop applies as one operation");
+    check(state == 4 && window.doc.cursor == cursor + 1, "Actual crop applies as one operation");
     const auto cropped = window.doc.pdf();
     const QMarginsF margins(4, 1, 2, 3);
     for (int i = 0; i < 4; ++i)
@@ -306,6 +321,7 @@ QJsonObject testPageCropUi(const QString& fixtures, const QString& output)
     return {{"selected_pages", QJsonArray{2, 4}},
             {"event_loop_ticks", ticks},
             {"preview_busy_event_loop_ticks", busyTicks},
+            {"both_selected_previews_verified", true},
             {"one_Undo", true},
             {"cancel_zero_preserved", true},
             {"native_UI", "未実行"}};

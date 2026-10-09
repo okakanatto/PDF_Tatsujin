@@ -1,6 +1,7 @@
 #include "selftest.h"
 #include "annotation_operations.h"
 #include "annotation_tests.h"
+#include "bookmark_edit_tests.h"
 #include "compact_viewer_tests.h"
 #include "font_tests.h"
 #include "form_fields.h"
@@ -320,6 +321,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M4D03_decoration_UI", [&] { return testDecorationUi(fixtures, output); });
     run("M4D04_decoration_cancel", [&] { return testDecorationCancel(fixtures); });
     run("M4D05_decoration_OCR", [&] { return testDecorationOcr(fixtures, output); });
+    run("M4B01_bookmark_lifecycle", [&] { return testBookmarkLifecycle(fixtures, output); });
+    run("M4B02_bookmark_failures", [&] { return testBookmarkFailures(fixtures); });
+    run("M4B03_bookmark_UI", [&] { return testBookmarkEditUi(fixtures, output); });
+    run("M4B04_bookmark_cancel", [&] { return testBookmarkCancel(fixtures); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

@@ -48,6 +48,7 @@ public:
     void createFromImages(QStringList paths = {});
     void exportDocumentImages();
     void editPageDecoration(DecorationKind kind);
+    void editBookmarks();
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();

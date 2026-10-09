@@ -267,6 +267,7 @@ Window::Window()
     pages->setUniformItemSizes(true);
     navigationTabs->addTab(pages, "ページ");
     bookmarksPanel = new BookmarksPanel;
+    bookmarksPanel->editRequested = [this] { guard([&] { editBookmarks(); }); };
     navigationTabs->addTab(bookmarksPanel, "しおり");
     bookmarksPanel->activated = [this](const NavigationTarget& target) { navigateTarget(target); };
     canvas->navigate = bookmarksPanel->activated;
@@ -962,6 +963,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
                             : QFileInfo(doc.target.isEmpty() ? doc.source : doc.target).fileName())
                      : "PDFを開く"));
     bool can = doc.loaded() && doc.readOnly.isEmpty() && !doc.busy;
+    bookmarksPanel->setEditable(can);
     for (auto a : edits)
         a->setEnabled(can);
     undoAction->setEnabled(can && doc.cursor > 0);

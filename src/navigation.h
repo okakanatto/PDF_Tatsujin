@@ -25,6 +25,7 @@ struct NavigationBookmark
     QString title;
     NavigationTarget target;
     int parent = -1;
+    bool expanded = true;
 };
 struct BookmarkList
 {
