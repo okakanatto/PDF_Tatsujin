@@ -185,7 +185,8 @@ Window::Window()
                                           [this] { guard([&] { optimizeDocument(); }); });
     optimize->setObjectName("optimizePdfDocument");
     edits << optimize;
-    auto encrypt = createMenu->addAction("パスワードで保護したコピー…", this, [this] { guard([&] { exportEncryptedCopy(); }); });
+    auto encrypt = createMenu->addAction("パスワードで保護したコピー…", this,
+                                         [this] { guard([&] { exportEncryptedCopy(); }); });
     encrypt->setObjectName("exportEncryptedCopy");
     edits << encrypt;
     createAction->setMenu(createMenu);

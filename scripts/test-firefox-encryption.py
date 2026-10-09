@@ -35,6 +35,7 @@ def main():
         "native_UI": "未実行",
         "OS_clipboard": "未実行; DOM selection only",
         "physical_printer": "未実行",
+        "beforeunload_UI": "未実行; disabled only in owned synthetic test profiles",
         "documents": [],
     }
 
@@ -54,6 +55,9 @@ def main():
             options.set_preference("browser.shell.checkDefaultBrowser", False)
             options.set_preference("datareporting.policy.dataSubmissionEnabled", False)
             options.set_preference("toolkit.telemetry.enabled", False)
+            # Isolate data/authentication checks from fixture-close prompts.
+            # https://searchfox.org/firefox-main/source/modules/libpref/init/StaticPrefList.yaml
+            options.set_preference("dom.disable_beforeunload", True)
             service = Service(
                 str(args.geckodriver.resolve()),
                 log_output=str(args.output / (label + "-geckodriver.log")),
