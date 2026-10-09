@@ -6,6 +6,7 @@
 #include "form_fields.h"
 #include "form_tests.h"
 #include "image_decode_tests.h"
+#include "image_export_tests.h"
 #include "image_pdf_tests.h"
 #include "layout_transition_tests.h"
 #include "navigation_tests.h"
@@ -303,6 +304,9 @@ int selftest(const QString& fixtures, const QString& output)
     run("M4I03_image_pdf_window", [&] { return testImagePdfWindow(fixtures, output); });
     run("M4I04_image_pdf_cancel_retry", [&] { return testImagePdfCancelRetry(output); });
     run("M4I05_image_pdf_OCR", [&] { return testImagePdfOcr(fixtures, output); });
+    run("M4E01_image_export_geometry", [&] { return testImageExportGeometry(fixtures, output); });
+    run("M4E02_image_export_failures", [&] { return testImageExportFailures(fixtures, output); });
+    run("M4E03_image_export_UI", [&] { return testImageExportUi(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

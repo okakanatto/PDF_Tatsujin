@@ -1,4 +1,6 @@
+#include "image_export_dialog.h"
 #include "image_pdf_dialog.h"
+#include "pdfsecurityhandler.h"
 #include "window.h"
 
 namespace tatsu
@@ -23,5 +25,15 @@ void Window::createFromImages(QStringList paths)
     window->refresh(true);
     window->show();
     window->canvas->goToPage(0);
+}
+void Window::exportDocumentImages()
+{
+    if (!doc.loaded() || !doc.pdf().getStorage().getSecurityHandler()->isAllowed(
+                             pdf::PDFSecurityHandler::Permission::CopyContent))
+        fail("この文書では画像の出力が許可されていません。");
+    canvas->finishFormEdit();
+    const auto name = QFileInfo(doc.target.isEmpty() ? doc.source : doc.target).completeBaseName();
+    ImageExportDialog dialog(doc.pdf(), canvas->page, name, this);
+    dialog.exec();
 }
 } // namespace tatsu

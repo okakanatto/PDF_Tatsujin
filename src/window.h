@@ -45,6 +45,7 @@ public:
     ~Window() override;
     void openFile(const QString& path);
     void createFromImages(QStringList paths = {});
+    void exportDocumentImages();
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();
@@ -73,6 +74,7 @@ private:
     QShortcut* forwardShortcut;
     QToolButton* referenceControl = nullptr;
     QAction* referenceAction = nullptr;
+    QAction* imageExportAction = nullptr;
     bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;

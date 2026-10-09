@@ -163,6 +163,11 @@ Window::Window()
     createAction->setObjectName("createPdfAction");
     auto createMenu = new QMenu(this);
     createMenu->addAction("画像からPDF…", this, [this] { guard([&] { createFromImages(); }); });
+    imageExportAction = createMenu->addAction("PDFを画像として出力…", this,
+                                              [this] { guard([&] { exportDocumentImages(); }); });
+    imageExportAction->setObjectName("exportPdfImages");
+    imageExportAction->setShortcut(QKeySequence("Ctrl+Shift+E"));
+    addAction(imageExportAction);
     createAction->setMenu(createMenu);
     if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
         button->setPopupMode(QToolButton::MenuButtonPopup);
@@ -913,6 +918,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     syncReadingLayout();
     readingAction->setEnabled(doc.loaded());
     referenceAction->setEnabled(doc.loaded());
+    imageExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
     zoomControl->setEnabled(doc.loaded());
     printAction->setEnabled(doc.loaded());
     selectToolAction->setEnabled(doc.loaded());

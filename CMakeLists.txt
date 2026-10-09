@@ -46,6 +46,7 @@ add_library(tatsu_document STATIC
     src/image_overlay.cpp
     src/image_embedding.cpp
     src/image_pdf.cpp
+    src/image_export.cpp
     src/signature_library.cpp
     src/page_operations.cpp
     src/pdf_appearance.cpp
@@ -66,6 +67,7 @@ target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtess
 add_library(tatsu_ui STATIC src/writing_panel.cpp src/text_font_picker.cpp src/window_writing.cpp src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/navigation.cpp src/bookmarks_panel.cpp src/page_previews.cpp src/preview_raster.cpp)
 target_sources(tatsu_ui PRIVATE src/page_organizer.cpp src/window_pages.cpp)
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
+target_sources(tatsu_ui PRIVATE src/image_export_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
 target_sources(tatsu_ui PRIVATE src/view_history.cpp)
 target_sources(tatsu_ui PRIVATE src/ui_icons.cpp)
@@ -128,6 +130,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/layout_transition_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/reference_workflow_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/image_pdf_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/image_export_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)
