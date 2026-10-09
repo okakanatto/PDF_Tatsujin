@@ -193,6 +193,9 @@ Window::Window()
     editableCopyAction = createMenu->addAction("保護を解除した編集用コピー…", this,
                                                [this] { guard([&] { createEditableCopy(); }); });
     editableCopyAction->setObjectName("createEditableCopy");
+    comparisonAction = createMenu->addAction("PDFを比較…", this,
+                                             [this] { guard([&] { compareWithDocument(); }); });
+    comparisonAction->setObjectName("compareDocuments");
     auto formData = createMenu->addMenu("フォーム入力データ");
     formDataImportAction = formData->addAction("入力値を読み込む…", this,
                                                [this] { guard([&] { manageFormData(true); }); });
@@ -952,6 +955,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     readingAction->setEnabled(doc.loaded());
     referenceAction->setEnabled(doc.loaded());
     imageExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
+    comparisonAction->setEnabled(doc.loaded() && doc.copyAllowed && !doc.busy);
     editableCopyAction->setEnabled(doc.loaded() && !doc.busy &&
                                    doc.pdf().getStorage().getSecurityHandler()->getMode() ==
                                        EncryptionMode::Standard);

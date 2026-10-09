@@ -60,6 +60,7 @@ add_library(tatsu_document STATIC
     src/pdf_optimization.cpp
     src/encrypted_pdf.cpp
     src/unprotected_pdf.cpp
+    src/document_comparison.cpp
     src/navigation.cpp
     src/pdf_appearance.cpp
     src/form_fields.cpp
@@ -86,6 +87,7 @@ target_sources(tatsu_ui PRIVATE src/link_edit_dialog.cpp src/link_preview.cpp sr
 target_sources(tatsu_ui PRIVATE src/pdf_optimization_dialog.cpp src/window_optimization.cpp)
 target_sources(tatsu_ui PRIVATE src/encryption_dialog.cpp src/window_encryption.cpp)
 target_sources(tatsu_ui PRIVATE src/decryption_dialog.cpp)
+target_sources(tatsu_ui PRIVATE src/comparison_dialog.cpp src/window_comparison.cpp)
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
 target_sources(tatsu_ui PRIVATE src/image_export_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
@@ -161,6 +163,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/encryption_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/form_data_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/unprotected_pdf_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/comparison_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

@@ -33,7 +33,8 @@ enum class RenderPurpose
     Print
 };
 QImage renderPage(PDFDocument& doc, int page, double scale, bool annotations = true,
-                  bool rotate = true, RenderPurpose purpose = RenderPurpose::View);
+                  bool rotate = true, RenderPurpose purpose = RenderPurpose::View,
+                  QStringList* diagnostics = nullptr);
 PDFTextLayout textLayout(PDFDocument& doc, int page, const QTransform& matrix = {});
 QString pageText(PDFDocument& doc, int page);
 void printDocument(PDFDocument& doc, QPrinter& printer, int currentPage = 0);

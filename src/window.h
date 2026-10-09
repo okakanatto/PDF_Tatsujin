@@ -53,6 +53,7 @@ public:
     void optimizeDocument();
     void exportEncryptedCopy();
     void createEditableCopy();
+    void compareWithDocument();
     void manageFormData(bool importing);
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
@@ -84,6 +85,7 @@ private:
     QAction* referenceAction = nullptr;
     QAction* imageExportAction = nullptr;
     QAction* editableCopyAction = nullptr;
+    QAction* comparisonAction = nullptr;
     bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;

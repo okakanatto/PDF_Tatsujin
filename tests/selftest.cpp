@@ -3,6 +3,7 @@
 #include "annotation_tests.h"
 #include "bookmark_edit_tests.h"
 #include "compact_viewer_tests.h"
+#include "comparison_tests.h"
 #include "encryption_tests.h"
 #include "font_tests.h"
 #include "form_data_tests.h"
@@ -352,6 +353,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5U02_unprotected_failures", [&] { return testUnprotectedFailures(fixtures, output); });
     run("M5U03_unprotected_UI", [&] { return testUnprotectedUi(fixtures, output); });
     run("M5U04_unprotected_OCR", [&] { return testUnprotectedOcr(fixtures, output); });
+    run("M5C01_comparison_lifecycle", [&] { return testComparisonLifecycle(fixtures, output); });
+    run("M5C02_comparison_failures", [&] { return testComparisonFailures(fixtures, output); });
+    run("M5C03_comparison_UI", [&] { return testComparisonUi(fixtures, output); });
+    run("M5C04_comparison_OCR", [&] { return testComparisonOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

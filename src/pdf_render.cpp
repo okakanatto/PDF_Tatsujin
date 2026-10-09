@@ -61,7 +61,7 @@ QString pageText(PDFDocument& d, int p)
     return t;
 }
 QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool rotate,
-                  RenderPurpose purpose)
+                  RenderPurpose purpose, QStringList* diagnostics)
 {
     auto p = d.getCatalog()->getPage(page);
     auto size = pageSize(p, rotate) * scale;
@@ -92,6 +92,10 @@ QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool
         a.drawPage(&paint, page, &compiled, getter, m, color, errors);
     }
     paint.end();
+    if (diagnostics)
+        for (const auto& error : errors)
+            if (error.type != RenderErrorType::Information)
+                diagnostics->append(error.message);
     return out;
 }
 void printDocument(PDFDocument& doc, QPrinter& printer, int currentPage)
