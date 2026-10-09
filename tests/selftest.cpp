@@ -1,6 +1,7 @@
 #include "selftest.h"
 #include "annotation_operations.h"
 #include "annotation_tests.h"
+#include "batch_tests.h"
 #include "bookmark_edit_tests.h"
 #include "compact_viewer_tests.h"
 #include "comparison_tests.h"
@@ -357,6 +358,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5C02_comparison_failures", [&] { return testComparisonFailures(fixtures, output); });
     run("M5C03_comparison_UI", [&] { return testComparisonUi(fixtures, output); });
     run("M5C04_comparison_OCR", [&] { return testComparisonOcr(fixtures, output); });
+    run("M5T01_batch_lifecycle", [&] { return testBatchLifecycle(fixtures, output); });
+    run("M5T02_batch_failures", [&] { return testBatchFailures(fixtures, output); });
+    run("M5T03_batch_UI", [&] { return testBatchUi(fixtures, output); });
+    run("M5T04_batch_OCR", [&] { return testBatchOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

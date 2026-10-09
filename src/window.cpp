@@ -196,6 +196,9 @@ Window::Window()
     comparisonAction = createMenu->addAction("PDFを比較…", this,
                                              [this] { guard([&] { compareWithDocument(); }); });
     comparisonAction->setObjectName("compareDocuments");
+    auto batch = createMenu->addAction("複数PDFをまとめて処理…", this,
+                                       [this] { guard([&] { processMultipleDocuments(); }); });
+    batch->setObjectName("processMultipleDocuments");
     auto formData = createMenu->addMenu("フォーム入力データ");
     formDataImportAction = formData->addAction("入力値を読み込む…", this,
                                                [this] { guard([&] { manageFormData(true); }); });
