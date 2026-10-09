@@ -30,7 +30,7 @@ flowchart TD
 |---|---|---|
 | 文書状態・署名・履歴・保存の確定 | `src/document.*` | 1操作を1回のcommitにする。失敗時に原本・履歴を失わない |
 | PDF読込・候補保存・ハッシュ | `src/pdf_io.cpp` | 保存候補を再読込してから置換する |
-| 座標・描画・文字抽出・印刷 | `src/pdf_render.cpp` | PDF座標と画面座標の変換を一箇所に集める |
+| 座標・描画・文字抽出・印刷 | `src/pdf_render.cpp` | 回転後のCropBox左上へ原点を移し、UserUnitと同じ物理倍率を両軸へ反映する。逆変換往復だけでなく、用紙四隅と独立描画の位置を検証する |
 | フォント・Unicode対応 | `src/pdf_font.cpp` | 表示字形とコピー文字を両方検証する |
 | PDFオブジェクト生成補助 | `src/pdf_objects.h` | 内部の小さな値生成関数。UIの状態を持たせない |
 | 画像・透明度の共通埋込 | `src/image_embedding.*` | 画像署名と新規PDFで同じ画素・soft maskを使う。追加のJPEG再圧縮や間引きをしない |

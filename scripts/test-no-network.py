@@ -30,6 +30,7 @@ def main():
     parser.add_argument("--with-long-paths", action="store_true")
     parser.add_argument("--with-image-creation", action="store_true")
     parser.add_argument("--with-image-export", action="store_true")
+    parser.add_argument("--with-page-geometry", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -137,6 +138,8 @@ def main():
             cases.append(("image-creation", "M4I"))
         if args.with_image_export:
             cases.append(("image-export", "M4E"))
+        if args.with_page_geometry:
+            cases.append(("page-geometry", "Geometry"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
