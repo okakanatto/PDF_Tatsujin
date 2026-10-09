@@ -118,6 +118,9 @@ LinkEditDialog::LinkEditDialog(PDFDocument document, int currentPage, QWidget* p
     scroll->setMaximumWidth(330);
     body->addWidget(scroll);
     preview = new LinkPreview;
+    preview->setObjectName("linkPreview");
+    preview->setAccessibleName(
+        "リンク範囲のプレビュー。中央で移動、右下でサイズ変更。数値欄でも変更できます");
     body->addWidget(preview, 1);
     layout->addWidget(settings, 1);
     message = new QLabel("候補を編集しています。元の文書はまだ変更していません。");

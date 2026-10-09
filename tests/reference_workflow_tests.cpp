@@ -22,9 +22,17 @@ void settle()
 }
 SearchPanel* search(Window& window, const QString& term)
 {
+    // QShortcut dispatch requires an active Qt window even for synthetic keys.
+    // Resizing an offscreen top-level can change its activation asynchronously.
+    window.activateWindow();
+    check(QTest::qWaitFor([&] { return window.isActiveWindow(); }, 1000),
+          "reference keyboard input targets the active test window");
     window.canvas->setFocus();
     QTest::keyClick(window.canvas->viewport(), Qt::Key_F, Qt::ControlModifier);
     auto panel = window.findChild<SearchPanel*>("searchPanel");
+    auto tabs = window.findChild<QTabWidget*>("navigationTabs");
+    check(QTest::qWaitFor([&] { return tabs->currentWidget() == panel; }, 2000),
+          "actual Find shortcut opens the search panel");
     window.query->setText(term);
     QTest::keyClick(window.query, Qt::Key_Return);
     check(QTest::qWaitFor(

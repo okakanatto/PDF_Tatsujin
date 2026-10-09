@@ -200,6 +200,10 @@ Window::Window()
                                        [this] { guard([&] { processMultipleDocuments(); }); });
     batch->setObjectName("processMultipleDocuments");
     auto formData = createMenu->addMenu("フォーム入力データ");
+    auto formDesign =
+        createMenu->addAction("フォームを設計…", this, [this] { guard([&] { designForms(); }); });
+    formDesign->setObjectName("designForms");
+    edits << formDesign;
     formDataImportAction = formData->addAction("入力値を読み込む…", this,
                                                [this] { guard([&] { manageFormData(true); }); });
     formDataImportAction->setObjectName("importFormData");

@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import subprocess
+import sys
 import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,6 +67,21 @@ def main():
             raise RuntimeError(f"Asset hash mismatch: {name}")
         temporary.rename(path)
         print(f"Installed {name}")
+
+    generated = [
+        "assets/fonts/TatsujinSansJP-Regular.ttf",
+        "assets/fonts/TatsujinSansJP-Regular.json",
+    ]
+    if not all(matches(ROOT / name, lock["files"][name]) for name in generated):
+        if args.verify_only:
+            raise RuntimeError("Missing or modified derived form-font asset")
+        subprocess.run(
+            [sys.executable, str(ROOT / "scripts/derive-form-font.py")], check=True
+        )
+    for name in generated:
+        if not matches(ROOT / name, lock["files"][name]):
+            raise RuntimeError(f"Derived asset hash mismatch: {name}")
+        print(f"Verified {name}")
 
 
 if __name__ == "__main__":

@@ -1,18 +1,18 @@
-#include "link_preview.h"
+#include "page_region_preview.h"
 
 namespace tatsu
 {
-LinkPreview::LinkPreview(QWidget* parent) : QWidget(parent)
+PageRegionPreview::PageRegionPreview(QWidget* parent) : QWidget(parent)
 {
-    setObjectName("linkPreview");
+    setObjectName("pageRegionPreview");
     setMinimumSize(280, 260);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
-    setAccessibleName("リンク範囲のプレビュー。中央をドラッグして移動、右下をドラッグしてサイズ変更"
+    setAccessibleName("配置範囲のプレビュー。中央をドラッグして移動、右下をドラッグしてサイズ変更"
                       "。数値欄でも変更できます");
 }
-QRectF LinkPreview::paper() const
+QRectF PageRegionPreview::paper() const
 {
     if (physical.isEmpty())
         return {};
@@ -22,20 +22,20 @@ QRectF LinkPreview::paper() const
     return {(width() - size.width()) / 2, (height() - size.height()) / 2, size.width(),
             size.height()};
 }
-QPointF LinkPreview::physicalToWidget(QPointF point) const
+QPointF PageRegionPreview::physicalToWidget(QPointF point) const
 {
     const auto box = paper();
     return box.topLeft() + QPointF(point.x() * box.width() / physical.width(),
                                    point.y() * box.height() / physical.height());
 }
-QPointF LinkPreview::widgetToPhysical(QPointF point) const
+QPointF PageRegionPreview::widgetToPhysical(QPointF point) const
 {
     const auto box = paper();
     return {
         qBound(0.0, (point.x() - box.x()) * physical.width() / box.width(), physical.width()),
         qBound(0.0, (point.y() - box.y()) * physical.height() / box.height(), physical.height())};
 }
-void LinkPreview::paintEvent(QPaintEvent*)
+void PageRegionPreview::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     painter.fillRect(rect(), palette().alternateBase());
@@ -66,7 +66,7 @@ void LinkPreview::paintEvent(QPaintEvent*)
     if (gesture == 1)
         paint(pending, true);
 }
-void LinkPreview::mousePressEvent(QMouseEvent* event)
+void PageRegionPreview::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() != Qt::LeftButton || image.isNull() || !paper().contains(event->position()))
         return;
@@ -100,7 +100,7 @@ void LinkPreview::mousePressEvent(QMouseEvent* event)
     }
     update();
 }
-void LinkPreview::mouseMoveEvent(QMouseEvent* event)
+void PageRegionPreview::mouseMoveEvent(QMouseEvent* event)
 {
     if (!gesture || image.isNull())
         return;
@@ -115,27 +115,29 @@ void LinkPreview::mouseMoveEvent(QMouseEvent* event)
                                   physical.height() - original.height())),
                    original.size()};
     else if (gesture == 3 && original.x() >= 0 && original.y() >= 0 &&
-             original.x() < physical.width() - 1 && original.y() < physical.height() - 1)
-        pending = {original.topLeft(), QSizeF(qBound(1.0, original.width() + point.x() - start.x(),
-                                                     physical.width() - original.x()),
-                                              qBound(1.0, original.height() + point.y() - start.y(),
-                                                     physical.height() - original.y()))};
+             original.x() < physical.width() - minimumSide &&
+             original.y() < physical.height() - minimumSide)
+        pending = {original.topLeft(),
+                   QSizeF(qBound(minimumSide, original.width() + point.x() - start.x(),
+                                 physical.width() - original.x()),
+                          qBound(minimumSide, original.height() + point.y() - start.y(),
+                                 physical.height() - original.y()))};
     update();
 }
-void LinkPreview::mouseReleaseEvent(QMouseEvent* event)
+void PageRegionPreview::mouseReleaseEvent(QMouseEvent* event)
 {
     if (event->button() != Qt::LeftButton || !gesture)
         return;
     mouseMoveEvent(event);
     const int action = gesture;
     gesture = 0;
-    if (action == 1 && pending.width() >= 1 && pending.height() >= 1 && create)
+    if (action == 1 && pending.width() >= minimumSide && pending.height() >= minimumSide && create)
         create(pending);
     else if (action != 1 && move)
         move(moving, pending);
     update();
 }
-void LinkPreview::keyPressEvent(QKeyEvent* event)
+void PageRegionPreview::keyPressEvent(QKeyEvent* event)
 {
     if (event->key() == Qt::Key_Escape && (drawing || gesture))
     {

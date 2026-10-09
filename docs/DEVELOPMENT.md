@@ -23,7 +23,7 @@ PDF4QTはサブモジュールのコミットで固定しています。`git sub
 vcpkgはclassic mode、triplet `x64-windows`、overlay `vendor/PDF4QT/vcpkg/overlays/general`を使用しました。Qtをvcpkgで重複ビルドする構成ではありません。Qtの取得にはaqtinstall 3.3.0を使用しました。ツール・依存の初回インストール例は次のとおりです。**この取得例の新規PCでの通し実行は未実行**です。
 
 ```powershell
-python -m pip install --target tools/python cmake==4.1.0 ninja==1.13.0 aqtinstall==3.3.0
+python -m pip install --target tools/python cmake==4.1.0 ninja==1.13.0 aqtinstall==3.3.0 fonttools==4.60.1
 $env:PYTHONPATH = Join-Path (Get-Location) 'tools/python'
 python -m aqt install-qt windows desktop 6.9.3 win64_msvc2022_64 --outputdir tools/Qt -m qtsvg qtimageformats qtspeech qttranslations qtmultimedia
 git clone https://github.com/microsoft/vcpkg.git tools/vcpkg

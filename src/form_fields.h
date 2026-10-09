@@ -23,6 +23,7 @@ struct FormField
     bool readOnly = false, editableChoice = false, multiple = false, noToggleOff = false;
     int maxLength = 0;
     QString onState;
+    bool utf8ButtonNames = false; // Our owned button states; preserve foreign name bytes.
 };
 QVector<FormField> formFields(const PDFDocument& document);
 void putFormValue(Document& document, PDFObjectReference widget, const QStringList& values);

@@ -55,6 +55,7 @@ public:
     void createEditableCopy();
     void compareWithDocument();
     void processMultipleDocuments();
+    void designForms();
     void manageFormData(bool importing);
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);

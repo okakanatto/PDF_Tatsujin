@@ -65,6 +65,8 @@ add_library(tatsu_document STATIC
     src/navigation.cpp
     src/pdf_appearance.cpp
     src/form_fields.cpp
+    src/form_font.cpp
+    src/form_design.cpp
     src/form_data.cpp
     src/annotation_operations.cpp
     src/pdf_io.cpp
@@ -84,7 +86,7 @@ target_sources(tatsu_ui PRIVATE src/page_organizer.cpp src/window_pages.cpp)
 target_sources(tatsu_ui PRIVATE src/page_crop_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/page_decoration_dialog.cpp src/window_formatting.cpp)
 target_sources(tatsu_ui PRIVATE src/bookmark_edit_dialog.cpp src/window_bookmarks.cpp)
-target_sources(tatsu_ui PRIVATE src/link_edit_dialog.cpp src/link_preview.cpp src/window_links.cpp)
+target_sources(tatsu_ui PRIVATE src/link_edit_dialog.cpp src/page_region_preview.cpp src/window_links.cpp)
 target_sources(tatsu_ui PRIVATE src/pdf_optimization_dialog.cpp src/window_optimization.cpp)
 target_sources(tatsu_ui PRIVATE src/encryption_dialog.cpp src/window_encryption.cpp)
 target_sources(tatsu_ui PRIVATE src/decryption_dialog.cpp)
@@ -93,6 +95,7 @@ target_sources(tatsu_ui PRIVATE src/batch_dialog.cpp src/window_batch.cpp)
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
 target_sources(tatsu_ui PRIVATE src/image_export_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
+target_sources(tatsu_ui PRIVATE src/form_design_dialog.cpp src/window_form_design.cpp)
 target_sources(tatsu_ui PRIVATE src/form_data_dialog.cpp src/window_form_data.cpp)
 target_sources(tatsu_ui PRIVATE src/view_history.cpp)
 target_sources(tatsu_ui PRIVATE src/ui_icons.cpp)
@@ -107,6 +110,15 @@ set_target_properties(PDFTatsujin PROPERTIES
 )
 
 # Optional measurement harness: use the real UI without modifying the product binary.
+add_executable(PDFTatsujinFormFontProbe WIN32 EXCLUDE_FROM_ALL tests/form_font_probe.cpp)
+target_link_libraries(PDFTatsujinFormFontProbe PRIVATE tatsu_document)
+set_target_properties(PDFTatsujinFormFontProbe PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+if(MSVC)
+    target_compile_options(PDFTatsujinFormFontProbe PRIVATE /utf-8 /bigobj)
+    target_compile_definitions(PDFTatsujinFormFontProbe PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
 add_executable(PDFTatsujinReadingBenchmark WIN32 EXCLUDE_FROM_ALL tests/reading_benchmark.cpp)
 target_link_libraries(PDFTatsujinReadingBenchmark PRIVATE tatsu_ui tatsu_ocr)
 set_target_properties(PDFTatsujinReadingBenchmark PROPERTIES
@@ -167,6 +179,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/unprotected_pdf_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/comparison_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/batch_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/form_design_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

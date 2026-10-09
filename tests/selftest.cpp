@@ -8,6 +8,7 @@
 #include "encryption_tests.h"
 #include "font_tests.h"
 #include "form_data_tests.h"
+#include "form_design_tests.h"
 #include "form_fields.h"
 #include "form_tests.h"
 #include "image_decode_tests.h"
@@ -362,6 +363,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5T02_batch_failures", [&] { return testBatchFailures(fixtures, output); });
     run("M5T03_batch_UI", [&] { return testBatchUi(fixtures, output); });
     run("M5T04_batch_OCR", [&] { return testBatchOcr(fixtures, output); });
+    run("M5D01_form_design_lifecycle", [&] { return testFormDesignLifecycle(fixtures, output); });
+    run("M5D02_form_design_failures", [&] { return testFormDesignFailures(fixtures, output); });
+    run("M5D03_form_design_UI", [&] { return testFormDesignUi(fixtures, output); });
+    run("M5D04_form_design_OCR", [&] { return testFormDesignOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

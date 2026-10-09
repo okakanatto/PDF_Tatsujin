@@ -1,4 +1,5 @@
 #include "form_fields.h"
+#include "form_font.h"
 #include "pdf_appearance.h"
 #include "pdf_objects.h"
 #include "pdfform.h"
@@ -38,6 +39,9 @@ QVector<FormField> formFields(const PDFDocument& document)
                        owner->getName(PDFFormField::FullyQualified))
                 owner = owner->getParentField();
             item.field = owner->getSelfReference();
+            const auto ownerObject = document.getObjectByReference(item.field);
+            item.utf8ButtonNames = ownerObject.isDictionary() &&
+                                   ownerObject.getDictionary()->get("TatsujinForm").isString();
             item.qualifiedName = owner->getName(PDFFormField::FullyQualified);
             item.widget = annotation.getReference();
             item.page = page;
@@ -48,7 +52,8 @@ QVector<FormField> formFields(const PDFDocument& document)
             item.readOnly = field->getFlags().testFlag(PDFFormField::ReadOnly);
             auto value = document.getObject(field->getValue());
             if (value.isName())
-                item.values.append(QString::fromLatin1(value.getString()));
+                item.values.append(item.utf8ButtonNames ? QString::fromUtf8(value.getString())
+                                                        : QString::fromLatin1(value.getString()));
             else if (value.isString())
                 item.values.append(loader.readTextString(value, {}));
             else if (value.isArray())
@@ -87,7 +92,9 @@ QVector<FormField> formFields(const PDFDocument& document)
                                 auto state = normal.getDictionary()->getKey(i).getString();
                                 if (state != "Off")
                                 {
-                                    item.onState = QString::fromLatin1(state);
+                                    item.onState = item.utf8ButtonNames
+                                                       ? QString::fromUtf8(state)
+                                                       : QString::fromLatin1(state);
                                     break;
                                 }
                             }
@@ -102,6 +109,12 @@ QVector<FormField> formFields(const PDFDocument& document)
             else if (field->getFieldType() == PDFFormField::FieldType::Choice)
             {
                 auto choice = static_cast<const PDFFormFieldChoice*>(field);
+                // The SDK treats a Widget with /Parent as a child field. Its
+                // parser inherits flags/value but not /Opt; standard separate
+                // widgets inherit their choices from the terminal parent.
+                while (choice->getOptions().empty() && choice->getParentField() &&
+                       choice->getParentField()->getFieldType() == PDFFormField::FieldType::Choice)
+                    choice = static_cast<const PDFFormFieldChoice*>(choice->getParentField());
                 item.kind = choice->isComboBox() ? FormKind::Combo : FormKind::List;
                 item.editableChoice = choice->isEditableComboBox();
                 item.multiple = flags.testFlag(PDFFormField::MultiSelect);
@@ -155,6 +168,22 @@ PDFObjectReference fieldAppearance(PDFDocumentBuilder& builder, const PDFDocumen
     const auto widget = document.getObjectByReference(field.widget);
     const auto dimensions = field.rectangle.size();
     const double unit = document.getCatalog()->getPage(field.page)->getUserUnit();
+    const auto embeddedFont = widget.getDictionary()->get("TatsujinFormFont");
+    if (embeddedFont.isReference())
+    {
+        if (!isFormFont(document, embeddedFont.getReference()))
+            fail("フォームの既定フォントが変更されています。元の項目は保持しています。");
+        PDFDocumentDataLoaderDecorator loader(&document);
+        const auto mk = document.getObject(widget.getDictionary()->get("MK"));
+        const int rotation = mk.isDictionary()
+                                 ? int(loader.readIntegerFromDictionary(mk.getDictionary(), "R", 0))
+                                 : 0;
+        auto localSize = dimensions;
+        if (rotation == 90 || rotation == 270)
+            localSize.transpose();
+        return formFontAppearance(builder, embeddedFont.getReference(), localSize, field, values,
+                                  unit, rotation);
+    }
     const double padding = qMin(2.0 / unit, dimensions.height() / 8);
     QFont font(signatureFont());
     font.setPixelSize(100);
@@ -259,7 +288,8 @@ void putFormValue(Document& document, PDFObjectReference widget, const QStringLi
         QSet<QString> seen;
         for (const auto& value : values)
         {
-            if ((!selected.editableChoice && !selected.exports.contains(value)) ||
+            if ((!selected.editableChoice && !selected.exports.contains(value) &&
+                 !(selected.kind == FormKind::Combo && value.isEmpty())) ||
                 seen.contains(value))
                 fail("選択値が不正です。");
             seen.insert(value);
@@ -270,7 +300,8 @@ void putFormValue(Document& document, PDFObjectReference widget, const QStringLi
     PDFDocumentBuilder builder(&document.pdf());
     PDFObject value;
     if (button)
-        value = PDFObject::createName(values.value(0, "Off").toLatin1());
+        value = PDFObject::createName(selected.utf8ButtonNames ? values.value(0, "Off").toUtf8()
+                                                               : values.value(0, "Off").toLatin1());
     else if (values.size() <= 1)
         value = textObject(values.value(0));
     else
@@ -297,8 +328,10 @@ void putFormValue(Document& document, PDFObjectReference widget, const QStringLi
         auto dictionary = *builder.getObjectByReference(field.widget).getDictionary();
         if (button)
             set(dictionary, "AS",
-                PDFObject::createName(values.value(0) == field.onState ? field.onState.toLatin1()
-                                                                       : QByteArray("Off")));
+                PDFObject::createName(values.value(0) == field.onState
+                                          ? (field.utf8ButtonNames ? field.onState.toUtf8()
+                                                                   : field.onState.toLatin1())
+                                          : QByteArray("Off")));
         else
         {
             const auto reference = fieldAppearance(builder, document.pdf(), field, values);

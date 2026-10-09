@@ -1,37 +1,6 @@
 #pragma once
-#include <QtWidgets>
-#include <functional>
-
+#include "page_region_preview.h"
 namespace tatsu
 {
-class LinkPreview : public QWidget
-{
-public:
-    explicit LinkPreview(QWidget* parent = nullptr);
-    QImage image;
-    QSizeF physical;
-    QVector<QPair<int, QRectF>> regions;
-    int selected = -1;
-    bool drawing = false;
-    std::function<void(int)> choose;
-    std::function<void(QRectF)> create;
-    std::function<void(int, QRectF)> move;
-    std::function<void()> cancelDrawing;
-    QPointF physicalToWidget(QPointF point) const;
-    QRectF paper() const;
-
-protected:
-    void paintEvent(QPaintEvent*) override;
-    void mousePressEvent(QMouseEvent*) override;
-    void mouseMoveEvent(QMouseEvent*) override;
-    void mouseReleaseEvent(QMouseEvent*) override;
-    void keyPressEvent(QKeyEvent*) override;
-
-private:
-    int gesture = 0;
-    int moving = -1;
-    QPointF start;
-    QRectF original, pending;
-    QPointF widgetToPhysical(QPointF point) const;
-};
+using LinkPreview = PageRegionPreview;
 } // namespace tatsu

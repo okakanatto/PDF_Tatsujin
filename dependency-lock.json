@@ -91,6 +91,14 @@
     "dist/third-party-sources/qtsvg-everywhere-src-6.9.3.tar.xz": {
       "bytes": 2004192,
       "sha256": "db76aa3358cbbe6fce7da576ff4669cb9801920188c750d3b12783bbe97026e2"
+    },
+    "assets/fonts/TatsujinSansJP-Regular.ttf": {
+      "bytes": 5766864,
+      "sha256": "276f192d1ed547c1183b1fc8ee2f906d4d1ba66e74897434f6947f670aa1286e"
+    },
+    "assets/fonts/TatsujinSansJP-Regular.json": {
+      "bytes": 338778,
+      "sha256": "ca12d290cbd5488a08d7a7ce7e877008ead2c4322144315d3f457f6e7b4ee62b"
     }
   },
   "vcpkg_packages": [
@@ -593,5 +601,15 @@
     "fonttools": "4.60.1",
     "psutil": "7.2.2"
   },
-  "storage_budget_bytes": 20000000000
+  "storage_budget_bytes": 20000000000,
+  "derived_assets": {
+    "form_font": {
+      "recipe": "scripts/derive-form-font.py",
+      "fontTools": "4.60.1",
+      "weight": 400,
+      "source": "assets/fonts/NotoSansJP.ttf",
+      "license": "SIL-OFL-1.1",
+      "notice": "licenses/TatsujinSansJP-MODIFICATIONS.txt"
+    }
+  }
 }

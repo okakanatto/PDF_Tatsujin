@@ -7,6 +7,7 @@
 | PDF4QT | MIT、サブモジュール内のLICENSEを維持 | `dependency-lock.json` / `.gitmodules` |
 | Tesseract / tessdata_best | Apache-2.0 | vcpkgコミット、モデルコミットとSHA-256 |
 | Noto Sans JP | SIL OFL 1.1、埋め込み可 | フォントコミットとSHA-256、`licenses/NotoSansJP-OFL.txt` |
+| Tatsujin Sans JP Regular | 固定したNoto Sans JPからウェイト400を生成・改名したSIL OFL 1.1フォント。再編集用の完全フォントをフォームで共有 | `scripts/derive-form-font.py`、`dependency-lock.json`、`licenses/TatsujinSansJP-MODIFICATIONS.txt`。元の著作権・OFL通知を同梱 |
 | Liberation（PDF4QTに含まれるフォント） | SIL OFL、上流通知を維持 | `licenses/Liberation-fonts.txt` |
 | Qt 6.9.3 | 動的リンクのLGPL-3.0、部品ごとの通知あり | `licenses/Qt`、対応ソースアーカイブのハッシュ |
 | その他のネイティブ依存 | 個別ライセンス | 固定vcpkgの`share/*/copyright`を配布時にコピー |
@@ -14,6 +15,8 @@
 | 実スキャン R01/R02 | Commons掲載のパブリックドメイン原稿・機械的スキャン。自作コードのMITとは別扱い | `fixtures/real-scans/manifest.json` の出典、条件、画像・PDFハッシュ |
 
 モデル・フォント・ビルド依存はGit履歴に含めず、固定参照から開発環境へ取得します。実行時には必要な資産をローカルに同梱します。
+
+フォームの既定フォントとUnicode対応表は、固定したfontTools 4.60.1で開発時に生成し、2つの成果物をSHA-256で照合します。元の文字集合を維持し、元フォントの予約名を派生名へ流用しません。アプリの通常利用にはPython・fontToolsを要求しません。生成方法は[フォーム設計](design/FORM_DESIGN.md)にあります。
 
 PDF4QTの必要な修正は、コンパイラー・文書結合・画像復号・実数保存の派生ソースをビルド領域へ生成するCMake手順として管理しています。サブモジュールを変更せず、元ソースと手順のhashを`dependency-lock.json`とソース検査で照合します。実数保存の補正は、小数5桁の丸めで失われる用紙座標を小数10桁で保持する変更です。PDF4QTのMIT通知と元の著作権表示を維持します。各ビューアの演算精度を同じ桁数として保証する変更ではありません。
 
