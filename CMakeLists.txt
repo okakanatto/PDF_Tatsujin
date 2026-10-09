@@ -62,6 +62,7 @@ add_library(tatsu_document STATIC
     src/navigation.cpp
     src/pdf_appearance.cpp
     src/form_fields.cpp
+    src/form_data.cpp
     src/annotation_operations.cpp
     src/pdf_io.cpp
     src/pdf_font.cpp
@@ -86,6 +87,7 @@ target_sources(tatsu_ui PRIVATE src/encryption_dialog.cpp src/window_encryption.
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
 target_sources(tatsu_ui PRIVATE src/image_export_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/form_editor.cpp)
+target_sources(tatsu_ui PRIVATE src/form_data_dialog.cpp src/window_form_data.cpp)
 target_sources(tatsu_ui PRIVATE src/view_history.cpp)
 target_sources(tatsu_ui PRIVATE src/ui_icons.cpp)
 target_sources(tatsu_ui PRIVATE src/ui_widgets.cpp)
@@ -155,6 +157,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/link_edit_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/pdf_optimization_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/encryption_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/form_data_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

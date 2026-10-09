@@ -1,4 +1,5 @@
 #include "window.h"
+#include "form_data.h"
 #include "page_previews.h"
 #include "pdfsecurityhandler.h"
 #include "ui_icons.h"
@@ -189,6 +190,13 @@ Window::Window()
                                          [this] { guard([&] { exportEncryptedCopy(); }); });
     encrypt->setObjectName("exportEncryptedCopy");
     edits << encrypt;
+    auto formData = createMenu->addMenu("フォーム入力データ");
+    formDataImportAction = formData->addAction("入力値を読み込む…", this,
+                                               [this] { guard([&] { manageFormData(true); }); });
+    formDataImportAction->setObjectName("importFormData");
+    formDataExportAction = formData->addAction("入力値を書き出す…", this,
+                                               [this] { guard([&] { manageFormData(false); }); });
+    formDataExportAction->setObjectName("exportFormData");
     createAction->setMenu(createMenu);
     if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
         button->setPopupMode(QToolButton::MenuButtonPopup);
@@ -943,6 +951,40 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     imageExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
     zoomControl->setEnabled(doc.loaded());
     printAction->setEnabled(doc.loaded());
+    if (!doc.loaded())
+    {
+        formDataChecked = false;
+        formDataAvailable = false;
+        formDataNotice = "対応するフォーム入力欄を持つPDFを開いてください。";
+    }
+    else if (!formDataChecked || formDataRevision != doc.revision)
+    {
+        formDataRevision = doc.revision;
+        formDataChecked = true;
+        formDataAvailable = false;
+        formDataNotice = "対応するフォーム入力欄がありません。";
+        if (!doc.pdf().getCatalog()->getFormObject().isNull())
+            try
+            {
+                formDataAvailable = !formDataValues(doc.pdf()).fields.isEmpty();
+            }
+            catch (const std::exception& error)
+            {
+                formDataNotice = QString::fromUtf8(error.what());
+            }
+            catch (...)
+            {
+                formDataNotice = "フォームの入力値を確認できません。";
+            }
+    }
+    formDataImportAction->setEnabled(formDataAvailable && doc.readOnly.isEmpty() && !doc.busy);
+    formDataExportAction->setEnabled(formDataAvailable && doc.copyAllowed && !doc.busy);
+    formDataImportAction->setToolTip(!doc.readOnly.isEmpty() ? doc.readOnly
+                                     : formDataAvailable
+                                         ? "読み込む値を確認してから、まとめて適用します。"
+                                         : formDataNotice);
+    formDataExportAction->setToolTip(
+        formDataAvailable ? "入力値を平文のXFDFファイルへ書き出します。" : formDataNotice);
     selectToolAction->setEnabled(doc.loaded());
     handToolAction->setEnabled(doc.loaded());
     if (navigationRevision != doc.revision)

@@ -17,7 +17,7 @@ struct FormField
     PDFObjectReference field, widget;
     int page = -1;
     QRectF rectangle;
-    QString name, notice;
+    QString name, qualifiedName, notice;
     FormKind kind = FormKind::Unsupported;
     QStringList values, exports, labels;
     bool readOnly = false, editableChoice = false, multiple = false, noToggleOff = false;

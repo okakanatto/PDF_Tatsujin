@@ -202,3 +202,9 @@ OCRはTesseractのFileReaderコールバックで固定したbundledモデルを
 `encrypted_pdf`は既存文書の不変スナップショットからStandard AES-256 R6のコピーを作ります。Unicode 3.2のSASLprepとUTF-8の長さ、SDK内の準備処理を`pdf_security_adapter`で照合します。文書のオブジェクトとInfoを保持し、版・暗号化辞書・必要なIDだけを設定します。CMakeの固定ソースアダプターは暗号用の鍵・salt・IVをQtのsystem生成器へ接続します。
 
 `encryption_dialog`は所有ワーカー、マスクした入力、確認・許可・新しい保存先を扱います。`SaveCandidate`へ暗号化して両パスワードの認証役割とメタデータ保護を検証し、Windowsで上書きしない移動により確定します。取消・失敗では候補を破棄し、`window_encryption`は元文書をcommitしません。既存の暗号化／証明書署名付きPDFの読取専用を維持します。[操作・検証条件](design/ENCRYPTED_PDF_EXPORT.md)。
+
+## フォーム入力データ
+
+`FormField`は表示ラベルと完全修飾名を分けます。`form_data`は標準AcroFormの対応項目を共有フィールド参照でまとめ、純粋なXFDF値の符号化・読込、全項目を検証する一括候補、既存を上書きしない出力を扱います。XMLの参照情報を実行せず、DTD・不正XML・重複・上限を拒否します。CRは文字参照で保持します。私的な候補の履歴は1つのスナップショットへ畳み、項目数に比例するUndo履歴を持ちません。
+
+`form_data_dialog`は所有ワーカー・変更一覧・明示適用・取消・入力ファイル変更検出を扱います。`window_form_data`がrevisionを照合して一度commitします。対応項目の判定は文書revisionごとにキャッシュし、スクロールやズームのたびにフォーム全体を再解析しません。データ出力はPDFの保存先とUndoを切り替えません。[操作・検証条件](design/FORM_DATA.md)。

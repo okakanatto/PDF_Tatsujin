@@ -171,13 +171,13 @@ void EncryptionDialog::accept()
                     });
                 result->success = true;
             }
-            catch (const std::exception& error)
-            {
-                result->error = QString::fromUtf8(error.what());
-            }
             catch (const pdf::PDFException&)
             {
                 result->error = "PDFの暗号化処理に失敗しました。文書は変更していません。";
+            }
+            catch (const std::exception& error)
+            {
+                result->error = QString::fromUtf8(error.what());
             }
             catch (...)
             {

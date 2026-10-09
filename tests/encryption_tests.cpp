@@ -31,10 +31,6 @@ template <typename F> QString rejects(F operation)
     {
         return QString::fromUtf8(error.what());
     }
-    catch (const PDFException&)
-    {
-        return "PDF engine rejected operation";
-    }
     fail("Invalid encryption operation succeeded");
 }
 EncryptionOptions passwords()

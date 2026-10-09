@@ -5,6 +5,7 @@
 #include "compact_viewer_tests.h"
 #include "encryption_tests.h"
 #include "font_tests.h"
+#include "form_data_tests.h"
 #include "form_fields.h"
 #include "form_tests.h"
 #include "image_decode_tests.h"
@@ -342,6 +343,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5P03_encryption_failures", [&] { return testEncryptionFailures(fixtures, output); });
     run("M5P04_encryption_UI", [&] { return testEncryptionUi(fixtures, output); });
     run("M5P05_encryption_OCR", [&] { return testEncryptionOcr(fixtures, output); });
+    run("M5F01_form_data_lifecycle", [&] { return testFormDataLifecycle(fixtures, output); });
+    run("M5F02_form_data_failures", [&] { return testFormDataFailures(fixtures, output); });
+    run("M5F03_form_data_UI", [&] { return testFormDataUi(fixtures, output); });
+    run("M5F04_form_data_OCR", [&] { return testFormDataOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

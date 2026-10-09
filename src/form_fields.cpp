@@ -38,6 +38,7 @@ QVector<FormField> formFields(const PDFDocument& document)
                        owner->getName(PDFFormField::FullyQualified))
                 owner = owner->getParentField();
             item.field = owner->getSelfReference();
+            item.qualifiedName = owner->getName(PDFFormField::FullyQualified);
             item.widget = annotation.getReference();
             item.page = page;
             item.rectangle = loader.readRectangle(object.getDictionary()->get("Rect"), {});

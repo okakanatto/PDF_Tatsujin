@@ -52,6 +52,7 @@ public:
     void editLinks();
     void optimizeDocument();
     void exportEncryptedCopy();
+    void manageFormData(bool importing);
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();
@@ -84,6 +85,11 @@ private:
     bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;
+    QAction* formDataExportAction;
+    QAction* formDataImportAction;
+    quint64 formDataRevision = 0;
+    bool formDataChecked = false, formDataAvailable = false;
+    QString formDataNotice;
     QAction* selectToolAction;
     QAction* handToolAction;
     QToolBar* documentToolbar;
