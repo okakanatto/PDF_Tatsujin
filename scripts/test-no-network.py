@@ -38,6 +38,7 @@ def main():
     parser.add_argument("--with-optimization", action="store_true")
     parser.add_argument("--with-encryption", action="store_true")
     parser.add_argument("--with-form-data", action="store_true")
+    parser.add_argument("--with-owner-copy", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -161,6 +162,8 @@ def main():
             cases.append(("encryption", "M5P"))
         if args.with_form_data:
             cases.append(("form-data", "M5F"))
+        if args.with_owner_copy:
+            cases.append(("owner-copy", "M5U"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter

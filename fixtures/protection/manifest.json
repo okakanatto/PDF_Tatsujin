@@ -1,0 +1,53 @@
+{
+  "source": "D02.pdf; synthetic CC0 content",
+  "cases": [
+    {
+      "file": "RC4-40.pdf",
+      "algorithm": "RC4-40",
+      "revision": 2,
+      "user_password": "compat-user-2026",
+      "owner_password": "compat-owner-2026",
+      "sha256": "82e70b15d5b2ffb72e6e643dae932df083c6a13e9e0b294517199ab4cd5323de"
+    },
+    {
+      "file": "RC4-128.pdf",
+      "algorithm": "RC4-128",
+      "revision": 3,
+      "user_password": "compat-user-2026",
+      "owner_password": "compat-owner-2026",
+      "sha256": "9da060362880e74f33aa9c06853ad62d197e5a8f4b63bbdc179fc56f315fcc6b"
+    },
+    {
+      "file": "AES-128.pdf",
+      "algorithm": "AES-128",
+      "revision": 4,
+      "user_password": "compat-user-2026",
+      "owner_password": "compat-owner-2026",
+      "sha256": "26d074446f93c79d25aa8e96d7d03052beb7c2417ed6b41597bd5f4c3100a667"
+    },
+    {
+      "file": "AES-256-R5.pdf",
+      "algorithm": "AES-256-R5",
+      "revision": 5,
+      "user_password": "compat-user-2026",
+      "owner_password": "compat-owner-2026",
+      "sha256": "21c9802ccb9934cdba2f53eb441de373e2c8d47b23a246870cff28dae7889771"
+    },
+    {
+      "file": "AES-256.pdf",
+      "algorithm": "AES-256",
+      "revision": 6,
+      "user_password": "compat-user-2026",
+      "owner_password": "compat-owner-2026",
+      "sha256": "73514d7125c9cb89e0dc99b8766e7f97a06806f3fb7e7d908096766d8b278fc7"
+    },
+    {
+      "file": "AES-256-empty-owner.pdf",
+      "algorithm": "AES-256",
+      "revision": 6,
+      "user_password": "compat-user-2026",
+      "owner_password": "",
+      "sha256": "2ea546abc6534d99c4da3ced66690c11fcf3288fc63ca6b6612c2d1068e6a241"
+    }
+  ]
+}

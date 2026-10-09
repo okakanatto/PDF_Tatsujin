@@ -29,6 +29,7 @@
 #include "save_candidate_tests.h"
 #include "search_tests.h"
 #include "selection_tests.h"
+#include "unprotected_pdf_tests.h"
 #include "viewer_tests.h"
 #include "window.h"
 #include "writing_tests.h"
@@ -347,6 +348,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5F02_form_data_failures", [&] { return testFormDataFailures(fixtures, output); });
     run("M5F03_form_data_UI", [&] { return testFormDataUi(fixtures, output); });
     run("M5F04_form_data_OCR", [&] { return testFormDataOcr(fixtures, output); });
+    run("M5U01_unprotected_lifecycle", [&] { return testUnprotectedLifecycle(fixtures, output); });
+    run("M5U02_unprotected_failures", [&] { return testUnprotectedFailures(fixtures, output); });
+    run("M5U03_unprotected_UI", [&] { return testUnprotectedUi(fixtures, output); });
+    run("M5U04_unprotected_OCR", [&] { return testUnprotectedOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

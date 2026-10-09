@@ -52,6 +52,7 @@ public:
     void editLinks();
     void optimizeDocument();
     void exportEncryptedCopy();
+    void createEditableCopy();
     void manageFormData(bool importing);
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
@@ -82,6 +83,7 @@ private:
     QToolButton* referenceControl = nullptr;
     QAction* referenceAction = nullptr;
     QAction* imageExportAction = nullptr;
+    QAction* editableCopyAction = nullptr;
     bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;

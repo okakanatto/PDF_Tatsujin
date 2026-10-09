@@ -57,7 +57,7 @@ def saslprep(value):
     return value
 
 
-def graph(before, after):
+def graph(before, after, *, upgraded_pdf_version=True):
     visited, identities, reverse = set(), {}, {}
     streams = 0
 
@@ -91,7 +91,7 @@ def graph(before, after):
                 compare(a.raw_get(key), b.raw_get(key), path + key)
         elif isinstance(a, dict):
             keys, other = set(a), set(b)
-            if path == "/Root":
+            if path == "/Root" and upgraded_pdf_version:
                 check(b.get("/Version") == "/2.0", "Explicit PDF 2.0 missing")
                 keys, other = keys - {"/Version"}, other - {"/Version"}
             check(isinstance(b, dict) and keys == other, "Dictionary changed " + path)

@@ -190,6 +190,9 @@ Window::Window()
                                          [this] { guard([&] { exportEncryptedCopy(); }); });
     encrypt->setObjectName("exportEncryptedCopy");
     edits << encrypt;
+    editableCopyAction = createMenu->addAction("保護を解除した編集用コピー…", this,
+                                               [this] { guard([&] { createEditableCopy(); }); });
+    editableCopyAction->setObjectName("createEditableCopy");
     auto formData = createMenu->addMenu("フォーム入力データ");
     formDataImportAction = formData->addAction("入力値を読み込む…", this,
                                                [this] { guard([&] { manageFormData(true); }); });
@@ -949,6 +952,9 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     readingAction->setEnabled(doc.loaded());
     referenceAction->setEnabled(doc.loaded());
     imageExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
+    editableCopyAction->setEnabled(doc.loaded() && !doc.busy &&
+                                   doc.pdf().getStorage().getSecurityHandler()->getMode() ==
+                                       EncryptionMode::Standard);
     zoomControl->setEnabled(doc.loaded());
     printAction->setEnabled(doc.loaded());
     if (!doc.loaded())
