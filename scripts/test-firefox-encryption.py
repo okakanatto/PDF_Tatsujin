@@ -27,6 +27,11 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--firefox", required=True, type=Path)
     parser.add_argument("--geckodriver", required=True, type=Path)
+    parser.add_argument(
+        "--owner-copy",
+        action="store_true",
+        help="Check explicit owner copies without a password",
+    )
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     result = {
@@ -68,12 +73,11 @@ def main():
                 result["browser_version"] = driver.capabilities["browserVersion"]
                 result["build_id"] = driver.capabilities["moz:buildID"]
                 wait = WebDriverWait(driver, 30)
-                suffix = "after" if role else "before"
-                uri = (
-                    (args.input / f"encryption-{kind}-{suffix}.pdf").resolve().as_uri()
-                )
+                suffix = ("copy" if args.owner_copy else "after") if role else "before"
+                prefix = "unprotected" if args.owner_copy else "encryption"
+                uri = (args.input / f"{prefix}-{kind}-{suffix}.pdf").resolve().as_uri()
                 driver.get(uri)
-                if role:
+                if role and not args.owner_copy:
                     wait.until(
                         lambda d: d.find_elements(
                             "css selector", "#passwordDialog[open] #password"
@@ -120,11 +124,15 @@ def main():
                 )
                 row = {
                     "document": kind,
-                    "password": role,
+                    "password": "none" if args.owner_copy else role,
                     "pages": len(text),
                     "text_geometry_exact": True,
                 }
-                if kind == "form":
+                if kind == "form" or (kind == "rich" and args.owner_copy):
+                    if args.owner_copy:
+                        field = driver.find_element("id", "pageNumber")
+                        field.send_keys(Keys.CONTROL, "a")
+                        field.send_keys("5", Keys.ENTER)
                     wait.until(
                         lambda d: d.execute_script(
                             "return [...document.querySelectorAll('.annotationLayer input')].some(e=>e.value==='髙橋 香織');"
@@ -173,11 +181,15 @@ def main():
                         )
                     row["DOM_selection_and_search"] = selections
                 driver.save_screenshot(str(args.output / (label + ".png")))
-                if kind == "rich" and role == "user":
+                if kind == "rich" and role in ("user", "copy"):
                     print_options = PrintOptions()
                     print_options.background = True
                     printed = base64.b64decode(driver.print_page(print_options))
-                    path = args.output / "encrypted-rich-firefox-print.pdf"
+                    path = args.output / (
+                        "owner-copy-rich-firefox-print.pdf"
+                        if args.owner_copy
+                        else "encrypted-rich-firefox-print.pdf"
+                    )
                     path.write_bytes(printed)
                     check(
                         printed.startswith(b"%PDF") and len(PdfReader(path).pages) > 0,
@@ -190,9 +202,9 @@ def main():
                 return text
 
     try:
-        for kind in ("rich", "form", "ocr"):
+        for kind in ("rich", "ocr") if args.owner_copy else ("rich", "form", "ocr"):
             before = verify(kind)
-            for role in ("user", "owner"):
+            for role in ("copy",) if args.owner_copy else ("user", "owner"):
                 verify(kind, role, before)
         result["status"] = "PASS"
     except Exception as error:
@@ -200,11 +212,20 @@ def main():
     finally:
         result["input_sha256"] = {
             p.name: hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in args.input.glob("encryption-*-after.pdf")
+            for p in args.input.glob(
+                "unprotected-*-copy.pdf"
+                if args.owner_copy
+                else "encryption-*-after.pdf"
+            )
         }
-        (args.output / "firefox-encryption.json").write_text(
-            json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+        (
+            args.output
+            / (
+                "firefox-owner-copy.json"
+                if args.owner_copy
+                else "firefox-encryption.json"
+            )
+        ).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(
         json.dumps(
             {
