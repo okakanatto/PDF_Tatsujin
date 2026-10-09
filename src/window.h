@@ -51,6 +51,7 @@ public:
     void editBookmarks();
     void editLinks();
     void optimizeDocument();
+    void exportEncryptedCopy();
     void refresh(bool rebuildPages = false, PDFObjectReference selection = {});
     bool saveFile(bool choose);
     void startOcr();

@@ -33,6 +33,13 @@
       "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfdocumentwriter.cpp",
       "source_sha256_LF": "f1c0e55f44c2707e1c2076c75ef1e3aa60cb00998fb3233d823baedb04ed852d",
       "purpose": "Keep ten fractional decimal digits in serialized real values to preserve crop geometry. Build-only derivation of the fixed MIT writer; unchanged submodule. Viewer arithmetic precision is evaluated separately."
+    },
+    "security_adaptation": {
+      "file": "cmake/AdaptPdf4QtSecurity.cmake",
+      "sha256_LF": "cd5c20950327092847d60b4f9314e05bf7ad40302898a75c563ec5177ea54ea8",
+      "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfsecurityhandler.cpp",
+      "source_sha256_LF": "cbd8cbb8bd2628c7a260ed215d7e6b24b6ff56785a8c81fa513cb15c3892734b",
+      "purpose": "Use the Qt system random generator for four cryptographic key, salt and IV generation sites. Build-only derivation of the fixed MIT handler; unchanged submodule."
     }
   },
   "vcpkg": {

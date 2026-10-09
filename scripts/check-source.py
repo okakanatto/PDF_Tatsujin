@@ -87,6 +87,7 @@ def main():
         "manipulator_adaptation",
         "image_decode_adaptation",
         "writer_adaptation",
+        "security_adaptation",
     ):
         adaptation = lock["pdf4qt"][name]
         for path_key, hash_key in [

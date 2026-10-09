@@ -185,6 +185,9 @@ Window::Window()
                                           [this] { guard([&] { optimizeDocument(); }); });
     optimize->setObjectName("optimizePdfDocument");
     edits << optimize;
+    auto encrypt = createMenu->addAction("パスワードで保護したコピー…", this, [this] { guard([&] { exportEncryptedCopy(); }); });
+    encrypt->setObjectName("exportEncryptedCopy");
+    edits << encrypt;
     createAction->setMenu(createMenu);
     if (auto button = qobject_cast<QToolButton*>(top->widgetForAction(createAction)))
         button->setPopupMode(QToolButton::MenuButtonPopup);

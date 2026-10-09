@@ -196,3 +196,9 @@ OCRはTesseractのFileReaderコールバックで固定したbundledモデルを
 `pdf_optimization`は到達不能なデータを先に除き、単独Flateを取消可能な上限付きzlib処理で再圧縮します。共有候補はハッシュで選び、辞書・内容の完全一致を確認した適格ストリームだけを共有します。項目辞書と構造タグ・外部データは共有しません。フォント等の共有によって親の外観が共有可能になる連鎖を固定点まで整理し、同じデータを繰り返し展開しません。元のPDF版と文書の意味を保持します。
 
 `pdf_optimization_dialog`は所有ワーカーで候補と通常保存サイズを作り、小さくなる時だけ明示適用を受け付けます。取消・失敗では候補を公開せず、`window_optimization`が入力確定・revision照合後に1回commitします。ファイル書込みは既存の安全な保存経路へ残します。[操作・検証条件](design/PDF_OPTIMIZATION.md)。
+
+## 暗号化コピー
+
+`encrypted_pdf`は既存文書の不変スナップショットからStandard AES-256 R6のコピーを作ります。Unicode 3.2のSASLprepとUTF-8の長さ、SDK内の準備処理を`pdf_security_adapter`で照合します。文書のオブジェクトとInfoを保持し、版・暗号化辞書・必要なIDだけを設定します。CMakeの固定ソースアダプターは暗号用の鍵・salt・IVをQtのsystem生成器へ接続します。
+
+`encryption_dialog`は所有ワーカー、マスクした入力、確認・許可・新しい保存先を扱います。`SaveCandidate`へ暗号化して両パスワードの認証役割とメタデータ保護を検証し、Windowsで上書きしない移動により確定します。取消・失敗では候補を破棄し、`window_encryption`は元文書をcommitしません。既存の暗号化／証明書署名付きPDFの読取専用を維持します。[操作・検証条件](design/ENCRYPTED_PDF_EXPORT.md)。
