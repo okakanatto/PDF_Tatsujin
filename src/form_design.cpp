@@ -474,8 +474,17 @@ PDFDocument replaceFormDesign(const PDFDocument& document, const QVector<FormDes
         auto field = found == originals.end()
                          ? PDFDictionary{}
                          : *document.getObjectByReference(fieldRef).getDictionary();
-        for (auto key :
-             {"FT", "Ff", "T", "TU", "V", "DV", "DA", "Opt", "I", "TI", "MaxLen", "Kids"})
+        const auto previous = std::find_if(originalEntries.begin(), originalEntries.end(),
+                                           [&](const auto& item) { return item.id == entry.id; });
+        // Moving, renaming or changing a caption must not turn the current
+        // input into a new reset value. Explicit value/model changes initialize
+        // both values; compatible presentation changes preserve the original DV.
+        const bool initializeDefault =
+            previous == originalEntries.end() || previous->kind != entry.kind ||
+            previous->exports != entry.exports || previous->multiple != entry.multiple ||
+            previous->editableChoice != entry.editableChoice ||
+            previous->maxLength != entry.maxLength || valueObject(*previous) != valueObject(entry);
+        for (auto key : {"FT", "Ff", "T", "TU", "V", "DA", "Opt", "I", "TI", "MaxLen", "Kids"})
             field.removeEntry(key);
         const bool button = entry.kind == FormKind::Checkbox || entry.kind == FormKind::Radio;
         const bool choice = entry.kind == FormKind::Combo || entry.kind == FormKind::List;
@@ -489,7 +498,8 @@ PDFDocument replaceFormDesign(const PDFDocument& document, const QVector<FormDes
         set(field, "T", PDFObjectFactory::createTextString(entry.name));
         set(field, "TU", PDFObjectFactory::createTextString(entry.caption));
         set(field, "V", valueObject(entry));
-        set(field, "DV", valueObject(entry));
+        if (initializeDefault)
+            set(field, "DV", valueObject(entry));
         if (entry.maxLength && !button && !choice)
             set(field, "MaxLen", PDFObject::createInteger(entry.maxLength));
         if (choice)

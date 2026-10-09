@@ -65,6 +65,13 @@ FormField named(const PDFDocument& document, const QString& name, QString state 
             return field;
     fail("Designed field was not found: " + name);
 }
+PDFObject defaultValue(const PDFDocument& document, const QString& name)
+{
+    const auto widget = document.getObjectByReference(named(document, name).widget);
+    const auto field = document.getObject(widget.getDictionary()->get("Parent"));
+    check(field.isDictionary(), "Created widget has its canonical field parent");
+    return document.getObject(field.getDictionary()->get("DV"));
+}
 } // namespace
 QJsonObject testFormDesignLifecycle(const QString& fixtures, const QString& output)
 {
@@ -110,6 +117,12 @@ QJsonObject testFormDesignLifecycle(const QString& fixtures, const QString& outp
     check(renderPage(document.pdf(), 0, 1.4) == image, "Redo restores exact new form appearances");
     document.open(output + "/designed-six.pdf");
     const auto beforeInput = document.pdf();
+    QMap<QString, PDFObject> defaults;
+    for (int number = 1; number <= 6; ++number)
+    {
+        const auto name = QString("designed-%1").arg(number);
+        defaults.insert(name, defaultValue(beforeInput, name));
+    }
     putFormValue(document, named(document.pdf(), "designed-1").widget, {"山田 太郎 髙橋 𠮷野"});
     putFormValue(document, named(document.pdf(), "designed-3").widget, {"Off"});
     putFormValue(document, named(document.pdf(), "designed-4", "第一").widget, {"第一"});
@@ -132,6 +145,9 @@ QJsonObject testFormDesignLifecycle(const QString& fixtures, const QString& outp
     document.commit(replaceFormDesign(document.pdf(), edited));
     check(named(document.pdf(), "designed-1").values == named(beforeDesign, "designed-1").values,
           "Re-design preserves the current entered value");
+    for (auto it = defaults.begin(); it != defaults.end(); ++it)
+        check(defaultValue(document.pdf(), it.key()) == it.value(),
+              "Position and caption changes preserve all six initial reset values");
     document.undo();
     check(document.pdf() == beforeDesign, "Re-design Undo preserves all filled values");
     document.redo();
@@ -174,6 +190,15 @@ QJsonObject testFormDesignLifecycle(const QString& fixtures, const QString& outp
             {"rect", QJsonArray{actual.x(), actual.y(), actual.width(), actual.height()}}};
     }
     geometry.save(output + "/designed-geometry-filled.pdf");
+    auto explicitValues = formDesign(document.pdf());
+    for (auto& item : explicitValues)
+        if (item.name == "designed-1")
+            item.values = {"新しい初期値 𠮷野"};
+    document.commit(replaceFormDesign(document.pdf(), explicitValues));
+    check(defaultValue(document.pdf(), "designed-1") ==
+              PDFObjectFactory::createTextString("新しい初期値 𠮷野"),
+          "Explicit design value changes update the initial reset value");
+    document.save(output + "/designed-explicit-default.pdf");
     return {{"kinds", 6},
             {"widgets", 7},
             {"shared_radio", true},
@@ -181,6 +206,8 @@ QJsonObject testFormDesignLifecycle(const QString& fixtures, const QString& outp
             {"reedit_undo_redo", true},
             {"foreign_fields_body_signature_preserved", true},
             {"XFDF_roundtrip", true},
+            {"initial_values_preserved", true},
+            {"explicit_initial_value_change", true},
             {"geometry", pages}};
 }
 QJsonObject testFormDesignFailures(const QString& fixtures, const QString& output)

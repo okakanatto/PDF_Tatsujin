@@ -94,6 +94,8 @@ FormDesignDialog::FormDesignDialog(PDFDocument document, int currentPage, QWidge
     initial->setObjectName("formDesignInitial");
     initial->setMinimumHeight(62);
     initial->setMaximumHeight(95);
+    initial->setToolTip("入力値・種類・選択値・文字数制限を変更すると、初期値も更新します。"
+                        "位置や説明だけの変更では元の初期値を保持します。");
     form->addRow("値（複数選択は1行1値）", initial);
     maxLength = new QSpinBox;
     maxLength->setObjectName("formDesignMaxLength");

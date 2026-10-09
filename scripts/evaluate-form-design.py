@@ -64,8 +64,10 @@ def main():
             "designed-filled.pdf",
             "designed-reedited.pdf",
             "designed-external-empty.pdf",
+            "designed-explicit-default.pdf",
         )
         field_rows = []
+        initial_fields = PdfReader(run / "designed-six.pdf").get_fields()
         expected_types = ["/Tx", "/Tx", "/Btn", "/Btn", "/Ch", "/Ch"]
         metadata = json.loads(
             (ROOT / "assets/fonts/TatsujinSansJP-Regular.json").read_text(
@@ -104,6 +106,18 @@ def main():
             for index, expected_type in enumerate(expected_types, 1):
                 name = f"designed-{index}"
                 field = fields[name]
+                if filename in ("designed-filled.pdf", "designed-reedited.pdf"):
+                    assert field.get("/DV") == initial_fields[name].get("/DV"), (
+                        filename,
+                        name,
+                        "initial reset value changed",
+                    )
+                if filename == "designed-explicit-default.pdf":
+                    assert field.get("/DV") == (
+                        "新しい初期値 𠮷野"
+                        if index == 1
+                        else initial_fields[name].get("/DV")
+                    )
                 assert field["/FT"] == expected_type
                 root_ref = next(
                     value
@@ -128,12 +142,16 @@ def main():
                         value = root["/V"]
                         assert widget["/AS"] == (value if value in normal else "/Off")
             expected_text = (
-                ""
-                if filename == "designed-external-empty.pdf"
+                "新しい初期値 𠮷野"
+                if filename == "designed-explicit-default.pdf"
                 else (
-                    "髙橋 𠮷野"
-                    if filename == "designed-six.pdf"
-                    else "山田 太郎 髙橋 𠮷野"
+                    ""
+                    if filename == "designed-external-empty.pdf"
+                    else (
+                        "髙橋 𠮷野"
+                        if filename == "designed-six.pdf"
+                        else "山田 太郎 髙橋 𠮷野"
+                    )
                 )
             )
             assert fields["designed-1"]["/V"] == expected_text
