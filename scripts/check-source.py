@@ -44,6 +44,8 @@ IMAGE_EDIT_CRITERIA_SHA256 = {
     "ui-positive-criteria.json": "c7b7e4dcf6194f429c7e3bd7168c810ac78c5a1a5368786b54d944b4f3d098dd",
 }
 TEXT_EDIT_CRITERIA_SHA256 = {
+    "forms/geometry-criteria.json": "941dd5db80d8f66a04220fb435ee1e65f0a632a06a85e403d563aeeb64f116c4",
+    "forms/criteria.json": "49abe9aa1b38dda9c8b37913c9b345e53c52659ddd44fb04e0c249a5fa30ee05",
     "line-count/criteria.json": "7c0f87e39173b366f09db6f6b74c2a01ee89d6b3e6bdbc3cbe72e35177e2d33d",
     "relative-lines/criteria.json": "fd7998ba1be2f3f084fb54dd95ef258f96ce5ad22e3a903c7feb1e54a06c3c7f",
     "multiline-rotated/criteria.json": "1a1be54eae357d7f38f27434472035ba3fcbb61ecfa467998eb02515d496b3c5",

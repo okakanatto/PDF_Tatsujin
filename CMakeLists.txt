@@ -52,6 +52,8 @@ add_library(tatsu_document STATIC
     src/image_embedding.cpp
     src/existing_image_edit.cpp
     src/existing_form_image_edit.cpp
+    src/content_invocation_edit.cpp
+    src/form_content_invocations.cpp
     src/existing_text_edit.cpp
     src/body_text_font.cpp
     src/image_pdf.cpp
@@ -217,6 +219,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_font_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_multiline_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_line_count_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/existing_form_text_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_image_ui_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)

@@ -35,6 +35,7 @@ private:
     QDoubleSpinBox* leading;
     QWidget* leadingSettings;
     QCheckBox* consent;
+    QCheckBox* includeGroups;
     QPushButton* apply;
     QLabel *message, *fontInfo;
     QString pageError;

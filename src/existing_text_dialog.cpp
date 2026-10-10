@@ -55,6 +55,10 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
         page->addItem(QString("%1ページ").arg(i + 1));
     page->setCurrentIndex(qBound(0, currentPage, page->count() - 1));
     column->addWidget(page);
+    includeGroups = new QCheckBox("グループ内の文字も表示");
+    includeGroups->setObjectName("existingTextIncludeGroups");
+    includeGroups->setAccessibleName("共有グループ内の本文も表示する");
+    column->addWidget(includeGroups);
     list = new QListWidget;
     list->setObjectName("existingTextList");
     list->setAccessibleName("本文の文字ブロック一覧");
@@ -112,11 +116,12 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     consent = new QCheckBox("この文字描画を削除する");
     consent->setObjectName("existingTextDeleteConsent");
     column->addWidget(consent);
-    auto help = new QLabel(
-        "通常の置換は元と同じ行数です。改行を変更する場合は専用の操作と行送りを選び、"
-        "表示する文字と字体を確認してください。自動折返しは行いません。"
-        "縦書き・行途中の書体変更・Form内部・OCR層などは未対応です。文字の削除は墨消しではありませ"
-        "ん。");
+    auto help =
+        new QLabel("通常の置換は元と同じ行数です。改行を変更する場合は専用の操作と行送りを選び、"
+                   "表示する文字と字体を確認してください。自動折返しは行いません。"
+                   "グループ内の文字は選んだ箇所だけに適用し、グループの表示範囲を保ちます。"
+                   "縦書き・行途中の書体変更・OCR層などは未対応です。文字の削除は墨消しではありませ"
+                   "ん。");
     help->setWordWrap(true);
     column->addWidget(help);
     column->addStretch();
@@ -145,6 +150,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     connect(apply, &QPushButton::clicked, this, &ExistingTextDialog::accept);
     connect(cancel, &QPushButton::clicked, this, &ExistingTextDialog::reject);
     connect(page, &QComboBox::currentIndexChanged, this, [this] { loadPage(); });
+    connect(includeGroups, &QCheckBox::toggled, this, [this] { loadPage(); });
     connect(list, &QListWidget::currentRowChanged, this, [this](int index) { select(index); });
     connect(operation, &QComboBox::currentIndexChanged, this,
             [this]
@@ -223,7 +229,7 @@ void ExistingTextDialog::loadPage()
     pageError.clear();
     try
     {
-        blocks = existingTextBlocks(snapshot, page->currentIndex());
+        blocks = existingTextBlocks(snapshot, page->currentIndex(), {}, includeGroups->isChecked());
     }
     catch (const std::exception& error)
     {
@@ -234,7 +240,10 @@ void ExistingTextDialog::loadPage()
     list->clear();
     for (const auto& block : blocks)
     {
-        auto item = new QListWidgetItem(block.text.left(60), list);
+        auto label = block.text.left(60);
+        if (block.depth)
+            label += QString("\n（グループ内・%1階層）").arg(block.depth);
+        auto item = new QListWidgetItem(label, list);
         item->setToolTip(block.font + "\n" + block.restriction);
     }
     preview->fitPage();
@@ -309,10 +318,11 @@ void ExistingTextDialog::schedule()
     const auto replacement = text->toPlainText();
     const auto family = fontChoice->family();
     const auto ratio = leading->value();
+    const bool grouped = includeGroups->isChecked();
     message->setText("プレビューを更新しています…");
     worker.request(
-        [source, rows, index, number, op, bounds, replacement, family,
-         ratio](const CandidatePreview::Cancel& stop)
+        [source, rows, index, number, op, bounds, replacement, family, ratio,
+         grouped](const CandidatePreview::Cancel& stop)
         {
             if (index < 0 || index >= rows.size())
                 return source;
@@ -324,21 +334,21 @@ void ExistingTextDialog::schedule()
                 return source;
             if (op == 3)
                 return replaceExistingTextLines(source, number, rows[index].occurrence, replacement,
-                                                ratio, family, stop);
+                                                ratio, family, stop, grouped);
             const auto change = op == 0   ? ExistingTextChange::Replace
                                 : op == 1 ? ExistingTextChange::Geometry
                                           : ExistingTextChange::Remove;
             if (op == 0 && !family.isEmpty())
                 return replaceExistingTextFont(source, number, rows[index].occurrence, replacement,
-                                               family, stop);
+                                               family, stop, grouped);
             return editExistingText(source, number, rows[index].occurrence, change, replacement,
-                                    bounds, stop);
+                                    bounds, stop, grouped);
         },
         number, 1000.0 * preview->zoom(),
-        [number](const PDFDocument& document)
+        [number, grouped](const PDFDocument& document)
         {
             QVector<QRectF> bounds;
-            for (const auto& block : existingTextBlocks(document, number))
+            for (const auto& block : existingTextBlocks(document, number, {}, grouped))
                 bounds << block.physical;
             return bounds;
         });

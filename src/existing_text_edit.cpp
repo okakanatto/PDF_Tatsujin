@@ -1,5 +1,7 @@
 #include "existing_text_edit.h"
 #include "body_text_font.h"
+#include "content_invocation_edit.h"
+#include "form_content_invocations.h"
 #include "pdf_objects.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
@@ -37,11 +39,14 @@ struct Block
     double fontSize = 0;
     double endingLeading = 0;
     QByteArray originalCodes;
+    QByteArray fontName;
+    int owner = 0;
 };
 struct Inspection
 {
     QByteArray bytes;
     QVector<Block> blocks;
+    QVector<ContentInvocationOwner> owners;
 };
 QByteArray contents(const PDFDocument& document, PDFObject value)
 {
@@ -182,50 +187,114 @@ public:
     using PDFTextLayoutGenerator::PDFTextLayoutGenerator;
     QVector<Block>* blocks = nullptr;
     std::function<bool()> cancelled;
-    int index = -1;
-    bool inside = false;
-    int line = 0;
-    bool firstCharacter = false;
+    FormContentInvocations* invocations = nullptr;
+    QHash<const PDFFont*, PDFObject> fontBindings;
+    struct Frame
+    {
+        QVector<int> indices;
+        int cursor = -1, line = 0;
+        bool inside = false, firstCharacter = false;
+    };
+    QVector<Frame> frames;
+    void initialize()
+    {
+        Frame root;
+        for (int i = 0; i < blocks->size(); ++i)
+            root.indices << i;
+        frames << root;
+    }
+    bool finished() const
+    {
+        for (const auto& frame : frames)
+            if (frame.inside || frame.cursor + 1 != frame.indices.size())
+                return false;
+        return !invocations || invocations->finished();
+    }
 
 protected:
     bool isContentKindSuppressed(ContentKind kind) const override
     {
-        return kind == ContentKind::Forms || kind == ContentKind::Images ||
+        return (kind == ContentKind::Forms && !invocations) || kind == ContentKind::Images ||
                PDFTextLayoutGenerator::isContentKindSuppressed(kind);
     }
     void performInterceptInstruction(Operator, ProcessOrder order,
                                      const QByteArray& command) override
     {
         stop(cancelled);
+        if (command == "Tf" && order == ProcessOrder::AfterOperation)
+        {
+            const auto font = getGraphicState()->getTextFont();
+            if (font && getFontDictionary() && getOperands().size() == 2)
+                fontBindings[font.data()] =
+                    getFontDictionary()->get(getOperands()[0].data.toByteArray());
+        }
+        if (invocations && command == "Do")
+        {
+            if (order == ProcessOrder::AfterOperation)
+            {
+                invocations->endDrawing();
+                return;
+            }
+            if (getOperands().size() != 1)
+                fail("本文グループの描画参照を確認できません。");
+            const auto call = invocations->beginDrawing(
+                getOperands()[0].data.toByteArray(), getXObjectDictionary(),
+                getGraphicState()->getCurrentTransformationMatrix());
+            if (call.subtype == "Form")
+            {
+                const int owner = invocations->currentOwner();
+                if (owner != frames.size())
+                    fail("本文グループの対応を確認できません。");
+                Frame frame;
+                for (auto block : spans(invocations->owners[owner].bytes, cancelled))
+                {
+                    if (blocks->size() >= 1000)
+                        fail("本文ブロックの総数が1000を超えています。");
+                    block.owner = owner;
+                    block.value.depth = invocations->depth();
+                    block.value.occurrence = blocks->size();
+                    frame.indices << blocks->size();
+                    blocks->append(block);
+                }
+                frames << frame;
+            }
+            return;
+        }
         if (order != ProcessOrder::BeforeOperation)
             return;
+        auto& frame = frames[invocations ? invocations->currentOwner() : 0];
         if (command == "BT")
         {
-            if (++index >= blocks->size())
+            if (++frame.cursor >= frame.indices.size())
                 fail("本文命令の対応を確認できません。");
-            inside = true;
-            line = 0;
+            frame.inside = true;
+            frame.line = 0;
         }
         else if (command == "ET")
-            inside = false;
-        else if (inside && (command == "Tj" || command == "TJ"))
+            frame.inside = false;
+        else if (frame.inside && (command == "Tj" || command == "TJ"))
         {
-            auto& block = (*blocks)[index];
+            auto& block = (*blocks)[frame.indices[frame.cursor]];
             const auto state = getGraphicState();
             block.endingLeading = state->getTextLeading();
             if (block.shows > 1 && block.advanceCommand == "T*" &&
                 (!std::isfinite(state->getTextLeading()) || state->getTextLeading() <= 0))
                 block.value.restriction = "正の一定行送りを持つ複数行を選んでください。";
-            firstCharacter = true;
-            if (!line++)
+            frame.firstCharacter = true;
+            if (!frame.line++)
             {
                 block.font = state->getTextFont();
                 block.fontSize = state->getTextFontSize();
                 block.matrix = state->getTextMatrix();
                 block.ctm = state->getCurrentTransformationMatrix();
                 if (block.font)
+                {
                     block.value.font =
                         QString::fromLatin1(block.font->getFontDescriptor()->fontName);
+                    block.fontName = resourceFontName(block.font);
+                    if (block.fontName.isEmpty())
+                        block.value.restriction = "本文の字体資源を確認できません。";
+                }
             }
             if (state->getTextRenderingMode() != TextRenderingMode::Fill ||
                 state->getAlphaFilling() != 1 || isContentSuppressed())
@@ -235,12 +304,13 @@ protected:
     }
     void performOutputCharacter(const PDFTextCharacterInfo& info) override
     {
-        if (!inside || isContentSuppressed())
+        auto& frame = frames[invocations ? invocations->currentOwner() : 0];
+        if (!frame.inside || isContentSuppressed())
             return;
-        auto& block = (*blocks)[index];
-        if (firstCharacter && line > 1 && !block.value.text.isEmpty())
+        auto& block = (*blocks)[frame.indices[frame.cursor]];
+        if (frame.firstCharacter && frame.line > 1 && !block.value.text.isEmpty())
             block.value.text += '\n';
-        firstCharacter = false;
+        frame.firstCharacter = false;
         block.value.text += info.character;
         if (block.value.text.size() > 4096)
             fail("本文ブロックの文字数が上限を超えています。");
@@ -249,10 +319,52 @@ protected:
         const auto box =
             getPagePointToDevicePointMatrix().map(info.matrix.map(info.outline)).boundingRect();
         if (box.isValid())
+        {
             block.value.physical = block.value.physical.united(box);
+            if (invocations &&
+                !contentBoundsContain(invocations->owners[block.owner].clips, QPolygonF(box)))
+                block.value.restriction = "本文がグループの表示範囲からはみ出しています。";
+        }
+    }
+
+private:
+    QByteArray resourceFontName(const PDFFontPointer& font) const
+    {
+        const auto resources = getFontDictionary();
+        if (!resources)
+            return {};
+        const auto preferred = font->getFontId();
+        const auto binding = fontBindings.constFind(font.data());
+        if (binding != fontBindings.cend())
+        {
+            if (resources->hasKey(preferred) && resources->get(preferred) == binding.value())
+                return preferred;
+            for (size_t i = 0; i < resources->getCount(); ++i)
+                if (resources->getValue(i) == binding.value())
+                    return resources->getKey(i).getString();
+        }
+        if (resources->getCount() > 128)
+            return {};
+        for (size_t i = 0; i < resources->getCount(); ++i)
+        {
+            if (!resources->getValue(i).isReference())
+                continue;
+            const auto name = resources->getKey(i).getString();
+            try
+            {
+                if (getFontCache()->getFont(resources->getValue(i), name) == font)
+                    return name;
+            }
+            catch (const PDFException&)
+            {
+            }
+        }
+        return {};
     }
 };
-Inspection inspect(const PDFDocument& document, int page, const std::function<bool()>& cancelled)
+
+Inspection inspect(const PDFDocument& document, int page, const std::function<bool()>& cancelled,
+                   bool includeForms)
 {
     stop(cancelled);
     if (page < 0 || page >= int(document.getCatalog()->getPageCount()))
@@ -265,6 +377,17 @@ Inspection inspect(const PDFDocument& document, int page, const std::function<bo
     Inspection result;
     result.bytes = contents(document, sourcePage->getContents());
     result.blocks = spans(result.bytes, cancelled);
+    ContentInvocationOwner owner;
+    owner.reference = sourcePage->getPageReference();
+    owner.attributes = *document.getObjectByReference(owner.reference).getDictionary();
+    if (const auto resources = document.getDictionaryFromObject(sourcePage->getResources()))
+        owner.resources = *resources;
+    owner.bytes = result.bytes;
+    result.owners << owner;
+    std::unique_ptr<FormContentInvocations> invocations;
+    if (includeForms)
+        invocations =
+            std::make_unique<FormContentInvocations>(document, page, [&] { stop(cancelled); });
     PDFFontCache fonts{128, 128};
     auto snapshot = document;
     fonts.setDocument(PDFModifiedDocument(&snapshot, nullptr));
@@ -274,25 +397,33 @@ Inspection inspect(const PDFDocument& document, int page, const std::function<bo
                         cms.data(), nullptr, pageMatrix(sourcePage), {});
     collector.blocks = &result.blocks;
     collector.cancelled = cancelled;
+    collector.invocations = invocations.get();
+    collector.initialize();
     for (const auto& error : collector.processContents())
         if (error.type != RenderErrorType::Information)
             fail("本文の文字を解析できません: " + error.message);
-    if (collector.index + 1 != result.blocks.size())
+    if (!collector.finished())
         fail("本文命令の対応を確認できません。");
+    if (invocations)
+    {
+        result.owners.clear();
+        for (const auto& tracked : invocations->owners)
+            result.owners << tracked;
+    }
     for (auto& block : result.blocks)
     {
         if (!block.font || !block.value.physical.isValid() || !block.matrix.isInvertible() ||
             !block.ctm.isInvertible())
             block.value.restriction = "本文の字体・表示範囲・位置を確認できません。";
-        if (block.font && block.value.font.isEmpty())
+        if (block.font && !block.fontName.isEmpty() && block.value.font.isEmpty())
         {
-            const auto resources = document.getObject(sourcePage->getResources());
-            const auto fontsObject = document.getObject(resources.getDictionary()->get("Font"));
+            const auto fontsObject =
+                document.getObject(result.owners[block.owner].resources.get("Font"));
             const auto fontObject =
-                document.getObject(fontsObject.getDictionary()->get(block.font->getFontId()));
+                document.getObject(fontsObject.getDictionary()->get(block.fontName));
             const auto baseName = document.getObject(fontObject.getDictionary()->get("BaseFont"));
             block.value.font = baseName.isName() ? QString::fromLatin1(baseName.getString())
-                                                 : QString::fromLatin1(block.font->getFontId());
+                                                 : QString::fromLatin1(block.fontName);
         }
     }
     return result;
@@ -359,10 +490,11 @@ PDFEncodedText encode(const Block& block, const QString& text)
 }
 } // namespace
 QVector<ExistingTextBlock> existingTextBlocks(const PDFDocument& document, int page,
-                                              const std::function<bool()>& cancelled)
+                                              const std::function<bool()>& cancelled,
+                                              bool includeForms)
 {
     QVector<ExistingTextBlock> result;
-    for (const auto& block : inspect(document, page, cancelled).blocks)
+    for (const auto& block : inspect(document, page, cancelled, includeForms).blocks)
         if (!block.value.text.isEmpty())
             result << block.value;
     return result;
@@ -370,7 +502,7 @@ QVector<ExistingTextBlock> existingTextBlocks(const PDFDocument& document, int p
 static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrence,
                             ExistingTextChange change, const QString& text, QRectF physical,
                             const std::function<bool()>& cancelled, const QString& family,
-                            double leadingRatio = 0)
+                            double leadingRatio = 0, bool includeForms = false)
 {
     const auto restriction = editingRestriction(snapshot);
     if (!restriction.isEmpty())
@@ -378,17 +510,18 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
     if (change != ExistingTextChange::Geometry && change != ExistingTextChange::Replace &&
         change != ExistingTextChange::Remove && change != ExistingTextChange::Lines)
         fail("本文の編集操作を確認してください。");
-    const auto inspected = inspect(snapshot, page, cancelled);
+    const auto inspected = inspect(snapshot, page, cancelled, includeForms);
     if (occurrence < 0 || occurrence >= inspected.blocks.size())
         fail("編集対象の本文が見つかりません。");
     const auto& block = inspected.blocks[occurrence];
     if (!block.value.restriction.isEmpty())
         fail(block.value.restriction);
-    QByteArray bytes = inspected.bytes;
+    auto owners = inspected.owners;
+    auto& owner = owners[block.owner];
+    QByteArray bytes = owner.bytes;
     PDFDocumentBuilder builder(&snapshot);
     const auto sourcePage = snapshot.getCatalog()->getPage(page);
-    auto dictionary =
-        *snapshot.getObjectByReference(sourcePage->getPageReference()).getDictionary();
+    auto dictionary = owner.attributes;
     if (change == ExistingTextChange::Geometry)
     {
         if (!physical.isValid() || !std::isfinite(physical.left()) ||
@@ -449,7 +582,7 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
                 if (!std::isfinite(block.fontSize) || block.fontSize <= 0)
                     fail("本文の文字サイズを確認できません。");
                 const auto embedded = embedBodyTextFont(builder, family, text, cancelled);
-                auto resources = *snapshot.getDictionaryFromObject(sourcePage->getResources());
+                auto resources = owner.resources;
                 auto fonts = *snapshot.getDictionaryFromObject(resources.get("Font"));
                 int number = 1;
                 QByteArray name;
@@ -460,8 +593,9 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
                 fonts.setEntry(PDFInplaceOrMemoryString(name), PDFObject(embedded.font));
                 set(resources, "Font", dictObject(fonts));
                 set(dictionary, "Resources", dictObject(resources));
+                owner.resources = resources;
                 QByteArray originalName;
-                for (unsigned char character : block.font->getFontId())
+                for (unsigned char character : block.fontName)
                 {
                     if (character >= 33 && character <= 126 &&
                         !QByteArray("#/%()<>[]{}").contains(char(character)))
@@ -470,7 +604,7 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
                         originalName +=
                             '#' + QByteArray::number(character, 16).rightJustified(2, '0');
                 }
-                if (originalName.isEmpty() || !fonts.hasKey(block.font->getFontId()))
+                if (originalName.isEmpty() || !fonts.hasKey(block.fontName))
                     fail("元の字体リソースを確認できません。");
                 const auto size = QByteArray::number(block.fontSize, 'f', 17);
                 prefix = '/' + name + ' ' + size + " Tf\n";
@@ -501,11 +635,12 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
                               block.showSpans[i].end - block.showSpans[i].begin, commands[i]);
     }
     stop(cancelled);
-    set(dictionary, "Contents",
-        PDFObject::createReference(builder.addObject(streamObject({}, bytes))));
-    builder.setObject(sourcePage->getPageReference(), dictObject(dictionary));
+    owner.attributes = dictionary;
+    const ContentSpan complete{0, owner.bytes.size()};
+    spliceContentInvocation(builder, snapshot, std::move(owners), block.owner, complete, bytes,
+                            [&] { stop(cancelled); });
     auto result = builder.build();
-    const auto checked = inspect(result, page, cancelled);
+    const auto checked = inspect(result, page, cancelled, includeForms);
     if (checked.blocks.size() != inspected.blocks.size())
         fail("変更後の本文構造を確認できません。");
     for (int index = 0; index < checked.blocks.size(); ++index)
@@ -517,6 +652,9 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
             fail("変更後の本文の文字コードが一致しません。変更は適用していません。");
     }
     if (change != ExistingTextChange::Remove &&
+        !checked.blocks[occurrence].value.restriction.isEmpty())
+        fail(checked.blocks[occurrence].value.restriction);
+    if (change != ExistingTextChange::Remove &&
         !QRectF(QPointF(), pageSize(sourcePage))
              .contains(checked.blocks[occurrence].value.physical))
         fail("変更後の本文がページからはみ出します。変更は適用していません。");
@@ -525,24 +663,26 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
 }
 PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurrence,
                              ExistingTextChange change, const QString& text, QRectF physical,
-                             const std::function<bool()>& cancelled)
+                             const std::function<bool()>& cancelled, bool includeForms)
 {
-    return editText(snapshot, page, occurrence, change, text, physical, cancelled, {});
+    return editText(snapshot, page, occurrence, change, text, physical, cancelled, {}, 0,
+                    includeForms);
 }
 PDFDocument replaceExistingTextFont(const PDFDocument& snapshot, int page, int occurrence,
                                     const QString& text, const QString& family,
-                                    const std::function<bool()>& cancelled)
+                                    const std::function<bool()>& cancelled, bool includeForms)
 {
     if (family.isEmpty())
         fail("本文の書体を明示的に選んでください。");
     return editText(snapshot, page, occurrence, ExistingTextChange::Replace, text, {}, cancelled,
-                    family);
+                    family, 0, includeForms);
 }
 PDFDocument replaceExistingTextLines(const PDFDocument& snapshot, int page, int occurrence,
                                      const QString& text, double leadingRatio,
-                                     const QString& family, const std::function<bool()>& cancelled)
+                                     const QString& family, const std::function<bool()>& cancelled,
+                                     bool includeForms)
 {
     return editText(snapshot, page, occurrence, ExistingTextChange::Lines, text, {}, cancelled,
-                    family, leadingRatio);
+                    family, leadingRatio, includeForms);
 }
 } // namespace tatsu

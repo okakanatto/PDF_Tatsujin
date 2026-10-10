@@ -411,6 +411,8 @@ int selftest(const QString& fixtures, const QString& output)
         [&] { return testExistingTextLineCount(fixtures, output); });
     run("M6T11_existing_text_line_count_UI",
         [&] { return testExistingTextLineCountUi(fixtures, output); });
+    run("M6TF01_existing_form_text", [&] { return testExistingFormText(fixtures, output); });
+    run("M6TF02_existing_form_text_UI", [&] { return testExistingFormTextUi(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });
