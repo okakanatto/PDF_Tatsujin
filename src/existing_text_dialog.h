@@ -2,6 +2,7 @@
 #include "candidate_preview.h"
 #include "existing_text_edit.h"
 #include "page_region_preview.h"
+#include "text_font_picker.h"
 #include <QtWidgets>
 
 namespace tatsu
@@ -29,6 +30,7 @@ private:
     QListWidget* list;
     PageRegionPreview* preview;
     QPlainTextEdit* text;
+    TextFontPicker* fontChoice;
     QDoubleSpinBox *x, *y, *width, *height;
     QCheckBox* consent;
     QPushButton* apply;

@@ -1,4 +1,5 @@
 #include "existing_text_edit.h"
+#include "body_text_font.h"
 #include "pdf_objects.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
@@ -29,6 +30,7 @@ struct Block
     int matrices = 0, shows = 0;
     QTransform matrix, ctm;
     PDFFontPointer font;
+    double fontSize = 0;
     QByteArray originalCodes;
 };
 struct Inspection
@@ -167,6 +169,7 @@ protected:
             auto& block = (*blocks)[index];
             const auto state = getGraphicState();
             block.font = state->getTextFont();
+            block.fontSize = state->getTextFontSize();
             block.matrix = state->getTextMatrix();
             block.ctm = state->getCurrentTransformationMatrix();
             if (block.font)
@@ -295,9 +298,9 @@ QVector<ExistingTextBlock> existingTextBlocks(const PDFDocument& document, int p
             result << block.value;
     return result;
 }
-PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurrence,
-                             ExistingTextChange change, const QString& text, QRectF physical,
-                             const std::function<bool()>& cancelled)
+static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrence,
+                            ExistingTextChange change, const QString& text, QRectF physical,
+                            const std::function<bool()>& cancelled, const QString& family)
 {
     const auto restriction = editingRestriction(snapshot);
     if (!restriction.isEmpty())
@@ -312,6 +315,10 @@ PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurren
     if (!block.value.restriction.isEmpty())
         fail(block.value.restriction);
     QByteArray bytes = inspected.bytes;
+    PDFDocumentBuilder builder(&snapshot);
+    const auto sourcePage = snapshot.getCatalog()->getPage(page);
+    auto dictionary =
+        *snapshot.getObjectByReference(sourcePage->getPageReference()).getDictionary();
     if (change == ExistingTextChange::Geometry)
     {
         if (!physical.isValid() || !std::isfinite(physical.left()) ||
@@ -338,18 +345,49 @@ PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurren
             if (text.isEmpty() || text.size() > 4096 || text.contains('\n') ||
                 text.contains('\r') || text.contains(QChar::Null))
                 fail("置換する本文は空でない1行、4096文字以内で指定してください。");
-            const auto encoded = encode(block, text);
-            if (!encoded.isValid || encoded.encodedText.isEmpty())
-                fail("元の字体で表現できない文字があります。字体の変更は未対応です。");
-            command = '<' + encoded.encodedText.toHex() + "> Tj";
+            if (family.isEmpty())
+            {
+                const auto encoded = encode(block, text);
+                if (!encoded.isValid || encoded.encodedText.isEmpty())
+                    fail("元の字体で表現できない文字があります。本文の書体を選んでください。");
+                command = '<' + encoded.encodedText.toHex() + "> Tj";
+            }
+            else
+            {
+                if (!std::isfinite(block.fontSize) || block.fontSize <= 0)
+                    fail("本文の文字サイズを確認できません。");
+                const auto embedded = embedBodyTextFont(builder, family, text, cancelled);
+                auto resources = *snapshot.getDictionaryFromObject(sourcePage->getResources());
+                auto fonts = *snapshot.getDictionaryFromObject(resources.get("Font"));
+                int number = 1;
+                QByteArray name;
+                do
+                {
+                    name = "TatsujinBodyFont" + QByteArray::number(number++);
+                } while (fonts.hasKey(name));
+                fonts.setEntry(PDFInplaceOrMemoryString(name), PDFObject(embedded.font));
+                set(resources, "Font", dictObject(fonts));
+                set(dictionary, "Resources", dictObject(resources));
+                QByteArray originalName;
+                for (unsigned char character : block.font->getFontId())
+                {
+                    if (character >= 33 && character <= 126 &&
+                        !QByteArray("#/%()<>[]{}").contains(char(character)))
+                        originalName += char(character);
+                    else
+                        originalName +=
+                            '#' + QByteArray::number(character, 16).rightJustified(2, '0');
+                }
+                if (originalName.isEmpty() || !fonts.hasKey(block.font->getFontId()))
+                    fail("元の字体リソースを確認できません。");
+                const auto size = QByteArray::number(block.fontSize, 'f', 17);
+                command = '/' + name + ' ' + size + " Tf\n<" + embedded.encodedText.toHex() +
+                          "> Tj\n/" + originalName + ' ' + size + " Tf";
+            }
         }
         bytes.replace(block.showSpan.begin, block.showSpan.end - block.showSpan.begin, command);
     }
     stop(cancelled);
-    PDFDocumentBuilder builder(&snapshot);
-    const auto sourcePage = snapshot.getCatalog()->getPage(page);
-    auto dictionary =
-        *snapshot.getObjectByReference(sourcePage->getPageReference()).getDictionary();
     set(dictionary, "Contents",
         PDFObject::createReference(builder.addObject(streamObject({}, bytes))));
     builder.setObject(sourcePage->getPageReference(), dictObject(dictionary));
@@ -371,5 +409,20 @@ PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurren
         fail("変更後の本文がページからはみ出します。変更は適用していません。");
     stop(cancelled);
     return result;
+}
+PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurrence,
+                             ExistingTextChange change, const QString& text, QRectF physical,
+                             const std::function<bool()>& cancelled)
+{
+    return editText(snapshot, page, occurrence, change, text, physical, cancelled, {});
+}
+PDFDocument replaceExistingTextFont(const PDFDocument& snapshot, int page, int occurrence,
+                                    const QString& text, const QString& family,
+                                    const std::function<bool()>& cancelled)
+{
+    if (family.isEmpty())
+        fail("本文の書体を明示的に選んでください。");
+    return editText(snapshot, page, occurrence, ExistingTextChange::Replace, text, {}, cancelled,
+                    family);
 }
 } // namespace tatsu

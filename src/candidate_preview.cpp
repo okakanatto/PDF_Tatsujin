@@ -18,11 +18,13 @@ CandidatePreview::~CandidatePreview()
         delete job;
     }
 }
-void CandidatePreview::request(Prepare prepare, int number, double longestEdge)
+void CandidatePreview::request(Prepare prepare, int number, double longestEdge,
+                               Inspect inspectBounds)
 {
     if (closing)
         return;
     pending = std::move(prepare);
+    inspect = std::move(inspectBounds);
     page = number;
     pixels = qBound(500.0, longestEdge, 3000.0);
     ++generation;
@@ -36,6 +38,7 @@ void CandidatePreview::cancel(std::function<void()> finished)
     stopped->store(true);
     timer.stop();
     pending = {};
+    inspect = {};
     cancelled = std::move(finished);
     if (!job && cancelled)
         cancelled();
@@ -46,16 +49,21 @@ void CandidatePreview::start()
         return;
     const auto token = generation;
     const auto prepare = pending;
+    const auto inspectBounds = inspect;
     const auto number = page;
     const auto edge = pixels;
     const auto stop = stopped;
     auto result = std::make_shared<CandidatePreviewResult>();
     job = QThread::create(
-        [prepare, number, edge, stop, result]
+        [prepare, inspectBounds, number, edge, stop, result]
         {
             try
             {
                 result->document = prepare([stop] { return stop->load(); });
+                if (stop->load())
+                    return;
+                if (inspectBounds)
+                    result->bounds = inspectBounds(result->document);
                 if (stop->load())
                     return;
                 result->dimensions = pageSize(result->document.getCatalog()->getPage(number));

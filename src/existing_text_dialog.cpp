@@ -16,7 +16,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     setMinimumSize(760, 480);
     auto layout = new QVBoxLayout(this);
     auto note = new QLabel("本文の文字ブロックを選び、文字の置換・位置とサイズの変更・削除を実ペー"
-                           "ジで確認して適用します。元の字体で表現できる横書きに対応します。");
+                           "ジで確認して適用します。横書きの文字と書体を変更できます。");
     note->setWordWrap(true);
     layout->addWidget(note);
     auto body = new QHBoxLayout;
@@ -74,6 +74,12 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     text->setAccessibleName("置換する本文の文字");
     text->setMaximumHeight(100);
     column->addWidget(text);
+    fontChoice = new TextFontPicker;
+    fontChoice->insertItem(0, "元の字体を保持", QString());
+    fontChoice->setCurrentIndex(0);
+    fontChoice->setObjectName("existingTextFontFamily");
+    fontChoice->setAccessibleName("本文の書体");
+    column->addWidget(fontChoice);
     auto form = new QFormLayout;
     auto number = [&](QString name, QString label)
     {
@@ -95,7 +101,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     consent->setObjectName("existingTextDeleteConsent");
     column->addWidget(consent);
     auto help = new QLabel(
-        "表示する文字と字体を確認してください。文字列の長さで表示幅が変わります。字体の変更・複数行"
+        "表示する文字と字体を確認してください。文字列の長さで表示幅が変わります。縦書き・複数行"
         "・Form内部・OCR層などは未対応です。文字の削除は墨消しではありません。");
     help->setWordWrap(true);
     column->addWidget(help);
@@ -133,6 +139,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
                 schedule();
             });
     connect(text, &QPlainTextEdit::textChanged, this, [this] { schedule(); });
+    connect(fontChoice, &QComboBox::currentIndexChanged, this, [this] { schedule(); });
     connect(consent, &QCheckBox::toggled, this, [this] { updateApply(); });
     for (auto field : {x, y, width, height})
         connect(field, &QDoubleSpinBox::valueChanged, this,
@@ -172,12 +179,16 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
             preview->physical = result.dimensions;
             preview->image = std::move(result.image);
             const int row = list->currentRow();
+            const bool replacing = operation->currentIndex() == 0;
+            if (replacing && row >= 0 && result.bounds.size() == blocks.size())
+                setGeometry(result.bounds[row]);
             preview->regions.clear();
             for (int i = 0; i < blocks.size(); ++i)
                 if (i != row || operation->currentIndex() != 2)
-                    preview->regions << qMakePair(i, i == row && operation->currentIndex() == 1
-                                                         ? geometry
-                                                         : blocks[i].physical);
+                    preview->regions
+                        << qMakePair(i, i == row && (operation->currentIndex() == 1 || replacing)
+                                            ? geometry
+                                            : blocks[i].physical);
             preview->update();
             message->setText(!pageError.isEmpty() ? pageError
                              : row >= 0 && !blocks[row].restriction.isEmpty()
@@ -220,6 +231,10 @@ void ExistingTextDialog::select(int index)
 {
     const QSignalBlocker blocker(text);
     text->setPlainText(index >= 0 ? blocks[index].text : QString());
+    {
+        QSignalBlocker blocker(fontChoice);
+        fontChoice->setCurrentIndex(0);
+    }
     fontInfo->setText(index >= 0 ? "元の字体：" + blocks[index].font : QString());
     consent->setChecked(false);
     setGeometry(index >= 0 ? blocks[index].physical : QRectF());
@@ -247,12 +262,14 @@ void ExistingTextDialog::updateApply()
     const bool supported = selected && blocks[index].restriction.isEmpty();
     const bool changed =
         selected && (op == 2 || (op == 1 ? geometry != blocks[index].physical
-                                         : text->toPlainText() != blocks[index].text));
+                                         : text->toPlainText() != blocks[index].text ||
+                                               !fontChoice->family().isEmpty()));
     apply->setEnabled(!closing && valid && supported && changed &&
                       (op != 2 || consent->isChecked()));
     for (auto field : {x, y, width, height})
         field->setEnabled(supported && op == 1 && !closing);
     text->setEnabled(supported && op == 0 && !closing);
+    fontChoice->setEnabled(supported && op == 0 && !closing);
     consent->setVisible(op == 2);
     preview->selected = op == 1 ? index : -1;
 }
@@ -269,25 +286,37 @@ void ExistingTextDialog::schedule()
     const auto source = snapshot;
     const auto bounds = geometry;
     const auto replacement = text->toPlainText();
+    const auto family = fontChoice->family();
     message->setText("プレビューを更新しています…");
     worker.request(
-        [source, rows, index, number, op, bounds, replacement](const CandidatePreview::Cancel& stop)
+        [source, rows, index, number, op, bounds, replacement,
+         family](const CandidatePreview::Cancel& stop)
         {
             if (index < 0 || index >= rows.size())
                 return source;
             if (!rows[index].restriction.isEmpty())
                 return source;
-            if (op == 0 && replacement == rows[index].text)
+            if (op == 0 && replacement == rows[index].text && family.isEmpty())
                 return source;
             if (op == 1 && bounds == rows[index].physical)
                 return source;
             const auto change = op == 0   ? ExistingTextChange::Replace
                                 : op == 1 ? ExistingTextChange::Geometry
                                           : ExistingTextChange::Remove;
+            if (op == 0 && !family.isEmpty())
+                return replaceExistingTextFont(source, number, rows[index].occurrence, replacement,
+                                               family, stop);
             return editExistingText(source, number, rows[index].occurrence, change, replacement,
                                     bounds, stop);
         },
-        number, 1000.0 * preview->zoom());
+        number, 1000.0 * preview->zoom(),
+        [number](const PDFDocument& document)
+        {
+            QVector<QRectF> bounds;
+            for (const auto& block : existingTextBlocks(document, number))
+                bounds << block.physical;
+            return bounds;
+        });
 }
 void ExistingTextDialog::accept()
 {

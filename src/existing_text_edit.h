@@ -21,4 +21,7 @@ QVector<ExistingTextBlock> existingTextBlocks(const PDFDocument& document, int p
 PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurrence,
                              ExistingTextChange change, const QString& text = {},
                              QRectF physical = {}, const std::function<bool()>& cancelled = {});
+PDFDocument replaceExistingTextFont(const PDFDocument& snapshot, int page, int occurrence,
+                                    const QString& text, const QString& family,
+                                    const std::function<bool()>& cancelled = {});
 } // namespace tatsu

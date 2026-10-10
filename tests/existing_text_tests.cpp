@@ -132,7 +132,7 @@ QJsonObject testExistingTextCore(const QString& fixtures, const QString& output)
         rotated, 0, rotatedIndex, ExistingTextChange::Geometry, {}, QRectF(100, 200, 250, 40));
     others(rotated, rotatedCopy, rotatedIndex);
     writeCandidate(rotatedCopy, output + "/existing-text-rotated.pdf");
-    return {{"outputs", 6}, {"japanese_and_english", true}, {"original_immutable", true}};
+    return {{"outputs", 7}, {"japanese_and_english", true}, {"original_immutable", true}};
 }
 QJsonObject testExistingTextRefusals(const QString& fixtures, const QString&)
 {

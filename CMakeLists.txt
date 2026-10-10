@@ -52,6 +52,7 @@ add_library(tatsu_document STATIC
     src/image_embedding.cpp
     src/existing_image_edit.cpp
     src/existing_text_edit.cpp
+    src/body_text_font.cpp
     src/image_pdf.cpp
     src/image_export.cpp
     src/signature_library.cpp
@@ -211,6 +212,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/existing_image_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_ui_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/existing_text_font_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_image_ui_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)

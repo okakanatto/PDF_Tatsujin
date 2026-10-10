@@ -40,6 +40,8 @@ IMAGE_EDIT_CRITERIA_SHA256 = {
     "ui-positive-criteria.json": "c7b7e4dcf6194f429c7e3bd7168c810ac78c5a1a5368786b54d944b4f3d098dd",
 }
 TEXT_EDIT_CRITERIA_SHA256 = {
+    "font-styles.json": "138df9c19f016742f08c9de03b9a05c2df20db53ae90a69f462fcd6164bc7f39",
+    "font-state/criteria.json": "956a205c49361825e92b64a0bfc0a8972b7183d52a7d9c7a3b56ec091f05e06e",
     "criteria.json": "79897ed58a76ef9f78840827807256e82b6bc47b49491e0a8a8b7b3dfa1abdcb",
     "visible/criteria.json": "50d1ccff8c01bcfd3892cba6147154d910b05e00b86319b5db2c51fcae47d17d",
     "rotated/criteria.json": "4da0d1a272198846cd6c46a12969ddd66ec53da5f71f1a1ba0c91933cf586ed9",
