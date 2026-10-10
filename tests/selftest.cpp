@@ -31,6 +31,7 @@
 #include "pan_tests.h"
 #include "pdf_objects.h"
 #include "pdf_optimization_tests.h"
+#include "pdf_text_docx_tests.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
 #include "redaction_copy_tests.h"
@@ -430,6 +431,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M6V01_vertical_OCR_UI", [&] { return testVerticalOcrUi(fixtures, output); });
     run("M6V02_vertical_OCR_failures", [&] { return testVerticalOcrFailure(fixtures, output); });
     run("M6V03_vertical_font_metrics", [&] { return testVerticalFontMetrics(fixtures); });
+    run("M6W01_Word_text", [&] { return testWordTextCore(fixtures, output); });
+    run("M6W02_Word_text_failures", [&] { return testWordTextFailures(fixtures, output); });
+    run("M6W03_Word_text_UI", [&] { return testWordTextUi(fixtures, output); });
+    run("M6W04_Word_Office_interop", [&] { return testWordTextOffice(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

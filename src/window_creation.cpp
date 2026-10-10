@@ -1,6 +1,7 @@
 #include "image_export_dialog.h"
 #include "image_pdf_dialog.h"
 #include "office_import_dialog.h"
+#include "pdf_text_docx_dialog.h"
 #include "pdfsecurityhandler.h"
 #include "table_extraction_dialog.h"
 #include "window.h"
@@ -75,6 +76,22 @@ void Window::extractDocumentTable()
         {
             if (doc.revision != revision)
                 fail("元のPDFが変更されました。表の取り出しを開き直してください。");
+        },
+        this);
+    dialog.exec();
+}
+void Window::extractDocumentWordText()
+{
+    if (!doc.loaded() || !doc.copyAllowed || doc.busy)
+        fail("この文書では本文をWordへ取り出せません。");
+    canvas->finishFormEdit();
+    const auto revision = doc.revision;
+    PdfTextDocxDialog dialog(
+        doc.pdf(), canvas->page,
+        [this, revision]
+        {
+            if (doc.revision != revision)
+                fail("元のPDFが変更されました。本文の取り出しを開き直してください。");
         },
         this);
     dialog.exec();

@@ -2,6 +2,7 @@
 #include "office_import.h"
 #include "table_extraction.h"
 #include "table_extraction_dialog.h"
+#include <QtCore/private/qzipreader_p.h>
 #include <QtCore>
 #include <QtTest/QTest>
 
@@ -222,23 +223,32 @@ QJsonObject testTableExtraction(const QString& fixtures, const QString& output)
     check(copyRefused, "Table extraction honors denied copying");
     const auto race = output + "/table-publication-race.xlsx";
     bool collision = false;
+    bool competitorCreated = false;
     try
     {
-        exportTableXlsx(
-            expected, race,
-            [&]
-            {
-                for (const auto& name : QDir(output).entryList({"PDFTatsujin-table-*"}, QDir::Dirs))
-                    if (QFileInfo::exists(output + '/' + name + "/table.xlsx"))
-                    {
-                        QFile competitor(race);
-                        check(competitor.open(QIODevice::WriteOnly | QIODevice::NewOnly),
-                              "Concurrent output writer");
-                        competitor.write("concurrent-workbook-sentinel");
-                        competitor.close();
-                    }
-                return false;
-            });
+        exportTableXlsx(expected, race,
+                        [&]
+                        {
+                            if (competitorCreated)
+                                return false;
+                            for (const auto& name :
+                                 QDir(output).entryList({"PDFTatsujin-office-*"}, QDir::Dirs))
+                                if (QFileInfo::exists(output + '/' + name + "/candidate.xlsx"))
+                                {
+                                    QZipReader candidate(output + '/' + name + "/candidate.xlsx");
+                                    if (candidate.status() != QZipReader::NoError ||
+                                        candidate.fileInfoList().size() != 6)
+                                        continue;
+                                    QFile competitor(race);
+                                    check(
+                                        competitor.open(QIODevice::WriteOnly | QIODevice::NewOnly),
+                                        "Concurrent output writer");
+                                    competitor.write("concurrent-workbook-sentinel");
+                                    competitor.close();
+                                    competitorCreated = true;
+                                }
+                            return false;
+                        });
     }
     catch (const std::exception&)
     {

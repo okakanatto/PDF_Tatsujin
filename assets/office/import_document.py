@@ -6,6 +6,8 @@ import subprocess
 import sys
 import time
 import uuid
+import xml.etree.ElementTree as ET
+import zipfile
 
 import uno
 from com.sun.star.beans import PropertyValue
@@ -27,6 +29,72 @@ def no_asian_spacing(text):
         if element.supportsService("com.sun.star.text.TextTable"):
             for name in element.getCellNames():
                 no_asian_spacing(element.getCellByName(name).getText())
+
+
+def preserve_explicit_paragraph_spacing(document, source):
+    """Honor explicit OOXML spacing where Writer's import loses the setting.
+
+    Only direct, plain body paragraphs with both settings disabled qualify.
+    Match the loaded text before changing a property; tables, fields, nested
+    content, styles and unspecified spacing retain the engine's interpretation.
+    """
+    namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+    with zipfile.ZipFile(source) as package:
+        root = ET.fromstring(package.read("word/document.xml"))
+    body = root.find(namespace + "body")
+    if body is None:
+        return 0
+    paragraphs = list(body.findall(namespace + "p"))
+    loaded = []
+    enumeration = document.getText().createEnumeration()
+    while enumeration.hasMoreElements():
+        element = enumeration.nextElement()
+        if not element.supportsService("com.sun.star.text.Paragraph"):
+            return 0
+        loaded.append(element)
+    if len(loaded) != len(paragraphs):
+        return 0
+    changed = 0
+    for paragraph, element in zip(paragraphs, loaded):
+        properties = paragraph.find(namespace + "pPr")
+        if properties is None:
+            continue
+        settings = [
+            properties.find(namespace + name) for name in ("autoSpaceDE", "autoSpaceDN")
+        ]
+        if any(
+            setting is None
+            or setting.get(namespace + "val") not in ("0", "false", "off")
+            for setting in settings
+        ):
+            continue
+        parts = []
+        plain = True
+        for child in paragraph:
+            if child.tag == namespace + "pPr":
+                continue
+            if child.tag != namespace + "r":
+                plain = False
+                break
+            for item in child:
+                if item.tag == namespace + "rPr":
+                    continue
+                if item.tag == namespace + "t":
+                    parts.append(item.text or "")
+                elif item.tag == namespace + "tab":
+                    parts.append("\t")
+                elif (
+                    item.tag == namespace + "br"
+                    and item.get(namespace + "type") == "page"
+                ):
+                    continue
+                else:
+                    plain = False
+                    break
+        if plain and element.getString() == "".join(parts):
+            element.setPropertyValue("ParaIsCharacterDistance", False)
+            changed += 1
+    return changed
 
 
 def main():
@@ -95,6 +163,11 @@ def main():
         )
         if document is None or not document.supportsService(service):
             raise RuntimeError("Office document did not load as the expected component")
+        explicit_spacing = (
+            preserve_explicit_paragraph_spacing(document, source)
+            if kind == "docx"
+            else 0
+        )
         if suppress == "true":
             no_asian_spacing(document.getText())
         document.storeToURL(
@@ -115,6 +188,7 @@ def main():
                 {
                     "output": str(destination),
                     "suppress_asian_spacing": suppress == "true",
+                    "explicit_paragraph_spacing_preserved": explicit_spacing,
                 }
             )
         )

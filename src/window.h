@@ -49,6 +49,7 @@ public:
     void createFromDocx(QString path = {});
     void createFromOffice(QString path = {});
     void extractDocumentTable();
+    void extractDocumentWordText();
     void exportDocumentImages();
     void editPageDecoration(DecorationKind kind);
     void editBookmarks();
@@ -95,6 +96,7 @@ private:
     QAction* referenceAction = nullptr;
     QAction* imageExportAction = nullptr;
     QAction* tableExportAction = nullptr;
+    QAction* wordTextExportAction = nullptr;
     QAction* editableCopyAction = nullptr;
     QAction* comparisonAction = nullptr;
     QAction* certificateAction = nullptr;

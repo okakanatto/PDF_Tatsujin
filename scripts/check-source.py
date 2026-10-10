@@ -111,6 +111,16 @@ def main():
     certificates = ROOT / "fixtures/certificate-signatures"
     office = ROOT / "fixtures/office-import"
     tables = ROOT / "fixtures/table-extraction"
+    word = ROOT / "fixtures/pdf-text-docx/criteria.json"
+    if (
+        sha256(word)
+        != "52a3dbd5e25b943939066defc94e51840d7601cb392b75c9bd5df63115d570f9"
+    ):
+        raise RuntimeError("Frozen supplementary Word text criteria changed")
+    word_fixed = json.loads(word.read_text(encoding="utf-8"))
+    for name in ("source", "image_only", "copy_restricted"):
+        if sha256(word.parent / word_fixed[name]) != word_fixed[name + "_sha256"]:
+            raise RuntimeError("Frozen supplementary Word text input changed: " + name)
     if (
         sha256(tables / "criteria.json")
         != "07c15ed09f71d8b5f1b5eeff45b65a00a313d8a05492f43346e7d9718b752672"

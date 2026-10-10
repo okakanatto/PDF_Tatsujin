@@ -2,6 +2,8 @@
 
 自作のアプリケーションコードと開発スクリプトはルートの[MIT License](../LICENSE)で公開します。リポジトリ全体にある第三者部品をMITへ変更するものではありません。
 
+本文DOCXの出力は既存の動的Qtと自作OOXML生成コードを利用し、Office SDKやWord・LibreOfficeを通常保存の依存にしません。独立検査にはpython-docx 1.2.0（MIT、Steve Cannyの通知を維持する試験用依存）を固定します。製品へpython-docxやWindowsの書体ファイルを同梱しません。
+
 | 部品 | ライセンス・扱い | 固定情報 |
 |---|---|---|
 | PDF4QT | MIT、サブモジュール内のLICENSEを維持 | `dependency-lock.json` / `.gitmodules` |

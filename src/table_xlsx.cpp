@@ -1,9 +1,6 @@
-#include "private_temp.h"
+#include "office_package.h"
 #include "table_extraction.h"
-#include "windows_path.h"
 #include <QXmlStreamWriter>
-#include <QtCore/private/qzipwriter_p.h>
-#include <windows.h>
 
 namespace tatsu
 {
@@ -96,41 +93,23 @@ void exportTableXlsx(const TableCells& cells, const QString& path,
     for (const auto& row : cells)
         if (row.size() != cells.first().size())
             fail("表の列数が一致しません。");
-    const auto destination = QFileInfo(path);
-    if (destination.suffix().compare("xlsx", Qt::CaseInsensitive) != 0 || destination.exists() ||
-        destination.isSymLink())
-        fail("新しい.xlsxファイルを指定してください。既存ファイルは上書きしません。");
-    auto temporary =
-        privateTemporaryDirectory(destination.absolutePath() + "/PDFTatsujin-table-XXXXXX");
-    if (!temporary->isValid())
-        fail("Excel出力の作業フォルダを作成できません。");
-    const auto candidate = temporary->filePath("table.xlsx");
-    QZipWriter zip(candidate);
-    zip.addFile(
+    QMap<QString, QByteArray> parts;
+    parts.insert(
         "[Content_Types].xml",
         R"xml(<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>)xml");
-    zip.addFile(
+    parts.insert(
         "_rels/.rels",
         R"xml(<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>)xml");
-    zip.addFile(
+    parts.insert(
         "xl/workbook.xml",
         R"xml(<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="取り出した表" sheetId="1" r:id="rId1"/></sheets></workbook>)xml");
-    zip.addFile(
+    parts.insert(
         "xl/_rels/workbook.xml.rels",
         R"xml(<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>)xml");
-    zip.addFile(
+    parts.insert(
         "xl/styles.xml",
         R"xml(<?xml version="1.0" encoding="UTF-8"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="1"><font><sz val="11"/><name val="Calibri"/><family val="2"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="1"><xf numFmtId="49" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyAlignment="1"><alignment wrapText="1" vertical="top"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>)xml");
-    zip.addFile("xl/worksheets/sheet1.xml", worksheet(cells));
-    zip.close();
-    if (zip.status() != QZipWriter::NoError)
-        fail("表のExcelファイルを作成できません。");
-    stop(cancelled);
-    const auto from = extendedWindowsPath(candidate),
-               to = extendedWindowsPath(destination.absoluteFilePath());
-    if (!MoveFileExW(reinterpret_cast<LPCWSTR>(from.utf16()), reinterpret_cast<LPCWSTR>(to.utf16()),
-                     MOVEFILE_WRITE_THROUGH))
-        fail(QString("Excelファイルを確定できません（Windows %1）。既存ファイルは保持します。")
-                 .arg(GetLastError()));
+    parts.insert("xl/worksheets/sheet1.xml", worksheet(cells));
+    writeOfficePackage(parts, path, "xlsx", cancelled);
 }
 } // namespace tatsu

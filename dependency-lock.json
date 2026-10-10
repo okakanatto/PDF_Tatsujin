@@ -110,8 +110,8 @@
       "sha256": "ca12d290cbd5488a08d7a7ce7e877008ead2c4322144315d3f457f6e7b4ee62b"
     },
     "assets/office/import_document.py": {
-      "bytes": 4372,
-      "sha256": "ffcd390e36ead2cf0a63efd91463e8bb462d393c0de777366624dd07d515d2b1"
+      "bytes": 7158,
+      "sha256": "b5da76d1c45cd8e36735aeeba20406bf1eaadc3bff3cbe2a569254b917224319"
     }
   },
   "vcpkg_packages": [

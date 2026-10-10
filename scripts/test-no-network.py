@@ -48,6 +48,7 @@ def main():
     parser.add_argument("--with-existing-text", action="store_true")
     parser.add_argument("--with-table-extraction", action="store_true")
     parser.add_argument("--with-vertical-ocr", action="store_true")
+    parser.add_argument("--with-word-text", action="store_true")
     parser.add_argument("--office-engine-directory", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
@@ -243,6 +244,10 @@ def main():
             cases.append(("table-extraction-ui", "M6TB02"))
         if args.with_vertical_ocr:
             cases.append(("vertical-ocr", "M6V"))
+        if args.with_word_text:
+            cases.extend(
+                ("word-text-" + str(index), "M6W0" + str(index)) for index in (1, 2, 3)
+            )
         if engine:
             cases.append(("office-import", "M6O"))
         for name, filter in cases:
