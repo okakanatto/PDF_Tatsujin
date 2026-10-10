@@ -35,6 +35,7 @@ struct Block
     QTransform matrix, ctm;
     PDFFontPointer font;
     double fontSize = 0;
+    double endingLeading = 0;
     QByteArray originalCodes;
 };
 struct Inspection
@@ -211,6 +212,7 @@ protected:
         {
             auto& block = (*blocks)[index];
             const auto state = getGraphicState();
+            block.endingLeading = state->getTextLeading();
             if (block.shows > 1 && block.advanceCommand == "T*" &&
                 (!std::isfinite(state->getTextLeading()) || state->getTextLeading() <= 0))
                 block.value.restriction = "正の一定行送りを持つ複数行を選んでください。";
@@ -367,13 +369,14 @@ QVector<ExistingTextBlock> existingTextBlocks(const PDFDocument& document, int p
 }
 static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrence,
                             ExistingTextChange change, const QString& text, QRectF physical,
-                            const std::function<bool()>& cancelled, const QString& family)
+                            const std::function<bool()>& cancelled, const QString& family,
+                            double leadingRatio = 0)
 {
     const auto restriction = editingRestriction(snapshot);
     if (!restriction.isEmpty())
         fail(restriction);
     if (change != ExistingTextChange::Geometry && change != ExistingTextChange::Replace &&
-        change != ExistingTextChange::Remove)
+        change != ExistingTextChange::Remove && change != ExistingTextChange::Lines)
         fail("本文の編集操作を確認してください。");
     const auto inspected = inspect(snapshot, page, cancelled);
     if (occurrence < 0 || occurrence >= inspected.blocks.size())
@@ -408,18 +411,29 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
     {
         QVector<QByteArray> commands(block.shows, "[] TJ");
         QByteArray prefix, suffix;
-        if (change == ExistingTextChange::Replace)
+        if (change == ExistingTextChange::Replace || change == ExistingTextChange::Lines)
         {
             if (text.isEmpty() || text.size() > 4096 || text.contains('\r') ||
                 text.contains(QChar::Null))
-                fail(QString("元の本文と同じ%1行で、空でない4096文字以内の本文を入力してください。")
-                         .arg(block.shows));
+                fail(change == ExistingTextChange::Lines
+                         ? QString("空でない1〜64行、4096文字以内の本文を入力してください。")
+                         : QString("元の本文と同じ%"
+                                   "1行で、空でない4096文字以内の本文を入力してください。")
+                               .arg(block.shows));
             const auto lines = text.split('\n');
-            if (lines.size() != block.shows)
+            if (change != ExistingTextChange::Lines && lines.size() != block.shows)
                 fail(QString("元の本文と同じ%1行で入力してください。行数の変更は未対応です。")
                          .arg(block.shows));
             if (lines.contains(QString()))
                 fail("各行に文字を入力してください。空行への変更は未対応です。");
+            if (change == ExistingTextChange::Lines)
+            {
+                if (lines.size() > 64 || !std::isfinite(leadingRatio) || leadingRatio < .5 ||
+                    leadingRatio > 4 || !std::isfinite(block.fontSize) || block.fontSize <= 0 ||
+                    !std::isfinite(block.endingLeading))
+                    fail("64行以内の本文と0.5〜4倍の行送りを指定してください。");
+                commands.resize(lines.size());
+            }
             if (family.isEmpty())
             {
                 for (int i = 0; i < lines.size(); ++i)
@@ -467,9 +481,24 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
         }
         commands.first().prepend(prefix);
         commands.last().append(suffix);
-        for (int i = commands.size() - 1; i >= 0; --i)
-            bytes.replace(block.showSpans[i].begin,
-                          block.showSpans[i].end - block.showSpans[i].begin, commands[i]);
+        if (change == ExistingTextChange::Lines)
+        {
+            const auto leading = QByteArray::number(block.fontSize * leadingRatio, 'f', 17);
+            QByteArray replacement = leading + " TL\n";
+            for (int i = 0; i < commands.size(); ++i)
+            {
+                if (i)
+                    replacement += "\nT*\n";
+                replacement += commands[i];
+            }
+            replacement += "\n" + QByteArray::number(block.endingLeading, 'f', 17) + " TL";
+            bytes.replace(block.showSpans.first().begin,
+                          block.showSpans.last().end - block.showSpans.first().begin, replacement);
+        }
+        else
+            for (int i = commands.size() - 1; i >= 0; --i)
+                bytes.replace(block.showSpans[i].begin,
+                              block.showSpans[i].end - block.showSpans[i].begin, commands[i]);
     }
     stop(cancelled);
     set(dictionary, "Contents",
@@ -508,5 +537,12 @@ PDFDocument replaceExistingTextFont(const PDFDocument& snapshot, int page, int o
         fail("本文の書体を明示的に選んでください。");
     return editText(snapshot, page, occurrence, ExistingTextChange::Replace, text, {}, cancelled,
                     family);
+}
+PDFDocument replaceExistingTextLines(const PDFDocument& snapshot, int page, int occurrence,
+                                     const QString& text, double leadingRatio,
+                                     const QString& family, const std::function<bool()>& cancelled)
+{
+    return editText(snapshot, page, occurrence, ExistingTextChange::Lines, text, {}, cancelled,
+                    family, leadingRatio);
 }
 } // namespace tatsu

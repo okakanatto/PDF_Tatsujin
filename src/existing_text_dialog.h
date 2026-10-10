@@ -32,6 +32,8 @@ private:
     QPlainTextEdit* text;
     TextFontPicker* fontChoice;
     QDoubleSpinBox *x, *y, *width, *height;
+    QDoubleSpinBox* leading;
+    QWidget* leadingSettings;
     QCheckBox* consent;
     QPushButton* apply;
     QLabel *message, *fontInfo;

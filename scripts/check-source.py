@@ -44,6 +44,7 @@ IMAGE_EDIT_CRITERIA_SHA256 = {
     "ui-positive-criteria.json": "c7b7e4dcf6194f429c7e3bd7168c810ac78c5a1a5368786b54d944b4f3d098dd",
 }
 TEXT_EDIT_CRITERIA_SHA256 = {
+    "line-count/criteria.json": "7c0f87e39173b366f09db6f6b74c2a01ee89d6b3e6bdbc3cbe72e35177e2d33d",
     "relative-lines/criteria.json": "fd7998ba1be2f3f084fb54dd95ef258f96ce5ad22e3a903c7feb1e54a06c3c7f",
     "multiline-rotated/criteria.json": "1a1be54eae357d7f38f27434472035ba3fcbb61ecfa467998eb02515d496b3c5",
     "multiline/criteria.json": "014c1d1cce3474212ddbe69c6ff588fcaf716fa8e8010e597af30b3c99230bbd",
@@ -115,7 +116,14 @@ def main():
         ):
             raise RuntimeError("Frozen body-text input changed: " + name)
         for relative, expected_input in contents.get("files", {}).items():
-            if sha256(fixed.parent / relative) != expected_input:
+            source_folder = (
+                (body / contents["source_folder"]).resolve()
+                if "source_folder" in contents
+                else fixed.parent
+            )
+            if not source_folder.is_relative_to(body.resolve()):
+                raise RuntimeError("Body-text source outside fixture directory")
+            if sha256(source_folder / relative) != expected_input:
                 raise RuntimeError("Frozen body-text input changed: " + relative)
     for name, expected in IMAGE_EDIT_CRITERIA_SHA256.items():
         if sha256(images / name) != expected:

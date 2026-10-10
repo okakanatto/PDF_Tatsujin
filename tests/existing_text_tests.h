@@ -11,4 +11,6 @@ QJsonObject testExistingTextFontUi(const QString& fixtures, const QString& outpu
 QJsonObject testExistingTextMultiline(const QString& fixtures, const QString& output);
 QJsonObject testExistingTextMultilineUi(const QString& fixtures, const QString& output);
 QJsonObject testExistingTextRelativeLines(const QString& fixtures, const QString& output);
+QJsonObject testExistingTextLineCount(const QString& fixtures, const QString& output);
+QJsonObject testExistingTextLineCountUi(const QString& fixtures, const QString& output);
 } // namespace tatsu

@@ -1,5 +1,7 @@
 # 既存本文の固定入力
 
+`line-count/criteria.json` は相対改行の固定PDFをそのまま参照し、2→3→1行の手動置換、字体、行送り、拒否入力を追加操作の実装前に固定したものです。`prepare-line-count-criteria.py` で原本を変更せずバイト一致で再現できます。Meiryo UIの字体プログラムは含みません。
+
 `relative-lines/` は横移動のない一定のTd／TDで改行する横書き2行の正例と、横移動・不均一な3行の拒否入力です。`prepare-relative-line-fixtures.py` で各PDF・原本SHA・期待文字・書体・座標を実装前に固定しました。Windows上でtd.pdfとTD.pdfが同名となった最初の生成失敗は、別の非公開診断フォルダとログへ保持し、固有のファイル名で生成し直しました。元の正解を変更しません。
 
 `multiline/` は同一字体・一定の行送りを持つ日英2行編集と、途中で文字サイズを変える拒否入力です。`multiline-rotated/` は90度回転・CropBox・UserUnit=2の別の正例です。いずれも当該操作前に文字・行数・座標・保つものを固定しました。生成手順は `prepare-multiline-text-fixtures.py` と `prepare-rotated-multiline-fixture.py` です。元の試験入力を更新しません。

@@ -14,7 +14,8 @@ enum class ExistingTextChange
 {
     Geometry,
     Replace,
-    Remove
+    Remove,
+    Lines
 };
 QVector<ExistingTextBlock> existingTextBlocks(const PDFDocument& document, int page,
                                               const std::function<bool()>& cancelled = {});
@@ -24,4 +25,8 @@ PDFDocument editExistingText(const PDFDocument& snapshot, int page, int occurren
 PDFDocument replaceExistingTextFont(const PDFDocument& snapshot, int page, int occurrence,
                                     const QString& text, const QString& family,
                                     const std::function<bool()>& cancelled = {});
+PDFDocument replaceExistingTextLines(const PDFDocument& snapshot, int page, int occurrence,
+                                     const QString& text, double leadingRatio,
+                                     const QString& family = {},
+                                     const std::function<bool()>& cancelled = {});
 } // namespace tatsu

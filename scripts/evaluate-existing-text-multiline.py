@@ -1,4 +1,4 @@
-"""Independently inspect frozen uniform two-line body edits."""
+"""Independently inspect frozen uniform body blocks and manual line-count edits."""
 
 import argparse
 import io
@@ -28,33 +28,43 @@ def main():
     parser.add_argument("--rotated", action="store_true")
     parser.add_argument("--relative", choices=("relative-position", "relative-leading"))
     parser.add_argument(
+        "--line-count", choices=("relative-position", "relative-leading")
+    )
+    parser.add_argument(
         "--attempt", default="", help="New report tag; preserve prior results"
     )
     args = parser.parse_args()
     suffix = "-rotated" if args.rotated else ""
+    assert sum(bool(x) for x in (args.rotated, args.relative, args.line_count)) <= 1
     if args.relative:
         assert not args.rotated
         suffix = "-" + args.relative
+    if args.line_count:
+        suffix = "-line-count-" + args.line_count
     if args.attempt:
         assert re.fullmatch(r"[A-Za-z0-9_-]{1,64}", args.attempt), "Safe report tag"
         suffix += "-" + args.attempt
     output = args.run / ("independent-existing-text-multiline" + suffix + ".json")
     assert not output.exists(), "Preserve prior inspection"
-    base = args.fixtures / (
-        "existing-text-edit/relative-lines"
-        if args.relative
+    folder = (
+        "line-count"
+        if args.line_count
         else (
-            "existing-text-edit/multiline-rotated"
-            if args.rotated
-            else "existing-text-edit/multiline"
+            "relative-lines"
+            if args.relative
+            else "multiline-rotated" if args.rotated else "multiline"
         )
     )
+    base = args.fixtures / "existing-text-edit" / folder
     plan = json.loads((base / "criteria.json").read_text(encoding="utf-8"))
     images = module("evaluate-existing-images")
     helper = module("evaluate-redaction-probe")
     render = module("evaluate-redaction-copy")
     text = module("evaluate-existing-text")
     source_name = args.relative + ".pdf" if args.relative else "uniform.pdf"
+    if args.line_count:
+        source_name = args.line_count + ".pdf"
+        base = base.parent / plan["source_folder"]
     source = base / (plan["file"] if args.rotated else source_name)
     assert helper.digest(source) == (
         plan["sha256"] if args.rotated else plan["files"][source_name]
@@ -71,28 +81,47 @@ def main():
     ]
     rows = []
     cases = (
-        [("rotated", plan["selected"], False)]
-        if args.rotated
-        else [
-            ("english", plan["replacement"], False),
+        [
+            ("english", plan["english"], False),
             ("japanese", plan["japanese"], True),
             ("reedited", plan["reedited"], True),
-            ("moved", plan["selected"], False),
-            ("removed", "", False),
-            ("ui", plan["japanese"], True),
         ]
+        if args.line_count
+        else (
+            [("rotated", plan["selected"], False)]
+            if args.rotated
+            else [
+                ("english", plan["replacement"], False),
+                ("japanese", plan["japanese"], True),
+                ("reedited", plan["reedited"], True),
+                ("moved", plan["selected"], False),
+                ("removed", "", False),
+                ("ui", plan["japanese"], True),
+            ]
+        )
     )
+    if args.line_count == "relative-leading":
+        cases.append(("ui", plan["japanese"], True))
     for name, value, explicit in cases:
         metrics = {}
         prefix = args.relative if args.relative else "multiline"
+        if args.line_count:
+            prefix = "line-count-" + args.line_count
+            if name == "ui":
+                prefix = "line-count"
         path = args.run / ("existing-text-" + prefix + "-" + name + ".pdf")
         reader = PdfReader(path)
         after = images.page_data(path)
         new = value.split("\n") if value else []
         retained, new_bounds = text.spans(after[0], new)
         expected = before[0]["text"]
-        for index, line in enumerate(old):
-            expected = expected.replace(line, new[index] if new else "")
+        if args.line_count:
+            for line in old:
+                expected = expected.replace(line, "", 1)
+            expected += "\n".join(new)
+        else:
+            for index, line in enumerate(old):
+                expected = expected.replace(line, new[index] if new else "")
         checks = dict(
             exact_page_character_counts=Counter(
                 expected.replace("\r", "").replace("\n", "")
@@ -119,6 +148,26 @@ def main():
             page_geometry_identical=helper.geometry(original)
             == helper.geometry(reader),
         )
+        if args.line_count:
+            positions = [after[0]["text"].index(line) for line in new]
+            checks["replacement_line_order"] = positions == sorted(positions)
+
+            def ending_state(pdf):
+                state = {}
+                for operands, operator in ContentStream(
+                    pdf.pages[0].get_contents(), pdf
+                ).operations:
+                    if operator == b"TD":
+                        state["leading"] = -float(operands[1])
+                    elif operator == b"TL":
+                        state["leading"] = float(operands[0])
+                    elif operator == b"Tf":
+                        state["font"] = [str(operands[0]), float(operands[1])]
+                return state
+
+            checks["source_ending_font_and_leading_identical"] = ending_state(
+                original
+            ) == ending_state(reader)
         if args.relative:
 
             def advances(pdf):

@@ -67,7 +67,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     operation = new QComboBox;
     operation->setObjectName("existingTextOperation");
     operation->setAccessibleName("本文の変更内容");
-    operation->addItems({"文字を置換", "位置・サイズを変更", "文字を削除"});
+    operation->addItems({"文字を置換", "位置・サイズを変更", "文字を削除", "改行を変更して置換"});
     column->addWidget(operation);
     text = new QPlainTextEdit;
     text->setObjectName("existingTextInput");
@@ -80,6 +80,18 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     fontChoice->setObjectName("existingTextFontFamily");
     fontChoice->setAccessibleName("本文の書体");
     column->addWidget(fontChoice);
+    leadingSettings = new QWidget;
+    auto lineSettings = new QFormLayout(leadingSettings);
+    lineSettings->setContentsMargins(0, 0, 0, 0);
+    leading = new QDoubleSpinBox;
+    leading->setObjectName("existingTextLeadingRatio");
+    leading->setAccessibleName("文字サイズに対する行送り倍率");
+    leading->setRange(.5, 4);
+    leading->setDecimals(3);
+    leading->setValue(1.375);
+    leading->setSuffix(" 倍");
+    lineSettings->addRow("行送り", leading);
+    column->addWidget(leadingSettings);
     auto form = new QFormLayout;
     auto number = [&](QString name, QString label)
     {
@@ -101,7 +113,8 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     consent->setObjectName("existingTextDeleteConsent");
     column->addWidget(consent);
     auto help = new QLabel(
-        "表示する文字と字体を確認してください。一定の字体・行送りで、元と同じ行数に対応します。"
+        "通常の置換は元と同じ行数です。改行を変更する場合は専用の操作と行送りを選び、"
+        "表示する文字と字体を確認してください。自動折返しは行いません。"
         "縦書き・行途中の書体変更・Form内部・OCR層などは未対応です。文字の削除は墨消しではありませ"
         "ん。");
     help->setWordWrap(true);
@@ -141,6 +154,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
             });
     connect(text, &QPlainTextEdit::textChanged, this, [this] { schedule(); });
     connect(fontChoice, &QComboBox::currentIndexChanged, this, [this] { schedule(); });
+    connect(leading, &QDoubleSpinBox::valueChanged, this, [this] { schedule(); });
     connect(consent, &QCheckBox::toggled, this, [this] { updateApply(); });
     for (auto field : {x, y, width, height})
         connect(field, &QDoubleSpinBox::valueChanged, this,
@@ -180,7 +194,7 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
             preview->physical = result.dimensions;
             preview->image = std::move(result.image);
             const int row = list->currentRow();
-            const bool replacing = operation->currentIndex() == 0;
+            const bool replacing = operation->currentIndex() == 0 || operation->currentIndex() == 3;
             if (replacing && row >= 0 && result.bounds.size() == blocks.size())
                 setGeometry(result.bounds[row]);
             preview->regions.clear();
@@ -265,15 +279,18 @@ void ExistingTextDialog::updateApply()
     const bool selected = index >= 0 && index < blocks.size();
     const bool supported = selected && blocks[index].restriction.isEmpty();
     const bool changed =
-        selected && (op == 2 || (op == 1 ? geometry != blocks[index].physical
-                                         : text->toPlainText() != blocks[index].text ||
-                                               !fontChoice->family().isEmpty()));
+        selected &&
+        (op == 2 || op == 3 ||
+         (op == 1 ? geometry != blocks[index].physical
+                  : text->toPlainText() != blocks[index].text || !fontChoice->family().isEmpty()));
     apply->setEnabled(!closing && valid && supported && changed &&
                       (op != 2 || consent->isChecked()));
     for (auto field : {x, y, width, height})
         field->setEnabled(supported && op == 1 && !closing);
-    text->setEnabled(supported && op == 0 && !closing);
-    fontChoice->setEnabled(supported && op == 0 && !closing);
+    text->setEnabled(supported && (op == 0 || op == 3) && !closing);
+    fontChoice->setEnabled(supported && (op == 0 || op == 3) && !closing);
+    leadingSettings->setVisible(op == 3);
+    leading->setEnabled(supported && op == 3 && !closing);
     consent->setVisible(op == 2);
     preview->selected = op == 1 ? index : -1;
 }
@@ -291,10 +308,11 @@ void ExistingTextDialog::schedule()
     const auto bounds = geometry;
     const auto replacement = text->toPlainText();
     const auto family = fontChoice->family();
+    const auto ratio = leading->value();
     message->setText("プレビューを更新しています…");
     worker.request(
-        [source, rows, index, number, op, bounds, replacement,
-         family](const CandidatePreview::Cancel& stop)
+        [source, rows, index, number, op, bounds, replacement, family,
+         ratio](const CandidatePreview::Cancel& stop)
         {
             if (index < 0 || index >= rows.size())
                 return source;
@@ -304,6 +322,9 @@ void ExistingTextDialog::schedule()
                 return source;
             if (op == 1 && bounds == rows[index].physical)
                 return source;
+            if (op == 3)
+                return replaceExistingTextLines(source, number, rows[index].occurrence, replacement,
+                                                ratio, family, stop);
             const auto change = op == 0   ? ExistingTextChange::Replace
                                 : op == 1 ? ExistingTextChange::Geometry
                                           : ExistingTextChange::Remove;
