@@ -124,7 +124,8 @@ RedactionDialog::RedactionDialog(PDFDocument document, int currentPage,
         "範囲は保存まで取り消せます。拡大して位置を確認でき、移動・サイズ変更は数値でも指定できます"
         "。"
         "文字列の途中や文字層の一部だけの指定はまだ保存できません。範囲外の文字が同じ埋め込み書体を"
-        "使う場合も中止します。対象の文字層は、ページ外へ続く同じ層の内容も除去します。");
+        "使う場合も中止します。対象の文字層は、ページ外へ続く同じ層の内容も除去します。"
+        "画像だけのスキャンは、文字認識の前に墨消ししたコピーを作り、そのコピーをOCRできます。");
     help->setWordWrap(true);
     help->setTextFormat(Qt::PlainText);
     column->addWidget(help);

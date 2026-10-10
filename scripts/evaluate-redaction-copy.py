@@ -21,7 +21,7 @@ def module(name):
     return result
 
 
-def poppler(executable, path, destination, page=1):
+def poppler(executable, path, destination, page=1, dpi=72):
     result = subprocess.run(
         [
             str(executable),
@@ -29,7 +29,7 @@ def poppler(executable, path, destination, page=1):
             "-singlefile",
             "-png",
             "-r",
-            "72",
+            str(dpi),
             "-f",
             str(page),
             "-l",

@@ -30,6 +30,9 @@ REDACTION_CRITERIA_SHA256 = {
     "foundation": "f00f689b6e0a896a1ca610f1b6c3feff23d856b4f1d7bc0c833accec40d04370",
     "fonts": "3e35b3dffd1b5d44982975d24af625ec6f8a5df7cf5e0960abf175e3a2f19ecd",
 }
+REDACTION_SCAN_CRITERIA_SHA256 = (
+    "3bd0e41e88e1e8cb3d8e2bb65cee9c16904e0dc05ad7989441578432960c25e9"
+)
 
 
 def sha256(path):
@@ -79,6 +82,16 @@ def main():
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     certificates = ROOT / "fixtures/certificate-signatures"
     redaction = ROOT / "fixtures/redaction-copy"
+    scan_criteria = redaction / "scan-then-ocr.json"
+    if sha256(scan_criteria) != REDACTION_SCAN_CRITERIA_SHA256:
+        raise RuntimeError("Frozen scan redaction/OCR criteria changed")
+    scan = json.loads(scan_criteria.read_text(encoding="utf-8"))
+    for file_key, hash_key in (
+        ("source", "source_sha256"),
+        ("digital_source", "digital_source_sha256"),
+    ):
+        if sha256(ROOT / "fixtures" / scan[file_key]) != scan[hash_key]:
+            raise RuntimeError("Frozen scan redaction/OCR source changed")
     for folder, expected in REDACTION_CRITERIA_SHA256.items():
         criteria = redaction / folder / "criteria.json"
         if sha256(criteria) != expected:

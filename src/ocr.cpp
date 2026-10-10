@@ -1,6 +1,7 @@
 #include "ocr.h"
 #include "document.h"
 #include "ocr_jobs.h"
+#include "ocr_preprocess.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
 #include "pdffont.h"
@@ -63,11 +64,20 @@ public:
     using PDFTextLayoutGenerator::PDFTextLayoutGenerator;
     bool invisible = false, images = false;
     QVector<QRectF> visible;
+    QVector<QRectF> blackBlocks;
 
 protected:
+    void performPathPainting(const QPainterPath& path, bool stroke, bool fill, bool text,
+                             Qt::FillRule) override
+    {
+        if (!stroke && fill && !text && blackBlocks.size() < 1000 &&
+            getGraphicState()->getFillColorWithAlpha() == QColor(Qt::black))
+            if (const auto box = axisAlignedRectangle(getCurrentWorldMatrix().map(path)))
+                blackBlocks << *box;
+    }
     bool isContentKindSuppressed(ContentKind k) const override
     {
-        if (k == ContentKind::Images)
+        if (k == ContentKind::Images || k == ContentKind::Shapes)
             return false;
         return PDFTextLayoutGenerator::isContentKindSuppressed(k);
     }
@@ -264,6 +274,7 @@ int ocrWorker(const QStringList& args)
                     mask.fillRect(box.adjusted(-2, -2, 2, 2), Qt::white);
                 mask.end();
                 image = image.convertToFormat(QImage::Format_Grayscale8);
+                omitSolidBlackOcrBlocks(image, probe.blackBlocks);
                 api.SetImage(image.constBits(), image.width(), image.height(), 1,
                              image.bytesPerLine());
                 api.SetSourceResolution(300);

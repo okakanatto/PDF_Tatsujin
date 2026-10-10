@@ -31,6 +31,7 @@
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
 #include "redaction_copy_tests.h"
+#include "redaction_scan_tests.h"
 #include "reference_workflow_tests.h"
 #include "save_candidate_tests.h"
 #include "search_tests.h"
@@ -386,6 +387,8 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5R03_redaction_UI", [&] { return testRedactionCopyUi(fixtures, output); });
     run("M5R04_redaction_font_UI", [&] { return testRedactionCopyFontUi(fixtures, output); });
     run("M5R06_redaction_real_OCR", [&] { return testRedactionCopyOcr(fixtures, output); });
+    run("M5R07_redaction_scan_then_OCR", [&] { return testRedactionScanOcr(fixtures, output); });
+    run("M5R08_redaction_OCR_mask_preservation", [&] { return testRedactionOcrMasks(); });
     run("M5R05_redaction_geometry_UI",
         [&] { return testRedactionCopyGeometryUi(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });

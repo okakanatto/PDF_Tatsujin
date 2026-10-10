@@ -1,0 +1,16 @@
+{
+  "source": "D03.pdf",
+  "source_sha256": "c431c448d4e72cc963ffd4827c45a15533049feb19e352d5f48607cb2b3e1eb7",
+  "digital_source": "D03-digital-source.pdf",
+  "digital_source_sha256": "06f79cada5a17c20ae627b6742bed8f60d010b382b97ccd7411a7540b9379bee",
+  "original_page_indices": [2, 6],
+  "redacted_page": 0,
+  "raw_pdf_rectangle": [45, 765, 49, 18],
+  "remove": "市民公園",
+  "keep_japanese": ["管理事務所", "花壇"],
+  "keep_english": ["coastal", "surveys"],
+  "signature": "墨消し範囲外の日本語署名",
+  "render_dpi": 300,
+  "boundary_tolerance_pixels": 1,
+  "scope": "Frozen before execution from the original digital glyph positions; partial image redaction before OCR only"
+}

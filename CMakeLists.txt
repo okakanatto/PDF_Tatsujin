@@ -86,7 +86,7 @@ target_include_directories(tatsu_document PUBLIC src vendor/PDF4QT/Pdf4QtLibCore
 target_link_libraries(tatsu_document PUBLIC Pdf4QtLibCore Qt6::Gui Qt6::PrintSupport)
 target_link_libraries(tatsu_document PRIVATE advapi32 crypt32 ZLIB::ZLIB OpenSSL::Crypto)
 
-add_library(tatsu_ocr STATIC src/ocr.cpp)
+add_library(tatsu_ocr STATIC src/ocr.cpp src/ocr_preprocess.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
 
 add_library(tatsu_ui STATIC src/writing_panel.cpp src/text_font_picker.cpp src/window_writing.cpp src/canvas.cpp src/window.cpp src/page_control.cpp src/search_session.cpp src/search_panel.cpp src/selection_text.cpp src/bookmarks_panel.cpp src/page_previews.cpp src/preview_raster.cpp)
@@ -203,6 +203,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/certificate_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/certificate_signing_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/redaction_copy_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/redaction_scan_tests.cpp tests/redaction_ui_test_support.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test OpenSSL::Crypto)
