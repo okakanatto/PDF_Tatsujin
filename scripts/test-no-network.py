@@ -42,6 +42,7 @@ def main():
     parser.add_argument("--with-comparison", action="store_true")
     parser.add_argument("--with-batch", action="store_true")
     parser.add_argument("--with-form-design", action="store_true")
+    parser.add_argument("--with-certificate-verification", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -173,6 +174,8 @@ def main():
             cases.append(("batch", "M5T"))
         if args.with_form_design:
             cases.append(("form-design", "M5D"))
+        if args.with_certificate_verification:
+            cases.append(("certificate-verification", "M5S"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter

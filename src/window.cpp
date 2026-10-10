@@ -193,6 +193,9 @@ Window::Window()
     editableCopyAction = createMenu->addAction("保護を解除した編集用コピー…", this,
                                                [this] { guard([&] { createEditableCopy(); }); });
     editableCopyAction->setObjectName("createEditableCopy");
+    certificateAction = createMenu->addAction("証明書署名を確認…", this, [this]
+                                              { guard([&] { verifyDocumentCertificates(); }); });
+    certificateAction->setObjectName("verifyDocumentCertificates");
     comparisonAction = createMenu->addAction("PDFを比較…", this,
                                              [this] { guard([&] { compareWithDocument(); }); });
     comparisonAction->setObjectName("compareDocuments");
@@ -963,6 +966,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     referenceAction->setEnabled(doc.loaded());
     imageExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
     comparisonAction->setEnabled(doc.loaded() && doc.copyAllowed && !doc.busy);
+    certificateAction->setEnabled(doc.loaded() && !doc.busy && !doc.dirty());
     editableCopyAction->setEnabled(doc.loaded() && !doc.busy &&
                                    doc.pdf().getStorage().getSecurityHandler()->getMode() ==
                                        EncryptionMode::Standard);

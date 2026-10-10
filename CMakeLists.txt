@@ -37,6 +37,7 @@ target_sources(Pdf4QtLibCore PRIVATE src/pdf_security_adapter.cpp)
 find_package(Qt6 6.9 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Tesseract CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # Document state and PDF operations have no dependency on the application window.
 add_library(tatsu_document STATIC
@@ -60,6 +61,7 @@ add_library(tatsu_document STATIC
     src/pdf_optimization.cpp
     src/redaction_content.cpp
     src/redaction_document.cpp
+    src/certificate_verification.cpp
     src/encrypted_pdf.cpp
     src/unprotected_pdf.cpp
     src/document_comparison.cpp
@@ -78,7 +80,7 @@ add_library(tatsu_document STATIC
 )
 target_include_directories(tatsu_document PUBLIC src vendor/PDF4QT/Pdf4QtLibCore/sources)
 target_link_libraries(tatsu_document PUBLIC Pdf4QtLibCore Qt6::Gui Qt6::PrintSupport)
-target_link_libraries(tatsu_document PRIVATE advapi32 ZLIB::ZLIB)
+target_link_libraries(tatsu_document PRIVATE advapi32 crypt32 ZLIB::ZLIB OpenSSL::Crypto)
 
 add_library(tatsu_ocr STATIC src/ocr.cpp)
 target_link_libraries(tatsu_ocr PUBLIC tatsu_document PRIVATE Tesseract::libtesseract)
@@ -92,6 +94,7 @@ target_sources(tatsu_ui PRIVATE src/link_edit_dialog.cpp src/page_region_preview
 target_sources(tatsu_ui PRIVATE src/pdf_optimization_dialog.cpp src/window_optimization.cpp)
 target_sources(tatsu_ui PRIVATE src/encryption_dialog.cpp src/window_encryption.cpp)
 target_sources(tatsu_ui PRIVATE src/decryption_dialog.cpp)
+target_sources(tatsu_ui PRIVATE src/certificate_dialog.cpp src/window_certificates.cpp)
 target_sources(tatsu_ui PRIVATE src/comparison_dialog.cpp src/window_comparison.cpp)
 target_sources(tatsu_ui PRIVATE src/batch_dialog.cpp src/window_batch.cpp)
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
@@ -191,6 +194,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/comparison_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/batch_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/form_design_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/certificate_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)

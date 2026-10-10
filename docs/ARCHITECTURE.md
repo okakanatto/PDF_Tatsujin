@@ -30,6 +30,8 @@ flowchart TD
 |---|---|---|
 | 文書状態・署名・履歴・保存の確定 | `src/document.*` | 1操作を1回のcommitにする。失敗時に原本・履歴を失わない |
 | PDF読込・候補保存・ハッシュ | `src/pdf_io.cpp` | 保存候補を再読込してから置換する |
+| 保存済みバイト列の証明書署名検証 | `src/certificate_verification.*` | ByteRangeを先に検査し、CMSの一致・対象範囲・現在のチェーンを分ける。埋め込み証明書を信頼元へ昇格させず、通信・OSストア更新・文書変更をしない |
+| 検証結果・詳細・取消の画面 | `src/certificate_dialog.*`、`src/window_certificates.cpp` | 長い処理をGUIスレッドから外し、入力更新・取消後の結果を反映しない。未保存文書を保存済みバイト列の検証結果と混同しない |
 | 座標・描画・文字抽出・印刷 | `src/pdf_render.cpp` | 回転後のCropBox左上へ原点を移し、UserUnitと同じ物理倍率を両軸へ反映する。逆変換往復だけでなく、用紙四隅と独立描画の位置を検証する |
 | フォント・Unicode対応 | `src/pdf_font.cpp` | 表示字形とコピー文字を両方検証する |
 | PDFオブジェクト生成補助 | `src/pdf_objects.h` | 内部の小さな値生成関数。UIの状態を持たせない |

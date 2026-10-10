@@ -9,6 +9,8 @@
 | Noto Sans JP | SIL OFL 1.1、埋め込み可 | フォントコミットとSHA-256、`licenses/NotoSansJP-OFL.txt` |
 | Tatsujin Sans JP Regular | 固定したNoto Sans JPからウェイト400を生成・改名したSIL OFL 1.1フォント。再編集用の完全フォントをフォームで共有 | `scripts/derive-form-font.py`、`dependency-lock.json`、`licenses/TatsujinSansJP-MODIFICATIONS.txt`。元の著作権・OFL通知を同梱 |
 | Liberation（PDF4QTに含まれるフォント） | SIL OFL、上流通知を維持 | `licenses/Liberation-fonts.txt` |
+| 標準14書体の幅データ | ReportLab 4.4.9由来のBSD-3-Clauseデータ。書体本体は含めない | `scripts/standard-font-metrics-source.json`、生成手順、`licenses/REPORTLAB_METRICS_LICENSE.txt` |
+| OpenSSL | 固定vcpkgのApache-2.0部品。既存の動的Cryptoライブラリを証明書検証でも利用 | vcpkg固定情報、配布時の`licenses/openssl.txt` |
 | Qt 6.9.3 | 動的リンクのLGPL-3.0、部品ごとの通知あり | `licenses/Qt`、対応ソースアーカイブのハッシュ |
 | その他のネイティブ依存 | 個別ライセンス | 固定vcpkgの`share/*/copyright`を配布時にコピー |
 | 合成試験文書 | オリジナルの文字・図はCC0-1.0、埋め込みフォントは元のライセンス | `fixtures/manifest.json` |

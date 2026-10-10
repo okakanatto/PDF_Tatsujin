@@ -23,6 +23,9 @@ VIEWER_SELECTION_RESTRICTED_SHA256 = (
 VIEWER_NAVIGATION_MANIFEST_SHA256 = (
     "2421d94d73d68ca17e4686bc77f7e59a5cf7ae6256ac22aa2f5a5b9f319b55e0"
 )
+CERTIFICATE_MANIFEST_SHA256 = (
+    "9d20d7d9624cc5236c859df5343dc46c289b7797a1c6c2b5cdafc01e62c92c74"
+)
 
 
 def sha256(path):
@@ -69,6 +72,17 @@ def main():
             raise RuntimeError("Navigation fixture hash mismatch")
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
+    certificates = ROOT / "fixtures/certificate-signatures"
+    if sha256(certificates / "manifest.json") != CERTIFICATE_MANIFEST_SHA256:
+        raise RuntimeError("Frozen certificate verification criteria changed")
+    certificate_cases = json.loads(
+        (certificates / "manifest.json").read_text(encoding="utf-8")
+    )
+    if sha256(certificates / "test-ca.der") != certificate_cases["test_ca_sha256"]:
+        raise RuntimeError("Certificate test CA changed")
+    for entry in certificate_cases["cases"]:
+        if sha256(certificates / entry["file"]) != entry["sha256"]:
+            raise RuntimeError("Certificate fixture changed: " + entry["file"])
     scans = ROOT / "fixtures/real-scans"
     if sha256(scans / "manifest.json") != REAL_SCAN_MANIFEST_SHA256:
         raise RuntimeError("Frozen real-scan provenance/truth changed")
@@ -121,7 +135,7 @@ def main():
     if sha256(ROOT / metrics["license_file"]) != metrics["license_sha256"]:
         raise RuntimeError("Standard metric copyright or license notice changed")
     print(
-        f"PASS: {len(entries)} M1 fixtures, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
+        f"PASS: {len(entries)} M1 fixtures, 21 certificate cases, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
     )
 
 

@@ -53,6 +53,7 @@ public:
     void optimizeDocument();
     void exportEncryptedCopy();
     void createEditableCopy();
+    void verifyDocumentCertificates();
     void compareWithDocument();
     void processMultipleDocuments();
     void designForms();
@@ -88,6 +89,7 @@ private:
     QAction* imageExportAction = nullptr;
     QAction* editableCopyAction = nullptr;
     QAction* comparisonAction = nullptr;
+    QAction* certificateAction = nullptr;
     bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;
