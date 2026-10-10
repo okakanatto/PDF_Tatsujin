@@ -209,7 +209,7 @@ Window::Window()
     existingImage->setObjectName("editExistingImages");
     edits << existingImage;
     auto existingText = createMenu->addAction("PDF本文の文字を編集…", this,
-                                             [this] { guard([&] { editExistingTextBlocks(); }); });
+                                              [this] { guard([&] { editExistingTextBlocks(); }); });
     existingText->setObjectName("editExistingTextBlocks");
     edits << existingText;
     comparisonAction = createMenu->addAction("PDFを比較…", this,
