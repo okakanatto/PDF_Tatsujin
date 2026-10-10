@@ -1,4 +1,5 @@
 #include "certificate_verification.h"
+#include "certificate_crypto.h"
 #include "document.h"
 #include "pdfcertificatestore.h"
 #include "pdfdocumentreader.h"
@@ -27,49 +28,6 @@ void cancelled(const std::function<bool()>& cancel)
 bool white(char c)
 {
     return c == 0 || c == 9 || c == 10 || c == 12 || c == 13 || c == 32;
-}
-QString name(X509_NAME* value)
-{
-    Owned<BIO, BIO_free> buffer(BIO_new(BIO_s_mem()), BIO_free);
-    if (!buffer || X509_NAME_print_ex(buffer.get(), value, 0, XN_FLAG_RFC2253) < 0)
-        return {};
-    char* text = nullptr;
-    const auto size = BIO_get_mem_data(buffer.get(), &text);
-    return QString::fromUtf8(text, size);
-}
-QDateTime date(const ASN1_TIME* value)
-{
-    tm time{};
-    if (!ASN1_TIME_to_tm(value, &time))
-        return {};
-    return QDateTime(QDate(time.tm_year + 1900, time.tm_mon + 1, time.tm_mday),
-                     QTime(time.tm_hour, time.tm_min, time.tm_sec), QTimeZone::UTC);
-}
-CertificateIdentity identity(X509* certificate)
-{
-    CertificateIdentity result;
-    result.subject = name(X509_get_subject_name(certificate));
-    result.issuer = name(X509_get_issuer_name(certificate));
-    result.notBefore = date(X509_get0_notBefore(certificate));
-    result.notAfter = date(X509_get0_notAfter(certificate));
-    Owned<BIGNUM, BN_free> serial(ASN1_INTEGER_to_BN(X509_get_serialNumber(certificate), nullptr),
-                                  BN_free);
-    if (serial)
-    {
-        auto text = BN_bn2hex(serial.get());
-        result.serial = QString::fromLatin1(text);
-        OPENSSL_free(text);
-    }
-    unsigned char bytes[EVP_MAX_MD_SIZE];
-    unsigned int length = 0;
-    if (X509_digest(certificate, EVP_sha256(), bytes, &length))
-        result.fingerprint = QByteArray(reinterpret_cast<char*>(bytes), length).toHex();
-    auto key = X509_get0_pubkey(certificate);
-    if (key)
-        result.key =
-            QString("%1 %2bit").arg(EVP_PKEY_get0_type_name(key)).arg(EVP_PKEY_get_bits(key));
-    result.extendedPurpose = X509_get_ext_by_NID(certificate, NID_ext_key_usage, -1) >= 0;
-    return result;
 }
 void addDer(X509_STORE* store, const QByteArray& der)
 {
@@ -262,10 +220,9 @@ CertificateSignature verifyOne(const PDFDocument& doc, const PDFObject& object,
         CMS_SignerInfo_get0_algs(signer, nullptr, &certificate, nullptr, nullptr);
         if (!certificate)
             fail("署名者の証明書を取得できません。");
-        row.certificate = identity(certificate);
+        row.certificate = certificate_detail::describeCertificate(certificate);
         const auto key = X509_get0_pubkey(certificate);
-        if (!key || !((EVP_PKEY_is_a(key, "RSA") && EVP_PKEY_get_bits(key) >= 2048) ||
-                      (EVP_PKEY_is_a(key, "EC") && EVP_PKEY_get_bits(key) >= 256)))
+        if (!certificate_detail::supportedPublicKey(key))
         {
             row.integrity = SignatureIntegrity::Unsupported;
             row.detail = "公開鍵の方式または強度が今回の対応範囲外です。";

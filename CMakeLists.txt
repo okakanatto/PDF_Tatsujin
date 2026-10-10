@@ -62,6 +62,8 @@ add_library(tatsu_document STATIC
     src/redaction_content.cpp
     src/redaction_document.cpp
     src/certificate_verification.cpp
+    src/certificate_crypto.cpp
+    src/certificate_signing.cpp
     src/encrypted_pdf.cpp
     src/unprotected_pdf.cpp
     src/document_comparison.cpp
@@ -95,6 +97,7 @@ target_sources(tatsu_ui PRIVATE src/pdf_optimization_dialog.cpp src/window_optim
 target_sources(tatsu_ui PRIVATE src/encryption_dialog.cpp src/window_encryption.cpp)
 target_sources(tatsu_ui PRIVATE src/decryption_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/certificate_dialog.cpp src/window_certificates.cpp)
+target_sources(tatsu_ui PRIVATE src/certificate_signing_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/comparison_dialog.cpp src/window_comparison.cpp)
 target_sources(tatsu_ui PRIVATE src/batch_dialog.cpp src/window_batch.cpp)
 target_sources(tatsu_ui PRIVATE src/image_pdf_dialog.cpp src/window_creation.cpp)
@@ -195,9 +198,10 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/batch_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/form_design_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/certificate_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/certificate_signing_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
-    target_link_libraries(PDFTatsujin PRIVATE Qt6::Test)
+    target_link_libraries(PDFTatsujin PRIVATE Qt6::Test OpenSSL::Crypto)
 endif()
 
 foreach(target tatsu_document tatsu_ocr tatsu_ui PDFTatsujin PDFTatsujinReadingBenchmark PDFTatsujinInteractionBenchmark PDFTatsujinSoakTest)

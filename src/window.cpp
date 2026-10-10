@@ -196,6 +196,10 @@ Window::Window()
     certificateAction = createMenu->addAction("証明書署名を確認…", this, [this]
                                               { guard([&] { verifyDocumentCertificates(); }); });
     certificateAction->setObjectName("verifyDocumentCertificates");
+    auto signCertificate = createMenu->addAction(
+        "証明書で署名したコピー…", this, [this] { guard([&] { exportSignedCertificateCopy(); }); });
+    signCertificate->setObjectName("exportSignedCertificateCopy");
+    edits << signCertificate;
     comparisonAction = createMenu->addAction("PDFを比較…", this,
                                              [this] { guard([&] { compareWithDocument(); }); });
     comparisonAction->setObjectName("compareDocuments");

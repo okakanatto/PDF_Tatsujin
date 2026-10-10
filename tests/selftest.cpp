@@ -3,6 +3,7 @@
 #include "annotation_tests.h"
 #include "batch_tests.h"
 #include "bookmark_edit_tests.h"
+#include "certificate_signing_tests.h"
 #include "certificate_tests.h"
 #include "compact_viewer_tests.h"
 #include "comparison_tests.h"
@@ -371,6 +372,13 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5S01_certificate_cases", [&] { return testCertificateCases(fixtures, output); });
     run("M5S02_certificate_guards", [&] { return testCertificateGuards(fixtures, output); });
     run("M5S03_certificate_UI", [&] { return testCertificateUi(fixtures, output); });
+    run("M5S04_certificate_signing_foundation",
+        [&] { return testCertificateSigningFoundation(fixtures, output); });
+    run("M5S05_certificate_signing_UI", [&] { return testCertificateSigningUi(fixtures, output); });
+    run("M5S06_certificate_signing_atomic",
+        [&] { return testCertificateSigningAtomic(fixtures, output); });
+    run("M5S07_certificate_signing_OCR",
+        [&] { return testCertificateSigningOcr(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

@@ -54,6 +54,7 @@ public:
     void exportEncryptedCopy();
     void createEditableCopy();
     void verifyDocumentCertificates();
+    void exportSignedCertificateCopy();
     void compareWithDocument();
     void processMultipleDocuments();
     void designForms();
