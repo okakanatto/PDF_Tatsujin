@@ -1,5 +1,6 @@
 #include "window.h"
 #include "form_data.h"
+#include "ocr_language.h"
 #include "page_previews.h"
 #include "pdfsecurityhandler.h"
 #include "ui_icons.h"
@@ -549,11 +550,24 @@ Window::Window()
     ol->addWidget(desc);
     auto accuracy = new QLabel("横書きの鮮明な印刷文字を対象とします。縦書き・ルビ・段組みや不鮮明"
                                "な原稿は、認識結果を原文と照合してください。");
+    accuracy->setObjectName("ocrAccuracy");
     accuracy->setWordWrap(true);
     ol->addWidget(accuracy);
     ol->addWidget(new QLabel("文書の言語"));
     language = new QComboBox;
-    language->addItems({"日本語＋英語", "日本語", "英語"});
+    language->addItems(ocrLanguageLabels());
+    language->setObjectName("ocrLanguage");
+    connect(language, &QComboBox::currentIndexChanged, accuracy,
+            [accuracy](int index)
+            {
+                accuracy->setText(
+                    index == 3
+                        ? "回転のない標準単位のページで、上から下、右から左の日本語縦書きを"
+                          "対象とします。回転・特殊なページ単位は処理できません。ルビ・古い"
+                          "字体・見開き・横書き混在は原文と照合してください。"
+                        : "横書きの鮮明な印刷文字を対象とします。縦書き・ルビ・段組みや不鮮明"
+                          "な原稿は、認識結果を原文と照合してください。");
+            });
     ol->addWidget(language);
     ol->addWidget(new QLabel("対象ページ"));
     scope = new QComboBox;
@@ -1189,8 +1203,7 @@ void Window::startOcr()
     QString selection = scope->currentIndex() == 0   ? QString("1-%1").arg(doc.pages())
                         : scope->currentIndex() == 1 ? QString::number(canvas->page + 1)
                                                      : range->text();
-    auto nextJob = OcrJob::prepare(
-        doc, {QStringList{"jpn+eng", "jpn", "eng"}[language->currentIndex()], selection});
+    auto nextJob = OcrJob::prepare(doc, {ocrLanguageCodes()[language->currentIndex()], selection});
     auto nextWorker = std::make_unique<QProcess>(this);
     auto nextChannels = std::make_unique<WorkerChannels>(*nextWorker, nextJob->path());
     work = std::move(nextJob);

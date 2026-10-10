@@ -1,4 +1,5 @@
 #include "batch_processing.h"
+#include "ocr_language.h"
 #include "pdf_optimization.h"
 #include "pdfexception.h"
 #include "save_candidate.h"
@@ -136,7 +137,7 @@ BatchPlan prepareBatch(const QStringList& inputs, const QString& outputDirectory
         fail("1〜100件のPDFを指定してください。");
     if (operation != BatchOperation::Ocr && operation != BatchOperation::Optimize)
         fail("処理の種類が不正です。");
-    if (!QStringList{"jpn+eng", "jpn", "eng"}.contains(language))
+    if (!ocrLanguageCodes().contains(language))
         fail("OCR言語が不正です。");
     if (outputDirectory.isEmpty() || !QFileInfo(outputDirectory).isDir())
         fail("既に存在する出力フォルダを指定してください。");
@@ -174,8 +175,7 @@ QVector<BatchItemResult> processBatch(const BatchPlan& plan, const std::function
     // Revalidate the plan's shape without replacing its captured input hashes.
     if (plan.inputs.isEmpty() || plan.inputs.size() > 100 ||
         (plan.operation != BatchOperation::Ocr && plan.operation != BatchOperation::Optimize) ||
-        !QStringList{"jpn+eng", "jpn", "eng"}.contains(plan.language) ||
-        !QFileInfo(plan.outputDirectory).isDir())
+        !ocrLanguageCodes().contains(plan.language) || !QFileInfo(plan.outputDirectory).isDir())
         fail("一括処理の設定が不正です。入力を確認し直してください。");
     const auto suffix = plan.operation == BatchOperation::Ocr ? "_ocr.pdf" : "_optimized.pdf";
     for (int i = 0; i < plan.inputs.size(); ++i)

@@ -31,6 +31,7 @@ fixtures/existing-text-edit/**/*.json -text whitespace=cr-at-eol
 fixtures/office-import/*.json -text whitespace=cr-at-eol
 fixtures/office-import/**/*.json -text whitespace=cr-at-eol
 fixtures/table-extraction/*.json -text whitespace=cr-at-eol
+fixtures/vertical-ocr-geometry/*.json -text whitespace=cr-at-eol
 *.jpg binary
 assets/revisions.json -text whitespace=cr-at-eol
 licenses/** -text

@@ -1,0 +1,46 @@
+{
+  "source": "D11-diagnostics.pdf",
+  "source_sha256": "0e91d8d952f86e15970ad77238487c3ffd3b7583a3de998edcc5fa163972aa31",
+  "page": 3,
+  "provenance": "Existing synthetic D11 CC0; embedded Noto retains OFL. Original bytes and truth unchanged.",
+  "expected_lines_right_to_left": [
+    "縦書き文章の診断です。",
+    "基準精度とは分けます。",
+    "日本語の読み順を確認。"
+  ],
+  "comparison": "Remove whitespace only; keep all other characters and column order",
+  "CER_max": 0.02,
+  "search_terms": [
+    {
+      "term": "縦書き",
+      "qt_bounds_pt": [
+        515.8578798871423,
+        56.39799030786773,
+        11.036959290608625,
+        41.27852907639681
+      ]
+    },
+    {
+      "term": "基準精度",
+      "qt_bounds_pt": [
+        494.2638291011689,
+        56.39799030786773,
+        11.036959290608625,
+        57.35795610034207
+      ]
+    },
+    {
+      "term": "読み順",
+      "qt_bounds_pt": [
+        472.66977831519546,
+        118.79576681870012,
+        11.036959290608625,
+        41.518520524515395
+      ]
+    }
+  ],
+  "maximum_bounds_error_mm": 2,
+  "visible_pixel_difference_max": 0,
+  "real_scan": "R01 is diagnostic only; retain original real-scans/manifest.json",
+  "fixture_font_sha256": "0ef6019ca22fb4206a64a5c4ce326855afd2bc945cb42324816ec84d471433e3"
+}

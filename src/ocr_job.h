@@ -22,6 +22,9 @@ struct OcrJobResult
     bool changed() const;
 };
 
+void validateOcrPageGeometry(const PDFDocument& document, const QString& language,
+                             const QVector<int>& pages);
+
 // Owns one immutable input, its private files and parent lock. Reading a result
 // validates the complete worker protocol; only the caller can commit Document.
 class OcrJob

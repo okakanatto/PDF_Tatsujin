@@ -1,4 +1,5 @@
 #include "ocr_job.h"
+#include "ocr_language.h"
 #include <algorithm>
 
 namespace tatsu
@@ -17,14 +18,30 @@ bool OcrJobResult::changed() const
     return std::any_of(pages.cbegin(), pages.cend(),
                        [](const auto& page) { return page.status == "処理済み"; });
 }
+void validateOcrPageGeometry(const PDFDocument& document, const QString& language,
+                             const QVector<int>& pages)
+{
+    if (language != "jpn_vert")
+        return;
+    for (const int index : pages)
+    {
+        const auto page = document.getCatalog()->getPage(index);
+        if (page->getPageRotation() != PageRotation::None || page->getUserUnit() != 1)
+            fail(QString("%1ページの縦書きOCRは、回転または標準以外のページ単位に対応して"
+                         "いません。検索・コピーの位置と読み順を保てないため処理しません。"
+                         "文書と未保存の変更は保持しました。")
+                     .arg(index + 1));
+    }
+}
 std::unique_ptr<OcrJob> OcrJob::prepare(const Document& document, const OcrOptions& options,
                                         const QString& temporaryRoot)
 {
     document.editable();
-    if (!QStringList{"jpn+eng", "jpn", "eng"}.contains(options.language))
+    if (!ocrLanguageCodes().contains(options.language))
         fail("OCR言語が不正です。");
     auto job = std::unique_ptr<OcrJob>(new OcrJob);
     job->targets = parsePages(options.pages, document.pages());
+    validateOcrPageGeometry(document.pdf(), options.language, job->targets);
     job->revision = document.revision;
     job->pageCount = document.pages();
     job->options = options;

@@ -36,11 +36,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--app-directory", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--language", choices=["jpn+eng", "jpn", "eng", "jpn_vert"], default="jpn+eng"
+    )
+    parser.add_argument("--case", choices=["R01", "R02"], action="append")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     root = Path(__file__).resolve().parents[1]
     scans = root / "fixtures/real-scans"
     entries = json.loads((scans / "manifest.json").read_text("utf-8"))
+    if args.case:
+        entries = [entry for entry in entries if entry["id"] in args.case]
     executable = args.app_directory.resolve() / "PDFTatsujin.exe"
     env = os.environ.copy()
     env["QT_QPA_PLATFORM"] = "offscreen"
@@ -64,7 +70,9 @@ def main():
             raise RuntimeError("Frozen real-scan PDF changed")
         target = args.output.resolve() / (entry["id"] + "-ocr.pdf")
         options = args.output / (entry["id"] + "-options.json")
-        options.write_text(json.dumps({"pages": "1", "language": "jpn+eng"}), "utf-8")
+        options.write_text(
+            json.dumps({"pages": "1", "language": args.language}), "utf-8"
+        )
         report = args.output.resolve() / (entry["id"] + "-worker.json")
         process = subprocess.run(
             [

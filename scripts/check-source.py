@@ -230,6 +230,35 @@ def main():
         if sha256(certificates / entry["file"]) != entry["sha256"]:
             raise RuntimeError("Certificate fixture changed: " + entry["file"])
     scans = ROOT / "fixtures/real-scans"
+    vertical = ROOT / "fixtures/vertical-ocr-criteria.json"
+    if (
+        sha256(vertical)
+        != "516522131307b548f3b46e8d8a274b398d732857455806c8df2484ee40f3e604"
+    ):
+        raise RuntimeError("Frozen supplementary vertical OCR criterion changed")
+    vertical_fixed = json.loads(vertical.read_text(encoding="utf-8"))
+    if (
+        sha256(ROOT / "fixtures" / vertical_fixed["source"])
+        != vertical_fixed["source_sha256"]
+    ):
+        raise RuntimeError("Vertical OCR source changed")
+    if (
+        sha256(ROOT / "fixtures/NotoSansJP-fixture.ttf")
+        != vertical_fixed["fixture_font_sha256"]
+    ):
+        raise RuntimeError("Vertical OCR fixture font changed")
+    geometry = ROOT / "fixtures/vertical-ocr-geometry/criteria.json"
+    if (
+        sha256(geometry)
+        != "4e087d6138ce25f08c7f5cc70b0b2ee2b85a7c6da69bab370d2eb74ed9417ac8"
+    ):
+        raise RuntimeError("Frozen supplementary vertical geometry criterion changed")
+    geometry_fixed = json.loads(geometry.read_text(encoding="utf-8"))
+    if (
+        sha256(geometry.parent / geometry_fixed["source"])
+        != geometry_fixed["source_sha256"]
+    ):
+        raise RuntimeError("Vertical geometry input changed")
     if sha256(scans / "manifest.json") != REAL_SCAN_MANIFEST_SHA256:
         raise RuntimeError("Frozen real-scan provenance/truth changed")
     for entry in json.loads((scans / "manifest.json").read_text(encoding="utf-8")):
@@ -247,8 +276,18 @@ def main():
         "image_decode_adaptation",
         "writer_adaptation",
         "security_adaptation",
+        "font_vertical_adaptation",
     ):
         adaptation = lock["pdf4qt"][name]
+        if name == "font_vertical_adaptation":
+            for path_key, hash_key in (
+                ("layout_source_file", "layout_source_sha256_LF"),
+            ):
+                contents = (
+                    (ROOT / adaptation[path_key]).read_bytes().replace(b"\r\n", b"\n")
+                )
+                if hashlib.sha256(contents).hexdigest() != adaptation[hash_key]:
+                    raise RuntimeError("Pinned Japanese vertical layout source changed")
         for path_key, hash_key in [
             ("file", "sha256_LF"),
             ("source_file", "source_sha256_LF"),

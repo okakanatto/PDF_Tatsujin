@@ -41,6 +41,7 @@
 #include "selection_tests.h"
 #include "table_extraction_tests.h"
 #include "unprotected_pdf_tests.h"
+#include "vertical_ocr_tests.h"
 #include "viewer_tests.h"
 #include "window.h"
 #include "writing_tests.h"
@@ -426,6 +427,9 @@ int selftest(const QString& fixtures, const QString& output)
     run("M6TB01_table_extraction", [&] { return testTableExtraction(fixtures, output); });
     run("M6TB02_table_UI", [&] { return testTableExtractionUi(fixtures, output); });
     run("M6TB03_table_Office_interop", [&] { return testTableOfficeInterop(output); });
+    run("M6V01_vertical_OCR_UI", [&] { return testVerticalOcrUi(fixtures, output); });
+    run("M6V02_vertical_OCR_failures", [&] { return testVerticalOcrFailure(fixtures, output); });
+    run("M6V03_vertical_font_metrics", [&] { return testVerticalFontMetrics(fixtures); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

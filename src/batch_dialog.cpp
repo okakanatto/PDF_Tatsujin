@@ -1,4 +1,5 @@
 #include "batch_dialog.h"
+#include "ocr_language.h"
 #include "pdfexception.h"
 #include <memory>
 
@@ -40,7 +41,7 @@ BatchDialog::BatchDialog(QWidget* parent) : QDialog(parent)
     controls->addWidget(operation, 1, 1, 1, 2);
     language = new QComboBox;
     language->setObjectName("batchLanguage");
-    language->addItems({"日本語＋英語", "日本語", "英語"});
+    language->addItems(ocrLanguageLabels());
     controls->addWidget(language, 1, 3, 1, 2);
     directory = new QLineEdit;
     directory->setObjectName("batchDirectory");
@@ -238,7 +239,7 @@ void BatchDialog::run()
     const auto output = directory->text();
     const auto kind =
         operation->currentIndex() == 0 ? BatchOperation::Ocr : BatchOperation::Optimize;
-    const auto lang = QStringList{"jpn+eng", "jpn", "eng"}[language->currentIndex()];
+    const auto lang = ocrLanguageCodes()[language->currentIndex()];
     const auto expectedGeneration = ++generation;
     cancelled = false;
     closeRequested = false;

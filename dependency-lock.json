@@ -40,6 +40,15 @@
       "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdfsecurityhandler.cpp",
       "source_sha256_LF": "cbd8cbb8bd2628c7a260ed215d7e6b24b6ff56785a8c81fa513cb15c3892734b",
       "purpose": "Use the Qt system random generator for four cryptographic key, salt and IV generation sites. Build-only derivation of the fixed MIT handler; unchanged submodule."
+    },
+    "font_vertical_adaptation": {
+      "file": "cmake/AdaptPdf4QtVerticalFont.cmake",
+      "sha256_LF": "6a5f7c260961198eedcc61847d886682bf005a5a7b8e9d1ca01aa3ed3d55c6f2",
+      "source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdffont.cpp",
+      "source_sha256_LF": "85b9b3faaff6eb88e80f1cf267d9dcf9889affc7ebd42edb708d53eefadb331c",
+      "purpose": "Read declared DW2/W2 advances for vertical composite fonts and preserve Japanese vertical tracking without inferred word spaces. Horizontal spacing and encoded spaces unchanged; build-only pinned MIT derivations, unchanged submodule.",
+      "layout_source_file": "vendor/PDF4QT/Pdf4QtLibCore/sources/pdftextlayout.cpp",
+      "layout_source_sha256_LF": "6def0c7ead25df81418ee8411bf9f6b411d603d68e9b22c8d85132fb1d4dd3fd"
     }
   },
   "vcpkg": {
