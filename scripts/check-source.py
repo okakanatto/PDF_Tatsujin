@@ -37,6 +37,7 @@ def sha256(path):
 
 
 def main():
+    lock = json.loads((ROOT / "dependency-lock.json").read_text(encoding="utf-8"))
     truth = ROOT / "fixtures/ground-truth.json"
     if sha256(truth) != GROUND_TRUTH_SHA256:
         raise RuntimeError(
@@ -90,8 +91,13 @@ def main():
             ):
                 raise RuntimeError("Redaction foundation input changed")
         else:
-            if sha256(ROOT / "assets/fonts/NotoSansJP.ttf") != contents["font_sha256"]:
+            font = "assets/fonts/NotoSansJP.ttf"
+            if lock["files"][font]["sha256"] != contents["font_sha256"]:
                 raise RuntimeError("Redaction font input changed")
+            if (ROOT / font).is_file() and sha256(ROOT / font) != contents[
+                "font_sha256"
+            ]:
+                raise RuntimeError("Installed redaction font differs from its pin")
             for case in contents["cases"]:
                 if sha256(criteria.parent / case["file"]) != case["sha256"]:
                     raise RuntimeError("Redaction font PDF changed: " + case["file"])
@@ -112,7 +118,6 @@ def main():
         for name, hash_name in (("image", "source_sha256"), ("pdf", "pdf_sha256")):
             if sha256(scans / entry[name]) != entry[hash_name]:
                 raise RuntimeError("Real-scan input hash mismatch")
-    lock = json.loads((ROOT / "dependency-lock.json").read_text(encoding="utf-8"))
     head = subprocess.check_output(
         ["git", "-C", str(ROOT / "vendor/PDF4QT"), "rev-parse", "HEAD"], text=True
     ).strip()
