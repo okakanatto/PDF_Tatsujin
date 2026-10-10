@@ -26,8 +26,10 @@ struct Span
 struct Block
 {
     ExistingTextBlock value;
-    Span matrixSpan, showSpan;
-    int matrices = 0, shows = 0;
+    Span matrixSpan;
+    QVector<Span> showSpans;
+    int matrices = 0, shows = 0, advances = 0;
+    bool stateChanged = false;
     QTransform matrix, ctm;
     PDFFontPointer font;
     double fontSize = 0;
@@ -117,22 +119,35 @@ QVector<Block> spans(const QByteArray& bytes, const std::function<bool()>& cance
             }
             else if (command == "Tj" || command == "TJ")
             {
-                block.showSpan = span;
+                if (block.shows && (block.advances != block.shows || block.stateChanged))
+                    block.value.restriction = "一定の字体と行送りを持つ複数行を選んでください。";
+                block.showSpans << span;
                 ++block.shows;
+                block.stateChanged = false;
+            }
+            else if (command == "T*")
+            {
+                if (!block.shows || block.advances != block.shows - 1)
+                    block.value.restriction = "各文字描画の間に1回改行する本文を選んでください。";
+                ++block.advances;
             }
             else if (command != "Tf" && command != "Tc" && command != "Tw" && command != "Tz" &&
                      command != "TL" && command != "Tr" && command != "Ts")
                 block.value.restriction =
                     "複数行や非対応の本文命令を含むブロックは編集できません。";
+            else if (block.shows)
+                block.stateChanged = true;
         }
         operand = -1;
     }
     if (inside || arrays)
         fail("本文の文字ブロックが閉じられていません。");
     for (auto& block : blocks)
-        if (block.matrices != 1 || block.shows != 1 || block.matrixSpan.end > block.showSpan.begin)
+        if (block.matrices != 1 || block.shows < 1 || block.shows > 64 ||
+            block.advances != block.shows - 1 ||
+            block.matrixSpan.end > block.showSpans.first().begin)
             block.value.restriction =
-                "1個の位置行列と1回の文字描画を持つブロックを選んでください。";
+                "1個の位置行列と一定の行送りを持つ64行以内のブロックを選んでください。";
     return blocks;
 }
 class Collector : public PDFTextLayoutGenerator
@@ -143,6 +158,8 @@ public:
     std::function<bool()> cancelled;
     int index = -1;
     bool inside = false;
+    int line = 0;
+    bool firstCharacter = false;
 
 protected:
     bool isContentKindSuppressed(ContentKind kind) const override
@@ -161,6 +178,7 @@ protected:
             if (++index >= blocks->size())
                 fail("本文命令の対応を確認できません。");
             inside = true;
+            line = 0;
         }
         else if (command == "ET")
             inside = false;
@@ -168,12 +186,20 @@ protected:
         {
             auto& block = (*blocks)[index];
             const auto state = getGraphicState();
-            block.font = state->getTextFont();
-            block.fontSize = state->getTextFontSize();
-            block.matrix = state->getTextMatrix();
-            block.ctm = state->getCurrentTransformationMatrix();
-            if (block.font)
-                block.value.font = QString::fromLatin1(block.font->getFontDescriptor()->fontName);
+            if (block.shows > 1 &&
+                (!std::isfinite(state->getTextLeading()) || state->getTextLeading() <= 0))
+                block.value.restriction = "正の一定行送りを持つ複数行を選んでください。";
+            firstCharacter = true;
+            if (!line++)
+            {
+                block.font = state->getTextFont();
+                block.fontSize = state->getTextFontSize();
+                block.matrix = state->getTextMatrix();
+                block.ctm = state->getCurrentTransformationMatrix();
+                if (block.font)
+                    block.value.font =
+                        QString::fromLatin1(block.font->getFontDescriptor()->fontName);
+            }
             if (state->getTextRenderingMode() != TextRenderingMode::Fill ||
                 state->getAlphaFilling() != 1 || isContentSuppressed())
                 block.value.restriction =
@@ -185,6 +211,9 @@ protected:
         if (!inside || isContentSuppressed())
             return;
         auto& block = (*blocks)[index];
+        if (firstCharacter && line > 1 && !block.value.text.isEmpty())
+            block.value.text += '\n';
+        firstCharacter = false;
         block.value.text += info.character;
         if (block.value.text.size() > 4096)
             fail("本文ブロックの文字数が上限を超えています。");
@@ -224,9 +253,21 @@ Inspection inspect(const PDFDocument& document, int page, const std::function<bo
     if (collector.index + 1 != result.blocks.size())
         fail("本文命令の対応を確認できません。");
     for (auto& block : result.blocks)
+    {
         if (!block.font || !block.value.physical.isValid() || !block.matrix.isInvertible() ||
             !block.ctm.isInvertible())
             block.value.restriction = "本文の字体・表示範囲・位置を確認できません。";
+        if (block.font && block.value.font.isEmpty())
+        {
+            const auto resources = document.getObject(sourcePage->getResources());
+            const auto fontsObject = document.getObject(resources.getDictionary()->get("Font"));
+            const auto fontObject =
+                document.getObject(fontsObject.getDictionary()->get(block.font->getFontId()));
+            const auto baseName = document.getObject(fontObject.getDictionary()->get("BaseFont"));
+            block.value.font = baseName.isName() ? QString::fromLatin1(baseName.getString())
+                                                 : QString::fromLatin1(block.font->getFontId());
+        }
+    }
     return result;
 }
 QByteArray matrixBytes(const QTransform& matrix)
@@ -254,13 +295,14 @@ PDFEncodedText encode(const Block& block, const QString& text)
     {
         // For a simple subset, re-use only exact codes observed in this block.
         // The renderer provided its Unicode characters; no encoding is guessed.
-        if (!simple || block.originalCodes.size() != block.value.text.size())
+        const auto observed = QString(block.value.text).remove('\n');
+        if (!simple || block.originalCodes.size() != observed.size())
             return result;
         result.encodedText.clear();
         result.isValid = true;
         for (auto character : text)
         {
-            const auto position = block.value.text.indexOf(character);
+            const auto position = observed.indexOf(character);
             if (position < 0)
             {
                 result.isValid = false;
@@ -339,18 +381,29 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
     }
     else
     {
-        QByteArray command = "[] TJ";
+        QVector<QByteArray> commands(block.shows, "[] TJ");
+        QByteArray prefix, suffix;
         if (change == ExistingTextChange::Replace)
         {
-            if (text.isEmpty() || text.size() > 4096 || text.contains('\n') ||
-                text.contains('\r') || text.contains(QChar::Null))
-                fail("置換する本文は空でない1行、4096文字以内で指定してください。");
+            if (text.isEmpty() || text.size() > 4096 || text.contains('\r') ||
+                text.contains(QChar::Null))
+                fail(QString("元の本文と同じ%1行で、空でない4096文字以内の本文を入力してください。")
+                         .arg(block.shows));
+            const auto lines = text.split('\n');
+            if (lines.size() != block.shows)
+                fail(QString("元の本文と同じ%1行で入力してください。行数の変更は未対応です。")
+                         .arg(block.shows));
+            if (lines.contains(QString()))
+                fail("各行に文字を入力してください。空行への変更は未対応です。");
             if (family.isEmpty())
             {
-                const auto encoded = encode(block, text);
-                if (!encoded.isValid || encoded.encodedText.isEmpty())
-                    fail("元の字体で表現できない文字があります。本文の書体を選んでください。");
-                command = '<' + encoded.encodedText.toHex() + "> Tj";
+                for (int i = 0; i < lines.size(); ++i)
+                {
+                    const auto encoded = encode(block, lines[i]);
+                    if (!encoded.isValid || encoded.encodedText.isEmpty())
+                        fail("元の字体で表現できない文字があります。本文の書体を選んでください。");
+                    commands[i] = '<' + encoded.encodedText.toHex() + "> Tj";
+                }
             }
             else
             {
@@ -381,11 +434,17 @@ static PDFDocument editText(const PDFDocument& snapshot, int page, int occurrenc
                 if (originalName.isEmpty() || !fonts.hasKey(block.font->getFontId()))
                     fail("元の字体リソースを確認できません。");
                 const auto size = QByteArray::number(block.fontSize, 'f', 17);
-                command = '/' + name + ' ' + size + " Tf\n<" + embedded.encodedText.toHex() +
-                          "> Tj\n/" + originalName + ' ' + size + " Tf";
+                prefix = '/' + name + ' ' + size + " Tf\n";
+                suffix = "\n/" + originalName + ' ' + size + " Tf";
+                for (int i = 0; i < embedded.encodedLines.size(); ++i)
+                    commands[i] = '<' + embedded.encodedLines[i].toHex() + "> Tj";
             }
         }
-        bytes.replace(block.showSpan.begin, block.showSpan.end - block.showSpan.begin, command);
+        commands.first().prepend(prefix);
+        commands.last().append(suffix);
+        for (int i = commands.size() - 1; i >= 0; --i)
+            bytes.replace(block.showSpans[i].begin,
+                          block.showSpans[i].end - block.showSpans[i].begin, commands[i]);
     }
     stop(cancelled);
     set(dictionary, "Contents",

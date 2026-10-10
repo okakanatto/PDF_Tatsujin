@@ -399,6 +399,10 @@ int selftest(const QString& fixtures, const QString& output)
         [&] { return testExistingTextUiRefusals(fixtures, output); });
     run("M6T05_existing_text_fonts", [&] { return testExistingTextFonts(fixtures, output); });
     run("M6T06_existing_text_font_UI", [&] { return testExistingTextFontUi(fixtures, output); });
+    run("M6T07_existing_text_multiline",
+        [&] { return testExistingTextMultiline(fixtures, output); });
+    run("M6T08_existing_text_multiline_UI",
+        [&] { return testExistingTextMultilineUi(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

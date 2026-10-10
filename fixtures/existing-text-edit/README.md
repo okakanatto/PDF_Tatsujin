@@ -1,5 +1,7 @@
 # 既存本文の固定入力
 
+`multiline/` は同一字体・一定の行送りを持つ日英2行編集と、途中で文字サイズを変える拒否入力です。`multiline-rotated/` は90度回転・CropBox・UserUnit=2の別の正例です。いずれも当該操作前に文字・行数・座標・保つものを固定しました。生成手順は `prepare-multiline-text-fixtures.py` と `prepare-rotated-multiline-fixture.py` です。元の試験入力を更新しません。
+
 `font-styles.json` は字体拡張前に固定した日英置換と書体の条件です。`font-state/` は変更対象の直後に、Tfを省略して元のHelveticaを継承する別ブロックを追加した入力です。字体変更による後続ブロックへの状態漏れ、新しい日文文字、埋込み、保存後の再編集を検査します。元の入力を変更しません。生成手順は `../../scripts/prepare-font-state-fixture.py`。Meiryo UIの字体プログラムはソースへ収録しません。
 
 文字・図形・フォームは合成データで、実務文書や個人の署名を含みません。独自の文章と図形はCC0-1.0、埋込みNoto書体はSIL OFL-1.1です。書体の通知は `../../licenses/` に保持しています。

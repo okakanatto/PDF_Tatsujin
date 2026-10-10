@@ -8,4 +8,6 @@ QJsonObject testExistingTextUi(const QString& fixtures, const QString& output);
 QJsonObject testExistingTextUiRefusals(const QString& fixtures, const QString& output);
 QJsonObject testExistingTextFonts(const QString& fixtures, const QString& output);
 QJsonObject testExistingTextFontUi(const QString& fixtures, const QString& output);
+QJsonObject testExistingTextMultiline(const QString& fixtures, const QString& output);
+QJsonObject testExistingTextMultilineUi(const QString& fixtures, const QString& output);
 } // namespace tatsu

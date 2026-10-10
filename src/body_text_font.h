@@ -8,7 +8,7 @@ namespace tatsu
 struct EmbeddedBodyFont
 {
     PDFObject font;
-    QByteArray encodedText;
+    QVector<QByteArray> encodedLines;
 };
 // Generates only a permitted subset, and imports its font resources into the
 // candidate builder. Does not copy an installed font into runtime assets.

@@ -101,8 +101,9 @@ ExistingTextDialog::ExistingTextDialog(PDFDocument document, int currentPage,
     consent->setObjectName("existingTextDeleteConsent");
     column->addWidget(consent);
     auto help = new QLabel(
-        "表示する文字と字体を確認してください。文字列の長さで表示幅が変わります。縦書き・複数行"
-        "・Form内部・OCR層などは未対応です。文字の削除は墨消しではありません。");
+        "表示する文字と字体を確認してください。一定の字体・行送りで、元と同じ行数に対応します。"
+        "縦書き・行途中の書体変更・Form内部・OCR層などは未対応です。文字の削除は墨消しではありませ"
+        "ん。");
     help->setWordWrap(true);
     column->addWidget(help);
     column->addStretch();
@@ -235,7 +236,10 @@ void ExistingTextDialog::select(int index)
         QSignalBlocker blocker(fontChoice);
         fontChoice->setCurrentIndex(0);
     }
-    fontInfo->setText(index >= 0 ? "元の字体：" + blocks[index].font : QString());
+    fontInfo->setText(index >= 0 ? QString("元の字体：%1\n元の本文：%2行")
+                                       .arg(blocks[index].font)
+                                       .arg(blocks[index].text.count('\n') + 1)
+                                 : QString());
     consent->setChecked(false);
     setGeometry(index >= 0 ? blocks[index].physical : QRectF());
     preview->selected = index;
