@@ -208,6 +208,10 @@ Window::Window()
                                                [this] { guard([&] { editExistingImages(); }); });
     existingImage->setObjectName("editExistingImages");
     edits << existingImage;
+    auto existingText = createMenu->addAction("PDF本文の文字を編集…", this,
+                                             [this] { guard([&] { editExistingTextBlocks(); }); });
+    existingText->setObjectName("editExistingTextBlocks");
+    edits << existingText;
     comparisonAction = createMenu->addAction("PDFを比較…", this,
                                              [this] { guard([&] { compareWithDocument(); }); });
     comparisonAction->setObjectName("compareDocuments");

@@ -39,6 +39,12 @@ IMAGE_EDIT_CRITERIA_SHA256 = {
     "ui-criteria.json": "27e1806a8c0c0c1a99510fc08b729fc25db0e7aa4236fcf86a09728f9b405ee5",
     "ui-positive-criteria.json": "c7b7e4dcf6194f429c7e3bd7168c810ac78c5a1a5368786b54d944b4f3d098dd",
 }
+TEXT_EDIT_CRITERIA_SHA256 = {
+    "criteria.json": "79897ed58a76ef9f78840827807256e82b6bc47b49491e0a8a8b7b3dfa1abdcb",
+    "visible/criteria.json": "50d1ccff8c01bcfd3892cba6147154d910b05e00b86319b5db2c51fcae47d17d",
+    "rotated/criteria.json": "4da0d1a272198846cd6c46a12969ddd66ec53da5f71f1a1ba0c91933cf586ed9",
+    "ui-criteria.json": "ec9cc2964bf31f21143b2ec2a9b3ae51fe690df0ebca544c55677797e569cb3e",
+}
 
 
 def sha256(path):
@@ -88,6 +94,17 @@ def main():
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     certificates = ROOT / "fixtures/certificate-signatures"
     images = ROOT / "fixtures/existing-image-edit"
+    body = ROOT / "fixtures/existing-text-edit"
+    for name, expected in TEXT_EDIT_CRITERIA_SHA256.items():
+        fixed = body / name
+        if sha256(fixed) != expected:
+            raise RuntimeError("Frozen body-text criteria changed: " + name)
+        contents = json.loads(fixed.read_text(encoding="utf-8"))
+        if (
+            "file" in contents
+            and sha256(fixed.parent / contents["file"]) != contents["sha256"]
+        ):
+            raise RuntimeError("Frozen body-text input changed: " + name)
     for name, expected in IMAGE_EDIT_CRITERIA_SHA256.items():
         if sha256(images / name) != expected:
             raise RuntimeError("Frozen existing-image criteria changed: " + name)
