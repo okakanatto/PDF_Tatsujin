@@ -30,6 +30,7 @@
 #include "pdf_optimization_tests.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
+#include "redaction_copy_tests.h"
 #include "reference_workflow_tests.h"
 #include "save_candidate_tests.h"
 #include "search_tests.h"
@@ -379,6 +380,14 @@ int selftest(const QString& fixtures, const QString& output)
         [&] { return testCertificateSigningAtomic(fixtures, output); });
     run("M5S07_certificate_signing_OCR",
         [&] { return testCertificateSigningOcr(fixtures, output); });
+    run("M5R01_redaction_foundation",
+        [&] { return testRedactionCopyFoundation(fixtures, output); });
+    run("M5R02_redaction_atomic", [&] { return testRedactionCopyAtomic(fixtures, output); });
+    run("M5R03_redaction_UI", [&] { return testRedactionCopyUi(fixtures, output); });
+    run("M5R04_redaction_font_UI", [&] { return testRedactionCopyFontUi(fixtures, output); });
+    run("M5R06_redaction_real_OCR", [&] { return testRedactionCopyOcr(fixtures, output); });
+    run("M5R05_redaction_geometry_UI",
+        [&] { return testRedactionCopyGeometryUi(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

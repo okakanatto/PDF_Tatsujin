@@ -26,6 +26,10 @@ VIEWER_NAVIGATION_MANIFEST_SHA256 = (
 CERTIFICATE_MANIFEST_SHA256 = (
     "9d20d7d9624cc5236c859df5343dc46c289b7797a1c6c2b5cdafc01e62c92c74"
 )
+REDACTION_CRITERIA_SHA256 = {
+    "foundation": "f00f689b6e0a896a1ca610f1b6c3feff23d856b4f1d7bc0c833accec40d04370",
+    "fonts": "3e35b3dffd1b5d44982975d24af625ec6f8a5df7cf5e0960abf175e3a2f19ecd",
+}
 
 
 def sha256(path):
@@ -73,6 +77,24 @@ def main():
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     certificates = ROOT / "fixtures/certificate-signatures"
+    redaction = ROOT / "fixtures/redaction-copy"
+    for folder, expected in REDACTION_CRITERIA_SHA256.items():
+        criteria = redaction / folder / "criteria.json"
+        if sha256(criteria) != expected:
+            raise RuntimeError("Frozen redaction criteria changed: " + folder)
+        contents = json.loads(criteria.read_text(encoding="utf-8"))
+        if folder == "foundation":
+            if (
+                sha256(criteria.parent / "unsafe-source.pdf")
+                != contents["source_sha256"]
+            ):
+                raise RuntimeError("Redaction foundation input changed")
+        else:
+            if sha256(ROOT / "assets/fonts/NotoSansJP.ttf") != contents["font_sha256"]:
+                raise RuntimeError("Redaction font input changed")
+            for case in contents["cases"]:
+                if sha256(criteria.parent / case["file"]) != case["sha256"]:
+                    raise RuntimeError("Redaction font PDF changed: " + case["file"])
     if sha256(certificates / "manifest.json") != CERTIFICATE_MANIFEST_SHA256:
         raise RuntimeError("Frozen certificate verification criteria changed")
     certificate_cases = json.loads(

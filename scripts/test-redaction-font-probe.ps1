@@ -29,6 +29,7 @@ $oldPath=$env:PATH; $oldPlatform=$env:QT_QPA_PLATFORM; $oldAssets=$env:TATSU_ASS
 try{
     $env:PATH="$env:SystemRoot\System32"; $env:QT_QPA_PLATFORM='offscreen'
     Remove-Item Env:TATSU_ASSETS,Env:QT_PLUGIN_PATH -ErrorAction SilentlyContinue
+    $unexpected=@()
     foreach($case in $criteria.cases){
         $source=Join-Path $fixture $case.file
         $destination=Join-Path $output ([IO.Path]::GetFileNameWithoutExtension($case.file))
@@ -38,11 +39,12 @@ try{
         if(!$process.WaitForExit(60000)){$process.Kill();throw 'Owned diagnostic timed out'}
         [ordered]@{exit_code=$process.ExitCode;probe_sha256=$expected;source_sha256=(Get-FileHash -LiteralPath $source).Hash.ToLower();scope='Synthetic internal candidate; no product acceptance'} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $destination 'process-result.json') -Encoding utf8
         if((Get-FileHash -LiteralPath $source).Hash.ToLower() -ne $case.sha256){throw 'Source changed'}
-        if($case.expect_rejection -and $process.ExitCode -ne 1){throw 'Unsafe profile unexpectedly succeeded'}
-        if(!$case.expect_rejection -and $process.ExitCode -ne 0){throw 'Supported synthetic case failed'}
+        if($case.expect_rejection -and $process.ExitCode -ne 1){$unexpected += $case.file+': unsafe profile unexpectedly succeeded'}
+        if(!$case.expect_rejection -and $process.ExitCode -ne 0){$unexpected += $case.file+': supported synthetic case failed'}
     }
     & $PythonExecutable (Join-Path $PSScriptRoot 'evaluate-redaction-font-probe.py') --fixture $fixture --run $output *> (Join-Path $output 'independent.log')
     if($LASTEXITCODE -ne 0){throw 'Independent font inspection failed'}
+    if($unexpected.Count){throw ($unexpected -join "`n")}
     Write-Output "PASS: $($criteria.cases.Count) font cases with independently inspected output or explicit rejection"
 }finally{
     $env:PATH=$oldPath; $env:QT_QPA_PLATFORM=$oldPlatform; $env:TATSU_ASSETS=$oldAssets; $env:QT_PLUGIN_PATH=$oldPlugins

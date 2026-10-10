@@ -200,6 +200,10 @@ Window::Window()
         "証明書で署名したコピー…", this, [this] { guard([&] { exportSignedCertificateCopy(); }); });
     signCertificate->setObjectName("exportSignedCertificateCopy");
     edits << signCertificate;
+    auto redact = createMenu->addAction("墨消ししたコピー…", this,
+                                        [this] { guard([&] { exportRedactedCopy(); }); });
+    redact->setObjectName("exportRedactedCopy");
+    edits << redact;
     comparisonAction = createMenu->addAction("PDFを比較…", this,
                                              [this] { guard([&] { compareWithDocument(); }); });
     comparisonAction->setObjectName("compareDocuments");

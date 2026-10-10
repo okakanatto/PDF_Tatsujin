@@ -8,5 +8,11 @@ class PDFDocumentBuilder;
 }
 namespace tatsu
 {
-pdf::PDFObjectReference embedImage(pdf::PDFDocumentBuilder& builder, const QImage& image);
-}
+enum class ImagePrediction
+{
+    Png,
+    None
+};
+pdf::PDFObjectReference embedImage(pdf::PDFDocumentBuilder& builder, const QImage& image,
+                                   ImagePrediction prediction = ImagePrediction::Png);
+} // namespace tatsu

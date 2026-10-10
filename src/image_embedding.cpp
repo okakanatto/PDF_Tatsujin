@@ -6,7 +6,8 @@
 
 namespace tatsu
 {
-pdf::PDFObjectReference embedImage(pdf::PDFDocumentBuilder& builder, const QImage& image)
+pdf::PDFObjectReference embedImage(pdf::PDFDocumentBuilder& builder, const QImage& image,
+                                   ImagePrediction prediction)
 {
     using namespace pdf;
     using namespace detail;
@@ -14,6 +15,7 @@ pdf::PDFObjectReference embedImage(pdf::PDFDocumentBuilder& builder, const QImag
         fail("空の画像を埋め込めません。");
     PDFImage::ImageEncodeOptions options;
     options.compression = PDFImage::ImageCompression::Flate;
+    options.enablePngPredictor = prediction == ImagePrediction::Png;
     options.colorMode = PDFImage::ImageColorMode::Color;
     options.alphaHandling = PDFImage::AlphaHandling::DropAlphaPreserveColors;
     auto encoded = PDFImage::createStreamFromImage(image, options);

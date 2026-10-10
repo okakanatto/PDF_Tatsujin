@@ -56,6 +56,7 @@ public:
         : PDFPageContentProcessor(page, document, fonts, cms, nullptr, {}, {}),
           regions(std::move(regions)), builder(builder), cancelled(std::move(cancelled))
     {
+        pageClip = page->getCropBox();
         result.bytes = "q\n";
     }
     RedactedPageContent finish()
@@ -73,7 +74,7 @@ public:
             const auto original = result.fonts.get(name);
             if (!original.isReference())
                 fail("直接格納されたサブセット書体の共有情報を確認できません。");
-            rememberFontDependencies(original);
+            rememberRemovedDependencies(original);
             PDFDictionary stub;
             detail::set(stub, "Type", PDFObject::createName("Font"));
             detail::set(stub, "Subtype", PDFObject::createName("Type1"));
@@ -136,6 +137,7 @@ protected:
             selectedCharacters = unselectedCharacters = 0;
             exactAdvance = 0;
             textHasGlyphs = false;
+            suppressForm = removeForm = false;
             replacementImage.clear();
             if (name == "q")
                 ++graphicsDepth;
@@ -163,6 +165,11 @@ protected:
                     fail("画像参照が不正です。");
                 const auto dictionary = object.getStream()->getDictionary();
                 const auto subtype = getDocument()->getObject(dictionary->get("Subtype"));
+                if (subtype.isName() && subtype.getString() == "Form")
+                {
+                    prepareForm(dictionary, objects->get(imageName));
+                    return;
+                }
                 if (!subtype.isName() || subtype.getString() != "Image" ||
                     dictionary->hasKey("ImageMask") || dictionary->hasKey("Mask") ||
                     dictionary->hasKey("SMask") || dictionary->hasKey("OC") ||
@@ -173,7 +180,9 @@ protected:
         }
         else
         {
-            if (selectedCharacters)
+            if (removeForm)
+                ++result.removedContentGroups;
+            else if (selectedCharacters)
             {
                 // Do not silently remove text outside the selected rectangle.
                 // Partial operations require a future character-code splitter.
@@ -242,6 +251,11 @@ protected:
         // advance, so removed characters leave no individual-width sequence.
         exactAdvance = -double(displacement) * 1000 / state->getTextFontSize();
     }
+    bool isContentKindSuppressed(ContentKind kind) const override
+    {
+        return (kind == ContentKind::Forms && suppressForm) ||
+               PDFPageContentProcessor::isContentKindSuppressed(kind);
+    }
     void performOutputCharacter(const PDFTextCharacterInfo& info) override
     {
         if (info.character.isSpace())
@@ -251,7 +265,7 @@ protected:
             fail("文字の範囲を確認できません。");
         if (regions.intersects(bounds))
         {
-            if (!regions.contains(bounds))
+            if (!covers(bounds))
                 fail("文字の一部を横切る墨消しにはまだ対応していません。");
             ++selectedCharacters;
         }
@@ -289,25 +303,84 @@ protected:
         const auto mask = inverse.map(regions);
         const auto limit = mask.boundingRect().toAlignedRect().intersected(source.rect());
         auto image = source.convertToFormat(QImage::Format_RGB32);
-        for (int y = limit.top(); y <= limit.bottom(); ++y)
-        {
-            stop();
-            for (int x = limit.left(); x <= limit.right(); ++x)
-                if (mask.intersects(QRectF(x, y, 1, 1)))
-                    image.setPixel(x, y, qRgb(0, 0, 0));
-        }
+        if (covers(matrix.mapRect(QRectF(0, 0, 1, 1))))
+            image.fill(qRgb(0, 0, 0));
+        else
+            for (int y = limit.top(); y <= limit.bottom(); ++y)
+            {
+                stop();
+                for (int x = limit.left(); x <= limit.right(); ++x)
+                    if (mask.intersects(QRectF(x, y, 1, 1)))
+                        image.setPixel(x, y, qRgb(0, 0, 0));
+            }
         int suffix = result.modifiedImages + 1;
         const auto objects = getXObjectDictionary();
         do
             replacementImage = "TatsujinRedactImage" + QByteArray::number(suffix++);
         while ((objects && objects->hasKey(replacementImage)) ||
                result.xobjects.hasKey(replacementImage));
-        result.xobjects.setEntry(PDFInplaceOrMemoryString(replacementImage),
-                                 PDFObject::createReference(embedImage(builder, image)));
+        result.xobjects.setEntry(
+            PDFInplaceOrMemoryString(replacementImage),
+            PDFObject::createReference(embedImage(builder, image, ImagePrediction::None)));
         ++result.modifiedImages;
     }
 
 private:
+    bool covers(const QRectF& bounds) const
+    {
+        // QPainterPath::contains rejects coincident boundaries. A closed
+        // rectangle fully covers its own boundary without adding any margin.
+        return std::any_of(rectangles.begin(), rectangles.end(),
+                           [&](const QRectF& rectangle) { return rectangle.contains(bounds); }) ||
+               regions.contains(bounds);
+    }
+    void prepareForm(const PDFDictionary* dictionary, const PDFObject& original)
+    {
+        if (!original.isReference() || dictionary->hasKey("OC") || dictionary->hasKey("Ref") ||
+            dictionary->hasKey("F"))
+            fail("このForm XObjectの共有情報や外部参照を安全に確認できません。");
+        const auto formType = getDocument()->getObject(dictionary->get("FormType"));
+        if (!formType.isNull() && (!formType.isInt() || formType.getInteger() != 1))
+            fail("このForm XObjectの形式には対応していません。");
+        const auto box = getDocument()->getObject(dictionary->get("BBox"));
+        if (!box.isArray() || box.getArray()->getCount() != 4)
+            fail("Form XObjectの描画境界を確認できません。");
+        const auto array = box.getArray();
+        const QRectF bounds(QPointF(number(array->getItem(0)), number(array->getItem(1))),
+                            QPointF(number(array->getItem(2)), number(array->getItem(3))));
+        if (bounds.width() <= 0 || bounds.height() <= 0)
+            fail("Form XObjectの描画境界が不正です。");
+        QTransform transform;
+        const auto matrix = getDocument()->getObject(dictionary->get("Matrix"));
+        if (!matrix.isNull())
+        {
+            if (!matrix.isArray() || matrix.getArray()->getCount() != 6)
+                fail("Form XObjectの座標変換を確認できません。");
+            const auto values = matrix.getArray();
+            transform = {number(values->getItem(0)), number(values->getItem(1)),
+                         number(values->getItem(2)), number(values->getItem(3)),
+                         number(values->getItem(4)), number(values->getItem(5))};
+        }
+        transform = transform * getGraphicState()->getCurrentTransformationMatrix();
+        if (!transform.isInvertible())
+            fail("Form XObjectの座標変換が不正です。");
+        const auto transformed = transform.mapRect(bounds);
+        const auto painted = transformed.intersected(pageClip);
+        if (!std::isfinite(painted.x()) || !std::isfinite(painted.y()) ||
+            !std::isfinite(painted.width()) || !std::isfinite(painted.height()))
+            fail("Form XObjectの描画境界が処理上限を超えています。");
+        if (regions.intersects(painted))
+        {
+            if (!covers(painted))
+                fail("Form XObjectやOCR文字層の一部だけの墨消しにはまだ対応していません。");
+            rememberRemovedDependencies(original);
+            removeForm = true;
+        }
+        // The form BBox and page CropBox both clip painting. Whole visible
+        // groups are removed with their hidden clipped content and dependencies;
+        // disjoint groups remain verbatim. A partly selected group is refused.
+        suppressForm = true;
+    }
     bool requiresFontCleanup() const
     {
         const auto font = getGraphicState()->getTextFont();
@@ -341,7 +414,7 @@ private:
                         return true;
         return false;
     }
-    void rememberFontDependencies(const PDFObject& font)
+    void rememberRemovedDependencies(const PDFObject& font)
     {
         std::vector<PDFObject> pending{font};
         std::set<PDFObjectReference> visited;
@@ -356,7 +429,7 @@ private:
             if (object.isReference())
             {
                 const auto reference = object.getReference();
-                result.removedFontDependencies.insert(reference);
+                result.removedResourceDependencies.insert(reference);
                 if (!visited.insert(reference).second)
                     continue;
                 object = getDocument()->getObjectByReference(reference);
@@ -476,6 +549,8 @@ private:
     QByteArray command, serialized, imageName, replacementImage;
     double exactAdvance = 0;
     bool textHasGlyphs = false;
+    bool suppressForm = false, removeForm = false;
+    QRectF pageClip;
     std::set<QByteArray> selectedFontsNeedingCleanup, survivingFonts;
     std::exception_ptr deferredError;
     int graphicsDepth = 0, selectedCharacters = 0, unselectedCharacters = 0;

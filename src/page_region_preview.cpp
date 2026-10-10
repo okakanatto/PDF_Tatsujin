@@ -1,4 +1,5 @@
 #include "page_region_preview.h"
+#include <cmath>
 
 namespace tatsu
 {
@@ -18,9 +19,57 @@ QRectF PageRegionPreview::paper() const
         return {};
     const double scale =
         qMin((width() - 32.0) / physical.width(), (height() - 32.0) / physical.height());
-    const auto size = physical * scale;
-    return {(width() - size.width()) / 2, (height() - size.height()) / 2, size.width(),
-            size.height()};
+    const auto size = physical * (scale * magnification);
+    return {(width() - size.width()) / 2 + pan.x(), (height() - size.height()) / 2 + pan.y(),
+            size.width(), size.height()};
+}
+void PageRegionPreview::constrainPan()
+{
+    const auto box = paper();
+    const double horizontal = qMax(0.0, (box.width() - width() + 32) / 2);
+    const double vertical = qMax(0.0, (box.height() - height() + 32) / 2);
+    pan = {qBound(-horizontal, pan.x(), horizontal), qBound(-vertical, pan.y(), vertical)};
+}
+void PageRegionPreview::setZoom(double value, QPointF anchor)
+{
+    if (!navigationEnabled || physical.isEmpty())
+        return;
+    const auto point = widgetToPhysical(anchor);
+    magnification = qBound(1.0, value, 8.0);
+    pan += anchor - physicalToWidget(point);
+    constrainPan();
+    gesture = 0;
+    update();
+}
+void PageRegionPreview::fitPage()
+{
+    magnification = 1;
+    pan = {};
+    gesture = 0;
+    update();
+}
+void PageRegionPreview::wheelEvent(QWheelEvent* event)
+{
+    if (!navigationEnabled || image.isNull())
+    {
+        QWidget::wheelEvent(event);
+        return;
+    }
+    if (event->modifiers().testFlag(Qt::ControlModifier))
+        setZoom(magnification * std::pow(1.2, event->angleDelta().y() / 120.0), event->position());
+    else if (magnification > 1)
+    {
+        pan += event->pixelDelta().isNull() ? QPointF(event->angleDelta()) * .5
+                                            : QPointF(event->pixelDelta());
+        constrainPan();
+        update();
+    }
+    else
+    {
+        QWidget::wheelEvent(event);
+        return;
+    }
+    event->accept();
 }
 QPointF PageRegionPreview::physicalToWidget(QPointF point) const
 {
@@ -51,12 +100,14 @@ void PageRegionPreview::paintEvent(QPaintEvent*)
     {
         const QRectF box(physicalToWidget(region.topLeft()),
                          physicalToWidget(region.bottomRight()));
-        painter.setPen(QPen(active ? QColor("#2563eb") : QColor("#64748b"), active ? 2 : 1));
-        painter.setBrush(QColor(37, 99, 235, active ? 35 : 12));
+        painter.setPen(QPen(active ? regionColor : QColor("#64748b"), active ? 2 : 1));
+        auto fill = regionColor;
+        fill.setAlpha(active ? 35 : 12);
+        painter.setBrush(fill);
         painter.drawRect(box);
         if (active)
         {
-            painter.setBrush(QColor("#2563eb"));
+            painter.setBrush(regionColor);
             painter.drawRect(QRectF(box.bottomRight() - QPointF(4, 4), QSizeF(8, 8)));
         }
     };
@@ -68,6 +119,13 @@ void PageRegionPreview::paintEvent(QPaintEvent*)
 }
 void PageRegionPreview::mousePressEvent(QMouseEvent* event)
 {
+    if (navigationEnabled && event->button() == Qt::MiddleButton && !image.isNull())
+    {
+        gesture = 4;
+        panStart = event->position();
+        setCursor(Qt::ClosedHandCursor);
+        return;
+    }
     if (event->button() != Qt::LeftButton || image.isNull() || !paper().contains(event->position()))
         return;
     start = widgetToPhysical(event->position());
@@ -104,6 +162,14 @@ void PageRegionPreview::mouseMoveEvent(QMouseEvent* event)
 {
     if (!gesture || image.isNull())
         return;
+    if (gesture == 4)
+    {
+        pan += event->position() - panStart;
+        panStart = event->position();
+        constrainPan();
+        update();
+        return;
+    }
     const auto point = widgetToPhysical(event->position());
     if (gesture == 1)
         pending = QRectF(start, point).normalized();
@@ -126,6 +192,14 @@ void PageRegionPreview::mouseMoveEvent(QMouseEvent* event)
 }
 void PageRegionPreview::mouseReleaseEvent(QMouseEvent* event)
 {
+    if (gesture == 4 && event->button() == Qt::MiddleButton)
+    {
+        mouseMoveEvent(event);
+        gesture = 0;
+        setCursor(Qt::ArrowCursor);
+        update();
+        return;
+    }
     if (event->button() != Qt::LeftButton || !gesture)
         return;
     mouseMoveEvent(event);

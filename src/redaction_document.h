@@ -4,12 +4,13 @@
 
 namespace tatsu
 {
-// Experimental private candidate, unavailable in the product UI. Its supported
-// subset must pass independent security and preservation tests before export.
+// Prepare an isolated candidate for the supported subset. Export separately
+// validates and publishes it without modifying the source document or history.
 struct RedactionCandidate
 {
     PDFDocument document;
     int textSegments = 0, images = 0, fieldGroups = 0, annotations = 0;
+    int contentGroups = 0;
 };
 RedactionCandidate prepareRedactionCandidate(const PDFDocument& document,
                                              const QMap<int, QVector<QRectF>>& regions,

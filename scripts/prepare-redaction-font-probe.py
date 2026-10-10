@@ -1,8 +1,10 @@
 """Freeze Japanese subset-font redaction inputs before diagnostic execution."""
 
 import argparse
+import base64
 import hashlib
 import json
+import zlib
 from pathlib import Path
 
 import pypdfium2 as pdfium
@@ -10,7 +12,14 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject
+from pypdf.generic import (
+    ArrayObject,
+    DecodedStreamObject,
+    DictionaryObject,
+    EncodedStreamObject,
+    NameObject,
+    NumberObject,
+)
 
 
 def phrase_boxes(path, phrase):
@@ -33,6 +42,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--with-sharing", action="store_true")
+    parser.add_argument("--with-duplicates", action="store_true")
+    parser.add_argument("--with-audit-errors", action="store_true")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     root = Path(__file__).resolve().parents[1]
@@ -148,6 +159,109 @@ def main():
                     mode=0,
                     expect_rejection=True,
                     keep_additional="",
+                )
+            )
+    if args.with_duplicates:
+        for label, key in (("ToUnicode", "/ToUnicode"), ("font-program", "/FontFile2")):
+            for encoded in ("raw", "flate", "ascii85-flate"):
+                writer = PdfWriter()
+                writer.clone_document_from_reader(
+                    PdfReader(args.output / "visible.pdf")
+                )
+                font_object = next(
+                    reference.get_object()
+                    for reference in writer.pages[0]["/Resources"]["/Font"].values()
+                    if "/ToUnicode" in reference.get_object()
+                )
+                owner = (
+                    font_object
+                    if key == "/ToUnicode"
+                    else font_object["/FontDescriptor"]
+                )
+                duplicate = DecodedStreamObject()
+                duplicate.set_data(owner[key].get_data())
+                if encoded != "raw":
+                    duplicate = duplicate.flate_encode()
+                if encoded == "ascii85-flate":
+                    wrapper = EncodedStreamObject()
+                    wrapper._data = base64.a85encode(duplicate._data) + b"~>"
+                    wrapper[NameObject("/Filter")] = ArrayObject(
+                        [NameObject("/ASCII85Decode"), NameObject("/FlateDecode")]
+                    )
+                    duplicate = wrapper
+                copied = writer._add_object(duplicate)
+                assert copied != owner.raw_get(key), "Independent object required"
+                writer._root_object[NameObject("/TatsujinTestDuplicatedFont")] = copied
+                name = "duplicated-" + label + "-" + encoded
+                path = args.output / (name + ".pdf")
+                writer.write(path)
+                rows.append(
+                    dict(
+                        file=path.name,
+                        sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                        remove="秘匿機密亀鶴",
+                        keep="KEEP_OUTSIDE_FONT_PROBE",
+                        mode=0,
+                        expect_rejection=True,
+                        keep_additional="",
+                        duplicated_font_payload=True,
+                    )
+                )
+    if args.with_audit_errors:
+
+        def repeated_payload(mebibytes):
+            compressor = zlib.compressobj()
+            block = b"synthetic audit budget " * 1024
+            length = mebibytes * 1024 * 1024
+            parts = []
+            while length:
+                part = block[: min(length, len(block))]
+                parts.append(compressor.compress(part))
+                length -= len(part)
+            return b"".join(parts) + compressor.flush()
+
+        valid = zlib.compress(b"synthetic private stream")
+        error_cases = [
+            ("ascii85-overflow", b"uuuuu~>", "/ASCII85Decode", None, 1),
+            ("ascii85-missing-end", b"!!", "/ASCII85Decode", None, 1),
+            ("ascii85-trailing", b"z~>unexpected", "/ASCII85Decode", None, 1),
+            ("unsupported-filter", b"74657374>", "/ASCIIHexDecode", None, 1),
+            (
+                "decode-parameters",
+                valid,
+                "/FlateDecode",
+                DictionaryObject({NameObject("/Predictor"): NumberObject(12)}),
+                1,
+            ),
+            ("flate-trailing", valid + b"trailing bytes", "/FlateDecode", None, 1),
+            ("flate-truncated", valid[:-2], "/FlateDecode", None, 1),
+            ("expanded-over-limit", repeated_payload(129), "/FlateDecode", None, 1),
+            ("aggregate-over-limit", repeated_payload(96), "/FlateDecode", None, 6),
+        ]
+        for label, payload, filter_name, parameters, count in error_cases:
+            writer = PdfWriter()
+            writer.clone_document_from_reader(PdfReader(args.output / "visible.pdf"))
+            for index in range(count):
+                stream = EncodedStreamObject()
+                stream._data = payload
+                stream[NameObject("/Filter")] = NameObject(filter_name)
+                if parameters is not None:
+                    stream[NameObject("/DecodeParms")] = parameters
+                writer._root_object[NameObject("/TatsujinAuditCase" + str(index))] = (
+                    writer._add_object(stream)
+                )
+            path = args.output / ("audit-" + label + ".pdf")
+            writer.write(path)
+            rows.append(
+                dict(
+                    file=path.name,
+                    sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                    remove="秘匿機密亀鶴",
+                    keep="KEEP_OUTSIDE_FONT_PROBE",
+                    mode=0,
+                    expect_rejection=True,
+                    keep_additional="",
+                    audit_rejection_condition=label,
                 )
             )
     (args.output / "plan.json").write_text(

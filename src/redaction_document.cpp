@@ -4,6 +4,7 @@
 #include "pdfoptimizer.h"
 #include "pdfsecurityhandler.h"
 #include "redaction_content.h"
+#include "redaction_resource_audit.h"
 #include <algorithm>
 #include <set>
 
@@ -22,59 +23,6 @@ void removePrivatePageData(PDFDictionary& dictionary)
 {
     for (const auto key : {"Metadata", "PieceInfo", "AF", "Thumb"})
         dictionary.removeEntry(key);
-}
-void rejectRetainedOriginalResources(const PDFObjectStorage& storage,
-                                     const std::set<PDFObjectReference>& images,
-                                     const std::set<PDFObjectReference>& fonts,
-                                     const std::function<bool()>& cancelled)
-{
-    if (images.empty() && fonts.empty())
-        return;
-    std::set<PDFObjectReference> visited;
-    std::vector<PDFObject> pending{storage.getTrailerDictionary()};
-    size_t examined = 0;
-    auto appendDictionary = [&](const PDFDictionary* dictionary)
-    {
-        if (dictionary->getCount() > 1000000 - examined ||
-            pending.size() + dictionary->getCount() > 1000000)
-            fail("画像の共有参照が処理上限を超えています。墨消ししていません。");
-        for (size_t i = 0; i < dictionary->getCount(); ++i)
-            pending.push_back(dictionary->getValue(i));
-    };
-    // Walk the sanitized candidate's reachable graph, including unused named
-    // resources and retained annotation appearances. Old storage orphans are
-    // deliberately excluded; the optimizer removes them after this check.
-    while (!pending.empty())
-    {
-        stop(cancelled);
-        if (++examined > 1000000)
-            fail("画像の共有参照が処理上限を超えています。墨消ししていません。");
-        auto object = std::move(pending.back());
-        pending.pop_back();
-        if (object.isReference())
-        {
-            const auto reference = object.getReference();
-            if (images.contains(reference))
-                fail("墨消し対象の元画像が別の共有参照に残ります。このPDFはまだ安全に処理できません"
-                     "。");
-            if (fonts.contains(reference))
-                fail("削除したサブセット書体の情報が共有参照に残ります。候補は出力していません。");
-            if (visited.insert(reference).second)
-                pending.push_back(storage.getObjectByReference(reference));
-        }
-        else if (object.isDictionary())
-            appendDictionary(object.getDictionary());
-        else if (object.isStream())
-            appendDictionary(object.getStream()->getDictionary());
-        else if (object.isArray())
-        {
-            const auto array = object.getArray();
-            if (pending.size() + array->getCount() > 1000000)
-                fail("画像の共有参照が処理上限を超えています。墨消ししていません。");
-            for (const auto& item : *array)
-                pending.push_back(item);
-        }
-    }
 }
 } // namespace
 RedactionCandidate prepareRedactionCandidate(const PDFDocument& source,
@@ -109,17 +57,18 @@ RedactionCandidate prepareRedactionCandidate(const PDFDocument& source,
     PDFDocumentBuilder builder(&source);
     RedactionCandidate result;
     std::set<PDFObjectReference> modifiedImageSources;
-    std::set<PDFObjectReference> removedFontDependencies;
+    std::set<PDFObjectReference> removedResourceDependencies;
     // Content validation runs before any annotation/field removal. All changes
     // stay in a private builder; cancellation never commits to the caller.
     for (auto it = rectangles.cbegin(); it != rectangles.cend(); ++it)
     {
         stop(cancelled);
         const auto content = redactPageContent(source, it.key(), it.value(), builder, cancelled);
+        result.contentGroups += content.removedContentGroups;
         modifiedImageSources.insert(content.modifiedImageSources.begin(),
                                     content.modifiedImageSources.end());
-        removedFontDependencies.insert(content.removedFontDependencies.begin(),
-                                       content.removedFontDependencies.end());
+        removedResourceDependencies.insert(content.removedResourceDependencies.begin(),
+                                           content.removedResourceDependencies.end());
         const auto page = source.getCatalog()->getPage(it.key());
         auto dictionary = *source.getObjectByReference(page->getPageReference()).getDictionary();
         const auto originalResources = source.getDictionaryFromObject(page->getResources());
@@ -285,8 +234,8 @@ RedactionCandidate prepareRedactionCandidate(const PDFDocument& source,
     trailer.removeEntry("Info");
     trailer.removeEntry("Prev");
     storage.setTrailerDictionary(dictObject(trailer));
-    rejectRetainedOriginalResources(storage, modifiedImageSources, removedFontDependencies,
-                                    cancelled);
+    rejectRetainedRedactionResources(source, storage, modifiedImageSources,
+                                     removedResourceDependencies, cancelled);
     PDFOptimizer optimizer(PDFOptimizer::RemoveUnusedObjects | PDFOptimizer::ShrinkObjectStorage,
                            nullptr);
     optimizer.setStorage(storage);

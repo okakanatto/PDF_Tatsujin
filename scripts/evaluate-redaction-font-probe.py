@@ -134,8 +134,10 @@ def main():
         probe = json.loads((folder / "probe.json").read_text(encoding="utf-8"))
         candidate = folder / "candidate.pdf"
         if probe["status"] == "FAIL":
-            accepted = not candidate.exists() and "サブセット書体" in probe.get(
-                "error", ""
+            accepted = (
+                case.get("expect_rejection", True)
+                and not candidate.exists()
+                and "サブセット書体" in probe.get("error", "")
             )
             rows.append(
                 dict(
