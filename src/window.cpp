@@ -204,6 +204,10 @@ Window::Window()
                                         [this] { guard([&] { exportRedactedCopy(); }); });
     redact->setObjectName("exportRedactedCopy");
     edits << redact;
+    auto existingImage = createMenu->addAction("PDF内の画像を編集…", this,
+                                               [this] { guard([&] { editExistingImages(); }); });
+    existingImage->setObjectName("editExistingImages");
+    edits << existingImage;
     comparisonAction = createMenu->addAction("PDFを比較…", this,
                                              [this] { guard([&] { compareWithDocument(); }); });
     comparisonAction->setObjectName("compareDocuments");

@@ -50,6 +50,7 @@ add_library(tatsu_document STATIC
     src/worker_channels.cpp
     src/image_overlay.cpp
     src/image_embedding.cpp
+    src/existing_image_edit.cpp
     src/image_pdf.cpp
     src/image_export.cpp
     src/signature_library.cpp
@@ -95,6 +96,7 @@ target_sources(tatsu_ui PRIVATE src/page_crop_dialog.cpp)
 target_sources(tatsu_ui PRIVATE src/page_decoration_dialog.cpp src/window_formatting.cpp)
 target_sources(tatsu_ui PRIVATE src/bookmark_edit_dialog.cpp src/window_bookmarks.cpp)
 target_sources(tatsu_ui PRIVATE src/link_edit_dialog.cpp src/page_region_preview.cpp src/window_links.cpp)
+target_sources(tatsu_ui PRIVATE src/existing_image_dialog.cpp src/window_existing_images.cpp)
 target_sources(tatsu_ui PRIVATE src/pdf_optimization_dialog.cpp src/window_optimization.cpp)
 target_sources(tatsu_ui PRIVATE src/encryption_dialog.cpp src/window_encryption.cpp)
 target_sources(tatsu_ui PRIVATE src/decryption_dialog.cpp)
@@ -204,6 +206,8 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/certificate_signing_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/redaction_copy_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/redaction_scan_tests.cpp tests/redaction_ui_test_support.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/existing_image_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/existing_image_ui_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
     target_link_libraries(PDFTatsujin PRIVATE Qt6::Test OpenSSL::Crypto)

@@ -56,6 +56,7 @@ public:
     void verifyDocumentCertificates();
     void exportSignedCertificateCopy();
     void exportRedactedCopy();
+    void editExistingImages();
     void compareWithDocument();
     void processMultipleDocuments();
     void designForms();

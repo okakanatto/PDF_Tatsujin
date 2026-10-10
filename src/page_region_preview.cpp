@@ -35,18 +35,24 @@ void PageRegionPreview::setZoom(double value, QPointF anchor)
     if (!navigationEnabled || physical.isEmpty())
         return;
     const auto point = widgetToPhysical(anchor);
+    const auto previous = magnification;
     magnification = qBound(1.0, value, 8.0);
     pan += anchor - physicalToWidget(point);
     constrainPan();
     gesture = 0;
     update();
+    if (previous != magnification && zoomChanged)
+        zoomChanged(magnification);
 }
 void PageRegionPreview::fitPage()
 {
+    const auto previous = magnification;
     magnification = 1;
     pan = {};
     gesture = 0;
     update();
+    if (previous != magnification && zoomChanged)
+        zoomChanged(magnification);
 }
 void PageRegionPreview::wheelEvent(QWheelEvent* event)
 {

@@ -26,6 +26,7 @@ public:
     std::function<void(QRectF)> create;
     std::function<void(int, QRectF)> move;
     std::function<void()> cancelDrawing;
+    std::function<void(double)> zoomChanged;
     QPointF physicalToWidget(QPointF point) const;
     QRectF paper() const;
 

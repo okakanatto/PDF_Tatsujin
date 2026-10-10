@@ -236,3 +236,7 @@ OCRはTesseractのFileReaderコールバックで固定したbundledモデルを
 `certificate_signing`は上限を検査したP12から鍵・証明書をこの操作内にだけ読み、既存オブジェクトを保持したコピーへ不可視の署名欄と固定長予約領域を追加します。ByteRangeを確定してからSHA-256のCMSを格納し、それ以降PDFライターで再保存しません。`SaveCandidate`で署名の一致・証明書指紋・全体対象・ページ数を検査し、入力の更新を保存直前にも照合して新規ファイルを確定します。
 
 `certificate_signing_dialog`はマスクしたパスワード、証明書の事前確認と明示同意、所有ワーカーと取消を扱います。`window_certificates`は原文書をcommitせず、成功した署名コピーを別の読み取り専用ウィンドウで開きます。失効・署名時点の有効性・タイムスタンプ・LTV・DocMDPはこのプロファイルでは評価しません。[作成](design/CERTIFICATE_SIGNING.md)・[検証](design/CERTIFICATE_SIGNATURES.md)の境界を表示します。
+
+## 既存の本文画像
+
+`existing_image_edit` は選択した直接Image XObjectの描画命令だけを変更する不変スナップショットの処理です。生の残存命令・本文字体・共有画像を保持し、OCR層との交差と非対応属性を検査します。`existing_image_dialog` は候補生成と高解像度プレビューを同じ所有ワーカーで行い、世代番号・取消・外部入力更新を確認します。`window_existing_images` は成功した明示適用を1回のUndoへcommitします。[対応範囲](design/EXISTING_IMAGE_EDIT.md)。

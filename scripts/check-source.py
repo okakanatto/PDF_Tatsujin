@@ -33,6 +33,12 @@ REDACTION_CRITERIA_SHA256 = {
 REDACTION_SCAN_CRITERIA_SHA256 = (
     "3bd0e41e88e1e8cb3d8e2bb65cee9c16904e0dc05ad7989441578432960c25e9"
 )
+IMAGE_EDIT_CRITERIA_SHA256 = {
+    "criteria.json": "919048740c57e365678a13b59ae7df83b4325adb258c69b0152f3aef7ac3906c",
+    "ocr-refusal.json": "72d5357f7ab5fdee46c5190bae314e8b036f418d10d1a9d90409ed9c1a0d8535",
+    "ui-criteria.json": "27e1806a8c0c0c1a99510fc08b729fc25db0e7aa4236fcf86a09728f9b405ee5",
+    "ui-positive-criteria.json": "c7b7e4dcf6194f429c7e3bd7168c810ac78c5a1a5368786b54d944b4f3d098dd",
+}
 
 
 def sha256(path):
@@ -81,6 +87,20 @@ def main():
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     certificates = ROOT / "fixtures/certificate-signatures"
+    images = ROOT / "fixtures/existing-image-edit"
+    for name, expected in IMAGE_EDIT_CRITERIA_SHA256.items():
+        if sha256(images / name) != expected:
+            raise RuntimeError("Frozen existing-image criteria changed: " + name)
+    image_plan = json.loads((images / "criteria.json").read_text(encoding="utf-8"))
+    for name, expected in image_plan["files"].items():
+        if sha256(images / name) != expected:
+            raise RuntimeError("Existing-image fixture changed: " + name)
+    for name, expected in image_plan["source_inputs"].items():
+        if sha256(ROOT / name) != expected:
+            raise RuntimeError("Existing-image source changed: " + name)
+    ocr_image = json.loads((images / "ocr-refusal.json").read_text(encoding="utf-8"))
+    if sha256(images / ocr_image["file"]) != ocr_image["sha256"]:
+        raise RuntimeError("Existing-image OCR refusal input changed")
     redaction = ROOT / "fixtures/redaction-copy"
     scan_criteria = redaction / "scan-then-ocr.json"
     if sha256(scan_criteria) != REDACTION_SCAN_CRITERIA_SHA256:

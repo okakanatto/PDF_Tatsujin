@@ -8,6 +8,7 @@
 #include "compact_viewer_tests.h"
 #include "comparison_tests.h"
 #include "encryption_tests.h"
+#include "existing_image_tests.h"
 #include "font_tests.h"
 #include "form_data_tests.h"
 #include "form_design_tests.h"
@@ -389,6 +390,12 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5R06_redaction_real_OCR", [&] { return testRedactionCopyOcr(fixtures, output); });
     run("M5R07_redaction_scan_then_OCR", [&] { return testRedactionScanOcr(fixtures, output); });
     run("M5R08_redaction_OCR_mask_preservation", [&] { return testRedactionOcrMasks(); });
+    run("M6I01_existing_image_core", [&] { return testExistingImageCore(fixtures, output); });
+    run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
+    run("M6I04_existing_image_UI_modes",
+        [&] { return testExistingImageUiModes(fixtures, output); });
+    run("M6I02_existing_image_refusals",
+        [&] { return testExistingImageRejections(fixtures, output); });
     run("M5R05_redaction_geometry_UI",
         [&] { return testRedactionCopyGeometryUi(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
