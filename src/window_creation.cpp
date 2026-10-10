@@ -2,6 +2,7 @@
 #include "image_pdf_dialog.h"
 #include "office_import_dialog.h"
 #include "pdfsecurityhandler.h"
+#include "table_extraction_dialog.h"
 #include "window.h"
 
 namespace tatsu
@@ -59,6 +60,23 @@ void Window::exportDocumentImages()
     canvas->finishFormEdit();
     const auto name = QFileInfo(doc.target.isEmpty() ? doc.source : doc.target).completeBaseName();
     ImageExportDialog dialog(doc.pdf(), canvas->page, name, this);
+    dialog.exec();
+}
+void Window::extractDocumentTable()
+{
+    if (!doc.loaded() || !doc.pdf().getStorage().getSecurityHandler()->isAllowed(
+                             PDFSecurityHandler::Permission::CopyContent))
+        fail("この文書では表の文字を取り出せません。");
+    canvas->finishFormEdit();
+    const auto revision = doc.revision;
+    TableExtractionDialog dialog(
+        doc.pdf(), canvas->page,
+        [this, revision]
+        {
+            if (doc.revision != revision)
+                fail("元のPDFが変更されました。表の取り出しを開き直してください。");
+        },
+        this);
     dialog.exec();
 }
 } // namespace tatsu

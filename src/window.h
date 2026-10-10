@@ -48,6 +48,7 @@ public:
     void createFromImages(QStringList paths = {});
     void createFromDocx(QString path = {});
     void createFromOffice(QString path = {});
+    void extractDocumentTable();
     void exportDocumentImages();
     void editPageDecoration(DecorationKind kind);
     void editBookmarks();
@@ -93,6 +94,7 @@ private:
     QToolButton* referenceControl = nullptr;
     QAction* referenceAction = nullptr;
     QAction* imageExportAction = nullptr;
+    QAction* tableExportAction = nullptr;
     QAction* editableCopyAction = nullptr;
     QAction* comparisonAction = nullptr;
     QAction* certificateAction = nullptr;

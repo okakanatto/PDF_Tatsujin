@@ -167,6 +167,9 @@ Window::Window()
     auto officeImport = createMenu->addAction("Office文書からPDF…", this,
                                               [this] { guard([&] { createFromOffice(); }); });
     officeImport->setObjectName("importOfficeDocument");
+    tableExportAction = createMenu->addAction("PDFの表をExcelへ…", this,
+                                              [this] { guard([&] { extractDocumentTable(); }); });
+    tableExportAction->setObjectName("extractPdfTable");
     imageExportAction = createMenu->addAction("PDFを画像として出力…", this,
                                               [this] { guard([&] { exportDocumentImages(); }); });
     imageExportAction->setObjectName("exportPdfImages");
@@ -984,6 +987,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     readingAction->setEnabled(doc.loaded());
     referenceAction->setEnabled(doc.loaded());
     imageExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
+    tableExportAction->setEnabled(doc.loaded() && doc.copyAllowed);
     comparisonAction->setEnabled(doc.loaded() && doc.copyAllowed && !doc.busy);
     certificateAction->setEnabled(doc.loaded() && !doc.busy && !doc.dirty());
     editableCopyAction->setEnabled(doc.loaded() && !doc.busy &&

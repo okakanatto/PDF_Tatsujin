@@ -110,6 +110,21 @@ def main():
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     certificates = ROOT / "fixtures/certificate-signatures"
     office = ROOT / "fixtures/office-import"
+    tables = ROOT / "fixtures/table-extraction"
+    if (
+        sha256(tables / "criteria.json")
+        != "07c15ed09f71d8b5f1b5eeff45b65a00a313d8a05492f43346e7d9718b752672"
+    ):
+        raise RuntimeError("Frozen table extraction criteria changed")
+    table_plan = json.loads((tables / "criteria.json").read_text(encoding="utf-8"))
+    for name, expected in table_plan["files"].items():
+        if sha256(tables / name) != expected:
+            raise RuntimeError("Frozen table input changed: " + name)
+    if (
+        lock["files"][table_plan["font"]["file"]]["sha256"]
+        != table_plan["font"]["sha256"]
+    ):
+        raise RuntimeError("Frozen table font pin differs")
     if sha256(office / "criteria.json") != (
         "18a8ddead69890390cf52cf9fca782563cd23c4d30dfdbed58e9bb6800ac3785"
     ):
