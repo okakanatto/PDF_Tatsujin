@@ -30,7 +30,15 @@ def no_asian_spacing(text):
 
 
 def main():
-    engine, source, destination, profile, suppress = sys.argv[1:]
+    engine, source, destination, profile, suppress, kind = sys.argv[1:]
+    service, export_filter = {
+        "docx": ("com.sun.star.text.TextDocument", "writer_pdf_Export"),
+        "xlsx": ("com.sun.star.sheet.SpreadsheetDocument", "calc_pdf_Export"),
+        "pptx": (
+            "com.sun.star.presentation.PresentationDocument",
+            "impress_pdf_Export",
+        ),
+    }[kind]
     channel = "PDFTatsujin_" + uuid.uuid4().hex
     command = [
         engine,
@@ -85,16 +93,14 @@ def main():
                 ),
             ),
         )
-        if document is None or not document.supportsService(
-            "com.sun.star.text.TextDocument"
-        ):
-            raise RuntimeError("DOCX did not load as a text document")
+        if document is None or not document.supportsService(service):
+            raise RuntimeError("Office document did not load as the expected component")
         if suppress == "true":
             no_asian_spacing(document.getText())
         document.storeToURL(
             Path(destination).resolve().as_uri(),
             (
-                prop("FilterName", "writer_pdf_Export"),
+                prop("FilterName", export_filter),
                 prop(
                     "FilterData",
                     (

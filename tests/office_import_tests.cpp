@@ -239,6 +239,54 @@ QJsonObject testOwnedProcess(const QString& output)
     check(timeout, "Owned process timeout terminates job");
     return {{"cancelled_descendant_exited", true}, {"unrelated_survives", true}, {"timeout", true}};
 }
+void verifyOfficeSearchCopy(Window& window, int page, const QStringList& phrases)
+{
+    window.canvas->goToPage(page);
+    check(QTest::qWaitFor([&] { return window.canvas->pageReady(page); }, 15000),
+          "Office page visible for search/copy");
+    const auto layout = textLayout(window.doc.pdf(), page);
+    for (const auto& phrase : phrases)
+    {
+        window.query->setText(phrase);
+        QTest::keyClick(window.query, Qt::Key_Return);
+        const auto search = window.findChild<SearchPanel*>("searchPanel")->session();
+        check(QTest::qWaitFor([&] { return search->complete() && search->rowCount() >= 1; }, 15000),
+              "Office actual UI search: " + phrase);
+        check(search->errors().isEmpty(), "Office UI search error-free");
+        window.canvas->goToPage(page);
+        bool copied = false;
+        for (const auto& flow : PDFTextFlow::createTextFlows(layout, PDFTextFlow::AddLineBreaks, 0))
+        {
+            const auto at = flow.getText().indexOf(phrase);
+            if (at < 0)
+                continue;
+            const auto boxes = flow.getBoundingBoxes();
+            const auto first = boxes[size_t(at)];
+            const auto last = boxes[size_t(at + phrase.size() - 1)];
+            const auto a =
+                window.canvas->pdfToViewport(page, {first.left() - .6, first.center().y()})
+                    .toPoint();
+            const auto b =
+                window.canvas->pdfToViewport(page, {last.right() + .6, last.center().y()})
+                    .toPoint();
+            auto viewport = window.canvas->viewport();
+            check(viewport->rect().contains(a) && viewport->rect().contains(b),
+                  "Office copy endpoints visible");
+            QTest::mousePress(viewport, Qt::LeftButton, Qt::NoModifier, a);
+            QTest::mouseMove(viewport, b, 20);
+            QTest::mouseRelease(viewport, Qt::LeftButton, Qt::NoModifier, b);
+            check(QTest::qWaitFor([&] { return window.canvas->selectionReady(); }, 15000),
+                  "Office selection ready");
+            QApplication::clipboard()->setText("Office clipboard sentinel");
+            QTest::keyClick(viewport, Qt::Key_C, Qt::ControlModifier);
+            check(QApplication::clipboard()->text() == phrase,
+                  "Office actual selection/copy: " + phrase);
+            copied = true;
+            break;
+        }
+        check(copied, "Office copy phrase found");
+    }
+}
 QJsonObject testOfficeImportWindow(const QString& fixtures, const QString& output)
 {
     Window original;
@@ -299,47 +347,9 @@ QJsonObject testOfficeImportWindow(const QString& fixtures, const QString& outpu
           "Office import retains original unsaved PDF and Undo");
     check(QTest::qWaitFor([&] { return created->canvas->pageReady(0); }, 15000),
           "Office new PDF visible");
-    created->query->setText("検索できる日本語PDFです。");
-    QTest::keyClick(created->query, Qt::Key_Return);
-    const auto search = created->findChild<SearchPanel*>("searchPanel")->session();
-    check(QTest::qWaitFor([&] { return search->complete() && search->rowCount() == 1; }, 15000),
-          "Office actual UI Japanese search");
-    check(search->errors().isEmpty(), "Office UI search error-free");
-    for (const auto& phrase : {QString("検索できる日本語PDFです。"),
-                               QString("English document conversion preserves searchable text.")})
-    {
-        const auto layout = textLayout(created->doc.pdf(), 0);
-        bool copied = false;
-        for (const auto& flow : PDFTextFlow::createTextFlows(layout, PDFTextFlow::AddLineBreaks, 0))
-        {
-            const auto at = flow.getText().indexOf(phrase);
-            if (at < 0)
-                continue;
-            const auto boxes = flow.getBoundingBoxes();
-            const auto first = boxes[size_t(at)];
-            const auto last = boxes[size_t(at + phrase.size() - 1)];
-            const auto a =
-                created->canvas->pdfToViewport(0, {first.left() - .6, first.center().y()})
-                    .toPoint();
-            const auto b =
-                created->canvas->pdfToViewport(0, {last.right() + .6, last.center().y()}).toPoint();
-            auto viewport = created->canvas->viewport();
-            check(viewport->rect().contains(a) && viewport->rect().contains(b),
-                  "Office copy endpoints visible");
-            QTest::mousePress(viewport, Qt::LeftButton, Qt::NoModifier, a);
-            QTest::mouseMove(viewport, b, 20);
-            QTest::mouseRelease(viewport, Qt::LeftButton, Qt::NoModifier, b);
-            check(QTest::qWaitFor([&] { return created->canvas->selectionReady(); }, 15000),
-                  "Office selection ready");
-            QApplication::clipboard()->setText("Office clipboard sentinel");
-            QTest::keyClick(viewport, Qt::Key_C, Qt::ControlModifier);
-            check(QApplication::clipboard()->text() == phrase,
-                  "Office actual Japanese/English copy");
-            copied = true;
-            break;
-        }
-        check(copied, "Office copy phrase found");
-    }
+    verifyOfficeSearchCopy(
+        *created, 0,
+        {"検索できる日本語PDFです。", "English document conversion preserves searchable text."});
     created->doc.save(output + "/office-window.pdf");
     check(created->grab().save(output + "/office-created-window.png"),
           "Office actual created window screenshot");

@@ -100,9 +100,9 @@
       "bytes": 338778,
       "sha256": "ca12d290cbd5488a08d7a7ce7e877008ead2c4322144315d3f457f6e7b4ee62b"
     },
-    "assets/office/import_docx.py": {
-      "bytes": 4081,
-      "sha256": "d7990ab04c23d48e6db4602c6bdcc772fbbbf641d767e2d241d120a55f00a498"
+    "assets/office/import_document.py": {
+      "bytes": 4372,
+      "sha256": "ffcd390e36ead2cf0a63efd91463e8bb462d393c0de777366624dd07d515d2b1"
     }
   },
   "vcpkg_packages": [

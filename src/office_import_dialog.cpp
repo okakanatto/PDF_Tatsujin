@@ -7,7 +7,7 @@ OfficeImportDialog::OfficeImportDialog(const QString& path, QWidget* parent)
     : QDialog(parent), worker(this), source(path)
 {
     setObjectName("officeImportDialog");
-    setWindowTitle("Word文書からPDFを作成");
+    setWindowTitle("Office文書からPDFを作成");
     resize(780, 680);
     auto layout = new QVBoxLayout(this);
     auto note =
@@ -18,6 +18,7 @@ OfficeImportDialog::OfficeImportDialog(const QString& path, QWidget* parent)
     layout->addWidget(note);
     spacing = new QCheckBox("日英・数字の間の自動字間を抑える（配置が変わります）");
     spacing->setObjectName("officeImportSuppressSpacing");
+    spacing->setVisible(QFileInfo(path).suffix().compare("docx", Qt::CaseInsensitive) == 0);
     spacing->setToolTip("入力した空白は保持します。日本語と英数字の境界の自動字間だけを抑えます。");
     layout->addWidget(spacing);
     preview = new PageRegionPreview;
@@ -128,7 +129,7 @@ void OfficeImportDialog::convert()
     const auto path = source;
     const auto suppress = spacing->isChecked();
     worker.request([path, converter, suppress](const auto& cancelled)
-                   { return importDocx(path, converter, cancelled, suppress); }, 0, 1100);
+                   { return importOffice(path, converter, cancelled, suppress); }, 0, 1100);
 }
 void OfficeImportDialog::accept()
 {

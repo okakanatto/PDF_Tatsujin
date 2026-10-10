@@ -26,7 +26,10 @@ fixtures/existing-text-edit/*.json -text whitespace=cr-at-eol
 fixtures/existing-text-edit/**/*.json -text whitespace=cr-at-eol
 *.der binary
 *.docx binary
+*.xlsx binary
+*.pptx binary
 fixtures/office-import/*.json -text whitespace=cr-at-eol
+fixtures/office-import/**/*.json -text whitespace=cr-at-eol
 *.jpg binary
 assets/revisions.json -text whitespace=cr-at-eol
 licenses/** -text

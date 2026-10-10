@@ -420,6 +420,8 @@ int selftest(const QString& fixtures, const QString& output)
     run("M6O02_DOCX_UI", [&] { return testOfficeImportUi(fixtures, output); });
     run("M6O03_owned_process", [&] { return testOwnedProcess(output); });
     run("M6O04_DOCX_new_window", [&] { return testOfficeImportWindow(fixtures, output); });
+    run("M6O11_XLSX_PPTX_conversion", [&] { return testOfficeSheetsSlides(fixtures, output); });
+    run("M6O12_XLSX_PPTX_UI", [&] { return testOfficeSheetsSlidesUi(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

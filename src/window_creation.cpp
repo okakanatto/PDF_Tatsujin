@@ -8,9 +8,13 @@ namespace tatsu
 {
 void Window::createFromDocx(QString path)
 {
+    createFromOffice(std::move(path));
+}
+void Window::createFromOffice(QString path)
+{
     if (path.isEmpty())
-        path =
-            QFileDialog::getOpenFileName(this, "PDFにするWord文書を選ぶ", {}, "Word文書 (*.docx)");
+        path = QFileDialog::getOpenFileName(this, "PDFにするOffice文書を選ぶ", {},
+                                            "Office文書 (*.docx *.xlsx *.pptx)");
     if (path.isEmpty())
         return;
     OfficeImportDialog dialog(path, this);

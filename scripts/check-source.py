@@ -118,6 +118,16 @@ def main():
     for name, expected in office_plan["files"].items():
         if sha256(office / name) != expected:
             raise RuntimeError("Frozen DOCX input changed: " + name)
+    sheets = office / "sheets-slides"
+    if sha256(sheets / "criteria.json") != (
+        "71d849f6df2d8743e291fe2038ddfc819881588eef226b11070d74b51f4addbc"
+    ):
+        raise RuntimeError("Frozen spreadsheet/presentation criteria changed")
+    for name, expected in json.loads(
+        (sheets / "criteria.json").read_text(encoding="utf-8")
+    )["files"].items():
+        if sha256(sheets / name) != expected:
+            raise RuntimeError("Frozen spreadsheet/presentation input changed: " + name)
     images = ROOT / "fixtures/existing-image-edit"
     body = ROOT / "fixtures/existing-text-edit"
     for name, expected in TEXT_EDIT_CRITERIA_SHA256.items():

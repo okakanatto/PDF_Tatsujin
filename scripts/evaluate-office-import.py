@@ -24,10 +24,19 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--poppler", type=Path, required=True)
     parser.add_argument("--attempt", default="r1")
+    parser.add_argument("--sheets-slides", action="store_true")
     args = parser.parse_args()
-    fixed_path = ROOT / "fixtures/office-import/criteria.json"
+    directory = ROOT / "fixtures/office-import"
+    if args.sheets_slides:
+        directory /= "sheets-slides"
+    fixed_path = directory / "criteria.json"
     check(
-        hashlib.sha256(fixed_path.read_bytes()).hexdigest() == CRITERIA_SHA,
+        hashlib.sha256(fixed_path.read_bytes()).hexdigest()
+        == (
+            "71d849f6df2d8743e291fe2038ddfc819881588eef226b11070d74b51f4addbc"
+            if args.sheets_slides
+            else CRITERIA_SHA
+        ),
         "criteria SHA",
     )
     fixed = json.loads(fixed_path.read_text(encoding="utf-8"))
@@ -41,6 +50,12 @@ def main():
         ("reedited", "simple.docx"),
         ("ui", "pages-images.docx"),
     ]
+    if args.sheets_slides:
+        cases = [
+            (name + suffix, name + extension)
+            for name, extension in [("sheets", ".xlsx"), ("slides", ".pptx")]
+            for suffix in ["", "-signed", "-reedited", "-ui"]
+        ]
     for name, source in cases:
         path = args.output / ("office-" + name + ".pdf")
         row = {"case": name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
@@ -65,11 +80,11 @@ def main():
                                 phrase in pypdf_text, "pypdf searchable text: " + phrase
                             )
                         size = page.get_size()
+                        expected_size = fixed["page_size_pt"]
+                        if isinstance(expected_size, dict):
+                            expected_size = expected_size[source]
                         check(
-                            all(
-                                abs(a - b) <= 0.5
-                                for a, b in zip(size, fixed["page_size_pt"])
-                            ),
+                            all(abs(a - b) <= 0.5 for a, b in zip(size, expected_size)),
                             "PDFium A4 size",
                         )
                         image = page.render(scale=1).to_pil()
@@ -79,9 +94,10 @@ def main():
                         image.save(render / f"{name}-{index + 1}-pdfium.png")
                     finally:
                         page.close()
-            if source == "pages-images.docx":
+            if source == "pages-images.docx" or source in fixed.get("image_page", {}):
+                image_index = fixed.get("image_page", {}).get(source, 0)
                 with pdfium.PdfDocument(path) as image_document:
-                    image_page = image_document[0]
+                    image_page = image_document[image_index]
                     try:
                         objects = list(
                             image_page.get_objects(
@@ -96,7 +112,7 @@ def main():
                         )
                     finally:
                         image_page.close()
-                images = list(reader.pages[0].images)
+                images = list(reader.pages[image_index].images)
                 check(len(images) == 1, "one DOCX raster")
                 image = images[0].image.convert("RGB")
                 check(list(image.size) == fixed["image_size"], "image pixel dimensions")
@@ -130,7 +146,7 @@ def main():
             row.update(status="FAIL", error=str(error))
         results.append(row)
     report = {
-        "criteria_sha256": CRITERIA_SHA,
+        "criteria_sha256": hashlib.sha256(fixed_path.read_bytes()).hexdigest(),
         "cases": results,
         "failures": sum(row["status"] != "PASS" for row in results),
     }

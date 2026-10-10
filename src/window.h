@@ -47,6 +47,7 @@ public:
     void openFile(const QString& path);
     void createFromImages(QStringList paths = {});
     void createFromDocx(QString path = {});
+    void createFromOffice(QString path = {});
     void exportDocumentImages();
     void editPageDecoration(DecorationKind kind);
     void editBookmarks();
