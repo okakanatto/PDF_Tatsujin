@@ -45,6 +45,7 @@ def main():
     parser.add_argument("--with-certificate-verification", action="store_true")
     parser.add_argument("--with-redaction-copy", action="store_true")
     parser.add_argument("--with-existing-images", action="store_true")
+    parser.add_argument("--with-existing-text", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -182,6 +183,8 @@ def main():
             cases.append(("redaction-copy", "M5R"))
         if args.with_existing_images:
             cases.append(("existing-images", "M6I"))
+        if args.with_existing_text:
+            cases.append(("existing-text", "M6T"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter

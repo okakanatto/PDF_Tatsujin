@@ -86,7 +86,12 @@ def main():
         "M3_REPORT.md",
     ):
         shutil.copyfile(root / name, output / name)
-    for pattern in ("M3_RC*_REPORT.md", "M4_*_REPORT.md", "M5_*_REPORT.md"):
+    for pattern in (
+        "M3_RC*_REPORT.md",
+        "M4_*_REPORT.md",
+        "M5_*_REPORT.md",
+        "M6_*_REPORT.md",
+    ):
         for report in root.glob(pattern):
             shutil.copyfile(report, output / report.name)
     shutil.copyfile(root / args.report, output / args.report)
