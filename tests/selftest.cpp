@@ -405,6 +405,8 @@ int selftest(const QString& fixtures, const QString& output)
         [&] { return testExistingTextMultiline(fixtures, output); });
     run("M6T08_existing_text_multiline_UI",
         [&] { return testExistingTextMultilineUi(fixtures, output); });
+    run("M6T09_existing_text_relative_lines",
+        [&] { return testExistingTextRelativeLines(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

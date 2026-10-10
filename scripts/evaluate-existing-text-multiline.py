@@ -3,11 +3,13 @@
 import argparse
 import io
 import json
+import re
 from collections import Counter
 from pathlib import Path
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageChops, ImageDraw
 from pypdf import PdfReader
+from pypdf.generic import ContentStream
 from importlib.util import module_from_spec, spec_from_file_location
 
 
@@ -24,23 +26,38 @@ def main():
     parser.add_argument("--run", required=True, type=Path)
     parser.add_argument("--poppler", required=True, type=Path)
     parser.add_argument("--rotated", action="store_true")
+    parser.add_argument("--relative", choices=("relative-position", "relative-leading"))
+    parser.add_argument(
+        "--attempt", default="", help="New report tag; preserve prior results"
+    )
     args = parser.parse_args()
     suffix = "-rotated" if args.rotated else ""
+    if args.relative:
+        assert not args.rotated
+        suffix = "-" + args.relative
+    if args.attempt:
+        assert re.fullmatch(r"[A-Za-z0-9_-]{1,64}", args.attempt), "Safe report tag"
+        suffix += "-" + args.attempt
     output = args.run / ("independent-existing-text-multiline" + suffix + ".json")
     assert not output.exists(), "Preserve prior inspection"
     base = args.fixtures / (
-        "existing-text-edit/multiline-rotated"
-        if args.rotated
-        else "existing-text-edit/multiline"
+        "existing-text-edit/relative-lines"
+        if args.relative
+        else (
+            "existing-text-edit/multiline-rotated"
+            if args.rotated
+            else "existing-text-edit/multiline"
+        )
     )
     plan = json.loads((base / "criteria.json").read_text(encoding="utf-8"))
     images = module("evaluate-existing-images")
     helper = module("evaluate-redaction-probe")
     render = module("evaluate-redaction-copy")
     text = module("evaluate-existing-text")
-    source = base / (plan["file"] if args.rotated else "uniform.pdf")
+    source_name = args.relative + ".pdf" if args.relative else "uniform.pdf"
+    source = base / (plan["file"] if args.rotated else source_name)
     assert helper.digest(source) == (
-        plan["sha256"] if args.rotated else plan["files"]["uniform.pdf"]
+        plan["sha256"] if args.rotated else plan["files"][source_name]
     )
     original = PdfReader(source)
     before = images.page_data(source)
@@ -66,7 +83,9 @@ def main():
         ]
     )
     for name, value, explicit in cases:
-        path = args.run / ("existing-text-multiline-" + name + ".pdf")
+        metrics = {}
+        prefix = args.relative if args.relative else "multiline"
+        path = args.run / ("existing-text-" + prefix + "-" + name + ".pdf")
         reader = PdfReader(path)
         after = images.page_data(path)
         new = value.split("\n") if value else []
@@ -100,6 +119,40 @@ def main():
             page_geometry_identical=helper.geometry(original)
             == helper.geometry(reader),
         )
+        if args.relative:
+
+            def advances(pdf):
+                return [
+                    (operator.decode("ascii"), [float(n) for n in operands])
+                    for operands, operator in ContentStream(
+                        pdf.pages[0].get_contents(), pdf
+                    ).operations
+                    if operator in (b"Td", b"TD", b"TL")
+                ]
+
+            checks["original_relative_advances_and_leading_identical"] = advances(
+                original
+            ) == advances(reader)
+            if name == "moved":
+                page = original.pages[0]
+                assert int(page.get("/Rotate", 0)) == 0
+                unit = float(page.get("/UserUnit", 1))
+                x = min(b[0] for b in new_bounds)
+                y = min(b[1] for b in new_bounds)
+                right = max(b[0] + b[2] for b in new_bounds)
+                top = max(b[1] + b[3] for b in new_bounds)
+                actual = [
+                    (x - float(page.cropbox.left)) * unit,
+                    (float(page.cropbox.top) - top) * unit,
+                    (right - x) * unit,
+                    (top - y) * unit,
+                ]
+                checks["physical_geometry_within_half_point"] = all(
+                    abs(a - b) <= 0.5 for a, b in zip(actual, plan["geometry"])
+                )
+                metrics["physical_geometry"] = dict(
+                    actual=actual, expected=plan["geometry"], tolerance_pt=0.5
+                )
         if explicit:
             embedded = []
             for font in reader.pages[0]["/Resources"]["/Font"].get_object().values():
@@ -152,6 +205,7 @@ def main():
                 file=path.name,
                 status="PASS" if all(checks.values()) else "FAIL",
                 checks=checks,
+                metrics=metrics,
                 sha256=helper.digest(path),
             )
         )

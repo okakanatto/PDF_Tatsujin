@@ -1,5 +1,7 @@
 # 既存本文の固定入力
 
+`relative-lines/` は横移動のない一定のTd／TDで改行する横書き2行の正例と、横移動・不均一な3行の拒否入力です。`prepare-relative-line-fixtures.py` で各PDF・原本SHA・期待文字・書体・座標を実装前に固定しました。Windows上でtd.pdfとTD.pdfが同名となった最初の生成失敗は、別の非公開診断フォルダとログへ保持し、固有のファイル名で生成し直しました。元の正解を変更しません。
+
 `multiline/` は同一字体・一定の行送りを持つ日英2行編集と、途中で文字サイズを変える拒否入力です。`multiline-rotated/` は90度回転・CropBox・UserUnit=2の別の正例です。いずれも当該操作前に文字・行数・座標・保つものを固定しました。生成手順は `prepare-multiline-text-fixtures.py` と `prepare-rotated-multiline-fixture.py` です。元の試験入力を更新しません。
 
 `font-styles.json` は字体拡張前に固定した日英置換と書体の条件です。`font-state/` は変更対象の直後に、Tfを省略して元のHelveticaを継承する別ブロックを追加した入力です。字体変更による後続ブロックへの状態漏れ、新しい日文文字、埋込み、保存後の再編集を検査します。元の入力を変更しません。生成手順は `../../scripts/prepare-font-state-fixture.py`。Meiryo UIの字体プログラムはソースへ収録しません。

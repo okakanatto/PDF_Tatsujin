@@ -30,6 +30,8 @@ struct Block
     QVector<Span> showSpans;
     int matrices = 0, shows = 0, advances = 0;
     bool stateChanged = false;
+    QByteArray advanceCommand;
+    double advanceDy = 0;
     QTransform matrix, ctm;
     PDFFontPointer font;
     double fontSize = 0;
@@ -68,6 +70,8 @@ QVector<Block> spans(const QByteArray& bytes, const std::function<bool()>& cance
     bool inside = false;
     qsizetype operand = -1;
     int arrays = 0;
+    QVector<double> numbers;
+    bool numericOperands = true;
     while (!lexer.isAtEnd())
     {
         stop(cancelled);
@@ -83,6 +87,10 @@ QVector<Block> spans(const QByteArray& bytes, const std::function<bool()>& cance
             fail("本文の文字配列が不正です。");
         if (token.type != Type::Command)
         {
+            if (token.type == Type::Integer || token.type == Type::Real)
+                numbers << token.data.toDouble();
+            else
+                numericOperands = false;
             if (inside && token.type == Type::String)
                 blocks.last().originalCodes += token.data.toByteArray();
             if (operand < 0)
@@ -125,10 +133,25 @@ QVector<Block> spans(const QByteArray& bytes, const std::function<bool()>& cance
                 ++block.shows;
                 block.stateChanged = false;
             }
-            else if (command == "T*")
+            else if (command == "T*" || command == "Td" || command == "TD")
             {
                 if (!block.shows || block.advances != block.shows - 1)
                     block.value.restriction = "各文字描画の間に1回改行する本文を選んでください。";
+                const bool relative = command != "T*";
+                const bool valid =
+                    numericOperands && (relative ? numbers.size() == 2 && numbers[0] == 0 &&
+                                                       std::isfinite(numbers[1]) && numbers[1] < 0
+                                                 : numbers.isEmpty());
+                if (!valid || (!block.advanceCommand.isEmpty() &&
+                               (block.advanceCommand != command ||
+                                (relative && block.advanceDy != numbers.value(1)))))
+                    block.value.restriction =
+                        "横移動のない一定の改行命令と行送りを持つ本文を選んでください。";
+                if (block.advanceCommand.isEmpty())
+                {
+                    block.advanceCommand = command;
+                    block.advanceDy = numbers.value(1);
+                }
                 ++block.advances;
             }
             else if (command != "Tf" && command != "Tc" && command != "Tw" && command != "Tz" &&
@@ -139,6 +162,8 @@ QVector<Block> spans(const QByteArray& bytes, const std::function<bool()>& cance
                 block.stateChanged = true;
         }
         operand = -1;
+        numbers.clear();
+        numericOperands = true;
     }
     if (inside || arrays)
         fail("本文の文字ブロックが閉じられていません。");
@@ -186,7 +211,7 @@ protected:
         {
             auto& block = (*blocks)[index];
             const auto state = getGraphicState();
-            if (block.shows > 1 &&
+            if (block.shows > 1 && block.advanceCommand == "T*" &&
                 (!std::isfinite(state->getTextLeading()) || state->getTextLeading() <= 0))
                 block.value.restriction = "正の一定行送りを持つ複数行を選んでください。";
             firstCharacter = true;
