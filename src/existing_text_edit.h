@@ -4,6 +4,11 @@
 
 namespace tatsu
 {
+PDFDocument replaceExistingTextWrapped(const PDFDocument& snapshot, int page, int occurrence,
+                                       const QString& text, double width, double leadingRatio,
+                                       const QString& family = {},
+                                       const std::function<bool()>& cancelled = {},
+                                       bool includeForms = false);
 struct ExistingTextBlock
 {
     int occurrence = 0;

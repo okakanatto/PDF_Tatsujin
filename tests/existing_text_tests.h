@@ -15,4 +15,6 @@ QJsonObject testExistingTextLineCount(const QString& fixtures, const QString& ou
 QJsonObject testExistingTextLineCountUi(const QString& fixtures, const QString& output);
 QJsonObject testExistingFormText(const QString& fixtures, const QString& output);
 QJsonObject testExistingFormTextUi(const QString& fixtures, const QString& output);
+QJsonObject testExistingTextWrap(const QString& fixtures, const QString& output);
+QJsonObject testExistingTextWrapUi(const QString& fixtures, const QString& output);
 } // namespace tatsu

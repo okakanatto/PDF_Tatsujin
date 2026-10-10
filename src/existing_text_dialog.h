@@ -34,6 +34,8 @@ private:
     QDoubleSpinBox *x, *y, *width, *height;
     QDoubleSpinBox* leading;
     QWidget* leadingSettings;
+    QDoubleSpinBox* wrapWidth;
+    QWidget* wrapSettings;
     QCheckBox* consent;
     QCheckBox* includeGroups;
     QPushButton* apply;

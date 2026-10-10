@@ -1,0 +1,24 @@
+{
+  "files": {
+    "uniform.pdf": "ed98a127fb2e18d99bc8d9da3a342513d3eb48f29a39b5d9e4eb06b66fd343f8",
+    "rotated.pdf": "5dd9d3e9a93aca94dc65374498260b11c3fd56337f20f88e757a434b836030a7"
+  },
+  "source_sha256": "9537f53f54d3961465a270938411db625589b6a6904a1a00ce8ccba5b4020ddd",
+  "selected": "Wrap first row\nWrap second row",
+  "english": "Alpha beta gamma delta",
+  "english_wrapped": "Alpha beta\ngamma delta",
+  "english_width_pt": 200,
+  "long_word": "ABCDEFGHIJKLMN",
+  "long_word_wrapped": "ABCDEFGHIJKLM\nN",
+  "long_word_width_pt": 187.2,
+  "japanese": "日本語の本文を編集",
+  "japanese_wrapped": "日本語の本文\nを編集",
+  "reedited": "日本語の本文を変更",
+  "reedited_wrapped": "日本語の本文\nを変更",
+  "narrow_wrapped": "日本語の\n本文を編\n集",
+  "narrow_width_pt": 96,
+  "japanese_width_pt": 144,
+  "family": "Meiryo UI",
+  "leading_ratio": 1.25,
+  "scope": "New fixed wrapping contract; original expected data and thresholds unchanged"
+}

@@ -1,7 +1,9 @@
 #include "existing_text_edit.h"
 #include "body_text_font.h"
+#include "body_text_wrap.h"
 #include "content_invocation_edit.h"
 #include "form_content_invocations.h"
+#include "pdf_font_metrics.h"
 #include "pdf_objects.h"
 #include "pdfcms.h"
 #include "pdfdocumentbuilder.h"
@@ -684,5 +686,83 @@ PDFDocument replaceExistingTextLines(const PDFDocument& snapshot, int page, int 
 {
     return editText(snapshot, page, occurrence, ExistingTextChange::Lines, text, {}, cancelled,
                     family, leadingRatio, includeForms);
+}
+PDFDocument replaceExistingTextWrapped(const PDFDocument& snapshot, int page, int occurrence,
+                                       const QString& text, double width, double leadingRatio,
+                                       const QString& family,
+                                       const std::function<bool()>& cancelled, bool includeForms)
+{
+    const auto inspected = inspect(snapshot, page, cancelled, includeForms);
+    if (occurrence < 0 || occurrence >= inspected.blocks.size())
+        fail("編集対象の本文が見つかりません。");
+    const auto& block = inspected.blocks[occurrence];
+    if (!block.value.restriction.isEmpty())
+        fail(block.value.restriction);
+    const auto transform =
+        block.matrix * block.ctm * pageMatrix(snapshot.getCatalog()->getPage(page));
+    if (std::abs(transform.m12()) > 1e-10 || std::abs(transform.m21()) > 1e-10 ||
+        transform.m11() <= 0 || !std::isfinite(transform.m11()))
+        fail("回転や傾斜のない横書き本文を選んでください。");
+    PDFFontPointer font = block.font;
+    const auto& owner = inspected.owners[block.owner];
+    const auto sourceFonts = snapshot.getDictionaryFromObject(owner.resources.get("Font"));
+    if (!sourceFonts)
+        fail("本文の字体資源を確認できません。");
+    const auto sourceFont = snapshot.getDictionaryFromObject(sourceFonts->get(block.fontName));
+    if (!sourceFont)
+        fail("本文の字体辞書を確認できません。");
+    const auto sourceBase = snapshot.getObject(sourceFont->get("BaseFont"));
+    const auto sourceEncoding = snapshot.getObject(sourceFont->get("Encoding"));
+    const QByteArray baseFont = sourceBase.isName() ? sourceBase.getString() : QByteArray();
+    const QByteArray encoding = sourceEncoding.isName() ? sourceEncoding.getString() : QByteArray();
+    PDFDocument fontDocument;
+    if (!family.isEmpty())
+    {
+        PDFDocumentBuilder builder(&snapshot);
+        const auto embedded = embedBodyTextFont(builder, family, text, cancelled);
+        fontDocument = builder.build();
+        font = PDFFont::createFont(embedded.font, "TatsujinWrapFont", &fontDocument);
+    }
+    PDFRenderErrorReporterDummy reporter;
+    const auto realized = PDFRealizedFont::createRealizedFont(font, block.fontSize, &reporter);
+    if (!realized || !realized->isHorizontalWritingSystem())
+        fail("本文の横書き字体を確認できません。");
+    const auto wrapped = wrapBodyText(
+        text, width,
+        [&](const QString& paragraph)
+        {
+            stop(cancelled);
+            const auto encoded =
+                family.isEmpty() ? encode(block, paragraph) : font->encodeText(paragraph);
+            if (!encoded.isValid)
+                fail("元の字体で表現できない文字があります。本文の書体を選んでください。");
+            TextSequence sequence;
+            realized->fillTextSequence(encoded.encodedText, sequence, &reporter);
+            QVector<BodyGlyphExtent> glyphs;
+            QString actual;
+            for (const auto& item : sequence.items)
+            {
+                if (!item.isCharacter() || item.isContentStream() || item.character.isNull())
+                    fail("本文の字形を確認できません。");
+                actual += item.character;
+                const auto bounds = item.glyph->boundingRect();
+                // PDF advances are independent of FreeType's 26.6 raster rounding.
+                // Use the logical /Widths or CID /W values at the source font size.
+                const auto logicalAdvance = pdfGlyphAdvance(font, item.cid, baseFont, encoding);
+                glyphs << BodyGlyphExtent{logicalAdvance * .001 * block.fontSize * transform.m11(),
+                                          bounds.left() * transform.m11(),
+                                          bounds.right() * transform.m11()};
+            }
+            if (actual != paragraph)
+                fail("本文の字形と文字コードが一致しません。");
+            return glyphs;
+        },
+        cancelled);
+    const auto result = replaceExistingTextLines(snapshot, page, occurrence, wrapped, leadingRatio,
+                                                 family, cancelled, includeForms);
+    const auto checked = inspect(result, page, cancelled, includeForms);
+    if (checked.blocks[occurrence].value.physical.width() > width + .5)
+        fail("折返し後の本文が指定幅を超えています。変更は適用していません。");
+    return result;
 }
 } // namespace tatsu

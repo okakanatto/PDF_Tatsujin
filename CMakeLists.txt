@@ -18,10 +18,11 @@ set(PDF4QT_INSTALL_QT_DEPENDENCIES OFF CACHE BOOL "" FORCE)
 set(PDF4QT_INSTALL_TO_USR OFF CACHE BOOL "" FORCE)
 include_directories("${CMAKE_BINARY_DIR}/vendor/PDF4QT")
 add_subdirectory(vendor/PDF4QT EXCLUDE_FROM_ALL)
-
 if(NOT TATSU_BUILD_APP)
     return()
 endif()
+
+target_sources(Pdf4QtLibCore PRIVATE src/pdf_font_metrics.cpp)
 
 # The upstream compiler is private to this DLL. Keep our small adapter in the
 # same target instead of patching upstream or exporting all of its internals.
@@ -56,6 +57,7 @@ add_library(tatsu_document STATIC
     src/form_content_invocations.cpp
     src/existing_text_edit.cpp
     src/body_text_font.cpp
+    src/body_text_wrap.cpp
     src/image_pdf.cpp
     src/image_export.cpp
     src/signature_library.cpp
@@ -220,6 +222,7 @@ if(TATSU_ENABLE_SELFTEST)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_multiline_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_text_line_count_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_form_text_tests.cpp)
+    target_sources(PDFTatsujin PRIVATE tests/existing_text_wrap_tests.cpp)
     target_sources(PDFTatsujin PRIVATE tests/existing_image_ui_tests.cpp)
     target_include_directories(PDFTatsujin PRIVATE tests)
     target_compile_definitions(PDFTatsujin PRIVATE TATSU_ENABLE_SELFTEST)
