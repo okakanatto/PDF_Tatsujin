@@ -57,6 +57,10 @@ ExistingImageDialog::ExistingImageDialog(PDFDocument document, int currentPage,
         page->addItem(QString("%1ページ").arg(index + 1));
     page->setCurrentIndex(qBound(0, currentPage, page->count() - 1));
     column->addWidget(page);
+    includeGroups = new QCheckBox("グループ内の画像も表示");
+    includeGroups->setObjectName("existingImageIncludeGroups");
+    includeGroups->setAccessibleName("まとめられた描画の中の画像も表示する");
+    column->addWidget(includeGroups);
     list = new QListWidget;
     list->setObjectName("existingImageList");
     list->setAccessibleName("本文の画像一覧");
@@ -100,9 +104,10 @@ ExistingImageDialog::ExistingImageDialog(PDFDocument document, int currentPage,
     confirmDelete = new QCheckBox("選んだ画像を表示から削除する");
     confirmDelete->setObjectName("existingImageDeleteConsent");
     column->addWidget(confirmDelete);
-    auto limits = new QLabel(
-        "追加した画像は文書画面でも編集できます。Form内の画像・一部クリッピング等は未対応です。画像"
-        "に対応するOCRがある場合は変更を中止します。削除は墨消しではありません。");
+    auto limits =
+        new QLabel("追加した画像は文書画面でも編集できます。グループ内の画像は表示範囲内で編集でき"
+                   "ます。明示クリップ・透明グループ等は未対応です。画像"
+                   "に対応するOCRがある場合は変更を中止します。削除は墨消しではありません。");
     limits->setWordWrap(true);
     column->addWidget(limits);
     column->addStretch();
@@ -132,6 +137,7 @@ ExistingImageDialog::ExistingImageDialog(PDFDocument document, int currentPage,
     connect(apply, &QPushButton::clicked, this, &ExistingImageDialog::accept);
     connect(cancel, &QPushButton::clicked, this, &ExistingImageDialog::reject);
     connect(page, &QComboBox::currentIndexChanged, this, [this] { loadPage(); });
+    connect(includeGroups, &QCheckBox::toggled, this, [this] { loadPage(); });
     connect(list, &QListWidget::currentRowChanged, this, &ExistingImageDialog::selectImage);
     connect(operation, &QComboBox::currentIndexChanged, this,
             [this]
@@ -198,12 +204,15 @@ void ExistingImageDialog::loadPage()
     preview->fitPage();
     try
     {
-        images = existingImages(snapshot, page->currentIndex());
+        images = existingImages(snapshot, page->currentIndex(), {}, includeGroups->isChecked());
         for (int index = 0; index < images.size(); ++index)
             list->addItem(QString("画像 %1　%2 × %3 px")
                               .arg(index + 1)
                               .arg(images[index].pixels.width())
-                              .arg(images[index].pixels.height()));
+                              .arg(images[index].pixels.height()) +
+                          (images[index].depth
+                               ? QString("（グループ内・%1階層）").arg(images[index].depth)
+                               : QString()));
         if (images.isEmpty())
             selectImage(-1);
         else
@@ -324,6 +333,7 @@ void ExistingImageDialog::updateApply()
     for (auto field : {x, y, width, height})
         field->setEnabled(selected && !deleting && !closing);
     aspect->setEnabled(selected && !deleting && !closing);
+    includeGroups->setEnabled(!closing);
     replacementPath->setEnabled(selected && operation->currentIndex() == 1 && !closing);
     pick->setEnabled(selected && !closing);
     confirmDelete->setVisible(deleting);
@@ -344,6 +354,7 @@ void ExistingImageDialog::render()
               op = operation->currentIndex();
     const auto token = generation;
     const auto bounds = geometry;
+    const bool treeMode = includeGroups->isChecked();
     const auto pixels = replacement;
     const auto requestedPixels = qMin(3000.0, 1000.0 * preview->zoom());
     struct Result
@@ -359,7 +370,7 @@ void ExistingImageDialog::render()
     const auto stop = stopped;
     message->setText("プレビューを更新しています…");
     job = QThread::create(
-        [source, number, index, op, token, bounds, pixels, requestedPixels, rows, stop,
+        [source, number, index, op, token, bounds, pixels, requestedPixels, rows, stop, treeMode,
          result]() mutable
         {
             try
@@ -367,9 +378,9 @@ void ExistingImageDialog::render()
                 result->document = source;
                 if (index >= 0 && index < rows.size() &&
                     (op != 0 || bounds != rows[index].physical))
-                    result->document = editExistingImage(source, number, rows[index].occurrence,
-                                                         ExistingImageChange(op), bounds, pixels,
-                                                         [stop] { return stop->load(); });
+                    result->document = editExistingImage(
+                        source, number, rows[index].occurrence, ExistingImageChange(op), bounds,
+                        pixels, [stop] { return stop->load(); }, treeMode);
                 result->size = pageSize(source.getCatalog()->getPage(number));
                 result->image =
                     renderPage(result->document, number,
@@ -418,7 +429,7 @@ void ExistingImageDialog::render()
                 !result->error.isEmpty() ? result->error
                 : !pageError.isEmpty()   ? pageError
                 : index < 0
-                    ? "このページに対応する本文の画像はありません。Form内の画像等は未対応です。"
+                    ? "このページに対応する本文の画像はありません。"
                     : "変更はまだ適用していません。画像・ページの切替では未適用の変更が戻ります。");
             updateApply();
         });

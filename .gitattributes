@@ -21,6 +21,7 @@ fixtures/real-scans/manifest.json -text whitespace=cr-at-eol
 fixtures/certificate-signatures/manifest.json -text whitespace=cr-at-eol
 fixtures/redaction-copy/**/*.json -text whitespace=cr-at-eol
 fixtures/existing-image-edit/*.json -text whitespace=cr-at-eol
+fixtures/existing-image-edit/**/*.json -text whitespace=cr-at-eol
 fixtures/existing-text-edit/*.json -text whitespace=cr-at-eol
 fixtures/existing-text-edit/**/*.json -text whitespace=cr-at-eol
 *.der binary

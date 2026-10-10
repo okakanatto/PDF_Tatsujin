@@ -1,4 +1,5 @@
 #include "existing_image_edit.h"
+#include "existing_form_image_edit.h"
 #include "image_embedding.h"
 #include "pdf_objects.h"
 #include "pdfcms.h"
@@ -213,14 +214,20 @@ QByteArray matrixBytes(const QTransform& matrix)
 }
 } // namespace
 QVector<ExistingImage> existingImages(const PDFDocument& document, int page,
-                                      const std::function<bool()>& cancelled)
+                                      const std::function<bool()>& cancelled, bool includeForms)
 {
+    if (includeForms)
+        return formImageDrawings(document, page, cancelled);
     return inspect(document, page, cancelled).images;
 }
 PDFDocument editExistingImage(const PDFDocument& snapshot, int page, int occurrence,
                               ExistingImageChange change, QRectF physical,
-                              const QImage& replacement, const std::function<bool()>& cancelled)
+                              const QImage& replacement, const std::function<bool()>& cancelled,
+                              bool includeForms)
 {
+    if (includeForms)
+        return editFormImageDrawing(snapshot, page, occurrence, change, physical, replacement,
+                                    cancelled);
     const auto restriction = editingRestriction(snapshot);
     if (!restriction.isEmpty())
         fail(restriction);

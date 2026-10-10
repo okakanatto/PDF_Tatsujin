@@ -392,6 +392,8 @@ int selftest(const QString& fixtures, const QString& output)
     run("M5R07_redaction_scan_then_OCR", [&] { return testRedactionScanOcr(fixtures, output); });
     run("M5R08_redaction_OCR_mask_preservation", [&] { return testRedactionOcrMasks(); });
     run("M6I01_existing_image_core", [&] { return testExistingImageCore(fixtures, output); });
+    run("M6IF01_existing_form_images", [&] { return testExistingFormImages(fixtures, output); });
+    run("M6IF02_existing_form_image_UI", [&] { return testExistingFormImageUi(fixtures, output); });
     run("M6T01_existing_text_core", [&] { return testExistingTextCore(fixtures, output); });
     run("M6T02_existing_text_refusals", [&] { return testExistingTextRefusals(fixtures, output); });
     run("M6T03_existing_text_UI", [&] { return testExistingTextUi(fixtures, output); });

@@ -34,6 +34,10 @@ REDACTION_SCAN_CRITERIA_SHA256 = (
     "3bd0e41e88e1e8cb3d8e2bb65cee9c16904e0dc05ad7989441578432960c25e9"
 )
 IMAGE_EDIT_CRITERIA_SHA256 = {
+    "forms/criteria.json": "a060299145df5301d76491f31b5306c2e767608702620a2f4d7b39d2f662d04b",
+    "forms/positive-criteria.json": "95b7a889413628fa60dea234f5a1fffc4c5a9f8b7bc17b51a23b47f7fe1c0e40",
+    "forms/ui-criteria.json": "4e7d1597b6333dfa12e736f1df15b467200bc9ba22c25be9e95b8a5b6398afe2",
+    "forms/bbox-criteria.json": "8a97afa0513b36f2f434278f2be140c67c666dd5edbde7e1f7e63c30f332e389",
     "criteria.json": "919048740c57e365678a13b59ae7df83b4325adb258c69b0152f3aef7ac3906c",
     "ocr-refusal.json": "72d5357f7ab5fdee46c5190bae314e8b036f418d10d1a9d90409ed9c1a0d8535",
     "ui-criteria.json": "27e1806a8c0c0c1a99510fc08b729fc25db0e7aa4236fcf86a09728f9b405ee5",
@@ -115,6 +119,14 @@ def main():
     for name, expected in IMAGE_EDIT_CRITERIA_SHA256.items():
         if sha256(images / name) != expected:
             raise RuntimeError("Frozen existing-image criteria changed: " + name)
+        fixed = images / name
+        contents = json.loads(fixed.read_text(encoding="utf-8"))
+        for relative, expected_input in contents.get("files", {}).items():
+            if sha256(fixed.parent / relative) != expected_input:
+                raise RuntimeError("Frozen existing-image input changed: " + relative)
+        if "source" in contents and "source_sha256" in contents:
+            if sha256(fixed.parent / contents["source"]) != contents["source_sha256"]:
+                raise RuntimeError("Frozen existing-image UI input changed: " + name)
     image_plan = json.loads((images / "criteria.json").read_text(encoding="utf-8"))
     for name, expected in image_plan["files"].items():
         if sha256(images / name) != expected:

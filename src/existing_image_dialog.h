@@ -29,7 +29,7 @@ private:
     QListWidget* list;
     PageRegionPreview* preview;
     QDoubleSpinBox *x, *y, *width, *height;
-    QCheckBox *aspect, *confirmDelete;
+    QCheckBox *aspect, *confirmDelete, *includeGroups;
     QLineEdit* replacementPath;
     QLabel* message;
     QString pageError;

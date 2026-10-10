@@ -12,6 +12,7 @@ struct ExistingImage
     QTransform matrix;
     QRectF physical;
     QSize pixels;
+    int depth = 0;
 };
 enum class ExistingImageChange
 {
@@ -20,9 +21,11 @@ enum class ExistingImageChange
     Remove
 };
 QVector<ExistingImage> existingImages(const PDFDocument& document, int page,
-                                      const std::function<bool()>& cancelled = {});
+                                      const std::function<bool()>& cancelled = {},
+                                      bool includeForms = false);
 PDFDocument editExistingImage(const PDFDocument& snapshot, int page, int occurrence,
                               ExistingImageChange change, QRectF physical = {},
                               const QImage& replacement = {},
-                              const std::function<bool()>& cancelled = {});
+                              const std::function<bool()>& cancelled = {},
+                              bool includeForms = false);
 } // namespace tatsu

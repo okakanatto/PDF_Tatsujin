@@ -1,0 +1,25 @@
+{
+  "source": "shared-forms.pdf",
+  "source_sha256": "6eafa4f04939f7bb41149db9d766bf02715b79b1525fb4b480e440ab1f4af121",
+  "numeric_mm": [
+    81.1389,
+    124.8833,
+    33.8667,
+    22.5778
+  ],
+  "physical_rectangle": [
+    230.00003149606303,
+    353.9999055118111,
+    96.00009448818898,
+    64.00006299212599
+  ],
+  "selected_list_row": 2,
+  "expected_depth": 2,
+  "required": [
+    "Actual optional mode and selection",
+    "Numeric geometry exact to four-decimal mm UI values",
+    "BBox overflow disables Apply without partial adoption",
+    "Explicit apply preserves sibling and source"
+  ],
+  "scope": "UI criteria fixed before first nested UI operation; core and original acceptance unchanged"
+}

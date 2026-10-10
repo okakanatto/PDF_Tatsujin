@@ -1,0 +1,30 @@
+{
+  "source": "shared-forms.pdf",
+  "source_sha256": "6eafa4f04939f7bb41149db9d766bf02715b79b1525fb4b480e440ab1f4af121",
+  "ancestor_inner_pdf_box": [
+    90,
+    550,
+    100,
+    100
+  ],
+  "edge_physical": [
+    180,
+    284,
+    120,
+    80
+  ],
+  "edge_pdf_bounds": [
+    90,
+    610,
+    60,
+    40
+  ],
+  "outside_physical": [
+    179.99,
+    284,
+    120,
+    80
+  ],
+  "required": "An image wholly within or exactly touching an ancestor BBox may move; 0.01pt outside refuses atomically; original and sibling unchanged",
+  "scope": "Additional exact-boundary input fixed before first boundary operation; previous input and pixel criteria unchanged"
+}
