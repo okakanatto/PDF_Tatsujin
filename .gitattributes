@@ -18,6 +18,8 @@ TECH.md -text
 ACCEPTANCE.md -text
 fixtures/*.json -text whitespace=cr-at-eol
 fixtures/real-scans/manifest.json -text whitespace=cr-at-eol
+fixtures/certificate-signatures/manifest.json -text whitespace=cr-at-eol
+*.der binary
 *.jpg binary
 assets/revisions.json -text whitespace=cr-at-eol
 licenses/** -text
