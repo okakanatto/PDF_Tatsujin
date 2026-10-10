@@ -115,7 +115,7 @@ def main():
                 "sha256": sha256(p),
             }
             for p in sorted(output.rglob("*"))
-            if p.is_file()
+            if p.is_file() and p != output / "build-manifest.json"
         ],
     }
     (output / "build-manifest.json").write_text(
