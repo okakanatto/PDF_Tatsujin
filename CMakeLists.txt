@@ -58,6 +58,8 @@ add_library(tatsu_document STATIC
     src/bookmark_edit.cpp
     src/link_edit.cpp
     src/pdf_optimization.cpp
+    src/redaction_content.cpp
+    src/redaction_document.cpp
     src/encrypted_pdf.cpp
     src/unprotected_pdf.cpp
     src/document_comparison.cpp
@@ -110,6 +112,15 @@ set_target_properties(PDFTatsujin PROPERTIES
 )
 
 # Optional measurement harness: use the real UI without modifying the product binary.
+add_executable(PDFTatsujinRedactionProbe WIN32 EXCLUDE_FROM_ALL tests/redaction_probe.cpp tests/redaction_candidate_checks.cpp)
+target_link_libraries(PDFTatsujinRedactionProbe PRIVATE tatsu_document)
+set_target_properties(PDFTatsujinRedactionProbe PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+if(MSVC)
+    target_compile_options(PDFTatsujinRedactionProbe PRIVATE /utf-8 /bigobj)
+    target_compile_definitions(PDFTatsujinRedactionProbe PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
 add_executable(PDFTatsujinFormFontProbe WIN32 EXCLUDE_FROM_ALL tests/form_font_probe.cpp)
 target_link_libraries(PDFTatsujinFormFontProbe PRIVATE tatsu_document)
 set_target_properties(PDFTatsujinFormFontProbe PROPERTIES

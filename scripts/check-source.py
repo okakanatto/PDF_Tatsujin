@@ -110,6 +110,16 @@ def main():
                 != adaptation["cms_source_sha256_LF"]
             ):
                 raise RuntimeError("Pinned generic CMS conversion changed")
+    metrics = json.loads(
+        (ROOT / "scripts/standard-font-metrics-source.json").read_text(encoding="utf-8")
+    )
+    if metrics["reportlab_version"] != "4.4.9" or metrics["license"] != "BSD-3-Clause":
+        raise RuntimeError("Review standard font metric provenance before changing it")
+    header = (ROOT / metrics["generated_header"]).read_bytes().replace(b"\r\n", b"\n")
+    if hashlib.sha256(header).hexdigest() != metrics["generated_header_sha256_LF"]:
+        raise RuntimeError("Generated standard PDF widths changed")
+    if sha256(ROOT / metrics["license_file"]) != metrics["license_sha256"]:
+        raise RuntimeError("Standard metric copyright or license notice changed")
     print(
         f"PASS: {len(entries)} M1 fixtures, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
     )

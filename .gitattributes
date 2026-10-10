@@ -21,3 +21,4 @@ fixtures/real-scans/manifest.json -text whitespace=cr-at-eol
 *.jpg binary
 assets/revisions.json -text whitespace=cr-at-eol
 licenses/** -text
+licenses/REPORTLAB_METRICS_LICENSE.txt whitespace=-blank-at-eol
