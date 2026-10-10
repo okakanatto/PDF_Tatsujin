@@ -2,6 +2,7 @@
 #include "document.h"
 #include "pdfdocumentbuilder.h"
 #include <functional>
+#include <set>
 
 namespace tatsu
 {
@@ -12,6 +13,7 @@ struct RedactedPageContent
     QByteArray bytes;
     pdf::PDFDictionary xobjects;
     pdf::PDFDictionary fonts;
+    std::set<pdf::PDFObjectReference> modifiedImageSources;
     int removedTextSegments = 0, modifiedImages = 0;
 };
 QPainterPath checkedRedactionRegions(const PDFDocument& document, int page,

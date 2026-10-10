@@ -235,6 +235,46 @@ def main():
                     secret_markers_absent=True,
                 )
             )
+    if probe.get("candidate_checks", {}).get("shared_image_resource_rejections"):
+        assert len(probe["candidate_checks"]["shared_image_resource_rejections"]) == 2
+        assert not (args.run / "shared-image-unsafe-trial.pdf").exists()
+        for name in ("sanitized-all-image-uses", "sanitized-metadata-image-alias"):
+            path = args.run / (name + ".pdf")
+            reader = PdfReader(path)
+            assert geometry(reader) == geometry(original)
+            assert set(reader.get_fields()) == {"keep-field"}
+            data = payload(reader)
+            for marker in (
+                b"SECRET_TEXT_9df67",
+                b"SECRET_HIDDEN_9df67",
+                b"SECRET_FORM_9df67",
+                b"SECRET_META_9df67",
+                b"SECRET_XMP_9df67",
+                b"SECRET_ATTACH_9df67",
+                b"SECRET_ORPHAN_9df67",
+            ):
+                assert marker not in data
+            recovered = 0
+            images = 0
+            for page in reader.pages:
+                for image in page.images:
+                    images += 1
+                    pixels = list(
+                        image.image.convert("RGB")
+                        .crop((44, 54, 116, 86))
+                        .get_flattened_data()
+                    )
+                    recovered += sum(a == b for a, b in zip(pixels, source_pixels))
+            assert images == 1 and recovered == 0, "Original shared image survived"
+            assert "KEEP_VISIBLE_9df67" in text(path)
+            followup.append(
+                dict(
+                    file=path.name,
+                    sha256=digest(path),
+                    recovered_selected_original_pixels=recovered,
+                    geometry_and_remaining_form_preserved=True,
+                )
+            )
     result = dict(
         status="EXECUTED",
         safe_product_implementation=False,

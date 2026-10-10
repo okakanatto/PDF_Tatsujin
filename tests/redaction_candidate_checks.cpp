@@ -173,6 +173,70 @@ QJsonObject checkRedactionCandidate(pdf::PDFDocument document,
           "Saved candidate form reinput");
     check(tatsu::encodePdf(document) == originalBytes,
           "All processing leaves source PDF bytes unchanged");
+    trace("shared image resource retained on another page");
+    pdf::PDFDocumentBuilder shared(&document);
+    const auto second = document.getCatalog()->getPage(1)->getPageReference();
+    auto secondDictionary = *document.getObjectByReference(second).getDictionary();
+    tatsu::detail::set(secondDictionary, "Resources",
+                       document.getCatalog()->getPage(0)->getResources());
+    shared.setObject(second, tatsu::detail::dictObject(secondDictionary));
+    const auto sharedSource = shared.build();
+    tatsu::writeCandidate(sharedSource, output + "/shared-image-source.pdf");
+    QJsonArray sharedErrors;
+    auto rejectShared = [&](const QString& name, const pdf::PDFDocument& source)
+    {
+        const auto baseline = tatsu::encodePdf(source);
+        std::optional<tatsu::RedactionCandidate> produced;
+        QString error;
+        try
+        {
+            produced = tatsu::prepareRedactionCandidate(source, regions);
+        }
+        catch (const std::exception& failure)
+        {
+            error = QString::fromUtf8(failure.what());
+        }
+        if (produced)
+            tatsu::writeCandidate(produced->document, output + "/shared-image-unsafe-trial.pdf");
+        check(!produced && error.contains("元画像") && tatsu::encodePdf(source) == baseline,
+              "Shared original-image reference must be rejected: " + name);
+        sharedErrors << QJsonObject{{"condition", name}, {"error", error}};
+    };
+    rejectShared("unused second-page image resource", sharedSource);
+    const auto resources =
+        document.getDictionaryFromObject(document.getCatalog()->getPage(0)->getResources());
+    const auto images = document.getDictionaryFromObject(resources->get("XObject"));
+    check(images && images->getCount() == 1 && images->getValue(0).isReference(),
+          "Fixed shared-image input reference");
+    const auto image = images->getValue(0);
+    pdf::PDFDocumentBuilder aliases(&document);
+    pdf::PDFDictionary alias;
+    tatsu::detail::set(alias, "OriginalImage", image);
+    const auto aliasReference = aliases.addObject(tatsu::detail::dictObject(alias));
+    tatsu::detail::set(alias, "Cycle", pdf::PDFObject::createReference(aliasReference));
+    aliases.setObject(aliasReference, tatsu::detail::dictObject(alias));
+    const auto root = document.getTrailerDictionary()->get("Root").getReference();
+    auto catalog = *document.getObjectByReference(root).getDictionary();
+    tatsu::detail::set(catalog, "TatsujinTestPrivateAlias",
+                       pdf::PDFObject::createReference(aliasReference));
+    aliases.setObject(root, tatsu::detail::dictObject(catalog));
+    const auto aliasSource = aliases.build();
+    tatsu::writeCandidate(aliasSource, output + "/shared-image-private-alias-source.pdf");
+    rejectShared("private alias through cyclic indirect dictionary", aliasSource);
+    // Selecting both pages removes the otherwise unused resource on page two.
+    // Every selected use is sanitized; this must not be rejected unnecessarily.
+    auto allRegions = regions;
+    allRegions[1] = {{100, 280, 80, 40}};
+    const auto allSelected = tatsu::prepareRedactionCandidate(sharedSource, allRegions);
+    tatsu::writeCandidate(allSelected.document, output + "/sanitized-all-image-uses.pdf");
+    // A private metadata alias disappears before reachability inspection.
+    catalog.removeEntry("TatsujinTestPrivateAlias");
+    tatsu::detail::set(catalog, "PieceInfo", pdf::PDFObject::createReference(aliasReference));
+    aliases.setObject(root, tatsu::detail::dictObject(catalog));
+    const auto metadataSource = aliases.build();
+    const auto removedAlias = tatsu::prepareRedactionCandidate(metadataSource, regions);
+    tatsu::writeCandidate(removedAlias.document, output + "/sanitized-metadata-image-alias.pdf");
+    check(tatsu::encodePdf(document) == originalBytes, "Shared-image cases preserve original");
     return QJsonObject{
         {"status", "PASS"},
         {"rejected_cases", rejected},
@@ -182,5 +246,7 @@ QJsonObject checkRedactionCandidate(pdf::PDFDocument document,
         {"remaining_form_saved_reinput", true},
         {"following_text_advance_executed", true},
         {"related_annotation_graph_executed", true},
+        {"shared_image_resource_rejections", sharedErrors},
+        {"all_selected_image_uses_and_removed_metadata_alias", true},
         {"scope", "Experimental subset; no native UI or general security acceptance"}};
 }

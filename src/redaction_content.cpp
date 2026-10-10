@@ -158,6 +158,7 @@ protected:
                 // Partial operations require a future character-code splitter.
                 if (unselectedCharacters || (command != "Tj" && command != "TJ"))
                     fail("文字命令の一部だけの墨消しにはまだ対応していません。出力していません。");
+                rejectSubsetFontLeak();
                 result.bytes += "[" + numeric(exactAdvance) + "] TJ\n";
                 ++result.removedTextSegments;
             }
@@ -247,6 +248,10 @@ protected:
         const auto matrix = getGraphicState()->getCurrentTransformationMatrix();
         if (!regions.intersects(matrix.mapRect(QRectF(0, 0, 1, 1))))
             return;
+        const auto original = getXObjectDictionary()->get(imageName);
+        if (!original.isReference())
+            fail("直接格納された画像の共有経路を検証できません。墨消ししていません。");
+        result.modifiedImageSources.insert(original.getReference());
         if (source.isNull() || qint64(source.width()) * source.height() > 40000000)
             fail("画像サイズが墨消し処理の上限を超えています。");
         bool invertible = false;
@@ -276,6 +281,36 @@ protected:
     }
 
 private:
+    void rejectSubsetFontLeak() const
+    {
+        const auto font = getGraphicState()->getTextFont();
+        const auto declaration =
+            getDocument()->getDictionaryFromObject(getFontDictionary()->get(font->getFontId()));
+        if (!declaration)
+            fail("文字の書体情報を確認できません。");
+        auto subset = [&](const PDFObject& value)
+        {
+            const auto object = getDocument()->getObject(value);
+            static const QRegularExpression tag("^[A-Z]{6}\\+");
+            if (object.isName() && tag.match(QString::fromLatin1(object.getString())).hasMatch())
+                fail("埋め込みサブセット書体から削除対象を推測できるため、この文字の墨消しはまだ未"
+                     "対応"
+                     "です。候補は出力していません。");
+        };
+        auto check = [&](const PDFDictionary* dictionary)
+        {
+            subset(dictionary->get("BaseFont"));
+            if (const auto descriptor =
+                    getDocument()->getDictionaryFromObject(dictionary->get("FontDescriptor")))
+                subset(descriptor->get("FontName"));
+        };
+        check(declaration);
+        const auto descendants = getDocument()->getObject(declaration->get("DescendantFonts"));
+        if (descendants.isArray())
+            for (const auto& child : *descendants.getArray())
+                if (const auto dictionary = getDocument()->getDictionaryFromObject(child))
+                    check(dictionary);
+    }
     double number(const PDFObject& value) const
     {
         const auto object = getDocument()->getObject(value);
