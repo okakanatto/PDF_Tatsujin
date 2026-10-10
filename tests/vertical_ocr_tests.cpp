@@ -5,6 +5,7 @@
 #include "pdfdocumentbuilder.h"
 #include "vertical_text_spacing.h"
 #include "window.h"
+#include "worker_channels.h"
 #include <QtTest/QTest>
 
 namespace tatsu
@@ -233,6 +234,7 @@ QJsonObject testVerticalOcrFailure(const QString& fixtures, const QString& outpu
           "Owned missing-model test assets");
     auto failedJob = OcrJob::prepare(window.doc, {"jpn_vert", "3"});
     QProcess child;
+    WorkerChannels missingChannels(child, failedJob->path());
     auto environment = QProcessEnvironment::systemEnvironment();
     environment.insert("TATSU_ASSETS", assets->path());
     child.setProcessEnvironment(environment);
@@ -243,7 +245,7 @@ QJsonObject testVerticalOcrFailure(const QString& fixtures, const QString& outpu
           "Missing vertical model publishes no candidate and retains document");
     QFile error(output + "/vertical-missing-model-stderr.txt");
     check(error.open(QIODevice::WriteOnly), "Preserve missing-model diagnostic");
-    error.write(child.readAllStandardError());
+    error.write(missingChannels.error().toUtf8());
     int geometryRefusals = 0;
     for (const QString mode : {QString("rotation"), QString("unit")})
     {
@@ -286,6 +288,9 @@ QJsonObject testVerticalOcrFailure(const QString& fixtures, const QString& outpu
         configuration.write("{\"language\":\"jpn_vert\",\"pages\":\"1,3\"}");
         configuration.close();
         QProcess worker;
+        auto communication = privateTemporaryDirectory(output + "/vertical-worker-XXXXXX");
+        check(communication->isValid(), "Owned refusal worker communication directory");
+        WorkerChannels channels(worker, communication->path());
         worker.start(QCoreApplication::applicationFilePath(),
                      {"--ocr-worker", input, candidate, settings,
                       output + "/vertical-refused-" + mode + "-report.json"});
