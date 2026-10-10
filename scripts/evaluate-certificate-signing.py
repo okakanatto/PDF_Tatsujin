@@ -44,6 +44,23 @@ def inspect(before, after):
     added = set(fields) - set(original)
     assert len(added) == 1 and fields[next(iter(added))]["/FT"] == "/Sig"
     assert set(original).issubset(fields), "Existing form removed"
+    aroot, broot = source.trailer["/Root"], copy.trailer["/Root"]
+    for key, value in aroot.items():
+        if key != "/AcroForm":
+            assert structure(value) == structure(broot.get(key)), (
+                "Catalog changed",
+                key,
+            )
+    if "/AcroForm" in aroot:
+        aform, bform = aroot["/AcroForm"], broot["/AcroForm"]
+        for key, value in aform.items():
+            if key not in ("/Fields", "/SigFlags"):
+                assert structure(value) == structure(bform.get(key)), (
+                    "AcroForm changed",
+                    key,
+                )
+        old = list(aform.get("/Fields", []))
+        assert structure(list(bform["/Fields"])[: len(old)]) == structure(old)
     # All old objects survive byte-for-byte in meaning, except the first page,
     # catalog and AcroForm containers that explicitly add the new signature.
     roots = {source.trailer["/Root"].indirect_reference.idnum}
@@ -64,6 +81,12 @@ def inspect(before, after):
             )
             checked += 1
     for first, second in zip(source.pages, copy.pages):
+        for key, value in first.items():
+            if key != "/Annots":
+                assert structure(value) == structure(second.get(key)), (
+                    "Page dictionary changed",
+                    key,
+                )
         for key in (
             "/MediaBox",
             "/CropBox",
