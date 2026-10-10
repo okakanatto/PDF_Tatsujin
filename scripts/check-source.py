@@ -242,9 +242,13 @@ def main():
         != vertical_fixed["source_sha256"]
     ):
         raise RuntimeError("Vertical OCR source changed")
+    # The published PDF and criterion are mandatory and checked above. This
+    # separately downloaded generator font is needed only to regenerate them;
+    # a source-only checkout deliberately does not vendor font binaries.
+    fixture_font = ROOT / "fixtures/NotoSansJP-fixture.ttf"
     if (
-        sha256(ROOT / "fixtures/NotoSansJP-fixture.ttf")
-        != vertical_fixed["fixture_font_sha256"]
+        fixture_font.is_file()
+        and sha256(fixture_font) != vertical_fixed["fixture_font_sha256"]
     ):
         raise RuntimeError("Vertical OCR fixture font changed")
     geometry = ROOT / "fixtures/vertical-ocr-geometry/criteria.json"
