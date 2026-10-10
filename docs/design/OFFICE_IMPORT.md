@@ -1,0 +1,17 @@
+# Word文書からPDFを作成する
+
+拡張ロードマップのOffice変換を、まずマクロを持たないDOCXからPDFを作成する経路で検証する。初版F01〜F08と既存のPDF入力は維持する。Wordの実行や利用者のOffice設定を使わず、ローカルのLibreOfficeを別プロファイルで起動する。変換エンジンはアプリ本体と分離し、版・取得元・SHA・条件を管理する。26.8.1.1の展開と、固定した日英・表・画像・改ページの変換を検証する。取得条件はoffice-engine-lock.jsonに固定する。
+
+入力は読取り専用とし、作業用コピー・出力・プロファイルは各処理の専用フォルダへ置く。文書内のマクロ、ActiveX／埋込みオブジェクト、画像等を自動取得する外部参照、過大・不正なZIPは理由付きで拒否する。通常のクリック用ハイパーリンクと自動取得の参照を区別する。既存PDFや未保存変更へ部分反映しない。失敗・取消は所有する処理だけを停止して候補を破棄する。
+
+Windowsでは起動時から子プロセスを含む専用Job Objectに所属させる。CreateProcessのPROC_THREAD_ATTRIBUTE_JOB_LISTと限定した標準入出力ハンドル継承を使い、画面を出さずに起動する。取消・120秒の制限時間ではJob全体を終了し、所属プロセス数ゼロと親の終了を待ってから作業コピーを削除する。別のプロセスを名前で終了しない。https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute 。
+
+ZIP読取りは固定Qt 6.9.3のCorePrivate QZipReaderをアダプター内に限定する。入力64MiB、4096項目、展開256MiB、XML項目16MiBまでで、CRC・パス・重複・XMLを検査する。DTD・実体参照を拒否する。ファイルシステムへZIPを展開せず、検査したスナップショットを利用する。作業フォルダは既存のPrivateTemporaryDirectoryで保護する。PDF出力はPNGの無損失圧縮と画像解像度維持を指定する。
+
+DOCXの既定の日英・数字間の自動字間は、PDFビューアが文字抽出時に空白と解釈することがある。初回の固定語試験でこの失敗を記録した。入力の字間設定を保つ変換を既定とし、画面の「日英・数字の間の自動字間を抑える（配置が変わります）」を利用者が明示選択した場合だけ、LibreOfficeのロード済み本文・表の段落のParaIsCharacterDistanceをfalseにする。固定版がautoSpaceDE/autoSpaceDNを無視することを公式ソースで確認したため、作業DOCXを書き換える試行は採用しない。エンジン付属Pythonが専用プロセスを起動し、UUID付きのローカルnamed pipeでUNOへ接続する。入力マクロはNEVER_EXECUTE、外部更新はNO_UPDATEとし、閉じた後に専用プロセスを終了する。入力した空白と原本は保持する。これは元の配置を厳密に維持する修正とは異なる変換オプションであり、変更後の配置をプレビューする。固定した期待文字・正解・閾値は変更しない。字間抑制の有無を試験結果に記録し、既定変換の全文検索保持まで合格したと表示しない。https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.wordprocessing.autospacede?view=openxml-3.0.1 。
+
+変換後のPDFは読み込み・ページ数・描画・文字情報を検査してプレビューし、明示適用で新しい未保存PDFウィンドウを開く。ページ全体の画像化で検索・コピーを失う方式は採らない。変換結果に署名・注釈を加え、通常保存・再編集できるか確認する。Wordと完全に同じ配置を保証せず、どの固定入力でどの保持条件を評価したか記録する。PDFからWord、表の復元、Excel／PowerPoint、旧DOC、任意の複雑なOffice文書は別の作業であり、この経路の成功だけでOffice変換全体を完了にしない。
+
+日英段落、固定した表、画像、ページ区切りを持つ合成DOCXと期待文字・ページ・寸法・異常入力を製品変換前に固定する。PDFium・pypdf・Popplerで出力を検査する。実UIの選択・プレビュー・取消・新規PDF作成をオフスクリーンで実行し、ネイティブIMEや一般Word互換性の合格と区別する。正式な同梱・配布条件はインストーラー内の版ごとのLICENSE等を確認する。アプリのMITと変換エンジンの条件を混同しない。
+
+通信権限ゼロのWindows AppContainerでは、このエンジンのUNO接続が実行失敗した。固定版のsal/osl/w32/pipe.cxxはOSL_PIPE_接頭辞を使用し、AppContainerが要求するLOCAL名前空間に対応していない。通常の専用プロセスによるローカル変換とは別の制約として追跡し、通信遮断の合格を表示しない。ホストのネットワークやユーザーのプロセスは変更しない。試験では専用SIDの依存フォルダ読取許可を一時追加し、元のSDDLへ復元した。https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createnamedpipea 。

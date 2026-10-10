@@ -31,3 +31,5 @@ Windowsバイナリを配布する場合は`licenses/NOTICE.txt`と各部品の�
 MSVCランタイムはMicrosoftの再頒布条件が別途適用されるバイナリです。RC4の梱包ではデスクトップx64 ReleaseのCRTを明示し、OneCore・debug_nonredistを除外します。元の再頒布フォルダとの全DLLのSHA-256一致を検査し、`runtime-origin.json`と`licenses/MSVC-RUNTIME-NOTICE.txt`へ記録します。[Microsoftの配布リスト](https://learn.microsoft.com/en-us/visualstudio/releases/2026/redistribution)は有効なVisual Studioライセンスを条件としています。ライセンス保有の確認はPCへのBuild Tools導入確認とは別です。
 
 MITのアプリコード公開を、すべての同梱部品の無条件の再配布許諾と解釈しないでください。RC4のバイナリはローカルの評価用ZIPとして準備し、公開前に配布主体のMSVCライセンス条件を確認します。正式な一般配布はクリーンWindows等の未実行試験も含めて判断します。候補の品質試験はこの確認と並行して進めます。
+
+DOCX変換は外部のLibreOffice 26.8.1.1とその付属Python／UNOを検証しています。engineのMSI、サイズ、SHA、公式取得元はoffice-engine-lock.jsonに固定しています。一般のPythonインストールやWordを要求しません。実行時はengineのLICENSE.html・license.txt・NOTICEを維持し、そのMPL-2.0と第三者部品の条件をアプリのMITとは区別します。現在の候補ZIPへエンジンは同梱せず、画面でsoffice.comを明示指定します。正式なエンジン同梱配布の条件確認は未完了です。

@@ -164,6 +164,9 @@ Window::Window()
     createAction->setObjectName("createPdfAction");
     auto createMenu = new QMenu(this);
     createMenu->addAction("画像からPDF…", this, [this] { guard([&] { createFromImages(); }); });
+    auto officeImport = createMenu->addAction("Word文書からPDF…", this,
+                                              [this] { guard([&] { createFromDocx(); }); });
+    officeImport->setObjectName("importOfficeDocument");
     imageExportAction = createMenu->addAction("PDFを画像として出力…", this,
                                               [this] { guard([&] { exportDocumentImages(); }); });
     imageExportAction->setObjectName("exportPdfImages");

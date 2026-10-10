@@ -46,6 +46,7 @@ public:
     ~Window() override;
     void openFile(const QString& path);
     void createFromImages(QStringList paths = {});
+    void createFromDocx(QString path = {});
     void exportDocumentImages();
     void editPageDecoration(DecorationKind kind);
     void editBookmarks();

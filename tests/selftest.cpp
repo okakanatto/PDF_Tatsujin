@@ -22,6 +22,7 @@
 #include "link_edit_tests.h"
 #include "navigation_tests.h"
 #include "ocr_job_tests.h"
+#include "office_import_tests.h"
 #include "page_crop_tests.h"
 #include "page_decoration_tests.h"
 #include "page_geometry_tests.h"
@@ -415,6 +416,10 @@ int selftest(const QString& fixtures, const QString& output)
     run("M6TF02_existing_form_text_UI", [&] { return testExistingFormTextUi(fixtures, output); });
     run("M6TW01_existing_text_wrap", [&] { return testExistingTextWrap(fixtures, output); });
     run("M6TW02_existing_text_wrap_UI", [&] { return testExistingTextWrapUi(fixtures, output); });
+    run("M6O01_DOCX_conversion", [&] { return testOfficeImport(fixtures, output); });
+    run("M6O02_DOCX_UI", [&] { return testOfficeImportUi(fixtures, output); });
+    run("M6O03_owned_process", [&] { return testOwnedProcess(output); });
+    run("M6O04_DOCX_new_window", [&] { return testOfficeImportWindow(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

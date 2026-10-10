@@ -106,7 +106,18 @@ def main():
             raise RuntimeError("Navigation fixture hash mismatch")
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
+    for path in (ROOT / "assets/office").glob("*.py"):
+        ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     certificates = ROOT / "fixtures/certificate-signatures"
+    office = ROOT / "fixtures/office-import"
+    if sha256(office / "criteria.json") != (
+        "18a8ddead69890390cf52cf9fca782563cd23c4d30dfdbed58e9bb6800ac3785"
+    ):
+        raise RuntimeError("Frozen DOCX criteria changed")
+    office_plan = json.loads((office / "criteria.json").read_text(encoding="utf-8"))
+    for name, expected in office_plan["files"].items():
+        if sha256(office / name) != expected:
+            raise RuntimeError("Frozen DOCX input changed: " + name)
     images = ROOT / "fixtures/existing-image-edit"
     body = ROOT / "fixtures/existing-text-edit"
     for name, expected in TEXT_EDIT_CRITERIA_SHA256.items():

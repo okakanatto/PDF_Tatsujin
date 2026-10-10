@@ -46,6 +46,7 @@ def main():
     parser.add_argument("--with-redaction-copy", action="store_true")
     parser.add_argument("--with-existing-images", action="store_true")
     parser.add_argument("--with-existing-text", action="store_true")
+    parser.add_argument("--office-engine-directory", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -83,7 +84,52 @@ def main():
     container = AppContainer()
     failure = None
     results = []
+    engine_acl_saved = False
+    engine_acl_restored = False
+    engine = (
+        args.office_engine_directory.resolve() if args.office_engine_directory else None
+    )
+    acl_record = out / "office-engine-original-acl.json"
+    powershell = Path(
+        shutil.which("pwsh")
+        or (
+            str(
+                Path(os.environ["SystemRoot"])
+                / "System32/WindowsPowerShell/v1.0/powershell.exe"
+            )
+        )
+    )
+
+    def engine_acl(mode):
+        completed = subprocess.run(
+            [
+                str(powershell),
+                "-NoProfile",
+                "-File",
+                str(root / "scripts/office-engine-access.ps1"),
+                "-EngineRoot",
+                str(engine),
+                "-Sid",
+                container.sid_text,
+                "-Backup",
+                str(acl_record),
+                "-Mode",
+                mode,
+            ],
+            creationflags=subprocess.CREATE_NO_WINDOW,
+            timeout=180,
+            capture_output=True,
+        )
+        (out / ("office-engine-acl-" + mode + ".log")).write_bytes(
+            completed.stdout + completed.stderr
+        )
+        completed.check_returncode()
+
     try:
+        if engine:
+            engine_acl("Grant")
+            engine_acl_saved = True
+            env["TATSU_OFFICE_CONVERTER"] = str(engine / "program/soffice.com")
         subprocess.run(
             [
                 "icacls",
@@ -137,7 +183,9 @@ def main():
                             )
                         observations[process.pid] = {
                             **token,
-                            "OCR_child": process.pid != pid,
+                            "OCR_child": "--ocr-worker" in process.cmdline(),
+                            "office_child": process.name().lower()
+                            in ("soffice.bin", "soffice.com", "python.exe"),
                         }
             except psutil.NoSuchProcess:
                 pass
@@ -185,6 +233,8 @@ def main():
             cases.append(("existing-images", "M6I"))
         if args.with_existing_text:
             cases.append(("existing-text", "M6T"))
+        if engine:
+            cases.append(("office-import", "M6O"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
@@ -238,13 +288,21 @@ def main():
                 check=True,
             )
         finally:
-            container.remove()
-            if failure is not None:
-                failure["temporary_profile_removed"] = container.removed
-                (out / "failure.json").write_text(
-                    json.dumps(failure, indent=2) + "\n", encoding="utf-8"
-                )
+            try:
+                if engine and (engine_acl_saved or acl_record.exists()):
+                    engine_acl("Restore")
+                    engine_acl_restored = True
+            finally:
+                container.remove()
+                if failure is not None:
+                    failure["temporary_profile_removed"] = container.removed
+                    failure["engine_acl_restored"] = engine_acl_restored
+                    (out / "failure.json").write_text(
+                        json.dumps(failure, indent=2) + "\n", encoding="utf-8"
+                    )
     result["temporary_profile_removed"] = container.removed
+    if engine:
+        result["engine_acl_restored"] = engine_acl_restored
     (out / "result.json").write_text(
         json.dumps(result, indent=2) + "\n", encoding="utf-8"
     )

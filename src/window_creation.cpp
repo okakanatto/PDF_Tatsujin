@@ -1,10 +1,31 @@
 #include "image_export_dialog.h"
 #include "image_pdf_dialog.h"
+#include "office_import_dialog.h"
 #include "pdfsecurityhandler.h"
 #include "window.h"
 
 namespace tatsu
 {
+void Window::createFromDocx(QString path)
+{
+    if (path.isEmpty())
+        path =
+            QFileDialog::getOpenFileName(this, "PDFにするWord文書を選ぶ", {}, "Word文書 (*.docx)");
+    if (path.isEmpty())
+        return;
+    OfficeImportDialog dialog(path, this);
+    if (dialog.exec() != QDialog::Accepted)
+        return;
+    auto window = new Window;
+    window->setObjectName("officeCreatedDocument");
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    window->doc.history = {dialog.takeDocument()};
+    window->doc.saved = -1;
+    ++window->doc.revision;
+    window->refresh(true);
+    window->show();
+    window->canvas->goToPage(0);
+}
 void Window::createFromImages(QStringList paths)
 {
     if (paths.isEmpty())
