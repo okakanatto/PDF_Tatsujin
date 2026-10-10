@@ -46,6 +46,7 @@ def main():
     parser.add_argument("--with-redaction-copy", action="store_true")
     parser.add_argument("--with-existing-images", action="store_true")
     parser.add_argument("--with-existing-text", action="store_true")
+    parser.add_argument("--with-table-extraction", action="store_true")
     parser.add_argument("--office-engine-directory", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
@@ -232,7 +233,13 @@ def main():
         if args.with_existing_images:
             cases.append(("existing-images", "M6I"))
         if args.with_existing_text:
-            cases.append(("existing-text", "M6T"))
+            # M6TB also starts with M6T, and its Office interoperability test
+            # needs the separate engine. Select the existing text families by name.
+            cases.append(("existing-text", "existing_text"))
+            cases.append(("existing-form-text", "existing_form_text"))
+        if args.with_table_extraction:
+            cases.append(("table-extraction", "M6TB01"))
+            cases.append(("table-extraction-ui", "M6TB02"))
         if engine:
             cases.append(("office-import", "M6O"))
         for name, filter in cases:
