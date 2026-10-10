@@ -23,11 +23,12 @@ void removePrivatePageData(PDFDictionary& dictionary)
     for (const auto key : {"Metadata", "PieceInfo", "AF", "Thumb"})
         dictionary.removeEntry(key);
 }
-void rejectRetainedOriginalImages(const PDFObjectStorage& storage,
-                                  const std::set<PDFObjectReference>& images,
-                                  const std::function<bool()>& cancelled)
+void rejectRetainedOriginalResources(const PDFObjectStorage& storage,
+                                     const std::set<PDFObjectReference>& images,
+                                     const std::set<PDFObjectReference>& fonts,
+                                     const std::function<bool()>& cancelled)
 {
-    if (images.empty())
+    if (images.empty() && fonts.empty())
         return;
     std::set<PDFObjectReference> visited;
     std::vector<PDFObject> pending{storage.getTrailerDictionary()};
@@ -56,6 +57,8 @@ void rejectRetainedOriginalImages(const PDFObjectStorage& storage,
             if (images.contains(reference))
                 fail("墨消し対象の元画像が別の共有参照に残ります。このPDFはまだ安全に処理できません"
                      "。");
+            if (fonts.contains(reference))
+                fail("削除したサブセット書体の情報が共有参照に残ります。候補は出力していません。");
             if (visited.insert(reference).second)
                 pending.push_back(storage.getObjectByReference(reference));
         }
@@ -106,6 +109,7 @@ RedactionCandidate prepareRedactionCandidate(const PDFDocument& source,
     PDFDocumentBuilder builder(&source);
     RedactionCandidate result;
     std::set<PDFObjectReference> modifiedImageSources;
+    std::set<PDFObjectReference> removedFontDependencies;
     // Content validation runs before any annotation/field removal. All changes
     // stay in a private builder; cancellation never commits to the caller.
     for (auto it = rectangles.cbegin(); it != rectangles.cend(); ++it)
@@ -114,6 +118,8 @@ RedactionCandidate prepareRedactionCandidate(const PDFDocument& source,
         const auto content = redactPageContent(source, it.key(), it.value(), builder, cancelled);
         modifiedImageSources.insert(content.modifiedImageSources.begin(),
                                     content.modifiedImageSources.end());
+        removedFontDependencies.insert(content.removedFontDependencies.begin(),
+                                       content.removedFontDependencies.end());
         const auto page = source.getCatalog()->getPage(it.key());
         auto dictionary = *source.getObjectByReference(page->getPageReference()).getDictionary();
         const auto originalResources = source.getDictionaryFromObject(page->getResources());
@@ -279,7 +285,8 @@ RedactionCandidate prepareRedactionCandidate(const PDFDocument& source,
     trailer.removeEntry("Info");
     trailer.removeEntry("Prev");
     storage.setTrailerDictionary(dictObject(trailer));
-    rejectRetainedOriginalImages(storage, modifiedImageSources, cancelled);
+    rejectRetainedOriginalResources(storage, modifiedImageSources, removedFontDependencies,
+                                    cancelled);
     PDFOptimizer optimizer(PDFOptimizer::RemoveUnusedObjects | PDFOptimizer::ShrinkObjectStorage,
                            nullptr);
     optimizer.setStorage(storage);

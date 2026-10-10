@@ -65,6 +65,26 @@ public:
         stop();
         if (graphicsDepth != 0)
             fail("描画状態の対応が不正です。墨消ししていません。");
+        for (const auto& name : selectedFontsNeedingCleanup)
+        {
+            if (survivingFonts.contains(name))
+                fail("対象外の文字にも使うサブセット書体の安全な整理は未対応です。候補は出力してい"
+                     "ません。");
+            const auto original = result.fonts.get(name);
+            if (!original.isReference())
+                fail("直接格納されたサブセット書体の共有情報を確認できません。");
+            rememberFontDependencies(original);
+            PDFDictionary stub;
+            detail::set(stub, "Type", PDFObject::createName("Font"));
+            detail::set(stub, "Subtype", PDFObject::createName("Type1"));
+            detail::set(stub, "BaseFont", PDFObject::createName("Helvetica"));
+            // Only numeric TJ advances survive for this resource. Their value
+            // depends on font size and scale, never on glyph widths. A valid
+            // standard font preserves that state without retaining the subset.
+            result.fonts.setEntry(
+                PDFInplaceOrMemoryString(name),
+                PDFObject::createReference(builder.addObject(detail::dictObject(stub))));
+        }
         result.bytes += "Q\nq\n0 g\n";
         for (const auto& rectangle : rectangles)
             result.bytes += numeric(rectangle.x()) + " " + numeric(rectangle.y()) + " " +
@@ -115,6 +135,7 @@ protected:
             serialized.clear();
             selectedCharacters = unselectedCharacters = 0;
             exactAdvance = 0;
+            textHasGlyphs = false;
             replacementImage.clear();
             if (name == "q")
                 ++graphicsDepth;
@@ -158,7 +179,9 @@ protected:
                 // Partial operations require a future character-code splitter.
                 if (unselectedCharacters || (command != "Tj" && command != "TJ"))
                     fail("文字命令の一部だけの墨消しにはまだ対応していません。出力していません。");
-                rejectSubsetFontLeak();
+                if (requiresFontCleanup())
+                    selectedFontsNeedingCleanup.insert(
+                        getGraphicState()->getTextFont()->getFontId());
                 result.bytes += "[" + numeric(exactAdvance) + "] TJ\n";
                 ++result.removedTextSegments;
             }
@@ -168,6 +191,8 @@ protected:
                                 " Do\n";
             else
             {
+                if (textHasGlyphs)
+                    survivingFonts.insert(getGraphicState()->getTextFont()->getFontId());
                 result.bytes += serialized + command + "\n";
                 if (command == "Do")
                     result.xobjects.setEntry(PDFInplaceOrMemoryString(imageName),
@@ -191,6 +216,8 @@ protected:
             getFontCache()->getRealizedFont(font, getGraphicState()->getTextFontSize(), this);
         if (!realized || !realized->isHorizontalWritingSystem())
             fail("この書体や縦書きの安全な墨消しにはまだ対応していません。");
+        textHasGlyphs = std::any_of(sequence.items.begin(), sequence.items.end(),
+                                    [](const auto& item) { return bool(item.glyph); });
         for (const auto& item : sequence.items)
             if (item.glyph && item.character.isNull())
                 fail("文字対応を検証できないため墨消ししていません。");
@@ -281,7 +308,7 @@ protected:
     }
 
 private:
-    void rejectSubsetFontLeak() const
+    bool requiresFontCleanup() const
     {
         const auto font = getGraphicState()->getTextFont();
         const auto declaration =
@@ -292,24 +319,66 @@ private:
         {
             const auto object = getDocument()->getObject(value);
             static const QRegularExpression tag("^[A-Z]{6}\\+");
-            if (object.isName() && tag.match(QString::fromLatin1(object.getString())).hasMatch())
-                fail("埋め込みサブセット書体から削除対象を推測できるため、この文字の墨消しはまだ未"
-                     "対応"
-                     "です。候補は出力していません。");
+            return object.isName() && tag.match(QString::fromLatin1(object.getString())).hasMatch();
         };
         auto check = [&](const PDFDictionary* dictionary)
         {
-            subset(dictionary->get("BaseFont"));
+            if (dictionary->hasKey("ToUnicode") || subset(dictionary->get("BaseFont")))
+                return true;
             if (const auto descriptor =
                     getDocument()->getDictionaryFromObject(dictionary->get("FontDescriptor")))
-                subset(descriptor->get("FontName"));
+                return subset(descriptor->get("FontName")) || descriptor->hasKey("FontFile") ||
+                       descriptor->hasKey("FontFile2") || descriptor->hasKey("FontFile3");
+            return false;
         };
-        check(declaration);
+        if (check(declaration))
+            return true;
         const auto descendants = getDocument()->getObject(declaration->get("DescendantFonts"));
         if (descendants.isArray())
             for (const auto& child : *descendants.getArray())
                 if (const auto dictionary = getDocument()->getDictionaryFromObject(child))
-                    check(dictionary);
+                    if (check(dictionary))
+                        return true;
+        return false;
+    }
+    void rememberFontDependencies(const PDFObject& font)
+    {
+        std::vector<PDFObject> pending{font};
+        std::set<PDFObjectReference> visited;
+        size_t examined = 0;
+        while (!pending.empty())
+        {
+            stop();
+            if (++examined > 4096 || pending.size() > 4096)
+                fail("サブセット書体の参照が処理上限を超えています。");
+            auto object = std::move(pending.back());
+            pending.pop_back();
+            if (object.isReference())
+            {
+                const auto reference = object.getReference();
+                result.removedFontDependencies.insert(reference);
+                if (!visited.insert(reference).second)
+                    continue;
+                object = getDocument()->getObjectByReference(reference);
+            }
+            const auto dictionary = object.isDictionary() ? object.getDictionary()
+                                    : object.isStream()   ? object.getStream()->getDictionary()
+                                                          : nullptr;
+            if (dictionary)
+            {
+                if (dictionary->getCount() + pending.size() > 4096)
+                    fail("サブセット書体の参照が処理上限を超えています。");
+                for (size_t i = 0; i < dictionary->getCount(); ++i)
+                    pending.push_back(dictionary->getValue(i));
+            }
+            else if (object.isArray())
+            {
+                if (object.getArray()->getCount() + pending.size() > 4096)
+                    fail("サブセット書体の参照が処理上限を超えています。");
+                for (const auto& item : *object.getArray())
+                    pending.push_back(item);
+            }
+        }
     }
     double number(const PDFObject& value) const
     {
@@ -406,6 +475,8 @@ private:
     RedactedPageContent result;
     QByteArray command, serialized, imageName, replacementImage;
     double exactAdvance = 0;
+    bool textHasGlyphs = false;
+    std::set<QByteArray> selectedFontsNeedingCleanup, survivingFonts;
     std::exception_ptr deferredError;
     int graphicsDepth = 0, selectedCharacters = 0, unselectedCharacters = 0;
 };

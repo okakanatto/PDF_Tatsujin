@@ -14,6 +14,7 @@ struct RedactedPageContent
     pdf::PDFDictionary xobjects;
     pdf::PDFDictionary fonts;
     std::set<pdf::PDFObjectReference> modifiedImageSources;
+    std::set<pdf::PDFObjectReference> removedFontDependencies;
     int removedTextSegments = 0, modifiedImages = 0;
 };
 QPainterPath checkedRedactionRegions(const PDFDocument& document, int page,
