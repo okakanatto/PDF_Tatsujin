@@ -176,22 +176,31 @@ static void mergeLayer(PDFDocument& doc, int page, const PDFDocument& layer, boo
         const auto generatedResources = layer.getObject(overlay->getResources());
         const auto generatedFonts =
             layer.getObject(generatedResources.getDictionary()->get("Font"));
-        if (!generatedFonts.isDictionary() || generatedFonts.getDictionary()->getCount() != 1 ||
-            generatedFonts.getDictionary()->getKey(0).getString() != "TatsujinVertical")
+        if (!generatedFonts.isDictionary() || generatedFonts.getDictionary()->getCount() < 1 ||
+            generatedFonts.getDictionary()->getCount() > 2)
             fail("縦書き文字層の字体を安全に統合できません。");
         PDFDictionary fonts;
         const auto existing = doc.getObject(resources.get("Font"));
         if (existing.isDictionary())
             fonts = *existing.getDictionary();
-        const auto imported =
-            b.copyFrom({generatedFonts.getDictionary()->getValue(0)}, layer.getStorage(), true)
-                .at(0);
-        fonts.setEntry(PDFInplaceOrMemoryString(name), PDFObject(imported));
-        put(resources, "Font", dictionary(fonts));
         // Top-level glyph objects let readers detect vertical page flow. Keeping
         // them in a Form causes some readers to infer horizontal column order.
         auto glyphs = contentBytes(layer, overlay->getContents());
-        glyphs.replace("/TatsujinVertical", "/" + name);
+        std::vector<PDFObject> sourceFonts;
+        for (size_t i = 0; i < generatedFonts.getDictionary()->getCount(); ++i)
+            sourceFonts.push_back(generatedFonts.getDictionary()->getValue(i));
+        // One import preserves shared embedded programs across CID chunks.
+        const auto importedFonts = b.copyFrom(sourceFonts, layer.getStorage(), true);
+        for (size_t i = 0; i < generatedFonts.getDictionary()->getCount(); ++i)
+        {
+            const auto sourceName = generatedFonts.getDictionary()->getKey(i).getString();
+            if (sourceName != "TatsujinVertical" + QByteArray::number(i))
+                fail("縦書き文字層の字体名を確認できません。");
+            const auto targetName = name + '_' + QByteArray::number(i);
+            fonts.setEntry(PDFInplaceOrMemoryString(targetName), PDFObject(importedFonts.at(i)));
+            glyphs.replace('/' + sourceName + ' ', '/' + targetName + ' ');
+        }
+        put(resources, "Font", dictionary(fonts));
         command += glyphs + "Q\n";
     }
     else

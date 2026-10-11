@@ -1,8 +1,10 @@
 #include "vertical_ocr_layer.h"
+#include "pdf_font_metrics.h"
 #include "pdf_objects.h"
 #include "pdfdocumentbuilder.h"
 #include "pdffont.h"
 #include <algorithm>
+#include <cmath>
 #include <tesseract/baseapi.h>
 #include <tesseract/resultiterator.h>
 
@@ -14,6 +16,7 @@ struct Symbol
 {
     QString text;
     QRectF box;
+    bool columnEnd = false;
 };
 QString decimal(double value)
 {
@@ -106,7 +109,9 @@ PDFDocument verticalOcrLayer(tesseract::TessBaseAPI& api, QSizeF points, const Q
                          .arg(bottom));
             if (symbols.size() >= 100000)
                 fail("縦書きOCRの1ページ文字数が上限を超えています。");
-            symbols += columnSymbols(text, QRect(left, top, right - left, bottom - top), image);
+            auto column = columnSymbols(text, QRect(left, top, right - left, bottom - top), image);
+            column.last().columnEnd = true;
+            symbols += column;
             if (symbols.size() > 100000)
                 fail("縦書きOCRの1ページ文字数が上限を超えています。");
             allText += text;
@@ -141,22 +146,23 @@ PDFDocument verticalOcrLayer(tesseract::TessBaseAPI& api, QSizeF points, const Q
     auto fontDictionary = *document.getObject(reference).getDictionary();
     if (document.getObject(fontDictionary.get("Encoding")).getString() != "Identity-H")
         fail("縦書きの文字コードを確認できません。");
-    set(fontDictionary, "Encoding", PDFObject::createName("Identity-V"));
     const auto descendants = document.getObject(fontDictionary.get("DescendantFonts"));
     if (!descendants.isArray() || descendants.getArray()->getCount() != 1)
         fail("縦書きの埋込み字体の形が不正です。");
     const auto descendant = descendants.getArray()->getItem(0);
     auto descendantDictionary = *document.getObject(descendant).getDictionary();
-    // Every symbol has its own absolute matrix. Zero vertical origins keep that
-    // matrix at the glyph's original baseline; Identity-V describes reading order.
-    set(descendantDictionary, "DW2", arrObject({number(0), number(-1000)}));
-    set(descendantDictionary, "W2",
-        arrObject({PDFObject::createInteger(0), PDFObject::createInteger(65535), number(-1000),
-                   number(0), number(0)}));
-    builder.setObject(descendant.getReference(), dictObject(descendantDictionary));
-    builder.setObject(reference.getReference(), dictObject(fontDictionary));
-
-    QByteArray commands;
+    const auto originalMap = document.getObject(descendantDictionary.get("CIDToGIDMap"));
+    QByteArray glyphMap;
+    if (originalMap.isStream())
+        glyphMap = document.getDecodedStream(originalMap.getStream());
+    else if (!originalMap.isName() || originalMap.getString() != "Identity")
+        fail("縦書きの埋込み字形対応を確認できません。");
+    struct Placement
+    {
+        double sx, sy, x, y;
+        quint16 originalCid;
+    };
+    QVector<Placement> positions;
     const QFontMetricsF metrics(font);
     for (const auto& symbol : symbols)
     {
@@ -168,15 +174,88 @@ PDFDocument verticalOcrLayer(tesseract::TessBaseAPI& api, QSizeF points, const Q
         const double sy = symbol.box.height() / bounds.height();
         const double x = symbol.box.left() - sx * bounds.left();
         const double y = points.height() - symbol.box.bottom() + sy * bounds.bottom();
-        commands += QString("q BT /TatsujinVertical 100 Tf 3 Tr %1 0 0 %2 %3 %4 Tm "
-                            "<%5> Tj ET Q\n")
-                        .arg(decimal(sx), decimal(sy), decimal(x), decimal(y),
-                             QString::fromLatin1(encoded.encodedText.toHex()))
-                        .toLatin1();
+        const auto cid = (quint16(quint8(encoded.encodedText[0])) << 8) |
+                         quint16(quint8(encoded.encodedText[1]));
+        positions << Placement{sx, sy, x, y, quint16(cid)};
     }
+    QByteArray commands;
     auto pageDictionary = *builder.getObjectByReference(page->getPageReference()).getDictionary();
     PDFDictionary layerFonts, layerResources;
-    set(layerFonts, "TatsujinVertical", reference);
+    // A character's measured baseline pitch can differ at each occurrence. Use
+    // occurrence CIDs sharing the same embedded font program, rather than one
+    // average W2 per Unicode character. Readers then need not invent spaces.
+    // Split at the two-byte CID limit; the page's existing 100000-symbol cap stays.
+    for (int start = 0; start < symbols.size(); start += 65535)
+    {
+        const int count = qMin(65535, int(symbols.size()) - start);
+        const QByteArray resource = "TatsujinVertical" + QByteArray::number(start / 65535);
+        QByteArray mapping(2, 0),
+            unicode =
+                "/CIDInit /ProcSet findresource begin\n12 dict begin\nbegincmap\n"
+                "/CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> def\n"
+                "/CMapName /TatsujinVerticalUnicode def\n/CMapType 2 def\n"
+                "1 begincodespacerange\n<0000> <FFFF>\nendcodespacerange\n";
+        QByteArray chunk;
+        std::vector<PDFObject> widths, verticalWidths;
+        for (int index = 0; index < count; ++index)
+        {
+            const int i = start + index;
+            const auto& position = positions[i];
+            const auto code = QByteArray::number(index + 1, 16).rightJustified(4, '0');
+            if (glyphMap.isEmpty())
+            {
+                mapping += char(position.originalCid >> 8);
+                mapping += char(position.originalCid & 255);
+            }
+            else
+            {
+                if (2 * position.originalCid + 2 > glyphMap.size())
+                    fail("縦書き字形の対応が不完全です。結果は反映しません。");
+                mapping += glyphMap.mid(2 * position.originalCid, 2);
+            }
+            QByteArray utf16;
+            for (const auto character : symbols[i].text)
+            {
+                utf16 += char(character.unicode() >> 8);
+                utf16 += char(character.unicode() & 255);
+            }
+            chunk += '<' + code + "> <" + utf16.toHex() + ">\n";
+            if ((index + 1) % 100 == 0 || index + 1 == count)
+            {
+                unicode +=
+                    QByteArray::number(index % 100 + 1) + " beginbfchar\n" + chunk + "endbfchar\n";
+                chunk.clear();
+            }
+            widths.push_back(number(pdfGlyphAdvance(encoder, position.originalCid, {}, {})));
+            const double advance =
+                symbols[i].columnEnd ? -1000 : (positions[i + 1].y - position.y) * 10 / position.sy;
+            if (!std::isfinite(advance) || advance >= 0)
+                fail("縦書き文字の送りを確認できません。結果は反映しません。");
+            verticalWidths.insert(verticalWidths.end(), {number(advance), number(0), number(0)});
+            commands += "q BT /" + resource + " 100 Tf 3 Tr " +
+                        QString("%1 0 0 %2 %3 %4 Tm <%5> Tj ET Q\n")
+                            .arg(decimal(position.sx), decimal(position.sy), decimal(position.x),
+                                 decimal(position.y), QString::fromLatin1(code))
+                            .toLatin1();
+        }
+        unicode += "endcmap\nCMapName currentdict /CMap defineresource pop\nend\nend\n";
+        auto descendantCopy = descendantDictionary;
+        set(descendantCopy, "W",
+            arrObject({PDFObject::createInteger(1), arrObject(std::move(widths))}));
+        set(descendantCopy, "DW2", arrObject({number(0), number(-1000)}));
+        set(descendantCopy, "W2",
+            arrObject({PDFObject::createInteger(1), arrObject(std::move(verticalWidths))}));
+        set(descendantCopy, "CIDToGIDMap",
+            PDFObject::createReference(builder.addObject(streamObject({}, mapping))));
+        auto face = fontDictionary;
+        set(face, "Encoding", PDFObject::createName("Identity-V"));
+        set(face, "DescendantFonts",
+            arrObject({PDFObject::createReference(builder.addObject(dictObject(descendantCopy)))}));
+        set(face, "ToUnicode",
+            PDFObject::createReference(builder.addObject(streamObject({}, unicode))));
+        layerFonts.setEntry(PDFInplaceOrMemoryString(resource),
+                            PDFObject::createReference(builder.addObject(dictObject(face))));
+    }
     set(layerResources, "Font", dictObject(layerFonts));
     set(pageDictionary, "Resources", dictObject(layerResources));
     set(pageDictionary, "Contents",
