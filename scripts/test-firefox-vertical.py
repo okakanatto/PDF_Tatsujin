@@ -34,7 +34,7 @@ def main():
         mode="Firefox headless actual PDF.js text layer and find events",
         cases=[],
         native_GUI_OS_clipboard="未実行",
-        position_accuracy="未実行",
+        position_accuracy="PDF.js DOM highlight bounds against frozen printed-glyph rectangles",
     )
     try:
         with tempfile.TemporaryDirectory(
@@ -112,12 +112,39 @@ def main():
                             )
                         )
                         observed = driver.execute_script(
-                            """return {events:window.verticalFindEvents,
-                            selected_text:[...document.querySelectorAll('.highlight.selected')]
-                            .map(e=>e.textContent).join('')};"""
+                            """const page=PDFViewerApplication.pdfViewer.getPageView(arguments[0]-1);
+                            const base=document.querySelector(arguments[1]).getBoundingClientRect();
+                            const highlights=[...document.querySelectorAll('.highlight.selected')];
+                            const rectangles=highlights.map(e=>e.getBoundingClientRect());
+                            const scale=page.viewport.scale;
+                            return {events:window.verticalFindEvents,
+                            selected_text:highlights.map(e=>e.textContent).join(''),
+                            highlight_bounds_pt:rectangles.length ? [
+                            (Math.min(...rectangles.map(r=>r.left))-base.left)/scale,
+                            (Math.min(...rectangles.map(r=>r.top))-base.top)/scale,
+                            (Math.max(...rectangles.map(r=>r.right))-Math.min(...rectangles.map(r=>r.left)))/scale,
+                            (Math.max(...rectangles.map(r=>r.bottom))-Math.min(...rectangles.map(r=>r.top)))/scale] : null};""",
+                            fixed["page"],
+                            selector,
+                        )
+                        bounds = observed["highlight_bounds_pt"]
+                        expected_bounds = next(
+                            item["qt_bounds_pt"]
+                            for item in fixed["search_terms"]
+                            if item["term"] == term
+                        )
+                        error = (
+                            max(abs(a - b) for a, b in zip(bounds, expected_bounds))
+                            * 25.4
+                            / 72
+                            if bounds
+                            else None
                         )
                         observed.update(
                             term=term,
+                            maximum_bounds_error_mm=error,
+                            bounds_match=error is not None
+                            and error <= fixed["maximum_bounds_error_mm"],
                             found=any(
                                 event.get("total", 0) == 1
                                 for event in observed["events"]
@@ -131,7 +158,10 @@ def main():
                         "PASS"
                         if row["exact_normalized_column_order"]
                         and row["contiguous_column_copy"]
-                        and all(search["found"] for search in searches)
+                        and all(
+                            search["found"] and search["bounds_match"]
+                            for search in searches
+                        )
                         else "FAIL"
                     )
         result["status"] = (
