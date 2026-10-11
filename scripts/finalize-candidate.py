@@ -86,6 +86,9 @@ def main():
         "M3_REPORT.md",
     ):
         shutil.copyfile(root / name, output / name)
+    for name in ("office-engine-lock.json", "pdfa-engine-lock.json"):
+        if (root / name).is_file():
+            shutil.copyfile(root / name, output / name)
     for pattern in (
         "M3_RC*_REPORT.md",
         "M4_*_REPORT.md",
