@@ -17,3 +17,7 @@ DOCXの既定の日英・数字間の自動字間は、PDFビューアが文字�
 日英段落、固定した表、画像、ページ区切りを持つ合成DOCXと期待文字・ページ・寸法・異常入力を製品変換前に固定する。PDFium・pypdf・Popplerで出力を検査する。実UIの選択・プレビュー・取消・新規PDF作成をオフスクリーンで実行し、ネイティブIMEや一般Word互換性の合格と区別する。正式な同梱・配布条件はインストーラー内の版ごとのLICENSE等を確認する。アプリのMITと変換エンジンの条件を混同しない。
 
 通信権限ゼロのWindows AppContainerでは、このエンジンのUNO接続が実行失敗した。固定版のsal/osl/w32/pipe.cxxはOSL_PIPE_接頭辞を使用し、AppContainerが要求するLOCAL名前空間に対応していない。通常の専用プロセスによるローカル変換とは別の制約として追跡し、通信遮断の合格を表示しない。ホストのネットワークやユーザーのプロセスは変更しない。試験では専用SIDの依存フォルダ読取許可を一時追加し、元のSDDLへ復元した。https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-createnamedpipea 。
+
+dev15の回帰で、書出し後のclose(True)がDisposedExceptionとなる失敗を通常環境でも記録した。成功通知を終了処理の後へ移し、DisposedExceptionだけを「既に破棄された終了対象」として扱う。CloseVetoExceptionなど他の例外、専用エンジンの異常終了、PDFヘッダー不正は成功にしない。C++側でのPDF構造・ページ・権限・取消検査も維持する。失敗した全200件（199成功・Office1失敗）は別に保存し、同じ6件のOffice追試で修正を確認した。
+
+終了対象のAPI意味は[LibreOffice XCloseable](https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XCloseable.html)と[DisposedException](https://api.libreoffice.org/docs/idl/ref/exceptioncom_1_1sun_1_1star_1_1lang_1_1DisposedException.html)を参照する。閉じる段階の破棄を許容することは、失敗した書出しや不完全PDFを受け入れる変更ではない。

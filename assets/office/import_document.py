@@ -11,6 +11,7 @@ import zipfile
 
 import uno
 from com.sun.star.beans import PropertyValue
+from com.sun.star.lang import DisposedException
 
 
 def prop(name, value):
@@ -119,6 +120,8 @@ def main():
     ]
     process = subprocess.Popen(command, creationflags=subprocess.CREATE_NO_WINDOW)
     document = desktop = None
+    exported = None
+    disposed_after_export = False
     try:
         local = uno.getComponentContext()
         resolver = local.ServiceManager.createInstanceWithContext(
@@ -183,25 +186,39 @@ def main():
                 ),
             ),
         )
-        print(
-            json.dumps(
-                {
-                    "output": str(destination),
-                    "suppress_asian_spacing": suppress == "true",
-                    "explicit_paragraph_spacing_preserved": explicit_spacing,
-                }
-            )
-        )
+        exported = {
+            "output": str(destination),
+            "suppress_asian_spacing": suppress == "true",
+            "explicit_paragraph_spacing_preserved": explicit_spacing,
+        }
     finally:
-        if document is not None:
-            document.close(True)
-        if desktop is not None:
-            desktop.terminate()
+        cleanup_error = None
+        for component, method in ((document, "close"), (desktop, "terminate")):
+            if component is None:
+                continue
+            try:
+                component.close(True) if method == "close" else component.terminate()
+            except DisposedException:
+                # A completed export can close the last owned engine document
+                # before the UNO reply. Its process exit and PDF are checked below.
+                disposed_after_export = True
+            except Exception as error:
+                if cleanup_error is None:
+                    cleanup_error = error
         try:
             process.wait(timeout=10)
         except subprocess.TimeoutExpired:
             process.kill()
             process.wait(timeout=10)
+        if cleanup_error is not None and exported is not None:
+            raise cleanup_error
+    if process.returncode != 0:
+        raise RuntimeError("Owned Office engine did not exit successfully")
+    with Path(destination).open("rb") as result:
+        if result.read(5) != b"%PDF-":
+            raise RuntimeError("Completed Office output is not a PDF")
+    exported["disposed_after_export"] = disposed_after_export
+    print(json.dumps(exported))
 
 
 if __name__ == "__main__":
