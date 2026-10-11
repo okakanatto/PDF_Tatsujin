@@ -328,6 +328,12 @@ def main():
             "error": str(error),
             "flows": results,
             "executable_sha256": sha256(app / "PDFTatsujin.exe"),
+            "payload_and_OCR_tokens": list(observations.values()),
+            "network_probe": (
+                json.loads((out / "denied.json").read_text())
+                if (out / "denied.json").exists()
+                else None
+            ),
         }
         raise
     finally:

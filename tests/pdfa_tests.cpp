@@ -1,6 +1,7 @@
 #include "pdfa_tests.h"
 #include "owned_process.h"
 #include "pdfa_dialog.h"
+#include "private_temp.h"
 #include "window.h"
 #include <QtTest/QTest>
 
@@ -49,13 +50,16 @@ QJsonObject testPdfaEngine(const QString& fixtures, const QString& output)
     check(diagnostic.write(version.output) == version.output.size(), "Java diagnostic written");
     diagnostic.close();
     check(version.exitCode == 0, "Java runtime starts in the test identity");
+    auto workspace = privateTemporaryDirectory(output + "/pdfa-engine-probe-XXXXXX");
+    check(workspace->isValid(), "Private verifier diagnostic directory");
+    const auto working = workspace->path();
     const auto probe = runOwnedProcess(
         javaPath(),
-        {"-Xmx512m", "-Djava.awt.headless=true", "-Djava.io.tmpdir=" + output,
-         "-Duser.home=" + output, "-jar", jarPath(), "--format", "xml", "--flavour", "1b",
+        {"-Xmx512m", "-Djava.awt.headless=true", "-Djava.io.tmpdir=" + working,
+         "-Duser.home=" + working, "-jar", jarPath(), "--format", "xml", "--flavour", "1b",
          "--maxfailuresdisplayed", "1", fixtures + "/pdfa-validation/1b-pass.pdf"},
-        output, 120000, {}, 4 * 1024 * 1024,
-        {{"APPDATA", output}, {"LOCALAPPDATA", output}, {"TMP", output}, {"TEMP", output}});
+        working, 120000, {}, 4 * 1024 * 1024,
+        {{"APPDATA", working}, {"LOCALAPPDATA", working}, {"TMP", working}, {"TEMP", working}});
     QFile engineDiagnostic(output + "/pdfa-engine-probe.txt");
     check(engineDiagnostic.open(QIODevice::WriteOnly | QIODevice::NewOnly),
           "PDF/A engine diagnostic output");
@@ -64,7 +68,7 @@ QJsonObject testPdfaEngine(const QString& fixtures, const QString& output)
     engineDiagnostic.close();
     check(probe.exitCode == 0 && !probe.outputTruncated,
           "PDF/A engine starts in the test identity");
-    check(QFileInfo(output + "/verapdf/config").isDir(),
+    check(QFileInfo(working + "/verapdf/config").isDir(),
           "Verifier configuration is created inside the owned test output");
     QJsonArray results;
     for (const auto& value : criterion["files"].toArray())
