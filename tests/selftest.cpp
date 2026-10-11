@@ -32,6 +32,7 @@
 #include "pdf_objects.h"
 #include "pdf_optimization_tests.h"
 #include "pdf_text_docx_tests.h"
+#include "pdfa_tests.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
 #include "redaction_copy_tests.h"
@@ -435,6 +436,9 @@ int selftest(const QString& fixtures, const QString& output)
     run("M6W02_Word_text_failures", [&] { return testWordTextFailures(fixtures, output); });
     run("M6W03_Word_text_UI", [&] { return testWordTextUi(fixtures, output); });
     run("M6W04_Word_Office_interop", [&] { return testWordTextOffice(fixtures, output); });
+    run("M6A_01_PDFA_engine", [&] { return testPdfaEngine(fixtures, output); });
+    run("M6A_02_PDFA_failures", [&] { return testPdfaFailures(fixtures, output); });
+    run("M6A_03_PDFA_UI", [&] { return testPdfaUi(fixtures, output); });
     run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
     run("M6I04_existing_image_UI_modes",
         [&] { return testExistingImageUiModes(fixtures, output); });

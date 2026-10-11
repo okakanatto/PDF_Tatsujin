@@ -50,6 +50,7 @@ public:
     void createFromOffice(QString path = {});
     void extractDocumentTable();
     void extractDocumentWordText();
+    void verifyDocumentPdfa();
     void exportDocumentImages();
     void editPageDecoration(DecorationKind kind);
     void editBookmarks();
@@ -100,6 +101,7 @@ private:
     QAction* editableCopyAction = nullptr;
     QAction* comparisonAction = nullptr;
     QAction* certificateAction = nullptr;
+    QAction* pdfaAction = nullptr;
     bool navigationRequested = false;
     ViewHistory viewHistory;
     QAction* printAction;

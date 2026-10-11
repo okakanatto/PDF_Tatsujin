@@ -112,6 +112,15 @@ def main():
     office = ROOT / "fixtures/office-import"
     tables = ROOT / "fixtures/table-extraction"
     word = ROOT / "fixtures/pdf-text-docx/criteria.json"
+    pdfa = ROOT / "fixtures/pdfa-validation/criteria.json"
+    if (
+        sha256(pdfa)
+        != "f100bd83cc754dfa2ebfc8d7cf399d90082c48309d7e20552a4f123fae279397"
+    ):
+        raise RuntimeError("Frozen supplementary PDF/A criteria changed")
+    for row in json.loads(pdfa.read_text(encoding="utf-8"))["files"]:
+        if sha256(pdfa.parent / row["file"]) != row["sha256"]:
+            raise RuntimeError("Frozen PDF/A input changed: " + row["file"])
     if (
         sha256(word)
         != "52a3dbd5e25b943939066defc94e51840d7601cb392b75c9bd5df63115d570f9"

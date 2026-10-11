@@ -206,6 +206,9 @@ Window::Window()
     certificateAction = createMenu->addAction("証明書署名を確認…", this, [this]
                                               { guard([&] { verifyDocumentCertificates(); }); });
     certificateAction->setObjectName("verifyDocumentCertificates");
+    pdfaAction = createMenu->addAction("PDF/Aを検証…", this,
+                                       [this] { guard([&] { verifyDocumentPdfa(); }); });
+    pdfaAction->setObjectName("verifyPdfaDocument");
     auto signCertificate = createMenu->addAction(
         "証明書で署名したコピー…", this, [this] { guard([&] { exportSignedCertificateCopy(); }); });
     signCertificate->setObjectName("exportSignedCertificateCopy");
@@ -1009,6 +1012,7 @@ void Window::refresh(bool rebuild, PDFObjectReference selection)
     wordTextExportAction->setEnabled(doc.loaded() && doc.copyAllowed && !doc.busy);
     comparisonAction->setEnabled(doc.loaded() && doc.copyAllowed && !doc.busy);
     certificateAction->setEnabled(doc.loaded() && !doc.busy && !doc.dirty());
+    pdfaAction->setEnabled(doc.loaded() && !doc.busy);
     editableCopyAction->setEnabled(doc.loaded() && !doc.busy &&
                                    doc.pdf().getStorage().getSecurityHandler()->getMode() ==
                                        EncryptionMode::Standard);

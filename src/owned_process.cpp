@@ -45,8 +45,10 @@ void windowsCheck(bool ok, const char* operation)
 } // namespace
 OwnedProcessResult runOwnedProcess(const QString& program, const QStringList& arguments,
                                    const QString& directory, int timeoutMs,
-                                   const std::function<bool()>& cancelled)
+                                   const std::function<bool()>& cancelled, int maximumOutputBytes)
 {
+    if (maximumOutputBytes < 1024 || maximumOutputBytes > 16 * 1024 * 1024)
+        fail("外部処理の結果サイズ上限が不正です。");
     if (timeoutMs <= 0 || (cancelled && cancelled()))
         fail("変換を取り消しました。");
     Handle job;
@@ -115,7 +117,7 @@ OwnedProcessResult runOwnedProcess(const QString& program, const QStringList& ar
     timer.start();
     QString failure;
     bool terminated = false;
-    for (;;)
+    const auto drain = [&]
     {
         DWORD available = 0;
         while (PeekNamedPipe(outputRead.value, nullptr, 0, nullptr, &available, nullptr) &&
@@ -127,9 +129,14 @@ OwnedProcessResult runOwnedProcess(const QString& program, const QStringList& ar
                           nullptr) ||
                 !read)
                 break;
-            if (result.output.size() < 65536)
-                result.output.append(buffer, qMin<int>(read, 65536 - result.output.size()));
+            const int retained = qMin<int>(read, maximumOutputBytes - result.output.size());
+            result.output.append(buffer, retained);
+            result.outputTruncated |= retained < int(read);
         }
+    };
+    for (;;)
+    {
+        drain();
         if (!terminated && ((cancelled && cancelled()) || timer.elapsed() > timeoutMs))
         {
             failure = timer.elapsed() > timeoutMs ? "変換が制限時間を超えました。"
@@ -148,6 +155,7 @@ OwnedProcessResult runOwnedProcess(const QString& program, const QStringList& ar
     DWORD code = 0;
     windowsCheck(WaitForSingleObject(process.value, 5000) == WAIT_OBJECT_0,
                  "Wait for owned process exit");
+    drain();
     windowsCheck(GetExitCodeProcess(process.value, &code), "GetExitCodeProcess");
     result.exitCode = static_cast<int>(code);
     if (!failure.isEmpty())

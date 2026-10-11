@@ -2,6 +2,7 @@
 #include "image_pdf_dialog.h"
 #include "office_import_dialog.h"
 #include "pdf_text_docx_dialog.h"
+#include "pdfa_dialog.h"
 #include "pdfsecurityhandler.h"
 #include "table_extraction_dialog.h"
 #include "window.h"
@@ -92,6 +93,21 @@ void Window::extractDocumentWordText()
         {
             if (doc.revision != revision)
                 fail("元のPDFが変更されました。本文の取り出しを開き直してください。");
+        },
+        this);
+    dialog.exec();
+}
+void Window::verifyDocumentPdfa()
+{
+    canvas->finishFormEdit();
+    const auto input = currentPdfaInput(doc);
+    const auto revision = doc.revision;
+    PdfaDialog dialog(
+        input,
+        [this, revision, source = input.source, sourceHash = input.sourceHash]
+        {
+            if (doc.revision != revision || (!source.isEmpty() && fileHash(source) != sourceHash))
+                fail("元のPDFが変更されました。開き直してから検査してください。");
         },
         this);
     dialog.exec();

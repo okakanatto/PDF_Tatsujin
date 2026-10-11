@@ -50,6 +50,7 @@ def main():
     parser.add_argument("--with-vertical-ocr", action="store_true")
     parser.add_argument("--with-word-text", action="store_true")
     parser.add_argument("--office-engine-directory", type=Path)
+    parser.add_argument("--pdfa-engine-directory", type=Path)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -93,6 +94,11 @@ def main():
         args.office_engine_directory.resolve() if args.office_engine_directory else None
     )
     acl_record = out / "office-engine-original-acl.json"
+    pdfa_engine = (
+        args.pdfa_engine_directory.resolve() if args.pdfa_engine_directory else None
+    )
+    pdfa_acl_record = out / "pdfa-engine-original-acl.json"
+    pdfa_acl_restored = False
     powershell = Path(
         shutil.which("pwsh")
         or (
@@ -103,19 +109,26 @@ def main():
         )
     )
 
-    def engine_acl(mode):
+    def engine_acl(mode, pdfa=False):
         completed = subprocess.run(
             [
                 str(powershell),
                 "-NoProfile",
                 "-File",
-                str(root / "scripts/office-engine-access.ps1"),
+                str(
+                    root
+                    / (
+                        "scripts/pdfa-engine-access.ps1"
+                        if pdfa
+                        else "scripts/office-engine-access.ps1"
+                    )
+                ),
                 "-EngineRoot",
-                str(engine),
+                str(pdfa_engine if pdfa else engine),
                 "-Sid",
                 container.sid_text,
                 "-Backup",
-                str(acl_record),
+                str(pdfa_acl_record if pdfa else acl_record),
                 "-Mode",
                 mode,
             ],
@@ -123,9 +136,10 @@ def main():
             timeout=180,
             capture_output=True,
         )
-        (out / ("office-engine-acl-" + mode + ".log")).write_bytes(
-            completed.stdout + completed.stderr
-        )
+        (
+            out
+            / (("pdfa-engine-acl-" if pdfa else "office-engine-acl-") + mode + ".log")
+        ).write_bytes(completed.stdout + completed.stderr)
         completed.check_returncode()
 
     try:
@@ -133,6 +147,15 @@ def main():
             engine_acl("Grant")
             engine_acl_saved = True
             env["TATSU_OFFICE_CONVERTER"] = str(engine / "program/soffice.com")
+        if pdfa_engine:
+            engine_acl("Grant", pdfa=True)
+            lock = json.loads((root / "pdfa-engine-lock.json").read_text("utf-8"))
+            for key, value in (
+                ("TATSU_PDFA_JAVA", lock["java"]["executable"]),
+                ("TATSU_PDFA_JAR", lock["verapdf"]["jar"]),
+            ):
+                relative = Path(value).relative_to("tools/pdfa-verifier")
+                env[key] = str(pdfa_engine / relative)
         subprocess.run(
             [
                 "icacls",
@@ -189,6 +212,7 @@ def main():
                             "OCR_child": "--ocr-worker" in process.cmdline(),
                             "office_child": process.name().lower()
                             in ("soffice.bin", "soffice.com", "python.exe"),
+                            "PDF_A_child": process.name().lower() == "java.exe",
                         }
             except psutil.NoSuchProcess:
                 pass
@@ -250,6 +274,8 @@ def main():
             )
         if engine:
             cases.append(("office-import", "M6O"))
+        if pdfa_engine:
+            cases.append(("pdfa-validation", "M6A"))
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
@@ -277,6 +303,8 @@ def main():
             )
         if not any(p["OCR_child"] for p in observations.values()):
             raise RuntimeError("OCR child token was not observed")
+        if pdfa_engine and not any(p["PDF_A_child"] for p in observations.values()):
+            raise RuntimeError("PDF/A Java child token was not observed")
         result = {
             "status": "PASS",
             "executable_sha256": sha256(app / "PDFTatsujin.exe"),
@@ -308,16 +336,26 @@ def main():
                     engine_acl("Restore")
                     engine_acl_restored = True
             finally:
+                if pdfa_engine and pdfa_acl_record.exists():
+                    try:
+                        engine_acl("Restore", pdfa=True)
+                        pdfa_acl_restored = True
+                    except Exception:
+                        container.remove()
+                        raise
                 container.remove()
                 if failure is not None:
                     failure["temporary_profile_removed"] = container.removed
                     failure["engine_acl_restored"] = engine_acl_restored
+                    failure["pdfa_acl_restored"] = pdfa_acl_restored
                     (out / "failure.json").write_text(
                         json.dumps(failure, indent=2) + "\n", encoding="utf-8"
                     )
     result["temporary_profile_removed"] = container.removed
     if engine:
         result["engine_acl_restored"] = engine_acl_restored
+    if pdfa_engine:
+        result["pdfa_acl_restored"] = pdfa_acl_restored
     (out / "result.json").write_text(
         json.dumps(result, indent=2) + "\n", encoding="utf-8"
     )
