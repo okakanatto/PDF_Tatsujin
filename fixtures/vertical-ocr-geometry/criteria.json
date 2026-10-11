@@ -1,0 +1,52 @@
+{
+  "source": "crop-rotate-unit.pdf",
+  "source_sha256": "0ed410645b7e7578b845becb58edbb64d159d185437528e09bf377df44ac6325",
+  "original_source": "D11-diagnostics.pdf",
+  "original_source_sha256": "0e91d8d952f86e15970ad77238487c3ffd3b7583a3de998edcc5fa163972aa31",
+  "page": 3,
+  "cropbox": [
+    30,
+    20,
+    580,
+    820
+  ],
+  "rotation": 90,
+  "UserUnit": 1.5,
+  "expected_lines_right_to_left": [
+    "縦書き文章の診断です。",
+    "基準精度とは分けます。",
+    "日本語の読み順を確認。"
+  ],
+  "search_terms": [
+    {
+      "term": "縦書き",
+      "qt_bounds_pt": [
+        728.7868198307135,
+        51.761985461801615,
+        16.55543893591294,
+        61.91779361459521
+      ]
+    },
+    {
+      "term": "基準精度",
+      "qt_bounds_pt": [
+        696.3957436517533,
+        51.761985461801615,
+        16.55543893591294,
+        86.0369341505131
+      ]
+    },
+    {
+      "term": "読み順",
+      "qt_bounds_pt": [
+        664.0046674727932,
+        145.35865022805018,
+        16.55543893591294,
+        62.27778078677309
+      ]
+    }
+  ],
+  "maximum_bounds_error_mm": 2,
+  "comparison": "Whitespace only; physical upright CropBox points; original Rotate/UserUnit remain",
+  "provenance": "CC0 derivative of existing frozen synthetic D11; original input/truth unchanged"
+}

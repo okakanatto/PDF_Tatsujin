@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "executable_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+  "probe_sha256": "ba3c22bab6cd473cabe64fd07afcc57418000e2eb8ecbd37852373f064bb5937",
+  "network_probe": {
+    "is_AppContainer": 1,
+    "capability_count": 0,
+    "loopback_connect_error": 10060,
+    "passed": true
+  },
+  "control_probe": {
+    "is_AppContainer": 0,
+    "capability_count": 0,
+    "loopback_connect_error": 0,
+    "passed": true
+  },
+  "payload_and_OCR_tokens": [
+    {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "OCR_child": false
+    },
+    {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "OCR_child": false
+    },
+    {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "OCR_child": true
+    },
+    {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "OCR_child": true
+    },
+    {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "OCR_child": false
+    },
+    {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "OCR_child": true
+    }
+  ],
+  "flows": [
+    {
+      "name": "signature",
+      "exit": 0,
+      "tests": 5,
+      "failures": 0
+    },
+    {
+      "name": "OCR",
+      "exit": 0,
+      "tests": 2,
+      "failures": 0
+    },
+    {
+      "name": "cancel",
+      "exit": 0,
+      "tests": 1,
+      "failures": 0
+    }
+  ],
+  "scope": "Windows AppContainer, no network capabilities; same development PC, Qt offscreen and synthetic UI input. Not clean Windows or native IME acceptance.",
+  "temporary_profile_removed": true,
+  "independent_OCR": {
+    "jpn": {
+      "CER": 0.005050505050505051,
+      "CER_status": "PASS",
+      "search_found": 20,
+      "search_status": "PASS"
+    },
+    "eng": {
+      "CER": 0.0004553734061930783,
+      "CER_status": "PASS",
+      "search_found": 20,
+      "search_status": "PASS"
+    }
+  },
+  "independent_visible_pages_unchanged": 8,
+  "line_alignment_max_mm": 0.9216814676920573
+}

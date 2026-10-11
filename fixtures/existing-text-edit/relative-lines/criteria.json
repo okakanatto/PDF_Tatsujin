@@ -1,0 +1,25 @@
+{
+  "files": {
+    "relative-position.pdf": "428ff60d48e86e2cace84aead6ebf7da6a64e39cc658e6a41af74b21b8cea9f4",
+    "relative-leading.pdf": "9b849b8f0e38fbed2cf96b8782e9486a52f5760d38b028eeb5b6b62eedf2a48a",
+    "horizontal.pdf": "0cd19f34f0cdee7af8d7bcda74dbfcaef3001cbc5676b040c7b16d21fc80c702",
+    "uneven.pdf": "905bcc71ce04783d5b8d42429ee13a655ae32603d00ef64410e8f51a80152e4d"
+  },
+  "source_sha256": "878c862cbf57ad38409c5841e47c60d0399c1e9e90a7624bafeb3baadc582693",
+  "selected": "Relative first line\nRelative second line",
+  "replacement": "Changed first line\nChanged second line",
+  "japanese": "相対位置の一行目を編集。\n相対位置の二行目を編集。",
+  "reedited": "一行目を再編集しました。\n二行目を再編集しました。",
+  "explicit_family": "Meiryo UI",
+  "geometry": [
+    120,
+    300,
+    320,
+    80
+  ],
+  "refused": [
+    "horizontal.pdf",
+    "uneven.pdf"
+  ],
+  "scope": "Synthetic CC0 inputs and expectations fixed before first product operation; original acceptance unchanged"
+}

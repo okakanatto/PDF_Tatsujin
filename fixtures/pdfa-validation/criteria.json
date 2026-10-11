@@ -1,0 +1,106 @@
+{
+  "purpose": "Supplementary read-only PDF/A validation; existing acceptance unchanged",
+  "upstream": {
+    "repository": "https://github.com/veraPDF/veraPDF-corpus",
+    "branch": "staging",
+    "commit": "bb75f4f0073d9350dfd058c0162a367e6fadf25e",
+    "license": "CC BY 4.0 as stated in upstream README",
+    "chosen_before_implementation": [
+      {
+        "profile": "1b",
+        "expected": "pass",
+        "path": "PDF_A-1b/6.1 File structure/6.1.12 Implementation limits/veraPDF test suite 6-1-12-t02-pass-g.pdf",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a3664cb3ad6ed13dbbb315b8852c2f648d8721b3",
+        "size": 49892,
+        "url": "https://api.github.com/repos/veraPDF/veraPDF-corpus/git/blobs/a3664cb3ad6ed13dbbb315b8852c2f648d8721b3"
+      },
+      {
+        "profile": "1b",
+        "expected": "fail",
+        "path": "PDF_A-1b/6.1 File structure/6.1.10 Filters/veraPDF test suite 6-1-10-t01-fail-a.pdf",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cc0de1072a2002044248e86bdf0666672e9fbdc3",
+        "size": 41262,
+        "url": "https://api.github.com/repos/veraPDF/veraPDF-corpus/git/blobs/cc0de1072a2002044248e86bdf0666672e9fbdc3"
+      },
+      {
+        "profile": "2u",
+        "expected": "pass",
+        "path": "PDF_A-2u/6.2 Graphics/6.2.11 Fonts/6.2.11.7 Unicode character maps/6.2.11.7.2 Level A and Level U conformance/veraPDF test suite 6-2-11-7-2-t01-pass-a.pdf",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "038e956afa54bab6b3f0183c0f11e38d6734729c",
+        "size": 10443,
+        "url": "https://api.github.com/repos/veraPDF/veraPDF-corpus/git/blobs/038e956afa54bab6b3f0183c0f11e38d6734729c"
+      },
+      {
+        "profile": "2u",
+        "expected": "fail",
+        "path": "PDF_A-2u/6.2 Graphics/6.2.11 Fonts/6.2.11.7 Unicode character maps/6.2.11.7.2 Level A and Level U conformance/veraPDF test suite 6-2-11-7-2-t01-fail-a.pdf",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c8b4d2ea8282b69174381edd028803ccf5ada74b",
+        "size": 49265,
+        "url": "https://api.github.com/repos/veraPDF/veraPDF-corpus/git/blobs/c8b4d2ea8282b69174381edd028803ccf5ada74b"
+      }
+    ]
+  },
+  "files": [
+    {
+      "file": "1b-pass.pdf",
+      "sha256": "948338675fbaee3c8866b139caf66f2717ae23d7fc9e242d605e21800cea2498",
+      "profile": "1b",
+      "expected_compliant": true,
+      "source": "https://raw.githubusercontent.com/veraPDF/veraPDF-corpus/bb75f4f0073d9350dfd058c0162a367e6fadf25e/PDF_A-1b/6.1%20File%20structure/6.1.12%20Implementation%20limits/veraPDF%20test%20suite%206-1-12-t02-pass-g.pdf",
+      "upstream_path": "PDF_A-1b/6.1 File structure/6.1.12 Implementation limits/veraPDF test suite 6-1-12-t02-pass-g.pdf"
+    },
+    {
+      "file": "1b-fail.pdf",
+      "sha256": "491a9a743b98daebd1c8399870bd16e52f11557b77aafe06cfc3eae39d4b12da",
+      "profile": "1b",
+      "expected_compliant": false,
+      "source": "https://raw.githubusercontent.com/veraPDF/veraPDF-corpus/bb75f4f0073d9350dfd058c0162a367e6fadf25e/PDF_A-1b/6.1%20File%20structure/6.1.10%20Filters/veraPDF%20test%20suite%206-1-10-t01-fail-a.pdf",
+      "upstream_path": "PDF_A-1b/6.1 File structure/6.1.10 Filters/veraPDF test suite 6-1-10-t01-fail-a.pdf"
+    },
+    {
+      "file": "2u-pass.pdf",
+      "sha256": "312a49dc835643d312960983251df85f747a12d357013ee3426b30c4dd5aaed0",
+      "profile": "2u",
+      "expected_compliant": true,
+      "source": "https://raw.githubusercontent.com/veraPDF/veraPDF-corpus/bb75f4f0073d9350dfd058c0162a367e6fadf25e/PDF_A-2u/6.2%20Graphics/6.2.11%20Fonts/6.2.11.7%20Unicode%20character%20maps/6.2.11.7.2%20Level%20A%20and%20Level%20U%20conformance/veraPDF%20test%20suite%206-2-11-7-2-t01-pass-a.pdf",
+      "upstream_path": "PDF_A-2u/6.2 Graphics/6.2.11 Fonts/6.2.11.7 Unicode character maps/6.2.11.7.2 Level A and Level U conformance/veraPDF test suite 6-2-11-7-2-t01-pass-a.pdf"
+    },
+    {
+      "file": "2u-fail.pdf",
+      "sha256": "8fadc0f8f0a57ff180691dfe1d54c0ff2c67c25d12985eae4841419d211d08c7",
+      "profile": "2u",
+      "expected_compliant": false,
+      "source": "https://raw.githubusercontent.com/veraPDF/veraPDF-corpus/bb75f4f0073d9350dfd058c0162a367e6fadf25e/PDF_A-2u/6.2%20Graphics/6.2.11%20Fonts/6.2.11.7%20Unicode%20character%20maps/6.2.11.7.2%20Level%20A%20and%20Level%20U%20conformance/veraPDF%20test%20suite%206-2-11-7-2-t01-fail-a.pdf",
+      "upstream_path": "PDF_A-2u/6.2 Graphics/6.2.11 Fonts/6.2.11.7 Unicode character maps/6.2.11.7.2 Level A and Level U conformance/veraPDF test suite 6-2-11-7-2-t01-fail-a.pdf"
+    },
+    {
+      "file": "declaration-only.pdf",
+      "sha256": "ce62fa2d0ca5eb94191f6d207ac5768302b8820c03b277e5ecc6f6d66420f85a",
+      "profile": "2u",
+      "expected_compliant": false,
+      "reason": "Declared PDF/A-2U with a used unembedded Helvetica font",
+      "license": "CC0-1.0 synthetic content"
+    },
+    {
+      "file": "copy-restricted.pdf",
+      "sha256": "82aa7d1451a76f2e78b7bb5be0fcb787100c5a2453da269df1e235f4a62b3978",
+      "expected": "refused without decryption",
+      "license": "CC0-1.0 synthetic content; embedded Noto OFL"
+    }
+  ],
+  "requirements": [
+    "Explicit 1b and 2u profiles",
+    "Real engine PASS and FAIL distinguish incomplete execution",
+    "Original and unsaved history retained",
+    "No automatic repair or upload",
+    "Cancellation and incomplete reports not accepted"
+  ]
+}

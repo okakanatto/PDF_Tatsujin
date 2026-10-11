@@ -1,0 +1,22 @@
+{
+  "source_folder": "relative-lines",
+  "files": {
+    "relative-position.pdf": "428ff60d48e86e2cace84aead6ebf7da6a64e39cc658e6a41af74b21b8cea9f4",
+    "relative-leading.pdf": "9b849b8f0e38fbed2cf96b8782e9486a52f5760d38b028eeb5b6b62eedf2a48a"
+  },
+  "selected": "Relative first line\nRelative second line",
+  "english": "New first line\nNew second line\nNew third line",
+  "japanese": "一行目の本文を変更。\n二行目の本文を変更。\n三行目の本文を追加。",
+  "reedited": "一行へ再編集しました。",
+  "explicit_family": "Meiryo UI",
+  "leading_ratio": 1.5,
+  "refused": {
+    "empty_line": "first\n\nthird",
+    "line_count": 65,
+    "ratios": [
+      0.49,
+      4.01
+    ]
+  },
+  "scope": "Additional CC0 criteria fixed before line-count implementation and first product operation; original fixtures and acceptance unchanged"
+}

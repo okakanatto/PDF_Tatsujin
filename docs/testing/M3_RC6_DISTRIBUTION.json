@@ -1,0 +1,94 @@
+{
+  "all_files_match": true,
+  "files": 411,
+  "exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+  "zip_sha256": "d5341f0fee9ac045d31ea5eae444e56c536d85baaebbcd6cdb4a4fd45cbe0f61",
+  "zip_bytes": 139197249,
+  "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source",
+  "extraction": {
+    "files_matched_manifest": 407,
+    "exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "safe_member_paths": true,
+    "zip_sha256": "d5341f0fee9ac045d31ea5eae444e56c536d85baaebbcd6cdb4a4fd45cbe0f61"
+  },
+  "extracted_flows": [
+    {
+      "process": {
+        "exit_code": 0,
+        "exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+        "completed": true,
+        "headless": true,
+        "filter": "B08"
+      },
+      "test": {
+        "details": {
+          "form_signature_annotation_pages_OCR": true,
+          "same_window": true,
+          "save_retry": true,
+          "search_save_reedit_print": true
+        },
+        "elapsed_ms": 7461,
+        "name": "B08_combined_workflow",
+        "status": "PASS"
+      }
+    },
+    {
+      "process": {
+        "exit_code": 0,
+        "exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+        "completed": true,
+        "headless": true,
+        "filter": "C07_LongPaths"
+      },
+      "test": {
+        "details": {
+          "AppContainer": false,
+          "original_preserved": true,
+          "path_characters": 370,
+          "private_read_write_cleanup": true,
+          "save_replace_reopen_undo": true
+        },
+        "elapsed_ms": 128,
+        "name": "C07_LongPaths",
+        "status": "PASS"
+      }
+    }
+  ],
+  "storage": {
+    "measured_at": "2026-10-08T10:15:25.390840+09:00",
+    "logical_bytes_note": "File lengths, not NTFS allocated size; T: is a subst alias and counted only once. Existing system MSVC/Windows and shared test runtimes are outside this folder.",
+    "project_bytes": 17188741795,
+    "project_GB": 17.188741795,
+    "limit_bytes": 20000000000,
+    "remaining_bytes": 2811258205,
+    "folders": {
+      ".git": 15357612,
+      ".github": 5452,
+      "assets": 53652126,
+      "build": 393899651,
+      "cmake": 9399,
+      "dist": 7220982108,
+      "docs": 6668450,
+      "evidence": 5866040967,
+      "fixtures": 17659849,
+      "licenses": 2777869,
+      "scripts": 289859,
+      "src": 363471,
+      "tests": 282553,
+      "tools": 3571554333,
+      "vendor": 38975110
+    },
+    "distribution_bytes": 140197442,
+    "distribution_components": {
+      "app_and_PDF4QT": 11483648,
+      "Qt_and_plugins": 33109184,
+      "native_and_MSVC": 28801896,
+      "OCR_models": 44062091,
+      "fonts": 9589900,
+      "licenses_and_metadata": 13150723
+    },
+    "Qt_source_archives_bytes": 53891276,
+    "zip_bytes": 139197249
+  },
+  "scope": "Same Windows development PC, Qt offscreen, synthetic inputs; not clean Windows acceptance or binary publication"
+}

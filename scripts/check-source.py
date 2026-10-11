@@ -7,6 +7,9 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
+REAL_SCAN_MANIFEST_SHA256 = (
+    "6c8da43a51bc94126e5043cb3725fc0c842391326934d7dcecd06f35996306ab"
+)
 GROUND_TRUTH_SHA256 = "7a8878927ec067c80f8b5b42640203beb7d7a99daec17a790d7f5e661e4b15e7"
 VIEWER_SEARCH_MANIFEST_SHA256 = (
     "5f44a96e203ee9513eff16cbeb72631279691cce079998c52b2a65421e82c77b"
@@ -20,6 +23,42 @@ VIEWER_SELECTION_RESTRICTED_SHA256 = (
 VIEWER_NAVIGATION_MANIFEST_SHA256 = (
     "2421d94d73d68ca17e4686bc77f7e59a5cf7ae6256ac22aa2f5a5b9f319b55e0"
 )
+CERTIFICATE_MANIFEST_SHA256 = (
+    "9d20d7d9624cc5236c859df5343dc46c289b7797a1c6c2b5cdafc01e62c92c74"
+)
+REDACTION_CRITERIA_SHA256 = {
+    "foundation": "f00f689b6e0a896a1ca610f1b6c3feff23d856b4f1d7bc0c833accec40d04370",
+    "fonts": "3e35b3dffd1b5d44982975d24af625ec6f8a5df7cf5e0960abf175e3a2f19ecd",
+}
+REDACTION_SCAN_CRITERIA_SHA256 = (
+    "3bd0e41e88e1e8cb3d8e2bb65cee9c16904e0dc05ad7989441578432960c25e9"
+)
+IMAGE_EDIT_CRITERIA_SHA256 = {
+    "forms/criteria.json": "a060299145df5301d76491f31b5306c2e767608702620a2f4d7b39d2f662d04b",
+    "forms/positive-criteria.json": "95b7a889413628fa60dea234f5a1fffc4c5a9f8b7bc17b51a23b47f7fe1c0e40",
+    "forms/ui-criteria.json": "4e7d1597b6333dfa12e736f1df15b467200bc9ba22c25be9e95b8a5b6398afe2",
+    "forms/bbox-criteria.json": "8a97afa0513b36f2f434278f2be140c67c666dd5edbde7e1f7e63c30f332e389",
+    "criteria.json": "919048740c57e365678a13b59ae7df83b4325adb258c69b0152f3aef7ac3906c",
+    "ocr-refusal.json": "72d5357f7ab5fdee46c5190bae314e8b036f418d10d1a9d90409ed9c1a0d8535",
+    "ui-criteria.json": "27e1806a8c0c0c1a99510fc08b729fc25db0e7aa4236fcf86a09728f9b405ee5",
+    "ui-positive-criteria.json": "c7b7e4dcf6194f429c7e3bd7168c810ac78c5a1a5368786b54d944b4f3d098dd",
+}
+TEXT_EDIT_CRITERIA_SHA256 = {
+    "wrapped/criteria.json": "66dd3c29b08a65171450aeaac7e804a38412ccbbeb92e9cbd11ad18628130b6f",
+    "wrapped/overflow-criteria.json": "56ed71ab5635790577709fbc165acfb320816dd22d299dd3f5d2cae14913ab37",
+    "forms/geometry-criteria.json": "941dd5db80d8f66a04220fb435ee1e65f0a632a06a85e403d563aeeb64f116c4",
+    "forms/criteria.json": "49abe9aa1b38dda9c8b37913c9b345e53c52659ddd44fb04e0c249a5fa30ee05",
+    "line-count/criteria.json": "7c0f87e39173b366f09db6f6b74c2a01ee89d6b3e6bdbc3cbe72e35177e2d33d",
+    "relative-lines/criteria.json": "fd7998ba1be2f3f084fb54dd95ef258f96ce5ad22e3a903c7feb1e54a06c3c7f",
+    "multiline-rotated/criteria.json": "1a1be54eae357d7f38f27434472035ba3fcbb61ecfa467998eb02515d496b3c5",
+    "multiline/criteria.json": "014c1d1cce3474212ddbe69c6ff588fcaf716fa8e8010e597af30b3c99230bbd",
+    "font-styles.json": "138df9c19f016742f08c9de03b9a05c2df20db53ae90a69f462fcd6164bc7f39",
+    "font-state/criteria.json": "956a205c49361825e92b64a0bfc0a8972b7183d52a7d9c7a3b56ec091f05e06e",
+    "criteria.json": "79897ed58a76ef9f78840827807256e82b6bc47b49491e0a8a8b7b3dfa1abdcb",
+    "visible/criteria.json": "50d1ccff8c01bcfd3892cba6147154d910b05e00b86319b5db2c51fcae47d17d",
+    "rotated/criteria.json": "4da0d1a272198846cd6c46a12969ddd66ec53da5f71f1a1ba0c91933cf586ed9",
+    "ui-criteria.json": "ec9cc2964bf31f21143b2ec2a9b3ae51fe690df0ebca544c55677797e569cb3e",
+}
 
 
 def sha256(path):
@@ -27,6 +66,7 @@ def sha256(path):
 
 
 def main():
+    lock = json.loads((ROOT / "dependency-lock.json").read_text(encoding="utf-8"))
     truth = ROOT / "fixtures/ground-truth.json"
     if sha256(truth) != GROUND_TRUTH_SHA256:
         raise RuntimeError(
@@ -66,24 +106,243 @@ def main():
             raise RuntimeError("Navigation fixture hash mismatch")
     for path in (ROOT / "scripts").glob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
-    lock = json.loads((ROOT / "dependency-lock.json").read_text(encoding="utf-8"))
+    for path in (ROOT / "assets/office").glob("*.py"):
+        ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
+    certificates = ROOT / "fixtures/certificate-signatures"
+    office = ROOT / "fixtures/office-import"
+    tables = ROOT / "fixtures/table-extraction"
+    word = ROOT / "fixtures/pdf-text-docx/criteria.json"
+    pdfa = ROOT / "fixtures/pdfa-validation/criteria.json"
+    if (
+        sha256(pdfa)
+        != "f100bd83cc754dfa2ebfc8d7cf399d90082c48309d7e20552a4f123fae279397"
+    ):
+        raise RuntimeError("Frozen supplementary PDF/A criteria changed")
+    for row in json.loads(pdfa.read_text(encoding="utf-8"))["files"]:
+        if sha256(pdfa.parent / row["file"]) != row["sha256"]:
+            raise RuntimeError("Frozen PDF/A input changed: " + row["file"])
+    if (
+        sha256(word)
+        != "52a3dbd5e25b943939066defc94e51840d7601cb392b75c9bd5df63115d570f9"
+    ):
+        raise RuntimeError("Frozen supplementary Word text criteria changed")
+    word_fixed = json.loads(word.read_text(encoding="utf-8"))
+    for name in ("source", "image_only", "copy_restricted"):
+        if sha256(word.parent / word_fixed[name]) != word_fixed[name + "_sha256"]:
+            raise RuntimeError("Frozen supplementary Word text input changed: " + name)
+    if (
+        sha256(tables / "criteria.json")
+        != "07c15ed09f71d8b5f1b5eeff45b65a00a313d8a05492f43346e7d9718b752672"
+    ):
+        raise RuntimeError("Frozen table extraction criteria changed")
+    table_plan = json.loads((tables / "criteria.json").read_text(encoding="utf-8"))
+    for name, expected in table_plan["files"].items():
+        if sha256(tables / name) != expected:
+            raise RuntimeError("Frozen table input changed: " + name)
+    if (
+        lock["files"][table_plan["font"]["file"]]["sha256"]
+        != table_plan["font"]["sha256"]
+    ):
+        raise RuntimeError("Frozen table font pin differs")
+    if sha256(office / "criteria.json") != (
+        "18a8ddead69890390cf52cf9fca782563cd23c4d30dfdbed58e9bb6800ac3785"
+    ):
+        raise RuntimeError("Frozen DOCX criteria changed")
+    office_plan = json.loads((office / "criteria.json").read_text(encoding="utf-8"))
+    for name, expected in office_plan["files"].items():
+        if sha256(office / name) != expected:
+            raise RuntimeError("Frozen DOCX input changed: " + name)
+    sheets = office / "sheets-slides"
+    if sha256(sheets / "criteria.json") != (
+        "71d849f6df2d8743e291fe2038ddfc819881588eef226b11070d74b51f4addbc"
+    ):
+        raise RuntimeError("Frozen spreadsheet/presentation criteria changed")
+    for name, expected in json.loads(
+        (sheets / "criteria.json").read_text(encoding="utf-8")
+    )["files"].items():
+        if sha256(sheets / name) != expected:
+            raise RuntimeError("Frozen spreadsheet/presentation input changed: " + name)
+    images = ROOT / "fixtures/existing-image-edit"
+    body = ROOT / "fixtures/existing-text-edit"
+    for name, expected in TEXT_EDIT_CRITERIA_SHA256.items():
+        fixed = body / name
+        if sha256(fixed) != expected:
+            raise RuntimeError("Frozen body-text criteria changed: " + name)
+        contents = json.loads(fixed.read_text(encoding="utf-8"))
+        if (
+            "file" in contents
+            and sha256(fixed.parent / contents["file"]) != contents["sha256"]
+        ):
+            raise RuntimeError("Frozen body-text input changed: " + name)
+        for relative, expected_input in contents.get("files", {}).items():
+            source_folder = (
+                (body / contents["source_folder"]).resolve()
+                if "source_folder" in contents
+                else fixed.parent
+            )
+            if not source_folder.is_relative_to(body.resolve()):
+                raise RuntimeError("Body-text source outside fixture directory")
+            if sha256(source_folder / relative) != expected_input:
+                raise RuntimeError("Frozen body-text input changed: " + relative)
+    for name, expected in IMAGE_EDIT_CRITERIA_SHA256.items():
+        if sha256(images / name) != expected:
+            raise RuntimeError("Frozen existing-image criteria changed: " + name)
+        fixed = images / name
+        contents = json.loads(fixed.read_text(encoding="utf-8"))
+        for relative, expected_input in contents.get("files", {}).items():
+            if sha256(fixed.parent / relative) != expected_input:
+                raise RuntimeError("Frozen existing-image input changed: " + relative)
+        if "source" in contents and "source_sha256" in contents:
+            if sha256(fixed.parent / contents["source"]) != contents["source_sha256"]:
+                raise RuntimeError("Frozen existing-image UI input changed: " + name)
+    image_plan = json.loads((images / "criteria.json").read_text(encoding="utf-8"))
+    for name, expected in image_plan["files"].items():
+        if sha256(images / name) != expected:
+            raise RuntimeError("Existing-image fixture changed: " + name)
+    for name, expected in image_plan["source_inputs"].items():
+        if sha256(ROOT / name) != expected:
+            raise RuntimeError("Existing-image source changed: " + name)
+    ocr_image = json.loads((images / "ocr-refusal.json").read_text(encoding="utf-8"))
+    if sha256(images / ocr_image["file"]) != ocr_image["sha256"]:
+        raise RuntimeError("Existing-image OCR refusal input changed")
+    redaction = ROOT / "fixtures/redaction-copy"
+    scan_criteria = redaction / "scan-then-ocr.json"
+    if sha256(scan_criteria) != REDACTION_SCAN_CRITERIA_SHA256:
+        raise RuntimeError("Frozen scan redaction/OCR criteria changed")
+    scan = json.loads(scan_criteria.read_text(encoding="utf-8"))
+    for file_key, hash_key in (
+        ("source", "source_sha256"),
+        ("digital_source", "digital_source_sha256"),
+    ):
+        if sha256(ROOT / "fixtures" / scan[file_key]) != scan[hash_key]:
+            raise RuntimeError("Frozen scan redaction/OCR source changed")
+    for folder, expected in REDACTION_CRITERIA_SHA256.items():
+        criteria = redaction / folder / "criteria.json"
+        if sha256(criteria) != expected:
+            raise RuntimeError("Frozen redaction criteria changed: " + folder)
+        contents = json.loads(criteria.read_text(encoding="utf-8"))
+        if folder == "foundation":
+            if (
+                sha256(criteria.parent / "unsafe-source.pdf")
+                != contents["source_sha256"]
+            ):
+                raise RuntimeError("Redaction foundation input changed")
+        else:
+            font = "assets/fonts/NotoSansJP.ttf"
+            if lock["files"][font]["sha256"] != contents["font_sha256"]:
+                raise RuntimeError("Redaction font input changed")
+            if (ROOT / font).is_file() and sha256(ROOT / font) != contents[
+                "font_sha256"
+            ]:
+                raise RuntimeError("Installed redaction font differs from its pin")
+            for case in contents["cases"]:
+                if sha256(criteria.parent / case["file"]) != case["sha256"]:
+                    raise RuntimeError("Redaction font PDF changed: " + case["file"])
+    if sha256(certificates / "manifest.json") != CERTIFICATE_MANIFEST_SHA256:
+        raise RuntimeError("Frozen certificate verification criteria changed")
+    certificate_cases = json.loads(
+        (certificates / "manifest.json").read_text(encoding="utf-8")
+    )
+    if sha256(certificates / "test-ca.der") != certificate_cases["test_ca_sha256"]:
+        raise RuntimeError("Certificate test CA changed")
+    for entry in certificate_cases["cases"]:
+        if sha256(certificates / entry["file"]) != entry["sha256"]:
+            raise RuntimeError("Certificate fixture changed: " + entry["file"])
+    scans = ROOT / "fixtures/real-scans"
+    vertical = ROOT / "fixtures/vertical-ocr-criteria.json"
+    if (
+        sha256(vertical)
+        != "516522131307b548f3b46e8d8a274b398d732857455806c8df2484ee40f3e604"
+    ):
+        raise RuntimeError("Frozen supplementary vertical OCR criterion changed")
+    vertical_fixed = json.loads(vertical.read_text(encoding="utf-8"))
+    if (
+        sha256(ROOT / "fixtures" / vertical_fixed["source"])
+        != vertical_fixed["source_sha256"]
+    ):
+        raise RuntimeError("Vertical OCR source changed")
+    # The published PDF and criterion are mandatory and checked above. This
+    # separately downloaded generator font is needed only to regenerate them;
+    # a source-only checkout deliberately does not vendor font binaries.
+    fixture_font = ROOT / "fixtures/NotoSansJP-fixture.ttf"
+    if (
+        fixture_font.is_file()
+        and sha256(fixture_font) != vertical_fixed["fixture_font_sha256"]
+    ):
+        raise RuntimeError("Vertical OCR fixture font changed")
+    geometry = ROOT / "fixtures/vertical-ocr-geometry/criteria.json"
+    if (
+        sha256(geometry)
+        != "4e087d6138ce25f08c7f5cc70b0b2ee2b85a7c6da69bab370d2eb74ed9417ac8"
+    ):
+        raise RuntimeError("Frozen supplementary vertical geometry criterion changed")
+    geometry_fixed = json.loads(geometry.read_text(encoding="utf-8"))
+    if (
+        sha256(geometry.parent / geometry_fixed["source"])
+        != geometry_fixed["source_sha256"]
+    ):
+        raise RuntimeError("Vertical geometry input changed")
+    if sha256(scans / "manifest.json") != REAL_SCAN_MANIFEST_SHA256:
+        raise RuntimeError("Frozen real-scan provenance/truth changed")
+    for entry in json.loads((scans / "manifest.json").read_text(encoding="utf-8")):
+        for name, hash_name in (("image", "source_sha256"), ("pdf", "pdf_sha256")):
+            if sha256(scans / entry[name]) != entry[hash_name]:
+                raise RuntimeError("Real-scan input hash mismatch")
     head = subprocess.check_output(
         ["git", "-C", str(ROOT / "vendor/PDF4QT"), "rev-parse", "HEAD"], text=True
     ).strip()
     if head != lock["pdf4qt"]["commit"]:
         raise RuntimeError("PDF4QT checkout does not match dependency-lock.json")
-    adaptation = lock["pdf4qt"]["compiler_adaptation"]
-    for path_key, hash_key in [
-        ("file", "sha256_LF"),
-        ("source_file", "source_sha256_LF"),
-    ]:
-        contents = (ROOT / adaptation[path_key]).read_bytes().replace(b"\r\n", b"\n")
-        if hashlib.sha256(contents).hexdigest() != adaptation[hash_key]:
-            raise RuntimeError(
-                "Pinned compiler adaptation changed; review and update its lock"
+    for name in (
+        "compiler_adaptation",
+        "manipulator_adaptation",
+        "image_decode_adaptation",
+        "writer_adaptation",
+        "security_adaptation",
+        "font_vertical_adaptation",
+    ):
+        adaptation = lock["pdf4qt"][name]
+        if name == "font_vertical_adaptation":
+            for path_key, hash_key in (
+                ("layout_source_file", "layout_source_sha256_LF"),
+            ):
+                contents = (
+                    (ROOT / adaptation[path_key]).read_bytes().replace(b"\r\n", b"\n")
+                )
+                if hashlib.sha256(contents).hexdigest() != adaptation[hash_key]:
+                    raise RuntimeError("Pinned Japanese vertical layout source changed")
+        for path_key, hash_key in [
+            ("file", "sha256_LF"),
+            ("source_file", "source_sha256_LF"),
+        ]:
+            contents = (
+                (ROOT / adaptation[path_key]).read_bytes().replace(b"\r\n", b"\n")
             )
+            if hashlib.sha256(contents).hexdigest() != adaptation[hash_key]:
+                raise RuntimeError(f"Pinned {name} changed; review and update its lock")
+        if name == "image_decode_adaptation":
+            contents = (
+                (ROOT / adaptation["cms_source_file"])
+                .read_bytes()
+                .replace(b"\r\n", b"\n")
+            )
+            if (
+                hashlib.sha256(contents).hexdigest()
+                != adaptation["cms_source_sha256_LF"]
+            ):
+                raise RuntimeError("Pinned generic CMS conversion changed")
+    metrics = json.loads(
+        (ROOT / "scripts/standard-font-metrics-source.json").read_text(encoding="utf-8")
+    )
+    if metrics["reportlab_version"] != "4.4.9" or metrics["license"] != "BSD-3-Clause":
+        raise RuntimeError("Review standard font metric provenance before changing it")
+    header = (ROOT / metrics["generated_header"]).read_bytes().replace(b"\r\n", b"\n")
+    if hashlib.sha256(header).hexdigest() != metrics["generated_header_sha256_LF"]:
+        raise RuntimeError("Generated standard PDF widths changed")
+    if sha256(ROOT / metrics["license_file"]) != metrics["license_sha256"]:
+        raise RuntimeError("Standard metric copyright or license notice changed")
     print(
-        f"PASS: {len(entries)} M1 fixtures, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
+        f"PASS: {len(entries)} M1 fixtures, 21 certificate cases, viewer search/selection/navigation expectations and permissions, ground truth, Python syntax, PDF4QT pin"
     )
 
 

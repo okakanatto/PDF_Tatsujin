@@ -1,6 +1,8 @@
 from pathlib import Path
 import argparse
 import datetime, json
+import os
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(
@@ -25,7 +27,32 @@ def size(path):
     )
 
 
-folders = {p.name: size(p) for p in ROOT.iterdir() if p.is_dir()}
+if os.name == "nt":
+    measured = subprocess.run(
+        [
+            "pwsh",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            str(ROOT / "scripts/measure-storage.ps1"),
+            "-Details",
+        ],
+        capture_output=True,
+        text=True,
+        encoding="utf-8-sig",
+        check=True,
+    )
+    authoritative = json.loads(measured.stdout)
+    folders = authoritative["Folders"]
+    total = authoritative["Bytes"]
+    method = "Windows PowerShell Get-ChildItem -Recurse -Force -File"
+else:
+    folders = {p.name: size(p) for p in ROOT.iterdir() if p.is_dir()}
+    total = sum(folders.values()) + sum(
+        p.stat().st_size for p in ROOT.iterdir() if p.is_file()
+    )
+    method = "Python pathlib enumeration; Windows capacity checks use PowerShell"
 parts = {
     "app_and_PDF4QT": 0,
     "Qt_and_plugins": 0,
@@ -60,13 +87,11 @@ for p in APP.rglob("*"):
     else:
         key = "licenses_and_metadata"
     parts[key] += p.stat().st_size
-total = sum(folders.values()) + sum(
-    p.stat().st_size for p in ROOT.iterdir() if p.is_file()
-)
 result = {
     "measured_at": datetime.datetime.now().astimezone().isoformat(),
     "logical_bytes_note": "File lengths, not NTFS allocated size; T: is a subst alias and counted only once. Existing system MSVC/Windows and shared test runtimes are outside this folder.",
     "project_bytes": total,
+    "project_measurement_method": method,
     "project_GB": total / 1e9,
     "limit_bytes": 20000000000,
     "remaining_bytes": 20000000000 - total,

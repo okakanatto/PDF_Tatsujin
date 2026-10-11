@@ -17,9 +17,22 @@ QSizeF pageSize(const PDFPage* p, bool rotate)
 }
 QTransform pageMatrix(const PDFPage* p, double scale, bool rotate)
 {
-    return PDFRenderer::createMediaBoxToDevicePointMatrix(
-        p->getCropBox(), QRectF(QPointF(0, 0), pageSize(p, rotate) * scale),
-        rotate ? p->getPageRotation() : PageRotation::None);
+    const auto box = p->getCropBox();
+    const double factor = scale * p->getUserUnit();
+    // PDF coordinates have an upward y axis. Map the rotated CropBox directly
+    // to the physical page, preserving the same scale on both axes.
+    switch (rotate ? p->getPageRotation() : PageRotation::None)
+    {
+    case PageRotation::None:
+        return {factor, 0, 0, -factor, -box.left() * factor, box.bottom() * factor};
+    case PageRotation::Rotate90:
+        return {0, factor, factor, 0, -box.top() * factor, -box.left() * factor};
+    case PageRotation::Rotate180:
+        return {-factor, 0, 0, factor, box.right() * factor, -box.top() * factor};
+    case PageRotation::Rotate270:
+        return {0, -factor, -factor, 0, box.bottom() * factor, box.right() * factor};
+    }
+    fail("ページの回転が不正です。");
 }
 struct RenderContext
 {
@@ -48,7 +61,7 @@ QString pageText(PDFDocument& d, int p)
     return t;
 }
 QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool rotate,
-                  RenderPurpose purpose)
+                  RenderPurpose purpose, QStringList* diagnostics)
 {
     auto p = d.getCatalog()->getPage(page);
     auto size = pageSize(p, rotate) * scale;
@@ -79,6 +92,10 @@ QImage renderPage(PDFDocument& d, int page, double scale, bool annotations, bool
         a.drawPage(&paint, page, &compiled, getter, m, color, errors);
     }
     paint.end();
+    if (diagnostics)
+        for (const auto& error : errors)
+            if (error.type != RenderErrorType::Information)
+                diagnostics->append(error.message);
     return out;
 }
 void printDocument(PDFDocument& doc, QPrinter& printer, int currentPage)

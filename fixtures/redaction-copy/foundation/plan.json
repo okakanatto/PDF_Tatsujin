@@ -1,0 +1,42 @@
+[
+  {
+    "page": 0,
+    "rect": [
+      48,
+      620,
+      420,
+      65
+    ],
+    "target": "visible text"
+  },
+  {
+    "page": 0,
+    "rect": [
+      48,
+      540,
+      420,
+      65
+    ],
+    "target": "invisible OCR text"
+  },
+  {
+    "page": 0,
+    "rect": [
+      100,
+      280,
+      80,
+      40
+    ],
+    "target": "image interior"
+  },
+  {
+    "page": 0,
+    "rect": [
+      48,
+      458,
+      240,
+      40
+    ],
+    "target": "form widget value/default/appearance"
+  }
+]

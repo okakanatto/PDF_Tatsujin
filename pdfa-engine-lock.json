@@ -1,0 +1,26 @@
+{
+  "verapdf": {
+    "version": "1.30.3",
+    "jar": "tools\\pdfa-verifier\\runtime\\bin\\cli-1.30.3.jar",
+    "bytes": 16057132,
+    "sha256": "19f6edd5c92841a38d9b3b018a555b7ba173b13e4e0d29edecc232e5ba6c1d70",
+    "source": "https://software.verapdf.org/releases/verapdf-installer.zip",
+    "installer_sha256": "b512bf24945503a33fc10738ecffc1f2dccaaf8593a448e94ee9ac86a9559a59",
+    "PGP_valid_signature": "13DD102B4DD69354D12DE5A83184863278B17FE7",
+    "license": "GPLv3+ or MPLv2+; external process; choose MPLv2+ for future distribution review"
+  },
+  "java": {
+    "version": "21.0.12.1+1",
+    "runtime": "tools\\pdfa-verifier\\java\\jdk-21.0.12.1+1-jre",
+    "executable": "tools\\pdfa-verifier\\java\\jdk-21.0.12.1+1-jre\\bin\\java.exe",
+    "sha256": "82051fdab26319d77d20cc0065045d05ec00b3e3d05f44935d7c06b96b621d55",
+    "archive_sha256": "d35f31e712f0fcf6ac5a093edc90204fbff22f720ba3950bd09d331d5e621636",
+    "license": "GPL-2.0 with Classpath Exception; per-module notices retained"
+  },
+  "included_in_application": false,
+  "binary_redistribution_review": "Pending; private development runtime only",
+  "profiles": [
+    "1b",
+    "2u"
+  ]
+}

@@ -1,0 +1,14 @@
+Tatsujin Sans JP Regular is derived from the bundled Noto Sans JP variable font.
+Original copyright and SIL Open Font License 1.1 are in NotoSansJP-OFL.txt.
+The original font declares "Source" as a Reserved Font Name.
+
+Modifications by PDF Tatsujin contributors:
+- Instantiate the weight axis at 400 with fontTools 4.60.1.
+- Rename family and style records to Tatsujin Sans JP / Regular and the
+  PostScript name to TatsujinSansJP-Regular.
+- Retain the complete Unicode repertoire, glyphs and original OFL notices.
+- Disable timestamp recalculation for reproducible generation.
+
+The derived font remains under SIL OFL 1.1, not the application's MIT license.
+No Microsoft Windows fonts are included in this derivation or distribution.
+Recipe: scripts/derive-form-font.py. Source and output hashes: dependency-lock.json.

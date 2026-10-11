@@ -1,0 +1,8 @@
+{
+  "file": "ocr-associated.pdf",
+  "sha256": "0601862386a5842a1dfedfab6a80487013790df9941c967482647e40679df0f2",
+  "page": 0,
+  "occurrence": 0,
+  "required": "Reject changing an image intersecting real OCR, including its nested Form text",
+  "provenance": "Synthetic fixed D03 pages 3 and 7, bilingual actual OCR, Japanese outside signature; before any M6 operation"
+}

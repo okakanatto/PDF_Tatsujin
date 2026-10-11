@@ -1,0 +1,31 @@
+{
+  "purpose": "Supplementary PDF text to editable DOCX; no existing acceptance changes",
+  "expected_pages": [
+    [
+      "本文をWordへ取り出します。",
+      "English text remains editable.",
+      "00123 & <文字>",
+      "2行目：順序と改行を確認。"
+    ],
+    [
+      "Second page / quotes: \"hello\".",
+      "日本語と英語の本文を保持。",
+      "Last line: 0007"
+    ]
+  ],
+  "source": "two-pages.pdf",
+  "source_sha256": "71a9158785b534f275dbf7e07f694cc0a18836f1a8cef3bfdc6507e6ffe79b92",
+  "image_only": "image-only.pdf",
+  "image_only_sha256": "d764fe07246b3d30e8a29f651f2ddc2f5ae54a8278310dab204d9764dbb4863e",
+  "copy_restricted": "copy-restricted.pdf",
+  "copy_restricted_sha256": "82aa7d1451a76f2e78b7bb5be0fcb787100c5a2453da269df1e235f4a62b3978",
+  "generator_font_sha256": "0ef6019ca22fb4206a64a5c4ce326855afd2bc945cb42324816ec84d471433e3",
+  "criteria": {
+    "all_text_exact": true,
+    "explicit_page_breaks": 1,
+    "editable_paragraphs": true,
+    "existing_destination_unchanged": true,
+    "original_document_state_unchanged": true
+  },
+  "license": "CC0-1.0 original synthetic content; embedded Noto font retains SIL OFL 1.1"
+}

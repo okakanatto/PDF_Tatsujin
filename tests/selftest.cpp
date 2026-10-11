@@ -1,13 +1,52 @@
 #include "selftest.h"
+#include "annotation_operations.h"
+#include "annotation_tests.h"
+#include "batch_tests.h"
+#include "bookmark_edit_tests.h"
+#include "certificate_signing_tests.h"
+#include "certificate_tests.h"
+#include "compact_viewer_tests.h"
+#include "comparison_tests.h"
+#include "encryption_tests.h"
+#include "existing_image_tests.h"
+#include "existing_text_tests.h"
+#include "font_tests.h"
+#include "form_data_tests.h"
+#include "form_design_tests.h"
+#include "form_fields.h"
+#include "form_tests.h"
+#include "image_decode_tests.h"
+#include "image_export_tests.h"
+#include "image_pdf_tests.h"
+#include "layout_transition_tests.h"
+#include "link_edit_tests.h"
 #include "navigation_tests.h"
+#include "ocr_job_tests.h"
+#include "office_import_tests.h"
+#include "page_crop_tests.h"
+#include "page_decoration_tests.h"
+#include "page_geometry_tests.h"
+#include "page_operations.h"
+#include "page_tests.h"
 #include "pan_tests.h"
 #include "pdf_objects.h"
+#include "pdf_optimization_tests.h"
+#include "pdf_text_docx_tests.h"
+#include "pdfa_tests.h"
 #include "pdfdocumentbuilder.h"
 #include "reading_tests.h"
+#include "redaction_copy_tests.h"
+#include "redaction_scan_tests.h"
+#include "reference_workflow_tests.h"
+#include "save_candidate_tests.h"
 #include "search_tests.h"
 #include "selection_tests.h"
+#include "table_extraction_tests.h"
+#include "unprotected_pdf_tests.h"
+#include "vertical_ocr_tests.h"
 #include "viewer_tests.h"
 #include "window.h"
+#include "writing_tests.h"
 #include <QPrinterInfo>
 #include <QtTest/QTest>
 #include <windows.h>
@@ -22,26 +61,31 @@ static void require(bool ok, const QString& why)
 static QJsonObject workerTest(const PDFDocument& doc, const QString& output, const QString& pages,
                               const QString& lang = "jpn+eng", bool cancel = false)
 {
-    QTemporaryDir temp;
-    require(temp.isValid(), "temporary directory");
-    writeCandidate(doc, temp.filePath("input.pdf"));
-    QFile opt(temp.filePath("options.json"));
+    auto temp = privateTemporaryDirectory(QDir::tempPath() + "/pdf-tatsujin-worker-test-XXXXXX");
+    require(temp->isValid(), "temporary directory");
+    writeCandidate(doc, temp->filePath("input.pdf"));
+    QFile opt(temp->filePath("options.json"));
     opt.open(QIODevice::WriteOnly);
     opt.write(QJsonDocument(QJsonObject{{"pages", pages}, {"language", lang}}).toJson());
     opt.close();
     QProcess p;
+    WorkerChannels channels(p, temp->path());
     p.start(QCoreApplication::applicationFilePath(),
-            {"--ocr-worker", temp.filePath("input.pdf"), output, temp.filePath("options.json"),
-             temp.filePath("report.json")});
-    require(p.waitForStarted(), "worker started");
+            {"--ocr-worker", temp->filePath("input.pdf"), output, temp->filePath("options.json"),
+             temp->filePath("report.json")});
+    const bool started = p.waitForStarted();
+    require(started, "worker started: " + p.errorString());
     QElapsedTimer timer;
     timer.start();
     QByteArray progress;
     int ticks = 0;
     while (p.state() != QProcess::NotRunning && timer.elapsed() < 300000)
     {
-        p.waitForReadyRead(30);
-        progress += p.readAllStandardOutput();
+        if (channels.usesFiles())
+            p.waitForFinished(30);
+        else
+            p.waitForReadyRead(30);
+        progress += channels.progress();
         QCoreApplication::processEvents();
         ++ticks;
         if (cancel && progress.contains("\n"))
@@ -64,8 +108,8 @@ static QJsonObject workerTest(const PDFDocument& doc, const QString& output, con
                 {"event_loop_ticks", ticks}};
     }
     require(p.exitCode() == 0 && p.exitStatus() == QProcess::NormalExit,
-            "OCR worker: " + QString::fromUtf8(p.readAllStandardError()));
-    QFile report(temp.filePath("report.json"));
+            "OCR worker: " + channels.error());
+    QFile report(temp->filePath("report.json"));
     report.open(QIODevice::ReadOnly);
     auto result = QJsonDocument::fromJson(report.readAll()).object();
     result["elapsed_ms"] = timer.elapsed();
@@ -109,6 +153,29 @@ int selftest(const QString& fixtures, const QString& output)
     };
     auto input = [&](QString name) { return fixtures + "/" + name; };
     auto dest = [&](QString name) { return output + "/" + name; };
+    run("Reading_device_image_decode", [&] { return testDeviceImageDecode(fixtures); });
+    run("C07_OCR_job_cleanup", [&] { return testOcrJobCleanup(output); });
+    run("C07_save_candidate_cleanup", [&] { return testSaveCandidateCleanup(fixtures, output); });
+    run("C07_LongPaths", [&] { return testLongWindowsPaths(fixtures, output); });
+    run("A09_OCR_result_contract", [&] { return testOcrResultValidation(fixtures, output); });
+    run("A09_OCR_window_teardown", [&] { return testOcrWindowTeardown(fixtures, output); });
+    run("B01_writing_roundtrip", [&] { return testWritingRoundtrip(fixtures, output); });
+    run("B01_writing_coordinates", [&] { return testWritingCoordinates(fixtures, output); });
+    run("B01_writing_UI", [&] { return testWritingUi(fixtures, output); });
+    run("B01_fonts_roundtrip", [&] { return testFontRoundtrip(fixtures, output); });
+    run("B01_fonts_failures", [&] { return testFontFailures(fixtures, output); });
+    run("B01_fonts_UI", [&] { return testFontUi(fixtures, output); });
+    run("B01_signature_library", [&] { return testSignatureLibrary(fixtures, output); });
+    run("B04_page_arrange", [&] { return testPageArrange(fixtures, output); });
+    run("B05_page_merge_insert", [&] { return testPageMerge(fixtures, output); });
+    run("B06_page_exports", [&] { return testPageExports(fixtures, output); });
+    run("B04_page_organizer_UI", [&] { return testPageOrganizer(fixtures, output); });
+    run("B03_form_values", [&] { return testFormValues(fixtures, output); });
+    run("B03_form_input_UI", [&] { return testFormInput(fixtures, output); });
+    run("B03_form_keyboard", [&] { return testFormKeyboard(fixtures, output); });
+    run("M2_visible_panel_lifetime", [&] { return testWindowPanelLifetime(fixtures, output); });
+    run("B02_annotations", [&] { return testAnnotations(fixtures, output); });
+    run("B02_annotations_UI", [&] { return testAnnotationInput(fixtures, output); });
     auto searchReady = [&](Window& window)
     {
         auto session = window.findChild<SearchPanel*>("searchPanel")->session();
@@ -118,15 +185,267 @@ int selftest(const QString& fixtures, const QString& output)
                     15000),
                 "asynchronous search finished");
     };
+    run("B08_combined_workflow",
+        [&]
+        {
+            Window window;
+            QStringList dialogs;
+            QTimer dismiss;
+            QObject::connect(&dismiss, &QTimer::timeout,
+                             [&]
+                             {
+                                 for (auto widget : QApplication::topLevelWidgets())
+                                     if (auto box = qobject_cast<QMessageBox*>(widget))
+                                     {
+                                         dialogs.append(box->windowTitle());
+                                         box->accept();
+                                     }
+                             });
+            dismiss.start(25);
+            window.show();
+            window.openFile(input("D07.pdf"));
+            const auto originalHash = fileHash(input("D07.pdf"));
+            auto fields = formFields(window.doc.pdf());
+            auto name = std::find_if(fields.begin(), fields.end(),
+                                     [](const auto& field) { return field.name == "name"; });
+            require(name != fields.end(), "input name field");
+            putFormValue(window.doc, name->widget, {"髙橋 香織"});
+            window.doc.putSignature(0, "山田 太郎", {350, 350}, 18, Qt::black);
+            putAnnotation(window.doc, 0, OverlayKind::Rectangle, {345, 340, 130, 45}, "署名を確認",
+                          Qt::blue, 1.5);
+            auto scan = readPdf(input("D05.pdf"));
+            window.doc.commit(insertPages(window.doc.pdf(), scan, {0}, 1));
+            window.doc.rotate(1);
+            window.refresh(true);
+            const auto beforeOcr = window.doc.pdf();
+            writeCandidate(beforeOcr, dest("m2-combined-before-OCR.pdf"));
+            window.scope->setCurrentIndex(0);
+            window.startOcr();
+            require(window.doc.busy, "same-window OCR starts after form and page edits");
+            require(QTest::qWaitFor([&] { return !window.worker; }, 180000),
+                    "combined OCR completes");
+            require(!window.doc.busy && window.doc.pdf() != beforeOcr,
+                    "completed OCR is committed");
+            require(dialogs == QStringList{"OCR結果"}, "combined OCR has only its result dialog");
+            window.undoAction->trigger();
+            require(window.doc.pdf() == beforeOcr, "OCR Undo preserves all preceding edits");
+            window.redoAction->trigger();
+            const auto ocr = window.doc.pdf();
+            writeCandidate(ocr, dest("m2-combined-after-OCR.pdf"));
+            window.doc.commit(selectPages(window.doc.pdf(), {1, 0}));
+            window.refresh(true);
+            require(pageText(window.doc.pdf(), 0).contains("図書館"),
+                    "OCR text follows reordered page");
+            window.doc.undo();
+            require(window.doc.pdf() == ocr, "page reorder Undo retains form and OCR");
+            window.doc.redo();
+            window.refresh(true);
+            window.query->setText("図書館");
+            QTest::keyClick(window.query, Qt::Key_Return);
+            searchReady(window);
+            require(window.findChild<SearchPanel*>("searchPanel")->session()->rowCount() == 1,
+                    "search works after combined page edits and OCR");
+            auto savedFields = formFields(window.doc.pdf());
+            writeCandidate(window.doc.pdf(), dest("m2-combined-after-reorder.pdf"));
+            QJsonArray fieldReport;
+            for (const auto& field : savedFields)
+                fieldReport.append(
+                    QJsonObject{{"page", field.page},
+                                {"name", field.name},
+                                {"values", QJsonArray::fromStringList(field.values)}});
+            QFile fieldFile(dest("m2-combined-fields.json"));
+            require(fieldFile.open(QIODevice::WriteOnly), "combined field diagnostics");
+            fieldFile.write(QJsonDocument(fieldReport).toJson());
+            fieldFile.close();
+            require(std::any_of(savedFields.begin(), savedFields.end(),
+                                [](const auto& field) {
+                                    return field.page == 1 && field.name == "name" &&
+                                           field.values == QStringList{"髙橋 香織"};
+                                }),
+                    "Japanese form follows its page");
+            require(signatures(window.doc.pdf(), 1).size() == 2,
+                    "signature and annotation follow original form page");
+            window.doc.save(dest("m2-combined.pdf"));
+            const auto rendered = renderPage(window.doc.pdf(), 1, 1.2);
+            window.doc.undo();
+            require(window.doc.dirty(), "Undo after save marks document unsaved");
+            window.doc.redo();
+            require(!window.doc.dirty(), "Redo to saved state clears unsaved indicator");
+            Document reopened;
+            reopened.open(dest("m2-combined.pdf"));
+            require(renderPage(reopened.pdf(), 1, 1.2) == rendered,
+                    "combined saved appearance retained");
+            reopened.moveSignature(1, signatures(reopened.pdf(), 1).front(), {3, 4});
+            bool refused = false;
+            try
+            {
+                reopened.save(dest("missing-folder/m2-combined.pdf"));
+            }
+            catch (const std::exception&)
+            {
+                refused = true;
+            }
+            require(refused && reopened.dirty(), "failed save retains all edits");
+            reopened.save(dest("m2-combined-reedited.pdf"));
+            QPrinter printer(QPrinter::HighResolution);
+            printer.setOutputFormat(QPrinter::PdfFormat);
+            printer.setOutputFileName(dest("m2-combined-print.pdf"));
+            printDocument(window.doc.pdf(), printer);
+            require(readPdf(dest("m2-combined-print.pdf")).getCatalog()->getPageCount() == 2,
+                    "combined document prints both pages");
+            require(fileHash(input("D07.pdf")) == originalHash,
+                    "combined workflow protects source");
+            return QJsonObject{{"same_window", true},
+                               {"form_signature_annotation_pages_OCR", true},
+                               {"search_save_reedit_print", true},
+                               {"save_retry", true}};
+        });
     run("Navigation_bookmarks", [&] { return testNavigationBookmarks(fixtures, output); });
     run("Navigation_links", [&] { return testNavigationLinks(fixtures, output); });
     run("Navigation_lifecycle", [&] { return testNavigationLifecycle(fixtures, output); });
+    run("Navigation_history", [&] { return testViewHistory(); });
     run("Reading_page_input", [&] { return testReadingPageInput(fixtures, output); });
     run("Reading_focus_layout", [&] { return testReadingLayout(fixtures, output); });
     run("Reading_OCR_cancel", [&] { return testReadingOcrCancel(fixtures, output); });
     run("Reading_initial_panels", [&] { return testReadingInitialPanels(fixtures, output); });
     run("Reading_compiler_startup", [&] { return testReadingCompilerStartup(fixtures, output); });
     run("Reading_image_navigation", [&] { return testReadingImageNavigation(fixtures, output); });
+    run("Reading_shared_icons", [&] { return testReadingIcons(); });
+    run("Reading_compact_layout", [&] { return testCompactViewer(fixtures, output); });
+    run("Reading_compact_OCR", [&] { return testCompactOcr(fixtures, output); });
+    run("Reading_layout_transitions", [&] { return testLayoutTransitions(fixtures, output); });
+    run("Reading_resize_navigation_input",
+        [&] { return testResizeNavigationInput(fixtures, output); });
+    run("Reading_automatic_fit", [&] { return testAutomaticFit(fixtures, output); });
+    run("Reference_compact", [&] { return testCompactReferences(fixtures, output); });
+    run("Reference_repeat_search", [&] { return testRepeatSearchReference(fixtures, output); });
+    run("Reference_result_resize", [&] { return testSearchResultResize(fixtures, output); });
+    run("Reference_OCR_reading", [&] { return testReferenceDuringOcr(fixtures, output); });
+    run("Reference_contexts", [&] { return testReferenceContexts(fixtures, output); });
+    run("M4I01_image_pdf_geometry", [&] { return testImagePdfGeometry(output); });
+    run("M4I02_image_pdf_failures", [&] { return testImagePdfFailures(output); });
+    run("M4I03_image_pdf_window", [&] { return testImagePdfWindow(fixtures, output); });
+    run("M4I04_image_pdf_cancel_retry", [&] { return testImagePdfCancelRetry(output); });
+    run("M4I05_image_pdf_OCR", [&] { return testImagePdfOcr(fixtures, output); });
+    run("M4E01_image_export_geometry", [&] { return testImageExportGeometry(fixtures, output); });
+    run("M4E02_image_export_failures", [&] { return testImageExportFailures(fixtures, output); });
+    run("M4E03_image_export_UI", [&] { return testImageExportUi(fixtures, output); });
+    run("Geometry01_page_axes", [&] { return testPageAxes(fixtures); });
+    run("Geometry02_page_render", [&] { return testPageGeometryRender(fixtures, output); });
+    run("M4C01_page_crop_geometry", [&] { return testPageCropGeometry(fixtures, output); });
+    run("M4C02_page_crop_failures", [&] { return testPageCropFailures(fixtures); });
+    run("M4C03_page_crop_UI", [&] { return testPageCropUi(fixtures, output); });
+    run("M4D01_decoration_lifecycle", [&] { return testDecorationLifecycle(fixtures, output); });
+    run("M4D02_decoration_failures", [&] { return testDecorationFailures(fixtures); });
+    run("M4D03_decoration_UI", [&] { return testDecorationUi(fixtures, output); });
+    run("M4D04_decoration_cancel", [&] { return testDecorationCancel(fixtures); });
+    run("M4D05_decoration_OCR", [&] { return testDecorationOcr(fixtures, output); });
+    run("M4B01_bookmark_lifecycle", [&] { return testBookmarkLifecycle(fixtures, output); });
+    run("M4B02_bookmark_failures", [&] { return testBookmarkFailures(fixtures); });
+    run("M4B03_bookmark_UI", [&] { return testBookmarkEditUi(fixtures, output); });
+    run("M4B04_bookmark_cancel", [&] { return testBookmarkCancel(fixtures); });
+    run("M4L01_link_lifecycle", [&] { return testLinkLifecycle(fixtures, output); });
+    run("M4L02_link_failures", [&] { return testLinkFailures(fixtures); });
+    run("M4L03_link_UI", [&] { return testLinkUi(fixtures, output); });
+    run("M4L04_link_OCR", [&] { return testLinkOcr(fixtures, output); });
+    run("M4O01_optimization_lifecycle",
+        [&] { return testOptimizationLifecycle(fixtures, output); });
+    run("M4O02_optimization_failures", [&] { return testOptimizationFailures(fixtures); });
+    run("M4O03_optimization_UI", [&] { return testOptimizationUi(fixtures, output); });
+    run("M4O04_optimization_OCR", [&] { return testOptimizationOcr(fixtures, output); });
+    run("M5P01_password_preparation", [&] { return testEncryptionPasswords(output); });
+    run("M5P02_encryption_lifecycle", [&] { return testEncryptionLifecycle(fixtures, output); });
+    run("M5P03_encryption_failures", [&] { return testEncryptionFailures(fixtures, output); });
+    run("M5P04_encryption_UI", [&] { return testEncryptionUi(fixtures, output); });
+    run("M5P05_encryption_OCR", [&] { return testEncryptionOcr(fixtures, output); });
+    run("M5F01_form_data_lifecycle", [&] { return testFormDataLifecycle(fixtures, output); });
+    run("M5F02_form_data_failures", [&] { return testFormDataFailures(fixtures, output); });
+    run("M5F03_form_data_UI", [&] { return testFormDataUi(fixtures, output); });
+    run("M5F04_form_data_OCR", [&] { return testFormDataOcr(fixtures, output); });
+    run("M5U01_unprotected_lifecycle", [&] { return testUnprotectedLifecycle(fixtures, output); });
+    run("M5U02_unprotected_failures", [&] { return testUnprotectedFailures(fixtures, output); });
+    run("M5U03_unprotected_UI", [&] { return testUnprotectedUi(fixtures, output); });
+    run("M5U04_unprotected_OCR", [&] { return testUnprotectedOcr(fixtures, output); });
+    run("M5C01_comparison_lifecycle", [&] { return testComparisonLifecycle(fixtures, output); });
+    run("M5C02_comparison_failures", [&] { return testComparisonFailures(fixtures, output); });
+    run("M5C03_comparison_UI", [&] { return testComparisonUi(fixtures, output); });
+    run("M5C04_comparison_OCR", [&] { return testComparisonOcr(fixtures, output); });
+    run("M5T01_batch_lifecycle", [&] { return testBatchLifecycle(fixtures, output); });
+    run("M5T02_batch_failures", [&] { return testBatchFailures(fixtures, output); });
+    run("M5T03_batch_UI", [&] { return testBatchUi(fixtures, output); });
+    run("M5T04_batch_OCR", [&] { return testBatchOcr(fixtures, output); });
+    run("M5D01_form_design_lifecycle", [&] { return testFormDesignLifecycle(fixtures, output); });
+    run("M5D02_form_design_failures", [&] { return testFormDesignFailures(fixtures, output); });
+    run("M5D03_form_design_UI", [&] { return testFormDesignUi(fixtures, output); });
+    run("M5D04_form_design_OCR", [&] { return testFormDesignOcr(fixtures, output); });
+    run("M5S01_certificate_cases", [&] { return testCertificateCases(fixtures, output); });
+    run("M5S02_certificate_guards", [&] { return testCertificateGuards(fixtures, output); });
+    run("M5S03_certificate_UI", [&] { return testCertificateUi(fixtures, output); });
+    run("M5S04_certificate_signing_foundation",
+        [&] { return testCertificateSigningFoundation(fixtures, output); });
+    run("M5S05_certificate_signing_UI", [&] { return testCertificateSigningUi(fixtures, output); });
+    run("M5S06_certificate_signing_atomic",
+        [&] { return testCertificateSigningAtomic(fixtures, output); });
+    run("M5S07_certificate_signing_OCR",
+        [&] { return testCertificateSigningOcr(fixtures, output); });
+    run("M5R01_redaction_foundation",
+        [&] { return testRedactionCopyFoundation(fixtures, output); });
+    run("M5R02_redaction_atomic", [&] { return testRedactionCopyAtomic(fixtures, output); });
+    run("M5R03_redaction_UI", [&] { return testRedactionCopyUi(fixtures, output); });
+    run("M5R04_redaction_font_UI", [&] { return testRedactionCopyFontUi(fixtures, output); });
+    run("M5R06_redaction_real_OCR", [&] { return testRedactionCopyOcr(fixtures, output); });
+    run("M5R07_redaction_scan_then_OCR", [&] { return testRedactionScanOcr(fixtures, output); });
+    run("M5R08_redaction_OCR_mask_preservation", [&] { return testRedactionOcrMasks(); });
+    run("M6I01_existing_image_core", [&] { return testExistingImageCore(fixtures, output); });
+    run("M6IF01_existing_form_images", [&] { return testExistingFormImages(fixtures, output); });
+    run("M6IF02_existing_form_image_UI", [&] { return testExistingFormImageUi(fixtures, output); });
+    run("M6T01_existing_text_core", [&] { return testExistingTextCore(fixtures, output); });
+    run("M6T02_existing_text_refusals", [&] { return testExistingTextRefusals(fixtures, output); });
+    run("M6T03_existing_text_UI", [&] { return testExistingTextUi(fixtures, output); });
+    run("M6T04_existing_text_UI_refusals",
+        [&] { return testExistingTextUiRefusals(fixtures, output); });
+    run("M6T05_existing_text_fonts", [&] { return testExistingTextFonts(fixtures, output); });
+    run("M6T06_existing_text_font_UI", [&] { return testExistingTextFontUi(fixtures, output); });
+    run("M6T07_existing_text_multiline",
+        [&] { return testExistingTextMultiline(fixtures, output); });
+    run("M6T08_existing_text_multiline_UI",
+        [&] { return testExistingTextMultilineUi(fixtures, output); });
+    run("M6T09_existing_text_relative_lines",
+        [&] { return testExistingTextRelativeLines(fixtures, output); });
+    run("M6T10_existing_text_line_count",
+        [&] { return testExistingTextLineCount(fixtures, output); });
+    run("M6T11_existing_text_line_count_UI",
+        [&] { return testExistingTextLineCountUi(fixtures, output); });
+    run("M6TF01_existing_form_text", [&] { return testExistingFormText(fixtures, output); });
+    run("M6TF02_existing_form_text_UI", [&] { return testExistingFormTextUi(fixtures, output); });
+    run("M6TW01_existing_text_wrap", [&] { return testExistingTextWrap(fixtures, output); });
+    run("M6TW02_existing_text_wrap_UI", [&] { return testExistingTextWrapUi(fixtures, output); });
+    run("M6O01_DOCX_conversion", [&] { return testOfficeImport(fixtures, output); });
+    run("M6O02_DOCX_UI", [&] { return testOfficeImportUi(fixtures, output); });
+    run("M6O03_owned_process", [&] { return testOwnedProcess(output); });
+    run("M6O04_DOCX_new_window", [&] { return testOfficeImportWindow(fixtures, output); });
+    run("M6O11_XLSX_PPTX_conversion", [&] { return testOfficeSheetsSlides(fixtures, output); });
+    run("M6O12_XLSX_PPTX_UI", [&] { return testOfficeSheetsSlidesUi(fixtures, output); });
+    run("M6TB01_table_extraction", [&] { return testTableExtraction(fixtures, output); });
+    run("M6TB02_table_UI", [&] { return testTableExtractionUi(fixtures, output); });
+    run("M6TB03_table_Office_interop", [&] { return testTableOfficeInterop(output); });
+    run("M6V01_vertical_OCR_UI", [&] { return testVerticalOcrUi(fixtures, output); });
+    run("M6V02_vertical_OCR_failures", [&] { return testVerticalOcrFailure(fixtures, output); });
+    run("M6V03_vertical_font_metrics", [&] { return testVerticalFontMetrics(fixtures); });
+    run("M6W01_Word_text", [&] { return testWordTextCore(fixtures, output); });
+    run("M6W02_Word_text_failures", [&] { return testWordTextFailures(fixtures, output); });
+    run("M6W03_Word_text_UI", [&] { return testWordTextUi(fixtures, output); });
+    run("M6W04_Word_Office_interop", [&] { return testWordTextOffice(fixtures, output); });
+    run("M6A_01_PDFA_engine", [&] { return testPdfaEngine(fixtures, output); });
+    run("M6A_02_PDFA_failures", [&] { return testPdfaFailures(fixtures, output); });
+    run("M6A_03_PDFA_UI", [&] { return testPdfaUi(fixtures, output); });
+    run("M6I03_existing_image_UI", [&] { return testExistingImageUi(fixtures, output); });
+    run("M6I04_existing_image_UI_modes",
+        [&] { return testExistingImageUiModes(fixtures, output); });
+    run("M6I02_existing_image_refusals",
+        [&] { return testExistingImageRejections(fixtures, output); });
+    run("M5R05_redaction_geometry_UI",
+        [&] { return testRedactionCopyGeometryUi(fixtures, output); });
     run("Pan_navigation", [&] { return testPanNavigation(fixtures, output); });
     run("Pan_input", [&] { return testPanInput(fixtures, output); });
     run("Pan_lifecycle", [&] { return testPanLifecycle(fixtures, output); });

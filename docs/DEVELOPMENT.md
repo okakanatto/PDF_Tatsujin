@@ -23,7 +23,7 @@ PDF4QTはサブモジュールのコミットで固定しています。`git sub
 vcpkgはclassic mode、triplet `x64-windows`、overlay `vendor/PDF4QT/vcpkg/overlays/general`を使用しました。Qtをvcpkgで重複ビルドする構成ではありません。Qtの取得にはaqtinstall 3.3.0を使用しました。ツール・依存の初回インストール例は次のとおりです。**この取得例の新規PCでの通し実行は未実行**です。
 
 ```powershell
-python -m pip install --target tools/python cmake==4.1.0 ninja==1.13.0 aqtinstall==3.3.0
+python -m pip install --target tools/python cmake==4.1.0 ninja==1.13.0 aqtinstall==3.3.0 fonttools==4.60.1
 $env:PYTHONPATH = Join-Path (Get-Location) 'tools/python'
 python -m aqt install-qt windows desktop 6.9.3 win64_msvc2022_64 --outputdir tools/Qt -m qtsvg qtimageformats qtspeech qttranslations qtmultimedia
 git clone https://github.com/microsoft/vcpkg.git tools/vcpkg
@@ -95,3 +95,148 @@ Get-ChildItem src,tests -Recurse -Include *.cpp,*.h | ForEach-Object { clang-for
 ```
 
 GitHub Actionsは書式、Python・PowerShell構文、試験文書と正解のハッシュ、PDF4QTの固定コミットを検査します。CIは現時点でWindowsアプリのビルド・GUI試験を実行しません。実行環境の異なるCIの成功をM1合格と解釈しません。
+
+## RC4の配布・制限環境の検証
+
+次の経路を2026-10-07のWindows 11開発PCで実行しました。通常のビルドと梱包に加えて、通信権限ゼロのAppContainer、実際の親プロセス強制終了、繰り返し閲覧、配布DLLの依存を検査します。出力先は毎回新しいフォルダにしてください。psutilを含む固定試験環境が必要です。
+
+```powershell
+& scripts/build.ps1
+& scripts/build.ps1 -Target PDFTatsujinNetworkProbe
+& scripts/build.ps1 -Target PDFTatsujinSoakTest
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc4-desktop -TestSupport
+$env:TATSU_UI_REVIEW = '1'
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc4-desktop -OutputDirectory evidence/new-rc4 -IncludeNativePrinter
+python scripts/test-no-network.py --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --probe build/app/bin/PDFTatsujinNetworkProbe.exe --output evidence/new-net4
+python scripts/test-ocr-parent-crash.py --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --output evidence/new-parent-crash
+python scripts/soak-candidate.py --harness build/app/bin/PDFTatsujinSoakTest.exe --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --output evidence/new-soak --seconds 900
+python scripts/audit-distribution.py --app-directory dist/PDFTatsujin-0.2.0-rc4-desktop --dumpbin 'C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/dumpbin.exe' --crt-directory 'C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/VC/Redist/MSVC/14.50.35710/x64/Microsoft.VC145.CRT' --output evidence/new-audit.json
+```
+
+`test-no-network`はコピーした合成入力とアプリだけに、使い捨てのpackage SIDでアクセスを許可します。実際の親・OCR子のtokenを検査し、ネットワーク能力がゼロであることと、制御用の接続が成功する一方で制限したプロセスの接続が失敗することを確認します。ホストの通信アダプター・ファイアウォール設定は変更しません。終了時に追加した権限とprofileを除去します。AppContainerで解決されたTempの親もテスト側で準備します。出力パスが長いとネイティブ経路のパス制約に当たるため、短い新規出力名を使います。
+
+`soak-candidate`は製品と共通のWindowを使う任意の計測exeを隔離して、指定候補のDLLを読み込みます。文書を閉じた300msの区間内で直前のプロセスサンプルを採用し、キャッシュ上限・文書・履歴・原本の不変を確認します。時間と入力は記録に残し、15分の観測を数時間の保証へ読み替えません。
+
+`audit-distribution`はdumpbinで全PEの通常・遅延importを検査します。解決先を同梱DLL、System32、実際に解決できるWindows API contractに限定し、開発PATHを使いません。資産・通知・Desktop Release CRTのハッシュも照合します。対象Windowsでの動作試験と、ライセンス保有の確認を代替しません。
+
+`candidate-smoke.yml`は公開候補ZIPのSHA-256・展開・A02/A05/B08を別のGitHub Windows Server 2025 runnerで確認するための手動workflowです。公開条件を確認してZIPを公開した後に実行します。現在は**未実行**です。クリーンWindows 11やオフライン・ネイティブIMEの受入とは区別します。
+
+最終配布の実行経路は次のとおりです。`source-commit`は試験した製品ソースを指し、生成時点の`src`・`tests`・CMake・上流に差があれば停止します。完成したバイナリと資産をコピーし、最新資料だけを加えます。元の試験・既存ZIPは上書きしません。
+
+```powershell
+python scripts/finalize-candidate.py --candidate dist/PDFTatsujin-0.2.0-rc4-desktop --output dist/PDFTatsujin-0.2.0-rc4-windows-x64 --regression evidence/m3-rc4-desktop-regression-20261007 --source-commit f42fc036a5417e6c7e8df32d9c7ad9bc8af36089
+python scripts/archive-distribution.py --app-directory dist/PDFTatsujin-0.2.0-rc4-windows-x64 --output dist/PDFTatsujin-0.2.0-rc4-windows-x64.zip --verification evidence/new-archive.json
+```
+
+対応Qtソースは`dist/third-party-sources`に、dependency-lockと一致するアーカイブを用意します。ZIP全体のメンバーをCRC/SHA-256で照合し、新しいフォルダへ展開した版でもB08を再実行しました。バイナリの外部公開条件は[第三者部品](THIRD_PARTY.md)の別項目です。
+
+## M2/M3の再現
+
+2026-10-06の評価版は `dist/PDFTatsujin-0.2.0-rc2-windows-x64`。新しい出力先を指定し、過去の証拠を上書きしません。M1の固定入力・閾値は同じまま、B01〜B08の保存・再編集・複合作業も製品のselftestから実行します。
+
+```powershell
+& scripts/build.ps1
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc2-windows-x64 -TestSupport
+$env:TATSU_UI_REVIEW = '1'
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc2-windows-x64 -OutputDirectory evidence/new-acceptance -IncludeNativePrinter
+python scripts/evaluate.py evidence/new-acceptance
+python scripts/evaluate-m2.py evidence/new-acceptance
+python scripts/diagnose-real-scans.py --app-directory dist/PDFTatsujin-0.2.0-rc2-windows-x64 --output evidence/new-real-scans
+python scripts/measure-candidate.py --app-directory dist/PDFTatsujin-0.2.0-rc2-windows-x64 --output evidence/new-measurements
+& scripts/build.ps1 -Target PDFTatsujinReadingBenchmark
+python scripts/benchmark-reading.py --harness build/app/bin/PDFTatsujinReadingBenchmark.exe --app-directory dist/PDFTatsujin-0.2.0-rc2-windows-x64 --output evidence/new-reading
+```
+
+署名ドラッグ・OCR中の閲覧／取消は、別の任意ターゲットで製品UIをリンクします。製品のexeは変更せず、各3回を記録します。以下を同じPowerShellで実行しました。`Start-Process -Wait`でWin32測定アプリの終了を待ち、終了コードと `interactions.json` の完了を確認してください。
+
+```powershell
+& scripts/build.ps1 -Target PDFTatsujinInteractionBenchmark
+$candidate = (Resolve-Path dist/PDFTatsujin-0.2.0-rc2-windows-x64).Path
+$env:PATH = $candidate + ';' + $env:SystemRoot + '/System32'
+$env:QT_QPA_PLATFORM = 'offscreen'
+$env:QT_PLUGIN_PATH = $candidate
+$env:TATSU_ASSETS = Join-Path $candidate 'assets'
+$inputPath = (Resolve-Path fixtures).Path
+$outputPath = Join-Path (Get-Location) 'evidence/new-interactions'
+$result = Start-Process -FilePath build/app/bin/PDFTatsujinInteractionBenchmark.exe -ArgumentList @(('"'+$inputPath+'"'), ('"'+$outputPath+'"')) -WindowStyle Hidden -Wait -PassThru
+$result.ExitCode
+```
+
+Firefoxの外部検証は、既存の開発用Firefox 157.0／geckodriver 0.37.1と `scripts/requirements-viewer-test.txt` のSelenium環境で次を実行しました。別プロファイルのheadless PDF.js検索・選択とWebDriver印刷を検査します。通常アプリの依存ではありません。ネイティブブラウザ操作／OSクリップボードとは区別します。
+
+```powershell
+python scripts/test-firefox.py evidence/new-acceptance evidence/new-firefox --firefox tools/viewer-test/firefox/core/firefox.exe --geckodriver tools/viewer-test/geckodriver/geckodriver.exe
+python scripts/test-firefox-m2.py evidence/new-acceptance evidence/new-firefox-m2 --firefox tools/viewer-test/firefox/core/firefox.exe --geckodriver tools/viewer-test/geckodriver/geckodriver.exe
+```
+
+Pythonの独立評価・計測には固定済み試験依存を使います。通常利用には不要です。全試験時は `TATSU_TEST_FILTER` を解除します。最小画面の追加検査は `TATSU_UI_REVIEW=1`。PowerShellの `process-result.json` の終了コード・完了と `selftest.json` の結果を両方確認します。途中停止した部分結果を全件合格にしません。実NTFS権限拒否試験は自身が作ったフォルダだけを変更し、finallyで元のACLを復元します。実容量不足・クリーンWindows・OS表示倍率・初見評価は別試験です。
+
+## RC3の実行記録
+
+2026-10-07の製品候補は `dist/PDFTatsujin-0.2.0-rc3-windows-x64`。ビルド後のworking配布物で次を実行し、バイナリを変更せず最終候補へコピーしました。再実行は新しい証拠先を使います。通常のビルド設定はRelease・selftest ON・コンパイラー開始修正ON・試験遅延0。新しい画像変換の条件はCMakeの固定ソースhashと `dependency-lock.json` に記録しています。
+
+```powershell
+& scripts/build.ps1
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc3-working -TestSupport
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+$env:TATSU_UI_REVIEW = '1'
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc3-working -OutputDirectory evidence/new-rc3-regression -IncludeNativePrinter
+python scripts/evaluate.py evidence/new-rc3-regression
+python scripts/evaluate-m2.py evidence/new-rc3-regression
+& scripts/test-startup-cleanup.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc3-working -OutputDirectory evidence/new-rc3-startup
+python scripts/measure-candidate.py --app-directory dist/PDFTatsujin-0.2.0-rc3-working --output evidence/new-rc3-performance
+& scripts/build.ps1 -Target PDFTatsujinReadingBenchmark
+python scripts/benchmark-reading.py --harness build/app/bin/PDFTatsujinReadingBenchmark.exe --app-directory dist/PDFTatsujin-0.2.0-rc3-working --output evidence/new-rc3-reading
+python scripts/compare-reading.py --baseline evidence/previous-reading --candidate evidence/new-rc3-reading --output evidence/new-rc3-comparison.json
+```
+
+`benchmark-reading.py` は計測exeだけを出力先のrunnerへコピーし、指定候補のDLL・plugins・assetsを使います。WindowsはPATHよりexeの隣のDLLを優先するため、build/binにexeを置いたままPATHだけ変更する比較は避けてください。比較ツールは固定PDFの同一hash、各3回・3周の完了、同じ製品描画方法、代表画面の全画素一致を要求します。全画面／全条件の一致保証ではありません。RC2の同日基準はRC3のCore DLLをビルドする前に測定し、その時点で実際に読み込むDLLがRC2のものと同一であることを照合しました。
+
+回収試験は自身の新しい作業ディレクトリと、その子に限定した実NTFSジャンクションを作ります。TMP／TEMPは試験子プロセスだけに変更し、終了後に戻します。無関係な領域・リンク先は保持します。OS設定・権限・ネットワークを変更するクリーン／オフライン試験ではありません。
+
+製品版のネイティブ署名・IME・保存・再読込はComputer Useで確認し、Qt offscreenの71件とは別の証拠へ記録しました。GitHub Actionsのソース検査を、これらのWindows動作試験の代わりにはしません。
+
+## RC5の書体選択と実行記録
+
+2026-10-08。Meiryo UIを含む書体選択は、文書処理を `text_font`、UIを `text_font_picker` に分けます。Windows標準書体をOSの既存ファイルからプロセス内へ登録し、配布物へコピーしません。既存のフォントなしメタデータはNotoとして読み、書体が使えない場合の黙った置換を禁止します。
+
+実際に使ったビルド・梱包・検査のコマンドです。下の証拠先は再実行用の例で、新しい名前へ変更してください。
+
+```powershell
+& scripts/build.ps1
+& scripts/package.ps1 -OutputDirectory dist/PDFTatsujin-0.2.0-rc5-windows-x64 -TestSupport
+$env:TATSU_UI_REVIEW = '1'
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+& scripts/test-windows-errors.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc5-windows-x64 -OutputDirectory evidence/new-rc5-regression -IncludeNativePrinter
+python scripts/evaluate.py evidence/new-rc5-regression
+python scripts/evaluate-m2.py evidence/new-rc5-regression
+python scripts/evaluate-fonts.py evidence/new-rc5-regression
+$env:TATSU_TEST_FILTER = 'B01_fonts_roundtrip'
+& scripts/run-tests.ps1 -AppDirectory dist/PDFTatsujin-0.2.0-rc5-windows-x64 -OutputDirectory evidence/new-rc5-windows-fonts
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+```
+
+Windowsバックエンドの最後の検査は文書処理のみで可視ウィンドウを出しません。ネイティブIME試験ではありません。全回帰は通常のWindows利用者環境で74件PASS。独立した書体検査は9書体の保存・再編集後18PDFで、埋め込み書体・Unicodeマップ・権利フラグを検査し、PDFium・Popplerで描画しました。
+
+制限付きシェルでは一時ファイル利用2件とWebDriverの接続が拒否されたため、通常ユーザー環境で再実行しました。通信権限ゼロのAppContainerでは長い検証先の一時領域作成がWindowsエラー206になり、短い専用先で同じ8件を完了しました。途中結果と最終結果を混ぜません。詳細と未実行項目は [RC5報告](../M3_RC5_REPORT.md)。
+
+## RC6の実行記録
+
+2026-10-08。RC5の検証済み配布構成を複製し、静的文書・OCRコードを含む再ビルド済みexeを差し替えました。DLL・資材・通知とDesktop Release CRTを改めて監査しています。新しい開発環境からの梱包は既存の `build.ps1`／`package.ps1` の経路を使用します。以下は今回実際に実行した検査です。証拠先を上書きせず、新しい名前で再実行してください。
+
+```powershell
+& scripts/build.ps1
+$env:TATSU_UI_REVIEW = '1'
+Remove-Item Env:TATSU_TEST_FILTER -ErrorAction SilentlyContinue
+& scripts/test-windows-errors.ps1 -IncludeNativePrinter -AppDirectory dist/PDFTatsujin-0.2.0-rc6-working-r2 -OutputDirectory evidence/m3-rc6-final-regression-20261008
+python scripts/evaluate.py evidence/m3-rc6-final-regression-20261008
+python scripts/evaluate-m2.py evidence/m3-rc6-final-regression-20261008
+python scripts/evaluate-fonts.py evidence/m3-rc6-final-regression-20261008
+python scripts/test-assets.py --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --output evidence/m3-rc6-assets-r3-20261008
+python scripts/test-no-network.py --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --probe build/app/bin/PDFTatsujinNetworkProbe.exe --output evidence/m3-rc6-final-network-20261008 --with-long-paths
+python scripts/measure-candidate.py --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --output evidence/m3-rc6-final-performance-r2-20261008
+& scripts/build.ps1 -Target PDFTatsujinSoakTest
+python scripts/soak-candidate.py --harness build/app/bin/PDFTatsujinSoakTest.exe --app-directory dist/PDFTatsujin-0.2.0-rc6-working-r2 --output evidence/m3-rc6-final-soak-20261008 --seconds 300
+```
+
+資材異常試験の期待値は、既存APIのOCRワーカー失敗終了2、起動時フォント失敗終了1です。精度の正解・閾値とは別に固定しています。起動計測はQt初期化後の `first_readable_ms` と、起動前から完全な最初のPNGを観測する `startup_capture_complete_ms` を区別します。後者はキャプチャ保存も含む上限の観測で、物理表示遅延ではありません。試験中の候補は変更せず、exe・ハーネスのSHAを確認します。RC6の最終版の連続試験は5分です。[結果と制約](../M3_RC6_REPORT.md)。

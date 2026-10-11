@@ -12,6 +12,7 @@ struct SelectionPage
     {
         qsizetype first = 0, end = 0;
         QRectF bounds;
+        bool vertical = false, decreasing = false;
     };
     QString text;
     QVector<QRectF> boxes;

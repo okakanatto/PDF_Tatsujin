@@ -2,25 +2,13 @@
 #include "document.h"
 #include "navigation.h"
 #include "search_session.h"
+#include "view_state.h"
 #include <QtWidgets>
 #include <functional>
 #include <memory>
 
 namespace tatsu
 {
-struct ViewAnchor
-{
-    int page = -1;
-    QPointF point;
-    QPointF ratio{.5, .5};
-};
-struct ViewState
-{
-    ViewAnchor anchor;
-    double zoom = 1;
-    int fitMode = 0, fitReference = 0;
-    quint64 activeSearch = 0;
-};
 class Canvas : public QWidget
 {
 public:
@@ -31,6 +19,7 @@ public:
     int selected = -1;
     QString copied;
     std::function<void(QPointF)> place;
+    std::function<void(QPointF, QPointF)> draw;
     std::function<void(int)> select;
     std::function<void()> changed;
     std::function<void()> interactionCancelled;
@@ -44,6 +33,11 @@ public:
     void refresh(PDFObjectReference selection = {});
     void resetView();
     void beginPlacement();
+    void beginDrawing(bool line);
+    bool drawingActive() const;
+    QMap<int, QVector<QRectF>> selectedTextRects() const;
+    void finishFormEdit();
+    void cancelFormEdit();
     void cancelInteraction();
     void setHandTool(bool enabled);
     bool handToolActive() const;
@@ -91,8 +85,15 @@ private:
     void updateAutoScroll();
     struct Impl;
     std::unique_ptr<Impl> d;
+    enum class ZoomPolicy
+    {
+        Manual,
+        Relative,
+        Automatic
+    };
     void updateView(bool force = false);
-    void applyZoom(double value, const ViewAnchor& position);
+    void applyZoom(double value, const ViewAnchor& position, ZoomPolicy policy);
+    void zoomBy(double factor, const ViewAnchor& position);
     void applyFit(const ViewAnchor& position);
     void mousePress(QMouseEvent*);
     void mouseDoubleClick(QMouseEvent*);

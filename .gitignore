@@ -3,6 +3,7 @@ build/
 dist/
 evidence/
 assets/fonts/*.ttf
+assets/fonts/TatsujinSansJP-Regular.json
 assets/tessdata/*
 fixtures/*.png
 fixtures/*-fixture.ttf

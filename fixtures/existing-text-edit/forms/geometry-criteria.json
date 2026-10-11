@@ -1,0 +1,16 @@
+{
+  "source_criteria_sha256": "49abe9aa1b38dda9c8b37913c9b345e53c52659ddd44fb04e0c249a5fa30ee05",
+  "geometry": [
+    210,
+    320,
+    120,
+    50
+  ],
+  "outside": [
+    179,
+    320,
+    120,
+    50
+  ],
+  "scope": "Additional physical geometry fixed before product operations; complete ancestor BBox is x180..380,y284..484 on this UserUnit2 page"
+}

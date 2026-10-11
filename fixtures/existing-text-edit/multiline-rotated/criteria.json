@@ -1,0 +1,14 @@
+{
+  "file": "body-text.pdf",
+  "sha256": "37f5839efabf3b24df7f87462f499f9683c897a70c32c562fef40f43b7bb7fef",
+  "source_sha256": "b051290ca1e929bf04eebe72048d4ee713ca0e8f34213546f32f56a192dca281",
+  "selected": "First body line\nSecond body line",
+  "geometry": [
+    100,
+    250,
+    300,
+    80
+  ],
+  "required": "90-degree rotation, CropBox and UserUnit=2 multiline geometry; all unselected glyphs/images/forms intact",
+  "scope": "Separate rotated positive case fixed before first product operation; existing criteria unchanged"
+}

@@ -1,0 +1,210 @@
+{
+  "cases": [
+    {
+      "file": "visible.pdf",
+      "sha256": "2dbefbab889689a1cfba06c6c2565569e73a75bae4c23f3c1802f1a9a764935b",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 0,
+      "keep_additional": "",
+      "expect_rejection": false
+    },
+    {
+      "file": "invisible-OCR.pdf",
+      "sha256": "b77112d015ab9a7de24346e881cd7bb6c9dc90c0a4fabad963f7058abbb9ee6d",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 3,
+      "keep_additional": "",
+      "expect_rejection": false
+    },
+    {
+      "file": "surviving-subset-text.pdf",
+      "sha256": "8ed635c9075cc36ecb5f318b3c67d52f5adc111ff25da5352ea9022f5843e247",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 0,
+      "keep_additional": "公開文字を保持",
+      "expect_rejection": true
+    },
+    {
+      "file": "following-font-switch.pdf",
+      "sha256": "ad27f6a8b7ff6d5e92b93bc82aa2365d902a4bdb33b6fddf32e7e6bd337ab7e0",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 0,
+      "keep_additional": "KEEP_FOLLOW_FONT_PROBE",
+      "expect_rejection": false,
+      "plan": "following-font-switch-plan.json",
+      "preserve_position_phrase": "KEEP_FOLLOW_FONT_PROBE",
+      "preserved_character_boxes": [
+        [
+          193.16799926757812,
+          650.0,
+          202.63999938964844,
+          661.4559936523438
+        ],
+        [
+          203.93600463867188,
+          650.0,
+          212.47999572753906,
+          661.4559936523438
+        ],
+        [
+          214.60800170898438,
+          650.0,
+          223.15200805664062,
+          661.4559936523438
+        ],
+        [
+          225.2480010986328,
+          650.0,
+          234.0,
+          661.4559936523438
+        ],
+        [
+          234.46400451660156,
+          646.8319702148438,
+          243.760009765625,
+          647.8560180664062
+        ],
+        [
+          244.89599609375,
+          650.0,
+          252.62399291992188,
+          661.4559936523438
+        ],
+        [
+          254.1280059814453,
+          649.823974609375,
+          265.0880126953125,
+          661.6640014648438
+        ],
+        [
+          266.97601318359375,
+          650.0,
+          274.14398193359375,
+          661.4559936523438
+        ],
+        [
+          275.87200927734375,
+          650.0,
+          283.03997802734375,
+          661.4559936523438
+        ],
+        [
+          284.36798095703125,
+          649.823974609375,
+          295.3280029296875,
+          661.6640014648438
+        ],
+        [
+          296.239990234375,
+          650.0,
+          310.9759826660156,
+          661.4559936523438
+        ],
+        [
+          310.927978515625,
+          646.8319702148438,
+          320.2239990234375,
+          647.8560180664062
+        ],
+        [
+          321.3599853515625,
+          650.0,
+          329.0879821777344,
+          661.4559936523438
+        ],
+        [
+          330.59197998046875,
+          649.823974609375,
+          341.552001953125,
+          661.6640014648438
+        ],
+        [
+          343.48797607421875,
+          650.0,
+          352.5119934082031,
+          661.4559936523438
+        ],
+        [
+          354.1919860839844,
+          650.0,
+          363.27996826171875,
+          661.4559936523438
+        ],
+        [
+          363.3759765625,
+          646.8319702148438,
+          372.6719970703125,
+          647.8560180664062
+        ],
+        [
+          373.72796630859375,
+          650.0,
+          382.47998046875,
+          661.4559936523438
+        ],
+        [
+          384.4320068359375,
+          650.0,
+          394.511962890625,
+          661.4559936523438
+        ],
+        [
+          395.48797607421875,
+          649.823974609375,
+          406.447998046875,
+          661.6640014648438
+        ],
+        [
+          408.33599853515625,
+          650.0,
+          416.99200439453125,
+          661.4559936523438
+        ],
+        [
+          419.10400390625,
+          650.0,
+          427.6479797363281,
+          661.4559936523438
+        ]
+      ]
+    },
+    {
+      "file": "untagged-font.pdf",
+      "sha256": "38e866645ac220921f8ab1f85a6b03b4cbf63675473c23067b9450c0f8476faf",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 0,
+      "expect_rejection": false,
+      "keep_additional": ""
+    },
+    {
+      "file": "shared-ToUnicode.pdf",
+      "sha256": "b7c4e2c0de099263e9696bd531cb04de408c95260ee70bb05e0508493e634977",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 0,
+      "expect_rejection": true,
+      "keep_additional": ""
+    },
+    {
+      "file": "shared-font-program.pdf",
+      "sha256": "896ef37fba4f604ee25adcd827a8d30e44ed350b5946672a84fa18249d1693c0",
+      "remove": "秘匿機密亀鶴",
+      "keep": "KEEP_OUTSIDE_FONT_PROBE",
+      "mode": 0,
+      "expect_rejection": true,
+      "keep_additional": ""
+    }
+  ],
+  "font_sha256": "c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f",
+  "required": [
+    "target text absent from visible and invisible text and recoverable subset mappings",
+    "outside text preserved",
+    "source unchanged or unsupported operation rejected without publication"
+  ],
+  "scope": "Synthetic font side-channel evaluation; not general security acceptance"
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "R01",
+    "language": "jpn",
+    "image": "rashomon-page6.jpg",
+    "pdf": "R01.pdf",
+    "source": "https://commons.wikimedia.org/wiki/File:Rashomon.djvu",
+    "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Rashomon.djvu/page6-1920px-Rashomon.djvu.jpg",
+    "origin": "1917 Rashomon, Ryunosuke Akutagawa; National Diet Library scan, DjVu page 6",
+    "reuse": "Public domain original and mechanical scan; Commons PD-scan/PD-old-95-expired/PDM 1.0",
+    "direction": "vertical, old orthography, ruby, two-page spread",
+    "truth_scope": "Main text only; ruby is not transcribed. Raw CER is diagnostic and includes ruby-related mismatches; not an M1 threshold judgment.",
+    "search_terms": [
+      "羅生門",
+      "京都",
+      "地震",
+      "佛像"
+    ],
+    "truth": "羅生門\n或日の暮方の事である。一人の下人が、羅生門の下で雨やみを待つてゐた。\n廣い門の下には、この男の外に誰もゐない。唯、所々丹塗の剝げた、大きな圓柱に、蟋蟀が一匹とまつてゐる。羅生門が、朱雀大路にある以上は、この男の外にも、雨やみをする市女笠や揉烏帽子が、もう二三人はありさうなものである。それが、この男の外には誰もゐない。\n何故かと云ふと、この二三年、京都には、地震とか辻風とか火事とか饑饉とか云ふ災がつゞいて起つた。そこで洛中のさびれ方は一通りでない。舊記によると、佛像や佛具を打碎いて、その丹がついたり、金銀の箔がついたりした木を、路ばたにつみ重ねて、薪の料に賣つてゐたと云ふ事である。洛中が\n1",
+    "source_sha256": "035a25562e080bec98a314d32baf901e1e41758907797db53e07559409524373",
+    "pdf_sha256": "3aacaa53cae300f148c38781ca6d3be59e444786446e5205deb4bb6f5bb98609",
+    "pixels": [
+      1920,
+      1358
+    ],
+    "embedded_dpi": 300
+  },
+  {
+    "id": "R02",
+    "language": "eng",
+    "image": "yellow-wall-paper-page13.jpg",
+    "pdf": "R02.pdf",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Yellow_Wall_Paper.djvu",
+    "image_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/The_Yellow_Wall_Paper.djvu/page13-1920px-The_Yellow_Wall_Paper.djvu.jpg",
+    "origin": "1901 The Yellow Wall Paper, Charlotte Perkins Stetson/Gilman; Google Books/Internet Archive scan, DjVu page 13",
+    "reuse": "Public domain original; Commons PD-old-80-expired/PDM 1.0",
+    "direction": "horizontal, old serif print, slight skew, italics",
+    "truth_scope": "Full visible page including heading/page number and printed line-end hyphen. Transcribed from the scan before OCR.",
+    "search_terms": [
+      "phosphates",
+      "Personally",
+      "congenial",
+      "opposition"
+    ],
+    "truth": "THE YELLOW WALL PAPER\nalso of high standing, and he says the same thing.\nSo I take phosphates or phosphites, — whichever it is, — and tonics, and journeys, and air, and exercise, and am absolutely forbidden to “work” until I am well again.\nPersonally I disagree with their ideas.\nPersonally I believe that congenial work, with excitement and change, would do me good.\nBut what is one to do?\nI did write for a while in spite of them; but it does exhaust me a good deal — having to be so sly about it, or else meet with heavy opposition.\nI sometimes fancy that in my con-\ndition if I had less opposition and more\n3",
+    "source_sha256": "896fa67273ab3916bb87d3afc6985518551074dfc3d834c0a0ebffba33e27628",
+    "pdf_sha256": "d8b82996d91a640b0433164322b561675b7c60232d6fc1299d48ed922d9d74a8",
+    "pixels": [
+      1920,
+      2911
+    ],
+    "embedded_dpi": 300
+  }
+]

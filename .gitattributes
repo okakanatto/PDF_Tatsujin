@@ -17,5 +17,24 @@ SPEC.md -text
 TECH.md -text
 ACCEPTANCE.md -text
 fixtures/*.json -text whitespace=cr-at-eol
+fixtures/real-scans/manifest.json -text whitespace=cr-at-eol
+fixtures/certificate-signatures/manifest.json -text whitespace=cr-at-eol
+fixtures/redaction-copy/**/*.json -text whitespace=cr-at-eol
+fixtures/existing-image-edit/*.json -text whitespace=cr-at-eol
+fixtures/existing-image-edit/**/*.json -text whitespace=cr-at-eol
+fixtures/existing-text-edit/*.json -text whitespace=cr-at-eol
+fixtures/existing-text-edit/**/*.json -text whitespace=cr-at-eol
+*.der binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+fixtures/office-import/*.json -text whitespace=cr-at-eol
+fixtures/office-import/**/*.json -text whitespace=cr-at-eol
+fixtures/table-extraction/*.json -text whitespace=cr-at-eol
+fixtures/vertical-ocr-geometry/*.json -text whitespace=cr-at-eol
+fixtures/pdf-text-docx/*.json -text whitespace=cr-at-eol
+fixtures/pdfa-validation/*.json -text whitespace=cr-at-eol
+*.jpg binary
 assets/revisions.json -text whitespace=cr-at-eol
 licenses/** -text
+licenses/REPORTLAB_METRICS_LICENSE.txt whitespace=-blank-at-eol

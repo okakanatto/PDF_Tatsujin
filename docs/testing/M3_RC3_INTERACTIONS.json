@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "version": "0.2.0-rc3",
+  "source_commit": "6f3a09602bb7267926d645811c7a0239d009dc6d",
+  "process": {
+    "exit_code": 0,
+    "harness_sha256": "b8acc5f31e73123b83a0ef58113d19b2e934300a59de9df387088bafec4de774",
+    "candidate_executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+    "scope": "Shared product UI and OCR code; isolated harness with RC3 packaged DLLs/assets, synthetic Qt events and offscreen repaint"
+  },
+  "scope": "shared product UI, synthetic Qt events and synchronous offscreen repaint; not physical pointer/display latency",
+  "metrics": {
+    "drag_commit_until_page_ready_ms": {
+      "each_run": [
+        66.201,
+        39.7926,
+        45.8252
+      ],
+      "median_ms": 45.8252
+    },
+    "navigate_during_OCR_until_ready_ms": {
+      "each_run": [
+        5.16,
+        6.4428,
+        7.4647
+      ],
+      "median_ms": 6.4428
+    },
+    "cancel_until_worker_cleanup_ms": {
+      "each_run": [
+        84.6251,
+        72.4928,
+        72.9621
+      ],
+      "median_ms": 72.9621
+    },
+    "drag_preview_event_and_repaint": {
+      "samples": 90,
+      "median_ms": 4.2524,
+      "p95_ms": 6.0025,
+      "max_ms": 7.8746
+    }
+  },
+  "evidence_sha256": "5bd2d908934208359f14abee6ae6313f8a9d63a479f92b6e8b308ded1f3cd153",
+  "single_commit_Undo_original_preserved_cancel_no_partial_and_cleanup": true
+}
