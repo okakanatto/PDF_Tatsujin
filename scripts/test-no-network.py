@@ -51,6 +51,7 @@ def main():
     parser.add_argument("--with-word-text", action="store_true")
     parser.add_argument("--office-engine-directory", type=Path)
     parser.add_argument("--pdfa-engine-directory", type=Path)
+    parser.add_argument("--only-pdfa", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     out = args.output.resolve()
@@ -276,6 +277,10 @@ def main():
             cases.append(("office-import", "M6O"))
         if pdfa_engine:
             cases.append(("pdfa-validation", "M6A"))
+        if args.only_pdfa:
+            if not pdfa_engine:
+                raise RuntimeError("--only-pdfa requires --pdfa-engine-directory")
+            cases = [("pdfa-validation", "M6A")]
         for name, filter in cases:
             case_env = env.copy()
             case_env["TATSU_TEST_FILTER"] = filter
@@ -301,7 +306,9 @@ def main():
                     "failures": test["failures"],
                 }
             )
-        if not any(p["OCR_child"] for p in observations.values()):
+        if not args.only_pdfa and not any(
+            p["OCR_child"] for p in observations.values()
+        ):
             raise RuntimeError("OCR child token was not observed")
         if pdfa_engine and not any(p["PDF_A_child"] for p in observations.values()):
             raise RuntimeError("PDF/A Java child token was not observed")

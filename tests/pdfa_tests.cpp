@@ -49,6 +49,20 @@ QJsonObject testPdfaEngine(const QString& fixtures, const QString& output)
     check(diagnostic.write(version.output) == version.output.size(), "Java diagnostic written");
     diagnostic.close();
     check(version.exitCode == 0, "Java runtime starts in the test identity");
+    const auto probe = runOwnedProcess(
+        javaPath(),
+        {"-Xmx512m", "-Djava.awt.headless=true", "-Djava.io.tmpdir=" + output,
+         "-Duser.home=" + output, "-jar", jarPath(), "--format", "xml", "--flavour", "1b",
+         "--maxfailuresdisplayed", "1", fixtures + "/pdfa-validation/1b-pass.pdf"},
+        output, 120000, {}, 4 * 1024 * 1024);
+    QFile engineDiagnostic(output + "/pdfa-engine-probe.txt");
+    check(engineDiagnostic.open(QIODevice::WriteOnly | QIODevice::NewOnly),
+          "PDF/A engine diagnostic output");
+    check(engineDiagnostic.write(probe.output) == probe.output.size(),
+          "PDF/A engine diagnostic written");
+    engineDiagnostic.close();
+    check(probe.exitCode == 0 && !probe.outputTruncated,
+          "PDF/A engine starts in the test identity");
     QJsonArray results;
     for (const auto& value : criterion["files"].toArray())
     {

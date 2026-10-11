@@ -25,3 +25,4 @@ veraPDFは[公式インストール手順](https://docs.verapdf.org/install/)と
 Windows開発環境の再現は、TATSU_PDFA_JAVA・TATSU_PDFA_JARへ実行先を設定し、TATSU_TEST_FILTER=M6Aでscripts/run-tests.ps1 -Headlessを使う。実行対象と出力先は同スクリプトの引数で新しいフォルダへ指定する。scripts/evaluate-pdfa-validation.pyは、保存した結果JSONと固定入力を別途veraPDFへ渡し、PythonでXMLを読む独立照合である。既存のA01〜A12・B01〜B08・C01〜C07を置換しない。
 
 実行対象は2プロファイルの固定5文書であり、全corpus・全PDF/A形式・変換／修復・タグ／読み上げの適合を実証する範囲ではない。ネイティブ画面・クリーンWindowsは未実行として追跡する。
+Javaの一時・設定ディレクトリは所有作業フォルダへUnicode引数で明示する。制限されたWindows環境で既定の日本語TEMPパスが壊れる失敗を記録し、元の権限条件のまま再試験する。
