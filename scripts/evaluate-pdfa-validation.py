@@ -3,8 +3,10 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
+import tempfile
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12,6 +14,36 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def invoke(java, jar, source, profile, run):
+    with tempfile.TemporaryDirectory(prefix="pdfa-independent-", dir=run) as temporary:
+        environment = os.environ.copy()
+        environment.update(
+            {key: temporary for key in ("APPDATA", "LOCALAPPDATA", "TMP", "TEMP")}
+        )
+        return subprocess.run(
+            [
+                str(java),
+                "-Xmx512m",
+                "-Djava.awt.headless=true",
+                "-Djava.io.tmpdir=" + temporary,
+                "-Duser.home=" + temporary,
+                "-jar",
+                str(jar),
+                "--format",
+                "xml",
+                "--flavour",
+                profile,
+                "--maxfailuresdisplayed",
+                "1",
+                str(source),
+            ],
+            capture_output=True,
+            timeout=120,
+            creationflags=subprocess.CREATE_NO_WINDOW,
+            env=environment,
+        )
 
 
 def main():
@@ -43,25 +75,7 @@ def main():
             xml = args.run / f"pdfa-independent-{args.attempt}-{stem}.xml"
             stderr = xml.with_suffix(".stderr.txt")
             assert not xml.exists() and not stderr.exists()
-            process = subprocess.run(
-                [
-                    str(java),
-                    "-Xmx512m",
-                    "-Djava.awt.headless=true",
-                    "-jar",
-                    str(jar),
-                    "--format",
-                    "xml",
-                    "--flavour",
-                    item["profile"],
-                    "--maxfailuresdisplayed",
-                    "1",
-                    str(source),
-                ],
-                capture_output=True,
-                timeout=120,
-                creationflags=subprocess.CREATE_NO_WINDOW,
-            )
+            process = invoke(java, jar, source, item["profile"], args.run.resolve())
             xml.write_bytes(process.stdout)
             stderr.write_bytes(process.stderr)
             report = ET.fromstring(process.stdout)

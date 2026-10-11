@@ -1,6 +1,7 @@
 #include "owned_process.h"
 #include "document.h"
 #include <QElapsedTimer>
+#include <QProcessEnvironment>
 #include <QThread>
 #include <vector>
 #include <windows.h>
@@ -45,7 +46,8 @@ void windowsCheck(bool ok, const char* operation)
 } // namespace
 OwnedProcessResult runOwnedProcess(const QString& program, const QStringList& arguments,
                                    const QString& directory, int timeoutMs,
-                                   const std::function<bool()>& cancelled, int maximumOutputBytes)
+                                   const std::function<bool()>& cancelled, int maximumOutputBytes,
+                                   const QMap<QString, QString>& environmentOverrides)
 {
     if (maximumOutputBytes < 1024 || maximumOutputBytes > 16 * 1024 * 1024)
         fail("外部処理の結果サイズ上限が不正です。");
@@ -103,10 +105,30 @@ OwnedProcessResult runOwnedProcess(const QString& program, const QStringList& ar
     const auto application = program.toStdWString();
     auto mutableCommand = command.toStdWString();
     const auto cwd = directory.toStdWString();
-    windowsCheck(CreateProcessW(application.c_str(), mutableCommand.data(), nullptr, nullptr, TRUE,
-                                EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, nullptr,
-                                cwd.empty() ? nullptr : cwd.c_str(), &startup.StartupInfo, &info),
-                 "CreateProcess");
+    QString environmentBlock;
+    if (!environmentOverrides.isEmpty())
+    {
+        auto environment = QProcessEnvironment::systemEnvironment();
+        for (auto entry = environmentOverrides.cbegin(); entry != environmentOverrides.cend();
+             ++entry)
+        {
+            if (entry.key().isEmpty() || entry.key().contains('=') ||
+                entry.key().contains(QChar(0)) || entry.value().contains(QChar(0)))
+                fail("外部処理の環境変数が不正です。");
+            environment.insert(entry.key(), entry.value());
+        }
+        auto keys = environment.keys();
+        keys.sort(Qt::CaseInsensitive);
+        for (const auto& key : keys)
+            environmentBlock += key + '=' + environment.value(key) + QChar(0);
+        environmentBlock += QChar(0);
+    }
+    windowsCheck(
+        CreateProcessW(application.c_str(), mutableCommand.data(), nullptr, nullptr, TRUE,
+                       EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW | CREATE_UNICODE_ENVIRONMENT,
+                       environmentBlock.isEmpty() ? nullptr : environmentBlock.data(),
+                       cwd.empty() ? nullptr : cwd.c_str(), &startup.StartupInfo, &info),
+        "CreateProcess");
     Handle process, thread;
     process.value = info.hProcess;
     thread.value = info.hThread;

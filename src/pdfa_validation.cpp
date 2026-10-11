@@ -174,7 +174,11 @@ PdfaValidation validatePdfa(const PdfaInput& input, const QString& java, const Q
         {"-Xmx512m", "-Djava.awt.headless=true", "-Djava.io.tmpdir=" + temporary->path(),
          "-Duser.home=" + temporary->path(), "-jar", QFileInfo(jar).absoluteFilePath(), "--format",
          "xml", "--flavour", profile, "--maxfailuresdisplayed", "1", source},
-        temporary->path(), 120000, cancelled, 4 * 1024 * 1024);
+        temporary->path(), 120000, cancelled, 4 * 1024 * 1024,
+        {{"APPDATA", temporary->path()},
+         {"LOCALAPPDATA", temporary->path()},
+         {"TMP", temporary->path()},
+         {"TEMP", temporary->path()}});
     if (process.outputTruncated || (cancelled && cancelled()))
         fail("PDF/A検査は完了していません。結果を反映しません。");
     auto result = parsePdfaReport(process.output, profile, process.exitCode);

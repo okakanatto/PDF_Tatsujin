@@ -54,7 +54,8 @@ QJsonObject testPdfaEngine(const QString& fixtures, const QString& output)
         {"-Xmx512m", "-Djava.awt.headless=true", "-Djava.io.tmpdir=" + output,
          "-Duser.home=" + output, "-jar", jarPath(), "--format", "xml", "--flavour", "1b",
          "--maxfailuresdisplayed", "1", fixtures + "/pdfa-validation/1b-pass.pdf"},
-        output, 120000, {}, 4 * 1024 * 1024);
+        output, 120000, {}, 4 * 1024 * 1024,
+        {{"APPDATA", output}, {"LOCALAPPDATA", output}, {"TMP", output}, {"TEMP", output}});
     QFile engineDiagnostic(output + "/pdfa-engine-probe.txt");
     check(engineDiagnostic.open(QIODevice::WriteOnly | QIODevice::NewOnly),
           "PDF/A engine diagnostic output");
@@ -63,6 +64,8 @@ QJsonObject testPdfaEngine(const QString& fixtures, const QString& output)
     engineDiagnostic.close();
     check(probe.exitCode == 0 && !probe.outputTruncated,
           "PDF/A engine starts in the test identity");
+    check(QFileInfo(output + "/verapdf/config").isDir(),
+          "Verifier configuration is created inside the owned test output");
     QJsonArray results;
     for (const auto& value : criterion["files"].toArray())
     {
