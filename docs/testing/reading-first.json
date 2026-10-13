@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 10326,
+            "error": "reading page 5 is rendered",
+            "name": "Reading_page_input",
+            "status": "FAIL"
+        }
+    ]
+}

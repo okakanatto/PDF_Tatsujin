@@ -1,0 +1,154 @@
+{
+  "mode": "Windows Qt offscreen, real PDFWidget rendering, separate processes",
+  "cold_start": "未実行: OS file cache was not flushed",
+  "physical_display_fps": "未実行",
+  "Acrobat_comparison": "未実行",
+  "samples_per_document": 3,
+  "executable_sha256": "fcb75d449eff673f06bc0af41e5f5d04956cffe97702c24d2c22e4a9014a376c",
+  "documents": {
+    "D01.pdf": {
+      "input_sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff",
+      "runs": [
+        {
+          "first_page_ms": 351,
+          "first_readable_ms": 358,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 7,
+          "pages": 1,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 317,
+          "process_elapsed_seconds": 1.4634892000467516,
+          "process_group_peak_rss_bytes": 46247936,
+          "process_group_peak_private_bytes": 20750336
+        },
+        {
+          "first_page_ms": 147,
+          "first_readable_ms": 156,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 9,
+          "pages": 1,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 124,
+          "process_elapsed_seconds": 0.6364054000005126,
+          "process_group_peak_rss_bytes": 46039040,
+          "process_group_peak_private_bytes": 20549632
+        },
+        {
+          "first_page_ms": 136,
+          "first_readable_ms": 143,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 7,
+          "pages": 1,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 110,
+          "process_elapsed_seconds": 0.606534999969881,
+          "process_group_peak_rss_bytes": 46403584,
+          "process_group_peak_private_bytes": 20860928
+        }
+      ],
+      "median_first_readable_ms": 156
+    },
+    "D10-digital-100.pdf": {
+      "input_sha256": "a9923fb48ceaa4ff08212cc7b45b8bdf3bebf6a16a492c677e0718572ed94e3b",
+      "runs": [
+        {
+          "first_page_ms": 128,
+          "first_readable_ms": 140,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 12,
+          "pages": 100,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 114,
+          "process_elapsed_seconds": 0.5917076000478119,
+          "process_group_peak_rss_bytes": 47173632,
+          "process_group_peak_private_bytes": 21909504
+        },
+        {
+          "first_page_ms": 134,
+          "first_readable_ms": 146,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 12,
+          "pages": 100,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 110,
+          "process_elapsed_seconds": 0.5940171000547707,
+          "process_group_peak_rss_bytes": 46718976,
+          "process_group_peak_private_bytes": 21491712
+        },
+        {
+          "first_page_ms": 151,
+          "first_readable_ms": 164,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 13,
+          "pages": 100,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 129,
+          "process_elapsed_seconds": 0.6332811000174843,
+          "process_group_peak_rss_bytes": 47054848,
+          "process_group_peak_private_bytes": 21782528
+        }
+      ],
+      "median_first_readable_ms": 146
+    },
+    "D10-image-50.pdf": {
+      "input_sha256": "637d229aea585d1e9fd5d2714087a1bb1ff9ebce4d29902f96cb1cb6617052d4",
+      "runs": [
+        {
+          "first_page_ms": 1003,
+          "first_readable_ms": 1027,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 24,
+          "pages": 50,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 726,
+          "process_elapsed_seconds": 1.4953720000339672,
+          "process_group_peak_rss_bytes": 94564352,
+          "process_group_peak_private_bytes": 100155392
+        },
+        {
+          "first_page_ms": 1000,
+          "first_readable_ms": 1031,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 31,
+          "pages": 50,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 742,
+          "process_elapsed_seconds": 1.5121492000180297,
+          "process_group_peak_rss_bytes": 93233152,
+          "process_group_peak_private_bytes": 83685376
+        },
+        {
+          "first_page_ms": 1000,
+          "first_readable_ms": 1026,
+          "image_pixels": 1088000,
+          "measurement_version": 2,
+          "observation_ms": 250,
+          "open_ms": 26,
+          "pages": 50,
+          "qt_platform": "offscreen",
+          "window_visible_ms": 751,
+          "process_elapsed_seconds": 1.4955759000149556,
+          "process_group_peak_rss_bytes": 92987392,
+          "process_group_peak_private_bytes": 82792448
+        }
+      ],
+      "median_first_readable_ms": 1027
+    }
+  }
+}

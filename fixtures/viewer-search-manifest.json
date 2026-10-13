@@ -1,0 +1,35 @@
+{
+  "file": "viewer-search.pdf",
+  "sha256": "2c95a1e7e534bc22dff400dcf2339d57ddf093d9634a3be32cd9fdb524fc8da8",
+  "origin": "Synthetic text authored for viewer tests; MIT. Font: Noto Sans JP, OFL.",
+  "expected": {
+    "alpha": {
+      "count": 4,
+      "pages": [
+        1,
+        1,
+        2,
+        3
+      ]
+    },
+    "交通費": {
+      "count": 4,
+      "pages": [
+        1,
+        1,
+        2,
+        3
+      ]
+    },
+    "expense": {
+      "count": 1,
+      "pages": [
+        2
+      ]
+    },
+    "no-such-text-92817": {
+      "count": 0,
+      "pages": []
+    }
+  }
+}

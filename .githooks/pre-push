@@ -1,0 +1,2 @@
+#!/bin/sh
+python scripts/check-publication.py --outgoing || exit 1

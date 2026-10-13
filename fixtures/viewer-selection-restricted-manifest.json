@@ -1,0 +1,9 @@
+{
+  "file": "viewer-selection-restricted.pdf",
+  "sha256": "3120ed86428780dbf7c63c94d8f96c2bb27aea914993e7a34eb06190a165275f",
+  "origin": "Own synthetic viewer-search.pdf, MIT; embedded Noto Sans JP, OFL.",
+  "user_password": "selection-user",
+  "owner_password": "selection-owner",
+  "expected_user_copy_permission": false,
+  "expected_user_print_permission": true
+}

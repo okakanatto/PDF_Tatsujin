@@ -1,0 +1,3 @@
+[submodule "vendor/PDF4QT"]
+	path = vendor/PDF4QT
+	url = https://github.com/JakubMelka/PDF4QT.git

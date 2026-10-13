@@ -1,0 +1,40 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 314,
+            "error": "unsupported notice: ",
+            "name": "Navigation_bookmarks",
+            "status": "FAIL"
+        },
+        {
+            "details": {
+                "Esc_focus_deactivate": "synthetic Qt events",
+                "QuadPoints_and_hidden": true,
+                "drag_selects_text": true,
+                "external_script_notice": true,
+                "named_annotation_click": true,
+                "protected_PDF_unchanged": true
+            },
+            "elapsed_ms": 216,
+            "name": "Navigation_links",
+            "status": "PASS"
+        },
+        {
+            "details": {
+                "busy": "state simulation; actual OCR is in A05-A09 regression",
+                "document_replacement": true,
+                "outline_label_link_preserved": true,
+                "rotate_revision": true,
+                "save_reopen_reedit": true,
+                "signature_priority_and_Undo": true
+            },
+            "elapsed_ms": 396,
+            "name": "Navigation_lifecycle",
+            "status": "PASS"
+        }
+    ]
+}

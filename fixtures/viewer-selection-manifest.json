@@ -1,0 +1,12 @@
+{
+  "file": "viewer-search.pdf",
+  "sha256": "2c95a1e7e534bc22dff400dcf2339d57ddf093d9634a3be32cd9fdb524fc8da8",
+  "origin": "Existing synthetic viewer input. Expected copies fixed before selection implementation tests. MIT; embedded Noto Sans JP is OFL.",
+  "line_separator": "\n",
+  "page_separator": "\n\n",
+  "expected": {
+    "japanese_line": "交通費を申請します。",
+    "cross_page_forward_and_reverse": "交通費を申請します。\n交通費の領収書を確認します。\n\nBefore the destination\nTravel notes: alpha closes this section.",
+    "three_pages": "ALPHA opens this paragraph.\nMiddle context: alpha is the second occurrence.\n交通費を申請します。\n交通費の領収書を確認します。\n\nBefore the destination\nTravel notes: alpha closes this section.\n交通費は毎月精算します。\ntransport expense and document review.\n\nA wider page for reading context\nKeep the start of this sentence in view when finding alpha.\n交通費の最終確認です。"
+  }
+}

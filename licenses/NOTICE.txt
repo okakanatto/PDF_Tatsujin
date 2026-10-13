@@ -1,0 +1,37 @@
+PDFTatsujin M1 is an open-source technical prototype.
+The original application code and development scripts are licensed under
+the MIT License in the root LICENSE file. Third-party terms remain separate.
+
+The PDF engine is PDF4QT v1.6.0.0 (MIT). Its embedded Liberation fonts
+are covered by their included font license. Our Japanese signature font
+is Noto Sans JP, distributed and embedded under SIL OFL 1.1.
+
+The OCR engine is Tesseract 5.5.3 (Apache-2.0); its Japanese and English
+tessdata_best models (jpn, eng, and the jpn_vert secondary model requested
+by jpn) use Apache-2.0. The earlier glyphless PDF font experiment is
+retained as an asset from Tesseract 5.5.1's tessdata/pdf.ttf; the current
+OCR layer uses embedded Noto Sans JP. See dependency-lock.json for hashes.
+
+Qt 6.9.3 is dynamically linked under LGPL-3.0. The module sources for
+qtbase, qtsvg and qtimageformats accompany the bundle in the sibling
+third-party-sources folder. These archives contain their complete license
+notices, third-party notices and build files. Qt SBOM files and license
+texts are also in licenses/Qt. Qt is unmodified. Users may replace these
+DLLs with compatible builds. No restriction is imposed on reverse
+engineering for debugging modifications to the LGPL-covered components.
+Official build instructions: https://doc.qt.io/qt-6.9/build-sources.html
+
+Other native runtime libraries have their own copyright/license files
+in this directory, copied from the pinned vcpkg installation.
+FreeType is used under its FreeType License: portions of this software
+are copyright The FreeType Project (https://freetype.org/).
+This software is based in part on the work of the Independent JPEG Group.
+
+The project source is public. The complete binary distribution is not
+"all MIT": Qt, fonts, models, native libraries and the Microsoft runtime
+retain their respective license and redistribution conditions. M1 still
+has unexecuted acceptance checks; no production-ready binary release is claimed.
+
+The generated test corpus contains synthetic original text and drawings,
+offered under CC0-1.0. Embedded fonts retain their own licenses. It does
+not contain user business documents or personal signatures.

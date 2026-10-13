@@ -1,0 +1,272 @@
+[
+  {
+    "id": "D01",
+    "file": "D01.pdf",
+    "sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D01"
+  },
+  {
+    "id": "D02",
+    "file": "D02.pdf",
+    "sha256": "13bc91737593c2ae661ea0874e8fa8445c0e6f609b9647aefa508aef3281d2ff",
+    "pages": 4,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D02"
+  },
+  {
+    "id": "D03",
+    "file": "D03-digital-source.pdf",
+    "sha256": "06f79cada5a17c20ae627b6742bed8f60d010b382b97ccd7411a7540b9379bee",
+    "pages": 8,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D03-digital-source"
+  },
+  {
+    "id": "D03",
+    "file": "D03.pdf",
+    "sha256": "c431c448d4e72cc963ffd4827c45a15533049feb19e352d5f48607cb2b3e1eb7",
+    "pages": 8,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": 300,
+    "direction": "horizontal",
+    "ground_truth": "ground-truth.json",
+    "purpose": "D03"
+  },
+  {
+    "id": "D04",
+    "file": "D04.pdf",
+    "sha256": "ca1ebfb88f4e328144bfcf8808791254e5bf3f5d48edf08f9a8e0c3b38c94d37",
+    "pages": 3,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D04"
+  },
+  {
+    "id": "D05",
+    "file": "D05.pdf",
+    "sha256": "328943a8b01fc5d253befb1199d8f7fb70c83716ac05aef0fda5c7afb466f273",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D05"
+  },
+  {
+    "id": "D06",
+    "file": "D06.pdf",
+    "sha256": "a225011e92762cadfab2dfd95b9162fa2eb4203ef04660070b282adec15fb815",
+    "pages": 3,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D06"
+  },
+  {
+    "id": "D07",
+    "file": "D07.pdf",
+    "sha256": "8db78b01a095cae2fcc5a87ab0de89c081541fbef143f554f1ea929d918cfe6b",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D07",
+    "appearance_correction": "scripts/correct-form-fixture.py; field values unchanged; previous input archived in evidence"
+  },
+  {
+    "id": "D08",
+    "file": "D08-broken.pdf",
+    "sha256": "87cf0b00fffbfc4e5a0f9dafc6b075e2bab3ec02badceb6031216d33757c283d",
+    "pages": null,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D08-broken"
+  },
+  {
+    "id": "D08",
+    "file": "D08-encrypted.pdf",
+    "sha256": "0fbad69c332f4dddba13249125d3afe5566873e51d97a296b93e0ec8011b405e",
+    "pages": null,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D08-encrypted"
+  },
+  {
+    "id": "D08",
+    "file": "D08-signature-structure.pdf",
+    "sha256": "b2f12d1a97fa9c86d0ab84ea420cb36523b6c34b883149bd68acab45e91fa1ef",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D08-signature-structure"
+  },
+  {
+    "id": "D08",
+    "file": "D08-xfa.pdf",
+    "sha256": "2610672c4eb48cffc40065318a3359386e0bd955a925a5d90f4b443928b3e716",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D08-xfa"
+  },
+  {
+    "id": "入力 文書",
+    "file": "D09_日本語のパス\\入力 文書.pdf",
+    "sha256": "6724283a4bad502a77738826d4550f23b6ba5f09dfe6c8a0a30f989a4c8089ff",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "入力 文書"
+  },
+  {
+    "id": "D10",
+    "file": "D10-digital-100.pdf",
+    "sha256": "a9923fb48ceaa4ff08212cc7b45b8bdf3bebf6a16a492c677e0718572ed94e3b",
+    "pages": 100,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D10-digital-100"
+  },
+  {
+    "id": "D10",
+    "file": "D10-image-50.pdf",
+    "sha256": "637d229aea585d1e9fd5d2714087a1bb1ff9ebce4d29902f96cb1cb6617052d4",
+    "pages": 50,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "D10-image-50"
+  },
+  {
+    "id": "form",
+    "file": "form-appearance-source.pdf",
+    "sha256": "f776e78f014231504f0c3e9091def9b7f3e3f796594ff3400008bfa61e27d890",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "form-appearance-source"
+  },
+  {
+    "id": "hidden",
+    "file": "hidden-source.pdf",
+    "sha256": "36b965af7b28f8ef2cb0308ce8b2a34e7d08d0b55604fd3521ca9678e57dea40",
+    "pages": 1,
+    "origin": "scripts/make-fixtures.py; synthetic original corpus",
+    "license": "CC0-1.0 synthetic text and graphics; embedded Noto font under OFL-1.1",
+    "language": "jpn+eng",
+    "dpi": null,
+    "direction": "horizontal",
+    "ground_truth": null,
+    "purpose": "hidden-source"
+  },
+  {
+    "id": "D11",
+    "file": "D11-diagnostics.pdf",
+    "sha256": "0e91d8d952f86e15970ad77238487c3ffd3b7583a3de998edcc5fa163972aa31",
+    "pages": 5,
+    "origin": "scripts/make-diagnostics.py",
+    "license": "synthetic CC0 / embedded Noto OFL",
+    "language": "jpn",
+    "diagnostic_only": true,
+    "conditions": [
+      {
+        "page": 1,
+        "kind": "low-100dpi",
+        "dpi": 100
+      },
+      {
+        "page": 2,
+        "kind": "skew-3-degrees",
+        "dpi": 300
+      },
+      {
+        "page": 3,
+        "kind": "vertical",
+        "dpi": 300
+      },
+      {
+        "page": 4,
+        "kind": "two-columns",
+        "dpi": 300
+      },
+      {
+        "page": 5,
+        "kind": "table",
+        "dpi": 300
+      }
+    ],
+    "real_scanner": "未準備・未実行"
+  },
+  {
+    "id": "D08",
+    "file": "D08-signed.pdf",
+    "sha256": "dfe44dba615d04ffa14e3a43c933544115d9f55355084f79bf7be7e706540d32",
+    "pages": 1,
+    "language": "jpn+eng",
+    "origin": "scripts/make-signed-fixture.py; disposable test CMS certificate",
+    "license": "synthetic test fixture",
+    "purpose": "genuine detached CMS signature; certificate trust deliberately not established"
+  }
+]

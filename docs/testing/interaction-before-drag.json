@@ -1,0 +1,14 @@
+{
+    "failures": 1,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 183,
+            "error": "refresh cancels an in-flight drag without committing a stale movement",
+            "name": "A02_UI_drag_interrupted",
+            "status": "FAIL"
+        }
+    ]
+}

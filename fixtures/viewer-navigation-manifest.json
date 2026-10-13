@@ -1,0 +1,146 @@
+{
+  "file": "viewer-navigation.pdf",
+  "sha256": "26c6e489338cdf643be646bb1f19f7d83dd737d02ed58ed41368399c092899f9",
+  "restricted_file": "viewer-navigation-restricted.pdf",
+  "restricted_sha256": "6f49c8440bf90ea798fbd3029991cf292bb0ed02e41187e03ab8d9e5d4ebcbcd",
+  "origin": "Synthetic MIT text/graphics; embedded Noto Sans JP under OFL. Created before app tests.",
+  "expected": {
+    "pages": 6,
+    "page_labels": [
+      "i",
+      "ii",
+      "本編-7",
+      "本編-8",
+      "AA",
+      "BB"
+    ],
+    "outlines": [
+      {
+        "title": "回転0°：中心へ",
+        "page": 1
+      },
+      {
+        "title": "回転90°：中心へ",
+        "page": 2
+      },
+      {
+        "title": "回転180°：中心へ",
+        "page": 3
+      },
+      {
+        "title": "回転270°：中心へ",
+        "page": 4
+      },
+      {
+        "title": "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する",
+        "page": 3
+      },
+      {
+        "title": "全体 Fit",
+        "page": 5
+      },
+      {
+        "title": "幅 FitH",
+        "page": 5
+      },
+      {
+        "title": "高さ FitV",
+        "page": 5
+      },
+      {
+        "title": "矩形 FitR",
+        "page": 5
+      },
+      {
+        "title": "null XYZ：位置と倍率を保持",
+        "page": 5
+      },
+      {
+        "title": "UserUnit 2",
+        "page": 6
+      },
+      {
+        "title": "存在しない名前",
+        "page": 1
+      },
+      {
+        "title": "循環した名前",
+        "page": 1
+      },
+      {
+        "title": "無効なページ参照",
+        "page": 1
+      },
+      {
+        "title": "BBox 未対応",
+        "page": 1
+      },
+      {
+        "title": "複合アクション 未対応",
+        "page": 2
+      }
+    ],
+    "root_count": 13,
+    "total_count": 17,
+    "XYZ": {
+      "point": [
+        300,
+        400
+      ],
+      "zoom": 3,
+      "max_axis_error_DIP": 2
+    },
+    "history_max_axis_error_DIP": 2,
+    "FitR": {
+      "page": 5,
+      "rectangle": [
+        180,
+        250,
+        420,
+        550
+      ],
+      "fully_visible": true
+    },
+    "links": {
+      "internal": [
+        85,
+        570,
+        300,
+        600
+      ],
+      "uri": [
+        85,
+        530,
+        360,
+        560
+      ],
+      "script": [
+        85,
+        490,
+        330,
+        520
+      ],
+      "hidden": [
+        85,
+        450,
+        300,
+        480
+      ],
+      "quad": [
+        85,
+        610,
+        350,
+        640
+      ]
+    },
+    "invalid_no_navigation": [
+      "存在しない名前",
+      "循環した名前",
+      "無効なページ参照",
+      "BBox 未対応",
+      "複合アクション 未対応"
+    ],
+    "text_selection_contains": "LINK:",
+    "restricted_password": "navigation-user"
+  }
+}

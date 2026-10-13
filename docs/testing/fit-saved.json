@@ -1,0 +1,1908 @@
+{
+  "input_sha256": "82d60168bbb5748c183304590fc463386bd316b96a676764ac4e5d742b99b296",
+  "manifest_sha256": "2421d94d73d68ca17e4686bc77f7e59a5cf7ae6256ac22aa2f5a5b9f319b55e0",
+  "mode": "Firefox headless, real outline DOM clicks; observation only",
+  "checks": "Expected physical page and viewport location remain there for at least 500ms, within 30s",
+  "OS_clipboard": "未実行; untouched",
+  "native_window": "未実行; dedicated headless profile",
+  "cases": [
+    {
+      "case": "preceding-clicks",
+      "prefix": [
+        "回転0°：中心へ",
+        "回転90°：中心へ",
+        "回転180°：中心へ",
+        "回転270°：中心へ",
+        "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する"
+      ],
+      "target_text_wait_between_actions": false,
+      "expected_physical_page": 5,
+      "actual_state": {
+        "focused_page": "2",
+        "location_page": 1,
+        "page": 2,
+        "scale": "page-fit",
+        "scroll_top": 776,
+        "time": 34063
+      },
+      "status": "FAIL",
+      "event_trace": [
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "target_class": "toolbarButton pdfSidebarNotification",
+          "target_page": null,
+          "time": 741
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "time": 1010
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "scalechanging",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "time": 1010
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "time": 1010
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "target_class": "toolbarButton viewsManagerButton hasPopupMenu",
+          "target_page": null,
+          "time": 1214
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "target_class": "",
+          "target_page": null,
+          "time": 1432
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "target_class": "toolbarButton viewsManagerButton hasPopupMenu",
+          "target_page": null,
+          "time": 1445
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "test-click",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "time": 2052,
+          "title": "回転0°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "auto",
+          "scroll_top": 10,
+          "target_class": "",
+          "target_page": null,
+          "time": 2064
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 10,
+          "time": 2080
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "scalechanging",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 10,
+          "time": 2080
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2094
+        },
+        {
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "1",
+          "time": 2098
+        },
+        {
+          "event_page": 1,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2099
+        },
+        {
+          "event_page": null,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2107
+        },
+        {
+          "event_page": 1,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2116
+        },
+        {
+          "event_page": 2,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2154
+        },
+        {
+          "event_page": 2,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2155
+        },
+        {
+          "event_page": null,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2207
+        },
+        {
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "test-click",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2466,
+          "title": "回転90°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "target_class": "",
+          "target_page": null,
+          "time": 2486
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagechanging",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 2491
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 2493
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 2513
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 2528
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 2540
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 2594
+        },
+        {
+          "focused_page": null,
+          "location_page": 2,
+          "name": "test-click",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 3065,
+          "title": "回転180°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 2,
+          "name": "focusin",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "target_class": "",
+          "target_page": null,
+          "time": 3079
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "pagechanging",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 3096
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3100
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3136
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3154
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3178
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3198
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "test-click",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3468,
+          "title": "回転270°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "focusin",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "target_class": "",
+          "target_page": null,
+          "time": 3477
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3480
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3482
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3498
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3513
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3533
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3592
+        },
+        {
+          "focused_page": null,
+          "location_page": 4,
+          "name": "test-click",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3738,
+          "title": "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する"
+        },
+        {
+          "focused_page": null,
+          "location_page": 4,
+          "name": "focusin",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "target_class": "",
+          "target_page": null,
+          "time": 3745
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "pagechanging",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 3747
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3758
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3773
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3859
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "test-click",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 3949,
+          "title": "全体 Fit"
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "focusin",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "target_class": "",
+          "target_page": null,
+          "time": 3957
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 3962
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 3962
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "scalechanging",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 3962
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 3962
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3094,
+          "time": 3971
+        },
+        {
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "4",
+          "time": 3978
+        },
+        {
+          "event_page": 4,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 3978
+        },
+        {
+          "event_page": 4,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 3981
+        },
+        {
+          "event_page": null,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 3981
+        },
+        {
+          "event_page": 3,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 3989
+        },
+        {
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "3",
+          "time": 3992
+        },
+        {
+          "event_page": 3,
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 3992
+        },
+        {
+          "event_page": null,
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 3995
+        },
+        {
+          "event_page": 5,
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 4004
+        },
+        {
+          "focused_page": "5",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "5",
+          "time": 4007
+        },
+        {
+          "event_page": 5,
+          "focused_page": "5",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 4007
+        },
+        {
+          "event_page": 2,
+          "focused_page": "5",
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2320,
+          "time": 4025
+        },
+        {
+          "focused_page": "2",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "2",
+          "time": 4027
+        },
+        {
+          "event_page": 2,
+          "focused_page": "2",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4028
+        },
+        {
+          "event_page": 2,
+          "focused_page": "2",
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4032
+        },
+        {
+          "event_page": null,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4032
+        },
+        {
+          "event_page": 1,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4037
+        },
+        {
+          "event_page": 1,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4040
+        },
+        {
+          "event_page": null,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4043
+        },
+        {
+          "event_page": null,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 4143
+        }
+      ],
+      "time_origin": 1791174500996
+    },
+    {
+      "case": "fresh-fit",
+      "prefix": [],
+      "target_text_wait_between_actions": false,
+      "expected_physical_page": 5,
+      "actual_state": {
+        "focused_page": "5",
+        "location_page": 5,
+        "page": 5,
+        "scale": "page-fit",
+        "scroll_top": 3602,
+        "time": 1117
+      },
+      "status": "PASS",
+      "event_trace": [
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 275
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 288
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 289
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 307
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 314
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 353
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagechanging",
+          "page": 1,
+          "scale": "page-fit",
+          "scroll_top": 1023,
+          "time": 415
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagechanging",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 416
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 417
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "scalechanging",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 417
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 417
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 425
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 426
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 443
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 444
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 449
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 463
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 464
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "test-click",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 491,
+          "title": "全体 Fit"
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "target_class": "",
+          "target_page": null,
+          "time": 498
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 506
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "scalechanging",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 506
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagechanging",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 900,
+          "time": 506
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "updateviewarea",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "time": 508
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "pagerendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "time": 531
+        },
+        {
+          "focused_page": "5",
+          "location_page": 5,
+          "name": "focusin",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "5",
+          "time": 535
+        },
+        {
+          "event_page": 5,
+          "focused_page": "5",
+          "location_page": 5,
+          "name": "textlayerrendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "time": 535
+        },
+        {
+          "event_page": 6,
+          "focused_page": "5",
+          "location_page": 5,
+          "name": "pagerendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "time": 554
+        },
+        {
+          "event_page": 6,
+          "focused_page": "5",
+          "location_page": 5,
+          "name": "textlayerrendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "time": 559
+        },
+        {
+          "event_page": null,
+          "focused_page": "5",
+          "location_page": 5,
+          "name": "updateviewarea",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3602,
+          "time": 609
+        }
+      ],
+      "time_origin": 1791174535150
+    },
+    {
+      "case": "target-text-ready",
+      "prefix": [
+        "回転0°：中心へ",
+        "回転90°：中心へ",
+        "回転180°：中心へ",
+        "回転270°：中心へ",
+        "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する"
+      ],
+      "target_text_wait_between_actions": true,
+      "expected_physical_page": 5,
+      "actual_state": {
+        "focused_page": "2",
+        "location_page": 1,
+        "page": 2,
+        "scale": "page-fit",
+        "scroll_top": 776,
+        "time": 32014
+      },
+      "status": "FAIL",
+      "event_trace": [
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "updateviewarea",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3109,
+          "time": 420
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "updateviewarea",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3109,
+          "time": 468
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "scalechanging",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3109,
+          "time": 468
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "updateviewarea",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3109,
+          "time": 468
+        },
+        {
+          "focused_page": null,
+          "location_page": 5,
+          "name": "test-click",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3109,
+          "time": 505,
+          "title": "回転0°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 5,
+          "name": "focusin",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3109,
+          "target_class": "",
+          "target_page": null,
+          "time": 509
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "updateviewarea",
+          "page": 5,
+          "scale": "3",
+          "scroll_top": 10457,
+          "time": 523
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "scalechanging",
+          "page": 5,
+          "scale": "3",
+          "scroll_top": 10457,
+          "time": 523
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "pagechanging",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 10457,
+          "time": 523
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 536
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "textlayerrendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 538
+        },
+        {
+          "event_page": 1,
+          "focused_page": null,
+          "location_page": 5,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 543
+        },
+        {
+          "focused_page": "1",
+          "location_page": 5,
+          "name": "focusin",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "1",
+          "time": 545
+        },
+        {
+          "event_page": 1,
+          "focused_page": "1",
+          "location_page": 5,
+          "name": "textlayerrendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 545
+        },
+        {
+          "event_page": null,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 546
+        },
+        {
+          "event_page": 1,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 558
+        },
+        {
+          "event_page": 2,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 589
+        },
+        {
+          "event_page": 2,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 605
+        },
+        {
+          "event_page": null,
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 660
+        },
+        {
+          "focused_page": "1",
+          "location_page": 1,
+          "name": "test-click",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 741,
+          "title": "回転90°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 1,
+          "name": "focusin",
+          "page": 1,
+          "scale": "3",
+          "scroll_top": 1490,
+          "target_class": "",
+          "target_page": null,
+          "time": 747
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 1,
+          "name": "pagechanging",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 1490,
+          "time": 750
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 753
+        },
+        {
+          "event_page": 2,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 772
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 805
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 816
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 857
+        },
+        {
+          "focused_page": null,
+          "location_page": 2,
+          "name": "test-click",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 963,
+          "title": "回転180°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 2,
+          "name": "focusin",
+          "page": 2,
+          "scale": "3",
+          "scroll_top": 4099,
+          "target_class": "",
+          "target_page": null,
+          "time": 967
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 2,
+          "name": "pagechanging",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 4099,
+          "time": 969
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 971
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 993
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1003
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1004
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1072
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "test-click",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1154,
+          "title": "回転270°：中心へ"
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "focusin",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "target_class": "",
+          "target_page": null,
+          "time": 1160
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1161
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 1164
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 1183
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 1263
+        },
+        {
+          "focused_page": null,
+          "location_page": 4,
+          "name": "test-click",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 1454,
+          "title": "名前付き宛先：日本語の長いしおりタイトルを省略せずツールチップで確認する"
+        },
+        {
+          "focused_page": null,
+          "location_page": 4,
+          "name": "focusin",
+          "page": 4,
+          "scale": "3",
+          "scroll_top": 9317,
+          "target_class": "",
+          "target_page": null,
+          "time": 1496
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 4,
+          "name": "pagechanging",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 9317,
+          "time": 1511
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1514
+        },
+        {
+          "event_page": 3,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1533
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1612
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "test-click",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "time": 1802,
+          "title": "全体 Fit"
+        },
+        {
+          "focused_page": null,
+          "location_page": 3,
+          "name": "focusin",
+          "page": 3,
+          "scale": "3",
+          "scroll_top": 6708,
+          "target_class": "",
+          "target_page": null,
+          "time": 1807
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 1813
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 1814
+        },
+        {
+          "event_page": null,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "scalechanging",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 1815
+        },
+        {
+          "event_page": 5,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 1985,
+          "time": 1815
+        },
+        {
+          "event_page": 4,
+          "focused_page": null,
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 3094,
+          "time": 1820
+        },
+        {
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "4",
+          "time": 1822
+        },
+        {
+          "event_page": 4,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 5,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1822
+        },
+        {
+          "event_page": 4,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1824
+        },
+        {
+          "event_page": null,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1824
+        },
+        {
+          "event_page": 3,
+          "focused_page": "4",
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1832
+        },
+        {
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "3",
+          "time": 1835
+        },
+        {
+          "event_page": 3,
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1835
+        },
+        {
+          "event_page": null,
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "updateviewarea",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1840
+        },
+        {
+          "event_page": 5,
+          "focused_page": "3",
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1844
+        },
+        {
+          "focused_page": "5",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "5",
+          "time": 1846
+        },
+        {
+          "event_page": 5,
+          "focused_page": "5",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2316,
+          "time": 1846
+        },
+        {
+          "event_page": 2,
+          "focused_page": "5",
+          "location_page": 3,
+          "name": "pagerendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 2320,
+          "time": 1865
+        },
+        {
+          "focused_page": "2",
+          "location_page": 3,
+          "name": "focusin",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "target_class": "textLayer selectionRendering",
+          "target_page": "2",
+          "time": 1867
+        },
+        {
+          "event_page": 2,
+          "focused_page": "2",
+          "location_page": 3,
+          "name": "textlayerrendered",
+          "page": 4,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1867
+        },
+        {
+          "event_page": 2,
+          "focused_page": "2",
+          "location_page": 3,
+          "name": "pagechanging",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1871
+        },
+        {
+          "event_page": null,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1871
+        },
+        {
+          "event_page": 1,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "pagerendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1876
+        },
+        {
+          "event_page": 1,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "textlayerrendered",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1876
+        },
+        {
+          "event_page": null,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1878
+        },
+        {
+          "event_page": null,
+          "focused_page": "2",
+          "location_page": 1,
+          "name": "updateviewarea",
+          "page": 2,
+          "scale": "page-fit",
+          "scroll_top": 776,
+          "time": 1978
+        }
+      ],
+      "time_origin": 1791174536330
+    }
+  ],
+  "browser_version": "157.0",
+  "build_id": "20260924084938",
+  "geckodriver_version": "0.37.1",
+  "observed_goToDestination_sha256": "233f8ec52d6b1c1e1391a54e8738cb0330c30f44fe738df5a6f99e2ae5e67e98"
+}

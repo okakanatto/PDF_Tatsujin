@@ -1,0 +1,31 @@
+{
+    "failures": 2,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 10297,
+            "error": "actual PDF page is ready",
+            "name": "Pan_navigation",
+            "status": "FAIL"
+        },
+        {
+            "details": {
+                "Space_repeat_release": true,
+                "editor_space": true,
+                "native_IME": "未実行; synthetic Qt key events",
+                "retained_copy_characters": 101
+            },
+            "elapsed_ms": 224,
+            "name": "Pan_input",
+            "status": "PASS"
+        },
+        {
+            "elapsed_ms": 253,
+            "error": "Undo still removes the one actual edit",
+            "name": "Pan_lifecycle",
+            "status": "FAIL"
+        }
+    ]
+}

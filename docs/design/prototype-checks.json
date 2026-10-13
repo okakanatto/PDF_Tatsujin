@@ -1,0 +1,174 @@
+{
+  "scope": "Synthetic HTML prototype in headless Firefox; not PDF app acceptance",
+  "native_app_viewer_V01_to_V12": "未実行",
+  "real_PDF_OCR_save_print": "対象外: design prototype",
+  "OS_clipboard_IME_DPI_Narrator": "未実行",
+  "Acrobat_comparison": "未実行",
+  "source_sha256": {
+    "viewer-prototype.css": "3abfc9bcfad24e77f5f8c557f653fb83b52e3edc0fa8c50a4f16b623d1096e5a",
+    "viewer-prototype.html": "ff617a5c7fa5ff417551588a97f237a0603ee16a877faa8c496af7c564d93d90",
+    "viewer-prototype.js": "bd4679fac6e07b788b7dcdb61960aed5422430c105146795b332591a3774e7e2"
+  },
+  "checks": [
+    {
+      "name": "P01: honest preview and continuous document",
+      "status": "PASS",
+      "detail": {
+        "pages": 6,
+        "viewport_css_px": [
+          1440,
+          900
+        ]
+      }
+    },
+    {
+      "name": "P02: reading and view history",
+      "status": "PASS",
+      "detail": "PageDown, page entry, Back and Forward restored the expected reading location"
+    },
+    {
+      "name": "P03: zoom and panel anchor",
+      "status": "PASS",
+      "detail": [
+        {
+          "operation": "zoom-in",
+          "max_axis_error_css_px": 0.403359970307406
+        },
+        {
+          "operation": "zoom-in",
+          "max_axis_error_css_px": 0.6706479829242653
+        },
+        {
+          "operation": "zoom-out",
+          "max_axis_error_css_px": 0.403359970307406
+        },
+        {
+          "operation": "close-panel",
+          "max_axis_error_css_px": 0.403359970307406
+        },
+        {
+          "operation": "signature",
+          "max_axis_error_css_px": 0.403359970307406
+        },
+        {
+          "operation": "close-inspector",
+          "max_axis_error_css_px": 0.403359970307406
+        }
+      ]
+    },
+    {
+      "name": "P04: occurrence search, context and clear",
+      "status": "PASS",
+      "detail": {
+        "fixed_query": "交通費",
+        "expected_matches": 8,
+        "Esc_keeps_results": true,
+        "clear_removes_all": true
+      }
+    },
+    {
+      "name": "P05: immediate Enter uses the new query",
+      "status": "PASS",
+      "detail": {
+        "replacement_query": "expense",
+        "expected_matches": 3
+      }
+    },
+    {
+      "name": "P06: composition does not start an incomplete search",
+      "status": "PASS",
+      "detail": "Synthetic composition events only; Windows IME remains unexecuted"
+    },
+    {
+      "name": "P07: narrow layout and focus recovery",
+      "status": "PASS",
+      "detail": "1024×720 CSS px: single expanded panel, anchor and focus-mode restoration"
+    },
+    {
+      "name": "P08: invalid navigation is recoverable",
+      "status": "PASS",
+      "detail": "Invalid page leaves view unchanged; Escape restores the physical number"
+    },
+    {
+      "name": "P09: hand pan and text input isolation",
+      "status": "PASS",
+      "detail": "Pointer panning works; typing Space in search does not change tools"
+    },
+    {
+      "name": "P10: mixed paper sizes",
+      "status": "PASS",
+      "detail": "Scrolling into landscape retains scale; explicit fit uses landscape width"
+    },
+    {
+      "name": "P11: major controls remain inside viewport",
+      "status": "PASS",
+      "detail": [
+        {
+          "viewport": [
+            1024,
+            720
+          ],
+          "mode": "reading",
+          "offscreen_controls": []
+        },
+        {
+          "viewport": [
+            1024,
+            720
+          ],
+          "mode": "search",
+          "offscreen_controls": []
+        },
+        {
+          "viewport": [
+            1024,
+            720
+          ],
+          "mode": "ocr",
+          "offscreen_controls": []
+        },
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "mode": "reading",
+          "offscreen_controls": []
+        },
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "mode": "search",
+          "offscreen_controls": []
+        },
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "mode": "ocr",
+          "offscreen_controls": []
+        }
+      ]
+    },
+    {
+      "name": "P12: local asset references and restrictive CSP",
+      "status": "PASS",
+      "detail": {
+        "declared_assets": [
+          "viewer-prototype.js",
+          "viewer-prototype.css"
+        ],
+        "CSP_connect_src": "none",
+        "network_packet_capture": "未実行"
+      }
+    }
+  ],
+  "browser_version": "157.0",
+  "browser_build_id": "20260924084938",
+  "geckodriver_version": "0.37.1",
+  "passed": 12,
+  "failed": 0
+}

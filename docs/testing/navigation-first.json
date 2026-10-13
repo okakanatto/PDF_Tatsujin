@@ -1,0 +1,33 @@
+{
+    "failures": 2,
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen",
+    "tests": [
+        {
+            "elapsed_ms": 363,
+            "error": "unsupported notice: ",
+            "name": "Navigation_bookmarks",
+            "status": "FAIL"
+        },
+        {
+            "elapsed_ms": 10204,
+            "error": "PDF page 1 ready, current=2",
+            "name": "Navigation_links",
+            "status": "FAIL"
+        },
+        {
+            "details": {
+                "busy": "state simulation; actual OCR is in A05-A09 regression",
+                "document_replacement": true,
+                "outline_label_link_preserved": true,
+                "rotate_revision": true,
+                "save_reopen_reedit": true,
+                "signature_priority_and_Undo": true
+            },
+            "elapsed_ms": 595,
+            "name": "Navigation_lifecycle",
+            "status": "PASS"
+        }
+    ]
+}

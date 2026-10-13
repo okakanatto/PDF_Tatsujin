@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-05",
+  "mode": "Windows native input through computer-use @oai/sky; only synthetic PDFs",
+  "executable": "dist/PDFTatsujin-M1-selection/PDFTatsujin.exe",
+  "executable_sha256": "7ab88a04c6e676af96fddabd66981819c869532f2a3eb9fc2b82b7fa7d0387e5",
+  "fixture": "fixtures/viewer-search.pdf",
+  "fixture_sha256": "2c95a1e7e534bc22dff400dcf2339d57ddf093d9634a3be32cd9fdb524fc8da8",
+  "events": [
+    {
+      "action": "initial clicks without explicit mouse_button",
+      "result": "No visible selection; no PASS claimed. Cause unproven. A separate offscreen regression was running during the first attempt."
+    },
+    {
+      "action": "Ctrl+F, Esc, explicit left-button double click on opens",
+      "expected": "opens",
+      "observed": "5-character highlight and native status; Ctrl+C, open own signature field, Ctrl+V yielded exact opens",
+      "status": "PASS"
+    },
+    {
+      "action": "explicit left-button double click on 交通費",
+      "expected": "交",
+      "observed": "1-character highlight; Ctrl+C, own signature field Ctrl+A then Ctrl+V yielded exact 交",
+      "status": "PASS"
+    },
+    {
+      "action": "page tab and click second thumbnail",
+      "expected_page": 2,
+      "observed_page": 2,
+      "observed_text": "Before the destination",
+      "status": "PASS"
+    },
+    {
+      "action": "Alt+Left after thumbnail navigation",
+      "expected_page": 1,
+      "observed_page": 1,
+      "status": "PASS"
+    },
+    {
+      "action": "Alt+F4",
+      "observed": "No PDFTatsujin windows remain; no PDF edits or saves made",
+      "status": "PASS"
+    }
+  ],
+  "limitations": [
+    "UIA focused_element and element trees sometimes lagged the visible frame. Selection/copy judgments used visible highlight/status and the exact pasted field value.",
+    "No preexisting clipboard contents were read. Paste targets were verified own-app fields. Test text was not placed in the PDF.",
+    "An unrelated Brother toast overlapped captures. It was not interacted with; raw desktop captures are not published.",
+    "Native Shift-click and double-click drag are 未実行; Qt tests cover them separately.",
+    "OS scale settings, Narrator and Acrobat comparison are 未実行.",
+    "This binary precedes the subsequently discovered initial-panel-position fix; later binary evidence must be distinguished."
+  ]
+}

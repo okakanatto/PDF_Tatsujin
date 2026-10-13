@@ -1,0 +1,14 @@
+{
+  "failures": 1,
+  "platform": "Windows 11 Version 25H2",
+  "qt": "6.9.3",
+  "qt_platform": "offscreen",
+  "tests": [
+    {
+      "elapsed_ms": 632,
+      "error": "opening a panel immediately must show the first PDF text",
+      "name": "Reading_initial_panels",
+      "status": "FAIL"
+    }
+  ]
+}
