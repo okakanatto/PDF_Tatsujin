@@ -1,0 +1,10 @@
+{
+  "upstream_commit": "bb75f4f0073d9350dfd058c0162a367e6fadf25e",
+  "upstream_tree": "d1011c8e022d788530d8809015c612a6a59941e5",
+  "branch": "staging",
+  "commit_verified_by_Git_commit_and_ref_APIs": true,
+  "criterion_sha256": "f100bd83cc754dfa2ebfc8d7cf399d90082c48309d7e20552a4f123fae279397",
+  "input_blobs_and_expected_results_unchanged": true,
+  "source": "https://github.com/veraPDF/veraPDF-corpus/commit/bb75f4f0073d9350dfd058c0162a367e6fadf25e",
+  "note": "An initial tree-versus-commit hypothesis failed; API audit confirms the originally fixed reference is a commit. No criterion correction was made."
+}

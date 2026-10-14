@@ -1,0 +1,30 @@
+{
+  "files": {
+    "absolute.pdf": "84b9b5251329dc9dba1102f165fc75bef080148cd7a0f24e8f3d99cdae67b945",
+    "rotated.pdf": "dba23eb3721b204892a49b2852cca086e42745ae7e484647549f9aecb511fe3b",
+    "relative-refused.pdf": "e9f017a8ae008886510dd02fcfe724f3d2267345fb946f191af3fe757397cf92",
+    "spacing-refused.pdf": "45b123fc14b414c3c7a382661d01275cbfb308ff2c4168012747a859c4a0c1db"
+  },
+  "source_inputs": {
+    "fixtures/existing-text-edit/visible/body-text.pdf": "78a6b63e28a0f0637194e2fb1d61c07c7b74af5bd8eb2dbcdb3d062b62e2c7e7",
+    "fixtures/NotoSansJP-fixture.ttf": "0ef6019ca22fb4206a64a5c4ce326855afd2bc945cb42324816ec84d471433e3"
+  },
+  "replacements": {
+    "Intro ": "Start ",
+    "Styled phrase": "Bold text",
+    "Suffix intact": "End intact",
+    "編集します日本語本文": "日本語本文編集します"
+  },
+  "reedited": "Bold edit",
+  "remove": "Styled phrase",
+  "following": "FOLLOWING STYLE STATE",
+  "refusals": {
+    "relative-refused.pdf": "Styled phrase",
+    "spacing-refused.pdf": "Styled phrase"
+  },
+  "position": "Unselected character boxes exactly unchanged",
+  "outside_pixels": 0,
+  "raster_dpi": 300,
+  "boundary_pixels": 1,
+  "scope": "Synthetic CC0 text; Noto fixture OFL-1.1. Fresh absolute-position cases fixed before implementation; prior mixed-font paragraph refusal retained."
+}

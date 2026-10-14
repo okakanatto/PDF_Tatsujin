@@ -1,0 +1,193 @@
+{
+  "version": "0.5.0-dev41-qualification",
+  "status": "TESTS_PASS_WITH_UNEXECUTED_SCOPE",
+  "product_source_commit": "a66aaa21f431852792177c1afbe9609a7d720156",
+  "executable": "evidence/dev41-PDFTatsujin.exe",
+  "executable_sha256": "63fc1cee341497ce8a03186559f0aa41e08484356c7ce35518fa09b084e6e920",
+  "fixed_candidate": "dev35",
+  "runtime_reused": "dev36",
+  "new_binary_distribution": "unexecuted",
+  "criteria": {
+    "path": "fixtures/redaction-copy/cvt-index-boundaries-v1/criteria.json",
+    "sha256": "d8243815eeec4a579639502d3d66533ba876bec483fdc6e3edc813d83453c596",
+    "cases": 10,
+    "success": 9,
+    "refusal": 1,
+    "files": 13,
+    "bytes": 1042881,
+    "pre_product_fixed": true,
+    "regenerated_byte_exact": true,
+    "source_only_runs_not_counted": true
+  },
+  "full_regression": {
+    "run": "evidence/m5-dev41-full-native-r1-20261013",
+    "completed": true,
+    "exit_code": 0,
+    "tests": 258,
+    "old_test_count": 256,
+    "old_names_preserved": true,
+    "process_sha256": "5809cfc896681f4525b5b58f4eaef239576771ff6207d31d69690d2618ca6959",
+    "selftest_sha256": "b1b7a2b5a08c8c4e4f577e36c4b738d236a83250419c112df36e48693e06db9a",
+    "headless": true,
+    "acl_restored": true,
+    "native_windows_PDF_printer": true,
+    "physical_printer": "unexecuted"
+  },
+  "independent": [
+    {
+      "path": "evidence/dev41-independent-cvt-index-final.json",
+      "sha256": "5b772d9de5573652c682828b7cde1bb85551bcd043418927fc43e538179b2c91",
+      "passed": 11,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev41-independent-cvt-final.json",
+      "sha256": "a759dfb9e67c3eff06ae571204f76680d682e19ff4703a4021799b5702809976",
+      "passed": 41,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev41-independent-hinting-final.json",
+      "sha256": "2fd9fa8687faada8f8463fc90cd3646b02fa5428b927e7a4d6a24684fc55b0a0",
+      "passed": 31,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev41-independent-boundaries-final.json",
+      "sha256": "d455cb45b1efc0ca100cece05f06909d2867dd4bd6cd071b9ada57803321fc81",
+      "passed": 18,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev41-M5-independent-summary-final.json",
+      "sha256": "5d163c7233ed8d9928de9cd87ffeaf31b411cf209aa142cff4627c9126d89de9",
+      "passed": 124,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev41-editing-independent-summary-final.json",
+      "sha256": "d25046632753390554b1f8e2cf07a2908b349172464ff3b5551c9b3ad11a709d",
+      "passed": 160,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev41-M1-independent-summary-final.json",
+      "sha256": "2e4ea0512b4de895cd4a3f004a371779de14eff93ecfa6ffd3189414eaba6ad4",
+      "passed": 26,
+      "status": "PASS"
+    }
+  ],
+  "fresh_CVT_hint_conditions": 101,
+  "new_boundary_UI_conditions": 11,
+  "low_DPI_target_Miap_observations": [
+    {
+      "file": "source-index-32767.pdf",
+      "target_operation_only": true,
+      "changed_pixels": {
+        "PDFium-72": 0,
+        "Poppler-72": 0,
+        "PDFium-96": 0,
+        "Poppler-96": 0
+      },
+      "effect_per_engine": {
+        "PDFium": "UNOBSERVED",
+        "Poppler": "UNOBSERVED"
+      }
+    },
+    {
+      "file": "dense-index-256.pdf",
+      "target_operation_only": true,
+      "changed_pixels": {
+        "PDFium-72": 0,
+        "Poppler-72": 0,
+        "PDFium-96": 0,
+        "Poppler-96": 0
+      },
+      "effect_per_engine": {
+        "PDFium": "UNOBSERVED",
+        "Poppler": "UNOBSERVED"
+      }
+    }
+  ],
+  "preservation": {
+    "max_position_error_pt": 0.28594970703125,
+    "threshold_pt": 0.5,
+    "PDFium_Poppler_DPI": [
+      72,
+      96,
+      300
+    ],
+    "rectangle_boundary_px": 1,
+    "outside_pixel_difference": 0,
+    "full_resource_GID_compound_audit": "PASS",
+    "local_CVT_indices_separate_from_same_source_union": true
+  },
+  "old_M5": {
+    "conditions": 124,
+    "reused_groups": 18,
+    "fresh_groups": 1,
+    "reused_conditions": 111,
+    "fresh_conditions": 13,
+    "whole_group_comparison_records": 161,
+    "separate_refusal_absence_checks": 42
+  },
+  "editing": {
+    "families": 9,
+    "conditions": 160,
+    "freshly_executed": 160,
+    "generated_reference_files": 321,
+    "generated_reference_bytes": 16028625,
+    "all_families_original_evaluators": true,
+    "threshold_schema_unchanged": true,
+    "case_PDF_log_report_SHA_reconciled": true
+  },
+  "M1": {
+    "limited_PASS_status_fields": 26,
+    "separate_boolean_checks": 7,
+    "CER": {
+      "jpn": 0.005050505050505051,
+      "eng": 0.0004553734061930783
+    },
+    "searches_each_language": 20,
+    "thresholds": {
+      "CER_jpn": 0.02,
+      "CER_eng": 0.01,
+      "search_each_language": 19,
+      "search_total": 20,
+      "position_max_mm": 2
+    },
+    "general_acceptance": "withheld"
+  },
+  "protection": {
+    "records": 3016,
+    "fixed_dev35_dev36": true,
+    "original_user_changes_preserved": true,
+    "old_failures_literal": true,
+    "final_report": "evidence/dev41-final-protection-review-r1.json",
+    "final_report_sha256": "98eb2694fbf12d79fc2acaa4333c8728f2b3110d4756b6a4adf72715fb0b5872",
+    "excluded_literal_originals_all_SHA_checked": 1178,
+    "deferred_dev38_all_SHA_checked": 814,
+    "rejected_debug_all_SHA_checked": 125
+  },
+  "source_CI": [
+    {
+      "conclusion": "success",
+      "databaseId": 38324448130,
+      "headSha": "a66aaa21f431852792177c1afbe9609a7d720156",
+      "status": "completed"
+    }
+  ],
+  "unresolved": [
+    "Target-only MIAP action unobserved for source32767 and dense256 in both engines at72/96dpi",
+    "4096-instruction drawing action unproven",
+    "General TrueType/fpgm/prep/arithmetic/storage/zone, CFF/variable fonts",
+    "General CMap/DR/DA/shared Form, complex clipping/transparency/partial graphics",
+    "Native IME/OS clipboard/real DPI, external Reader/Word GUI, clean Windows, physical print, true disk-full, performance/usability/distribution",
+    "Complex OCR R01, general paragraph/vertical/image editing, Office reverse conversion/complex tables, accessibility repair"
+  ],
+  "next_design": "docs/design/REDACTION_MIXED_WIDTH_CMAP_NEXT.md",
+  "next_scope": "Embedded horizontal mixed1/2byte CMap, singleBMP mapping, initial effectiveTw0; fixed input/truth before implementation",
+  "general_M1_M3_M5_acceptance": "withheld",
+  "merge_general_binary_publication": "forbidden",
+  "created_at_utc": "2026-10-13T00:30:13.527232+00:00"
+}

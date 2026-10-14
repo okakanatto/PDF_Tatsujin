@@ -41,6 +41,19 @@ std::shared_ptr<SelectionPage> readPage(PDFDocument document, int number)
             line.end = i;
             if (line.bounds.isValid())
             {
+                QPointF first, last;
+                bool found = false;
+                for (qsizetype j = line.first; j < line.end; ++j)
+                    if (result->boxes[j].isValid())
+                    {
+                        if (!found)
+                            first = result->boxes[j].center();
+                        last = result->boxes[j].center();
+                        found = true;
+                    }
+                const auto direction = last - first;
+                line.vertical = qAbs(direction.y()) > qAbs(direction.x());
+                line.decreasing = direction.y() < 0;
                 // PDF text often encodes a space as a gap, with no glyph box.
                 // Give those logical characters a caret interval on this line.
                 for (qsizetype j = line.first + 1; j + 1 < line.end; ++j)
@@ -49,7 +62,7 @@ std::shared_ptr<SelectionPage> readPage(PDFDocument document, int number)
                     {
                         const auto left = result->boxes[j - 1].right();
                         const auto right = result->boxes[j + 1].left();
-                        if (right > left)
+                        if (!line.vertical && right > left)
                             result->boxes[j] =
                                 QRectF(left, line.bounds.top(), right - left, line.bounds.height())
                                     .intersected(crop);
@@ -96,13 +109,16 @@ qsizetype SelectionPage::caret(QPointF point) const
         const auto& box = line.bounds;
         const auto dx = std::max({box.left() - point.x(), point.x() - box.right(), 0.0});
         const auto dy = std::max({box.top() - point.y(), point.y() - box.bottom(), 0.0});
-        const auto distance = std::make_pair(dy, dx);
+        const auto distance = line.vertical ? std::make_pair(dx, dy) : std::make_pair(dy, dx);
         if (distance < closest)
         {
             closest = distance;
             result = line.end;
             for (qsizetype i = line.first; i < line.end; ++i)
-                if (boxes[i].isValid() && point.x() < boxes[i].center().x())
+                if (boxes[i].isValid() &&
+                    (line.vertical ? (line.decreasing ? point.y() > boxes[i].center().y()
+                                                      : point.y() < boxes[i].center().y())
+                                   : point.x() < boxes[i].center().x()))
                 {
                     result = i;
                     break;
@@ -119,16 +135,17 @@ qsizetype SelectionPage::characterAt(QPointF point, bool nearest) const
     const Line* closest = nullptr;
     auto distance =
         std::make_pair(std::numeric_limits<double>::max(), std::numeric_limits<double>::max());
-    const auto measure = [point](QRectF box)
+    const auto measure = [point](QRectF box, bool vertical)
     {
-        return std::make_pair(std::max({box.top() - point.y(), point.y() - box.bottom(), 0.0}),
-                              std::max({box.left() - point.x(), point.x() - box.right(), 0.0}));
+        const auto dx = std::max({box.left() - point.x(), point.x() - box.right(), 0.0});
+        const auto dy = std::max({box.top() - point.y(), point.y() - box.bottom(), 0.0});
+        return vertical ? std::make_pair(dx, dy) : std::make_pair(dy, dx);
     };
     for (const auto& line : lines)
     {
         if (!nearest && !line.bounds.contains(point))
             continue;
-        if (const auto candidate = measure(line.bounds); candidate < distance)
+        if (const auto candidate = measure(line.bounds, line.vertical); candidate < distance)
         {
             closest = &line;
             distance = candidate;
@@ -140,7 +157,7 @@ qsizetype SelectionPage::characterAt(QPointF point, bool nearest) const
     distance = {std::numeric_limits<double>::max(), std::numeric_limits<double>::max()};
     for (qsizetype i = closest->first; i < closest->end; ++i)
         if (boxes[i].isValid() && (nearest || boxes[i].contains(point)))
-            if (const auto candidate = measure(boxes[i]); candidate < distance)
+            if (const auto candidate = measure(boxes[i], closest->vertical); candidate < distance)
             {
                 result = i;
                 distance = candidate;

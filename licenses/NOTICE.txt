@@ -35,3 +35,12 @@ has unexecuted acceptance checks; no production-ready binary release is claimed.
 The generated test corpus contains synthetic original text and drawings,
 offered under CC0-1.0. Embedded fonts retain their own licenses. It does
 not contain user business documents or personal signatures.
+
+Optional PDF/A validation invokes a separately installed local veraPDF CLI
+and Java runtime. They are not included in the application bundle. The
+development pin is veraPDF 1.30.3 (GPLv3+ or MPLv2+, separate from our MIT
+code) and Eclipse Temurin 21.0.12.1+1 (GPL-2.0 with Classpath Exception,
+with individual module notices). See pdfa-engine-lock.json. Redistribution
+of this optional runtime remains subject to a separate license review.
+The four public PDF/A corpus fixtures are CC BY 4.0, attributed in
+fixtures/pdfa-validation/ATTRIBUTION.md; other synthetic fixtures remain CC0.

@@ -1,0 +1,37 @@
+# The pinned assembler collects form/name/layer objects but never attaches them
+# to the new catalog. Derive the single fixed source in the build directory.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/vendor/PDF4QT/Pdf4QtLibCore/sources/pdfdocumentmanipulator.cpp" manipulator_source)
+string(REPLACE "\r\n" "\n" manipulator_source "${manipulator_source}")
+string(SHA256 manipulator_hash "${manipulator_source}")
+if(NOT manipulator_hash STREQUAL "c9308bc2617d1278038379a0c51caa034bc0f9620b38286ab133a15a25067355")
+    message(FATAL_ERROR "Review the document assembler adaptation for the new PDF4QT source")
+endif()
+string(REPLACE "        pdf::PDFDocument mergedDocument = documentBuilder.build();"
+    "        // PDF Tatsujin: retain collected form, name and layer objects.\n        finalizeMergedObjects(documentBuilder);\n        pdf::PDFDocument mergedDocument = documentBuilder.build();"
+    manipulator_source "${manipulator_source}")
+set(adapted_manipulator "${CMAKE_BINARY_DIR}/adapted/pdfdocumentmanipulator.cpp")
+foreach(merged_type MOT_Form MOT_OCProperties)
+    if(merged_type STREQUAL "MOT_Form")
+        set(merged_reference acroFormReference)
+    else()
+        set(merged_reference ocPropertiesReference)
+    endif()
+    set(append_call "            documentBuilder.appendTo(m_mergedObjects[${merged_type}], documentBuilder.getObjectByReference(${merged_reference}));")
+    string(REPLACE "${append_call}"
+        "            // PDF Tatsujin: an absent catalog entry must not erase an earlier document's data.\n            if (!documentBuilder.getObjectByReference(${merged_reference}).isNull())\n    ${append_call}"
+        manipulator_source "${manipulator_source}")
+endforeach()
+if(EXISTS "${adapted_manipulator}")
+    file(READ "${adapted_manipulator}" previous_manipulator)
+endif()
+if(NOT manipulator_source STREQUAL previous_manipulator)
+    file(WRITE "${adapted_manipulator}" "${manipulator_source}")
+endif()
+get_target_property(core_sources Pdf4QtLibCore SOURCES)
+list(FIND core_sources "sources/pdfdocumentmanipulator.cpp" original_manipulator_index)
+if(original_manipulator_index LESS 0)
+    message(FATAL_ERROR "The original document assembler source is missing from the target")
+endif()
+list(REMOVE_ITEM core_sources "sources/pdfdocumentmanipulator.cpp")
+set_property(TARGET Pdf4QtLibCore PROPERTY SOURCES "${core_sources};${adapted_manipulator}")
+target_include_directories(Pdf4QtLibCore PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/vendor/PDF4QT/Pdf4QtLibCore/sources")

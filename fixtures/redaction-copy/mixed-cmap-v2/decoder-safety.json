@@ -1,0 +1,34 @@
+{
+  "format": "mixed-cmap-decoder-safety-v1",
+  "fixed_at_utc": "2026-10-13T01:46:32.911662+00:00",
+  "source": "mixed-value-length.pdf",
+  "source_criteria_sha256": "796b7ae0ef979583d0180c91c1020dd30405530d044daf39e83339f0b2ae326a",
+  "valid_code_hex": "41",
+  "expected_cid": 300,
+  "expected_unicode": "蜈ｬ",
+  "successful_decode_codes": 32,
+  "successful_validation_codes": 65536,
+  "malformed_input": {
+    "prefix_hex": "ff",
+    "tail_hex": "41",
+    "tail_bytes": 8388608,
+    "expected": "refused",
+    "expected_scanning_callbacks": 1
+  },
+  "cancellation": {
+    "input_codes": 65536,
+    "cutoffs": [
+      1,
+      32,
+      4096
+    ],
+    "expected": "refused at exact cutoff before scanning any later code"
+  },
+  "invariants": {
+    "source_pdf_bytes_unchanged": true,
+    "output_created": false,
+    "validation_does_not_build_decoded_code_vector": true,
+    "no_pdf_rendering_in_this_test": true
+  },
+  "scope": "Direct raw string decoder validation/cancellation only. Does not establish bounded engine font loading, compressed-stream allocation, or general long-document rendering."
+}

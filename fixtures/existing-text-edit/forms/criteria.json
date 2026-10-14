@@ -1,0 +1,29 @@
+{
+  "files": {
+    "shared-forms.pdf": "9537f53f54d3961465a270938411db625589b6a6904a1a00ce8ccba5b4020ddd",
+    "cyclic-form.pdf": "0d3a828f8f7cf917de38a972a665ca676867faa3f1a3b1841018914f20cd17bf",
+    "group-form.pdf": "69fa521e43d4c351f231feafb241655cd9e0b12ffba24530f9f50b1abfac6610",
+    "clipped-form.pdf": "80510b37481dd68723be2e01b5c10df1f3e27fef7884de19d243c80ff2575ec9"
+  },
+  "source_files": {
+    "shared-forms.pdf": "6eafa4f04939f7bb41149db9d766bf02715b79b1525fb4b480e440ab1f4af121",
+    "cyclic-form.pdf": "d4cfd5d646064e4d2d30ee5397788f797956b4dd3db13b9fd2a323c9d23779df",
+    "group-form.pdf": "df18d8472674dec3ea84b5e03096ce6cf170a3852adb0d3cbcf6c2d58a4c1366",
+    "clipped-form.pdf": "a4d4e184a4ccde4fa7f9c4f18bea8a9355d5c57dbd7d7d826f2189d0ea34ef18"
+  },
+  "selected": "Form first line\nForm second line",
+  "selected_invocation": 0,
+  "depth": 2,
+  "english": "Edited first row\nEdited next row",
+  "japanese": "本文を編集\n署名を保持",
+  "reedited": "本文を更新\n画像を保持",
+  "three_lines": "本文を編集\n署名を保持\n画像を保持",
+  "explicit_family": "Meiryo UI",
+  "leading_ratio": 1.25,
+  "refused": [
+    "cyclic-form.pdf",
+    "group-form.pdf",
+    "clipped-form.pdf"
+  ],
+  "scope": "Additional synthetic CC0 group-text contract fixed before implementation and product operations; original criteria and thresholds unchanged"
+}

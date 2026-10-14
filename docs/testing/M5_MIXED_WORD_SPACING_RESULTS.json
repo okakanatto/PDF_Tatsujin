@@ -1,0 +1,192 @@
+{
+  "format": "dev43-word-spacing-scoped-results-v1",
+  "recorded_at_utc": "2026-10-13T11:18:24.228402+00:00",
+  "status": "PASS_SCOPED_RAW_AND_BOUNDARIES_GENERAL_ACCEPTANCE_WITHHELD",
+  "native_full": {
+    "passed": 262,
+    "failed": 0,
+    "platform": "Windows11 25H2 Qt6.9.3 offscreen",
+    "selftest": {
+      "path": "evidence/m5-dev43-full-r1-20261013/selftest.json",
+      "bytes": 852130,
+      "sha256": "bad50caf5129c478a66848d43a6fdc09ed8bdd9cb6fbb94bb8be58c4289e1851"
+    },
+    "process": {
+      "path": "evidence/m5-dev43-full-r1-20261013/process-result.json",
+      "bytes": 837,
+      "sha256": "113253451b61fae63bd9362d864318e17b8f2b93b0964e29bba43c997b77ffcf"
+    },
+    "runtime_bindings": {
+      "path": "evidence/dev43-recovery-audit-full-runtime-bindings-r1.json",
+      "bytes": 2470,
+      "sha256": "93cd5b7a4a70259669d96e0d2fd8d630f8f547ea81b2978fa6327d1f930d6e8e"
+    }
+  },
+  "independent": {
+    "RAW": {
+      "passed": 44,
+      "failed": 0,
+      "conditions": 43,
+      "UI_conditions": 1,
+      "fresh_on_full_run": true,
+      "raster_comparisons": 186,
+      "outside_pixel_difference": 0,
+      "profiles": "PDFium and Poppler72/96/300dpi",
+      "report": {
+        "path": "evidence/dev43-recovery-independent-RAW-full-r1.json",
+        "bytes": 86920,
+        "sha256": "dc29cc01f5235a1925845d3d10f06c1b4f44b3bfa83ba2888caab5f7c4d09742"
+      },
+      "process": {
+        "path": "evidence/dev43-recovery-independent-RAW-full-process-r1.json",
+        "bytes": 3227,
+        "sha256": "044d7a3bfb6863ee51dc722bb1c2e92424dff59eec50c221b927e96a54eecd60"
+      }
+    },
+    "boundaries": {
+      "passed": 6,
+      "failed": 0,
+      "scope": "document first/last atomic refusal,256 positive,257 refusal; optional builder256/257",
+      "native": {
+        "path": "evidence/dev43-recovery-boundary-output-r1/boundary-results.json",
+        "bytes": 301401,
+        "sha256": "1a4b2eb44974bdde17068de91859bb8c3bff3cbf737d483b46794fc25ec99813"
+      },
+      "process": {
+        "path": "evidence/dev43-recovery-boundary-output-r1/process-result.json",
+        "bytes": 515,
+        "sha256": "8cb56047e749ed40ba29920fab312b43ccfd1ea10b2854bcfe1fbba065733bfb"
+      },
+      "report": {
+        "path": "evidence/dev43-recovery-independent-boundary-r1.json",
+        "bytes": 9944,
+        "sha256": "2ff3c1cc94732aa3353d66b8c47c62f35ac7e58e62c2647b40d91f3fb37389b2"
+      },
+      "evaluator_process": {
+        "path": "evidence/dev43-recovery-independent-boundary-process-r1.json",
+        "bytes": 1609,
+        "sha256": "de3085d2c0851fdcb7dfeddd590581ce64403e9a0553b0ed8890a6d48357dc30"
+      },
+      "Widgets": "UNLOADED; standalone Core-only runner is not three product module proof"
+    },
+    "M5_prior": {
+      "passed": 124,
+      "failed": 0,
+      "reused_identical_bytes": 86,
+      "fresh": 38,
+      "report": {
+        "path": "evidence/dev43-M5-independent-summary-final.json",
+        "bytes": 43833,
+        "sha256": "cd7f30e70d9d2146d2a96d3876db2d1d7b5d57e890826e0615961d35be8504d6"
+      }
+    },
+    "editing": {
+      "passed": 160,
+      "all_fresh": true,
+      "reference_PDFs": 321,
+      "reference_logical_bytes": 16028625,
+      "report": {
+        "path": "evidence/dev43-editing-independent-summary-final.json",
+        "bytes": 123921,
+        "sha256": "d434dedcb898eff7f224f06807e86c66e5b0173d1843f9ba816e83aa4b1468f7"
+      }
+    },
+    "M1_limited": {
+      "PASS_status_fields": 26,
+      "separate_true_booleans": 7,
+      "search_jpn": 20,
+      "search_eng": 20,
+      "jpn_CER": 0.005050505050505051,
+      "eng_CER": 0.0004553734061930783,
+      "max_alignment_mm": 0.9216814676920573,
+      "general_M1_qualified": false,
+      "summary": {
+        "path": "evidence/dev43-M1-independent-summary-final.json",
+        "bytes": 4626,
+        "sha256": "98b18bd092cecd0f75896024ce33b68333f95ce96cc8d688b46c528ba316aba2"
+      },
+      "actual_evaluator_process": {
+        "path": "evidence/dev43-M1-evaluator-process-r1.json",
+        "bytes": 2044,
+        "sha256": "82eb26ae354be0c1d2912427f35d964672dbd987e58efc88da9ee96fef5f366f"
+      }
+    },
+    "extra": {
+      "fresh_CVT_hint_boundaries_passed": 101,
+      "scoped_mixed_passed": 46,
+      "direct_original_passed": 41,
+      "direct_original_failed": 5,
+      "actual_direct_evaluator_exit_code": 1,
+      "failures_preserved": true,
+      "report": {
+        "path": "evidence/dev43-extra-independent-full-runtime-bindings-r1.json",
+        "bytes": 10408,
+        "sha256": "430b1dfda16e38e6cba225dc7b7c916aea4758beecbc2eb5beb546d8a1c58d69"
+      }
+    }
+  },
+  "fixed_inputs": {
+    "v3": {
+      "path": "fixtures/redaction-copy/mixed-word-spacing-v1/criteria-v3.json",
+      "bytes": 440516,
+      "sha256": "bcf6e229e6f487d6287acb6962791dca8bc34a91857e16d1eb0c8e4ba6cdaa2e"
+    },
+    "boundaries": {
+      "path": "fixtures/redaction-copy/mixed-word-spacing-boundaries-v1/criteria.json",
+      "bytes": 24494,
+      "sha256": "2d9fc95ed0e62ac20dcf9181604055f0b3b580e3479379617af970bfeded2104"
+    },
+    "v3_chronology": "Selection correction follows initial implementation/failure, precedes v3 RAW product runtime; never described as pre-implementation original oracle",
+    "thresholds_unchanged": true
+  },
+  "source_and_runtime": {
+    "actually_tested_main_source_commit": "c5c743c55b462f39a11b70859dad88a2da2c966a",
+    "runtime": {
+      "path": "evidence/dev43-runtime-r3/PDFTatsujin.exe",
+      "bytes": 5266432,
+      "sha256": "f5ab59c66e421266136cac1c6961ee7d18ea6b1dca7d30172da9439893d1fce4"
+    },
+    "Core": {
+      "path": "evidence/dev43-runtime-r3/Pdf4QtLibCore.dll",
+      "bytes": 9073664,
+      "sha256": "11a04b2543f3cea739f515356e400e59afd47a2bc72cc7c773207a648d432aa2"
+    },
+    "Widgets": {
+      "path": "evidence/dev43-runtime-r3/Pdf4QtLibWidgets.dll",
+      "bytes": 1050624,
+      "sha256": "12b5e8f70aea7ae168c204160b262344952a3afcadd470f8f6678dfaf752e8b1"
+    },
+    "formatted_main_binary_rebuilt": false,
+    "public_format_repair": "Cpp tokens/directive order/string literal bytes and Python AST/literal spelling equal; public source CI38390242287 completed/success; formatted main binary not rebuilt",
+    "public_source_commit": "f51efda055d0ea4950a9e8ae99e4315830bf92f4"
+  },
+  "historical_failures": {
+    "Identity_H": {
+      "passed": 42,
+      "failed": 2,
+      "retained": true,
+      "same_fixed44_RAW": "300dpi20pixel shift and public-to-spaced-text difference resolved in RAW44 limited scope"
+    },
+    "old_dev42_direct": {
+      "passed": 41,
+      "failed": 5,
+      "retained": true,
+      "not_resolved_by_RAW44": true
+    },
+    "source_CI_failure": {
+      "run_id": 38384447901,
+      "retained": true,
+      "reason": "clang-format style",
+      "checks_not_weakened": true
+    }
+  },
+  "general_acceptance": "WITHHELD M1/M3/M5",
+  "unexecuted": [
+    "native visible GUI/OS clipboard/IME",
+    "external Reader compatibility",
+    "clean target Windows and print",
+    "M3 performance/usability/distribution gates",
+    "general TrueType/CFF/variable font/clip/transparency coverage",
+    "new Miap target drawing effect and 4096 limits"
+  ]
+}

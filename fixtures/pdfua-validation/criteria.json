@@ -1,0 +1,46 @@
+{
+  "upstream": "https://github.com/veraPDF/veraPDF-corpus",
+  "commit": "bb75f4f0073d9350dfd058c0162a367e6fadf25e",
+  "license": "CC BY 4.0 as stated in pinned README",
+  "chosen_before_implementation": true,
+  "profile": "ua1",
+  "scope": "machine-verifiable checks; human semantics/full PDF/UA conformity remain未評価",
+  "inputs": [
+    {
+      "case": "version-pass",
+      "path": "PDF_UA-1/5 Version identification/5-t01-pass-a.pdf",
+      "blob_sha": "b3476233d3c55cdeced3328daeba41bb42780a7b",
+      "bytes": 42497,
+      "upstream_expected": "pass",
+      "file": "version-pass.pdf",
+      "sha256": "853fc52f5dca32dd257cac1da4ca9c1702623e357b48a361f835c4f271bd2c68"
+    },
+    {
+      "case": "version-fail",
+      "path": "PDF_UA-1/5 Version identification/5-t01-fail-a.pdf",
+      "blob_sha": "6b20af55c499d9d50dba5c00b26f173788ca27f2",
+      "bytes": 38394,
+      "upstream_expected": "fail",
+      "file": "version-fail.pdf",
+      "sha256": "33d9008d84746cb8cf7cf11f50d8e67a97b3640978d845050e18ee47bfb95310"
+    },
+    {
+      "case": "text-pass",
+      "path": "PDF_UA-1/7.2 Text/7.2-t02-pass-a.pdf",
+      "blob_sha": "7b4ef894871775029d2d731a2f07702b8e35a0b0",
+      "bytes": 60259,
+      "upstream_expected": "pass",
+      "file": "text-pass.pdf",
+      "sha256": "d23e975cd682506ff027f16a56ae00e19abbfce47083881def90c003bc1da000"
+    },
+    {
+      "case": "text-fail",
+      "path": "PDF_UA-1/7.2 Text/7.2-t02-fail-a.pdf",
+      "blob_sha": "ef9485517dd4965bb7ac8aa15d7d2fbe0b9f726b",
+      "bytes": 31123,
+      "upstream_expected": "fail",
+      "file": "text-fail.pdf",
+      "sha256": "13b1bb2783599efec203a9080a4233d71c6e45d9f2a8403fdaa7e61049f37500"
+    }
+  ]
+}

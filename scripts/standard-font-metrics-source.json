@@ -1,0 +1,33 @@
+{
+  "reportlab_version": "4.4.9",
+  "license": "BSD-3-Clause",
+  "origin": "https://docs.reportlab.com/developerfaqs/",
+  "source_files_sha256": {
+    "_fontdata.py": "3bdaf2b8764d3e61ceca5295f07e9238add2cbd4d9ffe25c9f9ae7ab8dad21b2",
+    "_fontdata_widths_courier.py": "c387d1248460ae9f8c0d6ca6c2a0db6f0fd0bb016bd9a60bbd250e86141ffb98",
+    "_fontdata_widths_courierbold.py": "c387d1248460ae9f8c0d6ca6c2a0db6f0fd0bb016bd9a60bbd250e86141ffb98",
+    "_fontdata_widths_courieroblique.py": "c387d1248460ae9f8c0d6ca6c2a0db6f0fd0bb016bd9a60bbd250e86141ffb98",
+    "_fontdata_widths_courierboldoblique.py": "c387d1248460ae9f8c0d6ca6c2a0db6f0fd0bb016bd9a60bbd250e86141ffb98",
+    "_fontdata_widths_helvetica.py": "1010b3c0ff897b3b467bb893500be8a6fa94f15c34fdcb16eb83c8c5773f9211",
+    "_fontdata_widths_helveticabold.py": "61b30f5a8ebb923971e5160ea85fd6769b9f1ce3b6689fafe7c702354a5e9328",
+    "_fontdata_widths_helveticaoblique.py": "1010b3c0ff897b3b467bb893500be8a6fa94f15c34fdcb16eb83c8c5773f9211",
+    "_fontdata_widths_helveticaboldoblique.py": "61b30f5a8ebb923971e5160ea85fd6769b9f1ce3b6689fafe7c702354a5e9328",
+    "_fontdata_widths_timesroman.py": "18328f25869055abe98487aadfd2e3dbe76ab26849b693b8165f00dcbe679f14",
+    "_fontdata_widths_timesbold.py": "f7443b6ce6e5c188babaa6473f38b5b46c348489d882f0e77e1d643c862968ec",
+    "_fontdata_widths_timesitalic.py": "1a8755cbf14aa0ab4fa0cc092ffcec46839f01945a9307bce0469e956ba4371f",
+    "_fontdata_widths_timesbolditalic.py": "87632b9a35119bd92ff078b36660c8fa38dfd329ef9ef4ac9623a6f42fa54b3a",
+    "_fontdata_widths_symbol.py": "a90c58d86eb543969c14b6e9f46b22b8cb3d6823a9953179275d825432f5ed31",
+    "_fontdata_widths_zapfdingbats.py": "8db1826dddedcb2e15c31cae525cd597af222e0bd169fc87209cfcb36e199602",
+    "_fontdata_enc_standard.py": "f477039ca94a38bd85c762fa4a85ad3c34dbb01e2df075715c20f5868200228e",
+    "_fontdata_enc_winansi.py": "e7b5d1be40351a19333dc1741573bd8e8014c363b4a845c8de63693ea7c629a2",
+    "_fontdata_enc_macroman.py": "235cc3f87af60d4da009cc1250d6508ff69786355ee84082b0c5219df343de33",
+    "_fontdata_enc_symbol.py": "93335536e0c5c6d80dd5994d050f33940e8e1fc3a828cbfba13b6101616cb372",
+    "_fontdata_enc_zapfdingbats.py": "9398fc8f4f4ee5f6067c7d17dca90d3b55787e796b97f362a51bbc9459b8a84a"
+  },
+  "generated_header": "src/standard_font_metrics.h",
+  "generated_header_sha256_LF": "64bc5c33a11b3eb1c21ee0f4f1eeaded04c77f777ceb35cb8586949c915330d6",
+  "license_file": "licenses/REPORTLAB_METRICS_LICENSE.txt",
+  "license_sha256": "ef831761646313921375fc2cb888e8eeaf7da213d0b92852c10c42f3a0b4d138",
+  "font_outlines_included": false,
+  "runtime_python_required": false
+}

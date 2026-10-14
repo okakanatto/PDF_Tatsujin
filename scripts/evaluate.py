@@ -9,6 +9,37 @@ from PIL import Image, ImageChops
 ROOT = Path(__file__).resolve().parents[1]
 OUT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else ROOT / "evidence/run"
 FX = ROOT / "fixtures"
+required = [
+    "D03-ocr.pdf",
+    "D03-app-text.json",
+    "D03-selection-copy.json",
+    "D04-ocr.pdf",
+    "D05-before.pdf",
+    "D05-ocr.pdf",
+    "combined.pdf",
+    "signature.pdf",
+    "signature-reedited.pdf",
+    "coordinates.pdf",
+    "form-preserved.pdf",
+]
+missing = [name for name in required if not (OUT / name).is_file()]
+process_file = OUT / "process-result.json"
+if missing or not process_file.is_file():
+    raise RuntimeError(
+        "Independent M1 verification is unexecuted: wait for the completed producer. "
+        + ", ".join(
+            missing + ([] if process_file.is_file() else ["process-result.json"])
+        )
+    )
+process = json.loads(process_file.read_text(encoding="utf-8-sig"))
+if not process.get("completed") or process.get("exit_code") != 0:
+    raise RuntimeError(
+        "Independent M1 verification requires a successfully completed producer"
+    )
+if (OUT / "independent-verification.json").exists():
+    raise RuntimeError(
+        "Preserve prior independent verification; use a fresh run directory"
+    )
 from test_tools import poppler_tool
 
 PDFTOPPM = poppler_tool("pdftoppm")

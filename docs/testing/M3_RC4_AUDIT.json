@@ -1,0 +1,1346 @@
+{
+  "status": "PASS",
+  "executable_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+  "binaries": [
+    {
+      "file": "archive.dll",
+      "sha256": "f0d849296938a5016d1555531fe19a13b76591d16e716b2859314ed27fd656d5",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "XmlLite.dll": "Windows:System32",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "bcrypt.dll": "Windows:System32",
+        "bz2.dll": "package:bz2.dll",
+        "liblzma.dll": "package:liblzma.dll",
+        "lz4.dll": "package:lz4.dll",
+        "ole32.dll": "Windows:System32",
+        "z.dll": "package:z.dll",
+        "zstd.dll": "package:zstd.dll"
+      }
+    },
+    {
+      "file": "asmjit.dll",
+      "sha256": "944b8ec8cf5e7265eaebda16ee0af64e1e5d7cb9d36241c57a37999a4030a12b",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "blend2d.dll",
+      "sha256": "6b9e90eb2d8a110b2e1bfedf871fb71fbfac948abee5e3047d60b0adfb9a1fed",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "asmjit.dll": "package:asmjit.dll"
+      }
+    },
+    {
+      "file": "brotlicommon.dll",
+      "sha256": "ae809e012108f1d56a24a6873fa75d80e13f110fcefdcca2e38953d0914328c1",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "brotlidec.dll",
+      "sha256": "f470c37e0ca2c218779b45aecc53a0f2e1e77c9584e9153876adcdc3dd160cec",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "brotlicommon.dll": "package:brotlicommon.dll"
+      }
+    },
+    {
+      "file": "brotlienc.dll",
+      "sha256": "ed2b18c3b9fa116a7d77dd80cb1d652a2a1369e56cbf9c75cd3b830933e57ee1",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "brotlicommon.dll": "package:brotlicommon.dll"
+      }
+    },
+    {
+      "file": "bz2.dll",
+      "sha256": "e8459d441651badb375539b961f44080809c58bb8406b490654f64a2274870a0",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "concrt140.dll",
+      "sha256": "b2faf3b85b23c840b654e57d5497a0ad31acd02fb01856cad4725a1715d5f78e",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "D3Dcompiler_47.dll",
+      "sha256": "e994847e01a6f1e4cbdc5a864616ac262f67ee4f14db194984661a8d927ab7f4",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "RPCRT4.dll": "Windows:System32",
+        "msvcrt.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "freetype.dll",
+      "sha256": "a60eca953d064760f9fb9ae26a854ec1bdfe5a44302fa7bf23edeec0e00b9304",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "brotlidec.dll": "package:brotlidec.dll",
+        "bz2.dll": "package:bz2.dll",
+        "libpng16.dll": "package:libpng16.dll",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "generic/qtuiotouchplugin.dll",
+      "sha256": "6e9784408b75adc57a28527e6ebc24baada0e90fb5bf4946ccb9798bd8784057",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Network.dll": "package:Qt6Network.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "gif.dll",
+      "sha256": "249186812daf33a4c4032b9b9b5c43cafef31b50890c74d930c7e378d6317c1d",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "hwloc-15.dll",
+      "sha256": "6b798e0cfe04bf07e4b85d052dce9371b3f45c4da90fbabd1df5a3693e4459e0",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "iconengines/qsvgicon.dll",
+      "sha256": "92c6fa5cadc4161fec213f2f6cbb9d793436b222ee88369b70a97123b1e3302a",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Svg.dll": "package:Qt6Svg.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qgif.dll",
+      "sha256": "cee83c066006c46f8dee16f33e524bac12f166ac667f4a86956473e8e207d68b",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qicns.dll",
+      "sha256": "83ecab9232f204bbb3c9a2f5dca626ec9f4f31d466b457f91979a6b6ea43dee2",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qico.dll",
+      "sha256": "82afc4eb27771e452a39fdc896bc638a138a0afb820d1b813b36cabba48c178d",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qjpeg.dll",
+      "sha256": "43ca4ed440f9f03e79f75fd76905e3350ec4008650d02d7041fdd2ac4043dfd2",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qsvg.dll",
+      "sha256": "f613467380c982c166f573ce7e0a35243ef49a4ae253dcfa07e0f781d8f73bbe",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Svg.dll": "package:Qt6Svg.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qtga.dll",
+      "sha256": "24674e6a2e9a2b14d890bfcec2ba19550ebb28b0a9aad6565435070c8795428a",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qtiff.dll",
+      "sha256": "0402ca2e00feb50147111921d786fed941cfa4255a2a454260f63ae1179c3bca",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qwbmp.dll",
+      "sha256": "cc8b5e7f0f284dd234910bada302fab273132d0145d4db5abe53fc4a59457c9a",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "imageformats/qwebp.dll",
+      "sha256": "4e3de65c0487add2ac20befd2c2d80084e65372704139899ec9e1da90191fcc0",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "jpeg62.dll",
+      "sha256": "a7148bea16f01df7bf6f193b872c7b4d9fb282c0e9c24705d8dd0c3892212794",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "lcms2-2.dll",
+      "sha256": "3609da3ee03cafbe6c26372e88c83fa9e890dd1da2b64c1447ba71993543f439",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "legacy.dll",
+      "sha256": "3f46771d69d14a1a9f262889b1697060b31a83aa07b10e2ebfa2d7bfc12380cb",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll"
+      }
+    },
+    {
+      "file": "leptonica-1.87.0.dll",
+      "sha256": "abde70ec16b80b48c8d0ff373dfa65722f7874a4355b114069bafe3f6072ae57",
+      "machine": "x64",
+      "dependencies": {
+        "GDI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "USER32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "gif.dll": "package:gif.dll",
+        "jpeg62.dll": "package:jpeg62.dll",
+        "libpng16.dll": "package:libpng16.dll",
+        "libwebp.dll": "package:libwebp.dll",
+        "libwebpmux.dll": "package:libwebpmux.dll",
+        "openjp2.dll": "package:openjp2.dll",
+        "tiff.dll": "package:tiff.dll",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "libcrypto-3-x64.dll",
+      "sha256": "cc8988346c5680cb25ffb78651befbfadc89be6c0a73ea8637a03d0dd4b131e3",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "CRYPT32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "USER32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "WS2_32.dll": "Windows:System32",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "libcurl.dll",
+      "sha256": "73b5fac48e63f1c985f9e46c5d34404a519cfe854daa91364244e8c034b5c2c7",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "CRYPT32.dll": "Windows:System32",
+        "IPHLPAPI.DLL": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "Secur32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "WS2_32.dll": "Windows:System32",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "bcrypt.dll": "Windows:System32",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "liblzma.dll",
+      "sha256": "fb53a94348a365bd52281b91658fc5690e8f79fee03573bc95f2ecaf3f4ce0eb",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "libpng16.dll",
+      "sha256": "8b269231e29a79dafbe4ec7bb47d38f649cd87f73596e9e87af01b71ad8de3f1",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "libsharpyuv.dll",
+      "sha256": "68ec545d1c7a5dac16f6d8e2cdd9b3c9ed7020d931dd91d91723de635147bcc8",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "libssl-3-x64.dll",
+      "sha256": "8cffefb573a130cd0ebb66e6e27d2375b32b0d1ad1102a32fed0e085e399ec8a",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "WS2_32.dll": "Windows:System32",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll"
+      }
+    },
+    {
+      "file": "libwebp.dll",
+      "sha256": "6c7d2a42abe57167d5a097504da1d0b1f8f8300dbdc5c0aeeb0745c781e599d2",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "libsharpyuv.dll": "package:libsharpyuv.dll"
+      }
+    },
+    {
+      "file": "libwebpdecoder.dll",
+      "sha256": "2daef7e345bc67b511459ac2446127c1be8aaab8e30b2f2625effceb53eb961b",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "libwebpdemux.dll",
+      "sha256": "1f7df6ce9ade7c65e625069caaf133bed525c19f8e3f8c7164e8983987e42701",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "libwebp.dll": "package:libwebp.dll"
+      }
+    },
+    {
+      "file": "libwebpmux.dll",
+      "sha256": "e500e59034c4a24425cb6bc63f2e7b32b57987794adf368903a36495300eb39c",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "libwebp.dll": "package:libwebp.dll"
+      }
+    },
+    {
+      "file": "lz4.dll",
+      "sha256": "c75bf7a0b36a7cdc6bea523e263555803df1a7dc9a1072de8ec70f4c9d6fd4f9",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "msvcp140.dll",
+      "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "msvcp140_1.dll",
+      "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "msvcp140_2.dll",
+      "sha256": "1d60da3ac2b06482912ca852fa7047436e6e474b4cfffa3bf77f4598cfbf454c",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "msvcp140_atomic_wait.dll",
+      "sha256": "e7963645e0d1db08e300614d4c5fa7194bd8173e9ab7a5558859e6b232ed3241",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-core-synch-l1-2-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "msvcp140_codecvt_ids.dll",
+      "sha256": "ae8d922b00cdd93e3ebecc37beb46c800f383ebdeb9f9e5b84e04a72428b6fb3",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "networkinformation/qnetworklistmanager.dll",
+      "sha256": "9a00977c2406a0cacfd25e24e9f32d7d2721a8e125f7576def00307a5850d067",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "OLEAUT32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Network.dll": "package:Qt6Network.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "ole32.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "openjp2.dll",
+      "sha256": "6602d5a474fae998fe6510c51b831298fb6c13dc97ad647c7c534ebd64041726",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "Pdf4QtLibCore.dll",
+      "sha256": "9548873b341a2f7fb413a7023759426ec1e5773e07b7a10e7863a621645d3c6d",
+      "machine": "x64",
+      "dependencies": {
+        "CRYPT32.dll": "Windows:System32",
+        "GDI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_ATOMIC_WAIT.dll": "package:MSVCP140_ATOMIC_WAIT.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Xml.dll": "package:Qt6Xml.dll",
+        "Secur32.dll": "Windows:System32",
+        "USER32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "blend2d.dll": "package:blend2d.dll",
+        "freetype.dll": "package:freetype.dll",
+        "jpeg62.dll": "package:jpeg62.dll",
+        "lcms2-2.dll": "package:lcms2-2.dll",
+        "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll",
+        "mscms.dll": "Windows:System32",
+        "openjp2.dll": "package:openjp2.dll",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "Pdf4QtLibWidgets.dll",
+      "sha256": "5330d38e9387fa0812a7ceb96e0a98eba88e8539f82b69afe68db5fa34e82852",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Pdf4QtLibCore.dll": "package:Pdf4QtLibCore.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Svg.dll": "package:Qt6Svg.dll",
+        "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "PDFTatsujin.exe",
+      "sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Pdf4QtLibCore.dll": "package:Pdf4QtLibCore.dll",
+        "Pdf4QtLibWidgets.dll": "package:Pdf4QtLibWidgets.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6PrintSupport.dll": "package:Qt6PrintSupport.dll",
+        "Qt6Test.dll": "package:Qt6Test.dll",
+        "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+        "SHELL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "tesseract55.dll": "package:tesseract55.dll"
+      }
+    },
+    {
+      "file": "platforms/qoffscreen.dll",
+      "sha256": "80f71afcd3cbec3c13375f5449d4eaecd64d9ca26c70bc83615039d094eb562a",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "platforms/qwindows.dll",
+      "sha256": "133983755958a0f4d955b4a6f3712a014ac62351ec5edd3c32b802094f66ac96",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "COMDLG32.dll": "Windows:System32",
+        "GDI32.dll": "Windows:System32",
+        "IMM32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "OLEAUT32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "SETUPAPI.dll": "Windows:System32",
+        "SHELL32.dll": "Windows:System32",
+        "SHLWAPI.dll": "Windows:System32",
+        "UIAutomationCore.DLL": "Windows:System32",
+        "USER32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "WINMM.dll": "Windows:System32",
+        "WTSAPI32.dll": "Windows:System32",
+        "api-ms-win-core-winrt-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-core-winrt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-shcore-scaling-l1-1-1.dll": "Windows:API-contract-resolved",
+        "d3d9.dll": "Windows:System32",
+        "dwmapi.dll": "Windows:System32",
+        "ole32.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "Qt6Concurrent.dll",
+      "sha256": "f41bd61b718649d862e436932069daad124d4ba0e25d322ed66a19204206b349",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "Qt6Core.dll",
+      "sha256": "b6c6bedca4e798f9a6cfae20946688ab0a0c3dbd7de605951b0ffb7b679e4f53",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "AUTHZ.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MPR.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+        "NETAPI32.dll": "Windows:System32",
+        "OLEAUT32.dll": "Windows:System32",
+        "SHELL32.dll": "Windows:System32",
+        "USER32.dll": "Windows:System32",
+        "USERENV.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "VERSION.dll": "Windows:System32",
+        "WINMM.dll": "Windows:System32",
+        "WS2_32.dll": "Windows:System32",
+        "api-ms-win-core-synch-l1-2-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "ole32.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "Qt6Gui.dll",
+      "sha256": "569f50c8fde5e3841197e4f44bc4673b330e2f8744391f36f0dccc17fc858f03",
+      "machine": "x64",
+      "dependencies": {
+        "DWrite.dll": "Windows:System32",
+        "GDI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+        "MSVCP140_2.dll": "package:MSVCP140_2.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "SHELL32.dll": "Windows:System32",
+        "USER32.dll": "Windows:System32",
+        "UxTheme.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "d3d11.dll": "Windows:System32",
+        "d3d12.dll": "Windows:System32",
+        "dxgi.dll": "Windows:System32",
+        "ole32.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "Qt6Network.dll",
+      "sha256": "dcd4d0951de4f8a7d8609dd2f44cb32cc7fd507c7562b635346df2de6707374b",
+      "machine": "x64",
+      "dependencies": {
+        "ADVAPI32.dll": "Windows:System32",
+        "DNSAPI.dll": "Windows:System32",
+        "IPHLPAPI.DLL": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Secur32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "WINHTTP.dll": "Windows:System32",
+        "WS2_32.dll": "Windows:System32",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "ole32.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "Qt6PrintSupport.dll",
+      "sha256": "ba7fb068079399a28a75c8bc052f476acd413479909ed122cb16ddea24400b39",
+      "machine": "x64",
+      "dependencies": {
+        "COMDLG32.dll": "Windows:System32",
+        "GDI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+        "USER32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "Qt6Svg.dll",
+      "sha256": "da0da4afa90789bf7f7dcc61f745308b3e02af7afb74269fc2b1ac771b1f93a3",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "Qt6Test.dll",
+      "sha256": "6d93033dc3a3d5d30be93ab277d6ebef9474e7887012bb832cbb124af6ebc703",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "Qt6Widgets.dll",
+      "sha256": "36cfd5321d60623047f51bc9ce34333e1d090aca7a23b45e6c8a79f92d6a1aa6",
+      "machine": "x64",
+      "dependencies": {
+        "GDI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "USER32.dll": "Windows:System32",
+        "UxTheme.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "dwmapi.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "Qt6Xml.dll",
+      "sha256": "ad471c0f6711d0a02da58240b8ebaf14af9a9bdeedb2bf60bb05bc8f8a2671d0",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "spng.dll",
+      "sha256": "cd53736afbfedd0ece079daa2b35ec47b5c7023b3fbcd7b34a27f355914cd677",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "styles/qmodernwindowsstyle.dll",
+      "sha256": "750970c6a92d3af2b78c034e3b3ff379a7d61fa7b574d8c2e39f884a6bab568e",
+      "machine": "x64",
+      "dependencies": {
+        "GDI32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Gui.dll": "package:Qt6Gui.dll",
+        "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+        "USER32.dll": "Windows:System32",
+        "UxTheme.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "tbb12.dll",
+      "sha256": "07afacbc97f5f8db61a9e5f945d76af2dc079e4c5f5f75d7b6f3ea907378a9bc",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "tbbmalloc.dll",
+      "sha256": "ae54af1959228851534a0b0c59a46240eb3285895c71fee707e003bef86e4a60",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "tbbmalloc_proxy.dll",
+      "sha256": "f41fd2e3eccc7e4905bdc3a28832e1f02686cb628358ebdb1b116ed91b7d26f3",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "tbbmalloc.dll": "package:tbbmalloc.dll"
+      }
+    },
+    {
+      "file": "tesseract55.dll",
+      "sha256": "c2142b0e7a6edc64891d198e8a6ab5edcdab1a16f99a204cd5153194322691f1",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "WS2_32.dll": "Windows:System32",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "archive.dll": "package:archive.dll",
+        "leptonica-1.87.0.dll": "package:leptonica-1.87.0.dll",
+        "libcurl.dll": "package:libcurl.dll"
+      }
+    },
+    {
+      "file": "tiff.dll",
+      "sha256": "e5172df3ed872ba64088aa52b35535cedcec83ec0ec8948ff8a5b0cdf86b5bf8",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+        "jpeg62.dll": "package:jpeg62.dll",
+        "liblzma.dll": "package:liblzma.dll",
+        "z.dll": "package:z.dll"
+      }
+    },
+    {
+      "file": "tls/qcertonlybackend.dll",
+      "sha256": "9f03bd4a3fb9779439bbea7b151fbbadf556541e56a7493481a5140625c4da7f",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Network.dll": "package:Qt6Network.dll",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "tls/qschannelbackend.dll",
+      "sha256": "33d5b218ffbe581742fd07dd2da5b7394b66f41161235e785642bbcb2b5834e2",
+      "machine": "x64",
+      "dependencies": {
+        "CRYPT32.dll": "Windows:System32",
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "Qt6Core.dll": "package:Qt6Core.dll",
+        "Qt6Network.dll": "package:Qt6Network.dll",
+        "Secur32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "bcrypt.dll": "Windows:System32",
+        "ncrypt.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "turbojpeg.dll",
+      "sha256": "299ab1d628ef14080d820f00453229a7fdd080b738a095ba801d63457d898528",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "spng.dll": "package:spng.dll"
+      }
+    },
+    {
+      "file": "vccorlib140.dll",
+      "sha256": "6b8d8a76c3e6664293407553650e60b94df9aaafc7c92057ea83032bd228e44f",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "MSVCP140.dll": "package:MSVCP140.dll",
+        "OLEAUT32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+        "api-ms-win-core-winrt-error-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-core-winrt-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-core-winrt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+        "ole32.dll": "Windows:System32"
+      }
+    },
+    {
+      "file": "vcruntime140.dll",
+      "sha256": "184146852727a9db4eea06178716bec3cdbb1015c911f6b0f915b184ad7775b2",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "vcruntime140_1.dll",
+      "sha256": "e6bfb3662ab4b1969a73441dbe35c96d51441b6bff8cf1fe7430bd5b246ca605",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "vcruntime140_threads.dll",
+      "sha256": "a6222020b500a9a86b36e040c2dbd0e459716db1bf2810a11cd7512ea9b8d89b",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "z.dll",
+      "sha256": "9700041939b72ab2f0a3eb52339508de84163e879e96af8c0cc74800dd0e56de",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    },
+    {
+      "file": "zstd.dll",
+      "sha256": "017f7abae1486b156f48c14de4ab8c575086d2fe84ad5a846ecac57aa86a6d5a",
+      "machine": "x64",
+      "dependencies": {
+        "KERNEL32.dll": "Windows:System32",
+        "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+        "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+      }
+    }
+  ],
+  "binary_count": 75,
+  "assets_matched": 6,
+  "notices_matched": 104,
+  "desktop_release_CRT": {
+    "family": "Microsoft.VC145.CRT",
+    "version": "14.50.35710",
+    "configuration": "Desktop x64 Release",
+    "files": [
+      {
+        "file": "concrt140.dll",
+        "sha256": "b2faf3b85b23c840b654e57d5497a0ad31acd02fb01856cad4725a1715d5f78e"
+      },
+      {
+        "file": "msvcp140_1.dll",
+        "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380"
+      },
+      {
+        "file": "msvcp140_2.dll",
+        "sha256": "1d60da3ac2b06482912ca852fa7047436e6e474b4cfffa3bf77f4598cfbf454c"
+      },
+      {
+        "file": "msvcp140_atomic_wait.dll",
+        "sha256": "e7963645e0d1db08e300614d4c5fa7194bd8173e9ab7a5558859e6b232ed3241"
+      },
+      {
+        "file": "msvcp140_codecvt_ids.dll",
+        "sha256": "ae8d922b00cdd93e3ebecc37beb46c800f383ebdeb9f9e5b84e04a72428b6fb3"
+      },
+      {
+        "file": "msvcp140.dll",
+        "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb"
+      },
+      {
+        "file": "vccorlib140.dll",
+        "sha256": "6b8d8a76c3e6664293407553650e60b94df9aaafc7c92057ea83032bd228e44f"
+      },
+      {
+        "file": "vcruntime140_1.dll",
+        "sha256": "e6bfb3662ab4b1969a73441dbe35c96d51441b6bff8cf1fe7430bd5b246ca605"
+      },
+      {
+        "file": "vcruntime140_threads.dll",
+        "sha256": "a6222020b500a9a86b36e040c2dbd0e459716db1bf2810a11cd7512ea9b8d89b"
+      },
+      {
+        "file": "vcruntime140.dll",
+        "sha256": "184146852727a9db4eea06178716bec3cdbb1015c911f6b0f915b184ad7775b2"
+      }
+    ]
+  },
+  "scope": "Static PE imports including delay imports, bundled assets and notices; current Windows System32/API contracts. Does not establish clean Windows, all dynamic plugin use, or legal approval."
+}

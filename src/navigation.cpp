@@ -163,7 +163,9 @@ BookmarkList readBookmarks(const PDFDocument& document)
             result.items.append(
                 {loader.readTextString(dictionary->get("Title"), {}),
                  resolveActionObject(document, dictionary->get("A"), dictionary->get("Dest")),
-                 parent});
+                 parent,
+                 dictionary->get("First").isNull() ||
+                     loader.readIntegerFromDictionary(dictionary, "Count", 0) > 0});
             walk(dictionary->get("First"), index, depth + 1);
             object = dictionary->get("Next");
         }

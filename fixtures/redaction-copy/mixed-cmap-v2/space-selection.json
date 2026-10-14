@@ -1,0 +1,122 @@
+{
+  "format": "mixed-cmap-space-selection-v1",
+  "fixed_at_utc": "2026-10-13T02:09:55.556742+00:00",
+  "source_criteria_sha256": "796b7ae0ef979583d0180c91c1020dd30405530d044daf39e83339f0b2ae326a",
+  "source": "mixed-value-length.pdf",
+  "source_sha256": "2a599d6f56e6477c5d338d65bfeef459c8f91f741e5f95c5342bf5d6e749d124",
+  "source_code_hex": "20",
+  "source_cid": 302,
+  "source_unicode": " ",
+  "selected_ordinal_zero_based": 2,
+  "source_origin_pt": [
+    104.0,
+    650.0
+  ],
+  "source_next_origin_pt": [
+    108.84,
+    650.0
+  ],
+  "source_font_size_pt": 22,
+  "source_Tc": 0,
+  "source_Tw": 0,
+  "source_Tz": 100,
+  "rect": [
+    103.9,
+    649.0,
+    5.0,
+    2.0
+  ],
+  "expected_retained_code_hex": [
+    "41",
+    "42",
+    "0041",
+    "8101",
+    "8102",
+    "8103",
+    "8104",
+    "8105",
+    "20",
+    "43",
+    "44",
+    "45",
+    "46"
+  ],
+  "expected_retained_unicode": [
+    "公",
+    "開",
+    "秘",
+    "匿",
+    "機",
+    "密",
+    "亀",
+    "鶴",
+    " ",
+    "文",
+    "字",
+    "保",
+    "持"
+  ],
+  "expected_retained_origins_pt": [
+    [
+      60.0,
+      650.0
+    ],
+    [
+      82.0,
+      650.0
+    ],
+    [
+      108.84,
+      650.0
+    ],
+    [
+      130.84,
+      650.0
+    ],
+    [
+      152.84,
+      650.0
+    ],
+    [
+      174.84,
+      650.0
+    ],
+    [
+      196.84,
+      650.0
+    ],
+    [
+      218.84,
+      650.0
+    ],
+    [
+      240.84,
+      650.0
+    ],
+    [
+      245.68,
+      650.0
+    ],
+    [
+      267.68,
+      650.0
+    ],
+    [
+      289.68,
+      650.0
+    ],
+    [
+      311.68,
+      650.0
+    ]
+  ],
+  "max_position_error_pt": 0.5,
+  "native_output": "mixed-cmap-space-fully-contained.pdf",
+  "invariants": {
+    "first_empty_U0020_removed": true,
+    "second_empty_U0020_and_all_nonspace_retained": true,
+    "original_pdf_bytes_unchanged": true,
+    "no_nonspace_geometry_change": true
+  },
+  "scope": "Completed native space-selection and retained geometry only; this condition does not claim external raster PASS or general redaction acceptance."
+}

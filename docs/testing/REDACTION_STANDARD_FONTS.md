@@ -1,0 +1,9 @@
+# 標準字体の固定試験
+
+standard-font-families-v1の24入力はSHA86c1deda2fe3701e4da15e4277905006d06d6907bc98b5764aa5b841edc6308d。Helvetica／Times／Courier各4書体×先頭／途中、原点60.25／430.125pt・17.25ptで固定した。dev32の診断はHelvetica2を生成、その他22を安全拒否。Courier8は元Qt輪郭を完全には含まない。診断の元文字位置とglyph輪郭はevidence/m5-dev33-original-text-geometry-20261012、集約SHA7b7d6bb8887a4668277feef16aeebf08cae7d1b6547a3bce67792b8b0d8dfb4e。旧条件を上書き／合格扱いしない。
+
+別の全字形包含入力standard-font-families-v2は24条件、SHA708cfc9929203151427b7d09a9914cfe294b9112b13fab024abbd5fb5e58ed9d。同じPDFの原本SHAを維持し、固定元データの両エンジンの字形を包含する範囲を製品変更前に固定する。M5R31は本番export、原本不変、秘密語除去・保持語を検査する。独立PDFium／pypdf、最大位置0.5pt、PDFium／Poppler300dpiの範囲外差0、私有マーカーを生ファイル／全辞書／復号ストリームから除去する条件を維持する。
+
+既存M5R01〜30の回帰と否定条件を省略しない。ネイティブ閲覧UI、外部実画面、一般字体／部分字形／一般M5安全性は合格宣言しない。途中は対象試験、最終のまとまり後に全体・独立検査・固定候補を評価する。
+
+拡張r1の独立24は22PASS／2FAIL（Helvetica-Bold／BoldOblique先頭、PDFium52／56・Poppler0画素）。r2の精密化は基盤・atomic・UIの旧3件FAILを再現した。r3の全除去原点保持後、M5R31名と新独立24がPASS、位置最大0.000031pt・両エンジン範囲外0。失敗入力・結果・exe3c09ae58…／b3fc5fd4…を保存する。最終全体と梱包は別途記録する。

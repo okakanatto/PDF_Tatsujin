@@ -375,6 +375,8 @@ QJsonObject testNavigationLifecycle(const QString& fixtures, const QString& outp
     window.openFile(fixtures + "/D01.pdf");
     ready(window);
     check(tree(window)->topLevelItemCount() == 0, "opening another PDF discards old outline");
+    check(!back(window)->isEnabled() && !window.findChild<QAction*>("nextView")->isEnabled(),
+          "opening another PDF clears both reading history directions");
     window.openFile(fixtures + "/D07.pdf");
     ready(window);
     check(tree(window)->topLevelItemCount() > 0, "original acceptance document has usable outline");
@@ -387,5 +389,86 @@ QJsonObject testNavigationLifecycle(const QString& fixtures, const QString& outp
             {"outline_label_link_preserved", true},
             {"document_replacement", true},
             {"busy", "state simulation; actual OCR is in A05-A09 regression"}};
+}
+QJsonObject testViewHistory()
+{
+    using Direction = ViewHistory::Direction;
+    ViewHistory history;
+    auto entry = [](int page)
+    { return ViewHistory::Entry{{{page, {100, 200}, {.5, .5}}, 1.25, 0, 0, 17}, "alpha", 3}; };
+    check(!history.move(Direction::Back, entry(0)), "empty history is inert");
+    for (int page = 0; page < 205; ++page)
+        history.remember(entry(page));
+    for (int page = 204; page >= 5; --page)
+    {
+        const auto restored = history.move(Direction::Back, entry(page + 1));
+        check(restored && restored->view.anchor.page == page,
+              "bounded Back keeps the latest 200 reading positions in order");
+    }
+    check(!history.canMove(Direction::Back) && history.canMove(Direction::Forward),
+          "oldest five positions were evicted");
+    for (int page = 6; page <= 205; ++page)
+    {
+        const auto restored = history.move(Direction::Forward, entry(page - 1));
+        check(restored && restored->view.anchor.page == page,
+              "Forward restores the entire bounded path in order");
+    }
+    check(!history.canMove(Direction::Forward), "Forward stops at the current view");
+    history.clear();
+    const auto original = entry(0);
+    auto nearby = original;
+    nearby.view.anchor.point += QPointF(.2, .2);
+    nearby.view.zoom += .0005;
+    history.remember(original);
+    history.remember(nearby);
+    check(history.move(Direction::Back, entry(1))->view.anchor.point ==
+                  original.view.anchor.point &&
+              !history.canMove(Direction::Back),
+          "layout noise does not add a duplicate or replace the original reading position");
+    history.remember(entry(2));
+    check(!history.canMove(Direction::Forward), "new navigation discards the abandoned branch");
+    ViewHistory::Entry invalid;
+    history.remember(invalid);
+    check(!history.move(Direction::Back, invalid) && history.canMove(Direction::Back),
+          "unloaded reading positions do not consume valid history");
+    history.clear();
+    QVector<ViewHistory::Entry> distinct;
+    distinct.append(original);
+    auto changed = original;
+    changed.query = "beta";
+    distinct.append(changed);
+    changed.revision = 4;
+    distinct.append(changed);
+    changed.view.activeSearch = 18;
+    distinct.append(changed);
+    changed.view.fitMode = 1;
+    distinct.append(changed);
+    changed.view.fitReference = 2;
+    distinct.append(changed);
+    changed.view.anchor.ratio = {0, 0};
+    distinct.append(changed);
+    for (const auto& position : distinct)
+        history.remember(position);
+    for (auto position = distinct.crbegin(); position != distinct.crend(); ++position)
+    {
+        const auto restored = history.move(Direction::Back, entry(5));
+        check(restored && restored->query == position->query &&
+                  restored->revision == position->revision &&
+                  restored->view.activeSearch == position->view.activeSearch &&
+                  restored->view.fitMode == position->view.fitMode &&
+                  restored->view.fitReference == position->view.fitReference &&
+                  restored->view.anchor.ratio == position->view.anchor.ratio,
+              "query, revision, occurrence, fit reference and anchor remain distinct");
+    }
+    check(!history.canMove(Direction::Back), "all distinct entries restored exactly once");
+    check(original.activeSearchFor("alpha", 3) == 17 && original.activeSearchFor("beta", 3) == 0 &&
+              original.activeSearchFor("alpha", 4) == 0,
+          "a search occurrence is restored only for its original query and document revision");
+    history.clear();
+    check(!history.canMove(Direction::Back) && !history.canMove(Direction::Forward),
+          "document replacement clears both directions");
+    return {{"bounded_positions", 200},         {"back_forward_order", true},
+            {"duplicate_noise", true},          {"branch_invalidation", true},
+            {"fit_reference_and_anchor", true}, {"stale_search", true}};
 }
 } // namespace tatsu

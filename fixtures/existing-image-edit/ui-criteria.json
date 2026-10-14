@@ -1,0 +1,9 @@
+{
+  "page": 0,
+  "image": 0,
+  "position_and_size_mm": [25.4, 152.4, 50.8, 25.4],
+  "physical_points": [72, 432, 144, 72],
+  "signature": "既存画像の範囲外署名",
+  "required": ["Real menu and preview image selection", "Mouse move before numeric input", "Keyboard and numeric input", "Actual candidate preview before Apply", "One Undo and source snapshot retained", "Save/reopen with outside Japanese signature and forms"],
+  "scope": "Frozen before the first UI execution; fixed synthetic input, no native IME acceptance"
+}

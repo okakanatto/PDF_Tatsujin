@@ -1,0 +1,22 @@
+{
+  "file": "body-text.pdf",
+  "sha256": "c750d13e01c1ee1f41b86ac5acdf936538b9ca3cea38085054a11b1fef784977",
+  "source_sha256": "78a6b63e28a0f0637194e2fb1d61c07c7b74af5bd8eb2dbcdb3d062b62e2c7e7",
+  "text": "Original body line",
+  "move_physical_rectangle": [
+    100,
+    200,
+    250,
+    40
+  ],
+  "rotation": 90,
+  "crop_box": [
+    20,
+    40,
+    590,
+    760
+  ],
+  "user_unit": 2,
+  "required": "Selected body glyphs map to the exact physical target; other text, images, forms and page geometry retained",
+  "scope": "Additional rotated positive fixed before any product operation; original cases unchanged"
+}

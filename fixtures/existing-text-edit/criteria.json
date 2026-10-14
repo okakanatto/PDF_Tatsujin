@@ -1,0 +1,31 @@
+{
+  "file": "body-text.pdf",
+  "sha256": "fdd869493f7e9204dc6c838610fdef2049311d2efab3addf78edd240ddbbb02d",
+  "source_inputs": {
+    "fixtures/existing-image-edit/shared-images.pdf": "d668f98fcc0730be30d42d65f35b5644f692c380193099c837feebaddd20b85f",
+    "fixtures/NotoSansJP-fixture.ttf": "0ef6019ca22fb4206a64a5c4ce326855afd2bc945cb42324816ec84d471433e3"
+  },
+  "replacements": {
+    "Original body line": "Edited body line",
+    "日本語の本文を編集します": "本文の日本語を編集します"
+  },
+  "move_physical_rectangle": [
+    160,
+    120,
+    300,
+    30
+  ],
+  "keep_fields": {
+    "keep-field": "KEEP_FORM_9df67",
+    "secret-field": "SECRET_FORM_9df67"
+  },
+  "required": [
+    "Source immutable",
+    "Only selected text block changes",
+    "Unselected text and character positions unchanged",
+    "Forms/images/page geometry preserved",
+    "Undo/Redo, save/reopen/reedit",
+    "Unsupported text and characters refuse atomically"
+  ],
+  "scope": "Synthetic CC0 text/graphics; embedded Noto font OFL-1.1; fixed before product operations"
+}

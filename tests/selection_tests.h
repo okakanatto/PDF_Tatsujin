@@ -10,4 +10,6 @@ QJsonObject testSelectionOcr(const QString& pdfPath, const QString& output);
 QJsonObject testSelectionWords(const QString& fixtures, const QString& output);
 QJsonObject testSelectionWordBoundaries(const QString& fixtures, const QString& output);
 QJsonObject testSelectionWordLifecycle(const QString& fixtures, const QString& output);
+QJsonObject testSelectionPageText(const QString& fixtures, const QString& output);
+QJsonObject testSelectionPageLifecycle(const QString& fixtures, const QString& output);
 } // namespace tatsu

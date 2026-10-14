@@ -1,0 +1,67 @@
+# Derive the pinned MIT Type0 raw-code spacing fix without changing the submodule.
+# Every C++ consumer uses the same forced header and original PDFFONT_H guard.
+set(word_spacing_core "${CMAKE_CURRENT_SOURCE_DIR}/vendor/PDF4QT/Pdf4QtLibCore/sources")
+file(READ "${word_spacing_core}/pdffont.h" word_spacing_header)
+string(REPLACE "\r\n" "\n" word_spacing_header "${word_spacing_header}")
+string(SHA256 word_spacing_header_hash "${word_spacing_header}")
+if(NOT word_spacing_header_hash STREQUAL "cf648602eb796be79c37e2d16538d1820f88020b2a428ae42cc0ddac007293c9")
+    message(FATAL_ERROR "Review the Type0 raw-code spacing header for the new PDF4QT source")
+endif()
+set(word_spacing_constructor "inline explicit TextSequenceItem(const QPainterPath* glyph, QChar character, PDFReal advance, CID cid) : glyph(glyph), character(character), advance(advance), cid(cid) { }")
+set(word_spacing_field "    PDFReal advance = 0;\n    CID cid = 0;\n};")
+foreach(anchor IN ITEMS "${word_spacing_constructor}" "${word_spacing_field}")
+    string(FIND "${word_spacing_header}" "${anchor}" anchor_index)
+    if(anchor_index LESS 0)
+        message(FATAL_ERROR "Pinned Type0 raw-code spacing header anchor is missing")
+    endif()
+endforeach()
+string(REPLACE "${word_spacing_constructor}"
+    "inline explicit TextSequenceItem(const QPainterPath* glyph, QChar character, PDFReal advance, CID cid, std::optional<bool> sourceWordSpacingApplies = std::nullopt) : glyph(glyph), character(character), advance(advance), cid(cid), sourceWordSpacingApplies(sourceWordSpacingApplies) { }"
+    word_spacing_header "${word_spacing_header}")
+string(REPLACE "${word_spacing_field}"
+    "    PDFReal advance = 0;\n    CID cid = 0;\n    // Explicit true/false for Type0; unset preserves simple-font/Type3 behavior.\n    std::optional<bool> sourceWordSpacingApplies;\n};"
+    word_spacing_header "${word_spacing_header}")
+set(word_spacing_adapted_header "${CMAKE_BINARY_DIR}/adapted/pdffont.h")
+if(EXISTS "${word_spacing_adapted_header}")
+    file(READ "${word_spacing_adapted_header}" word_spacing_previous_header)
+endif()
+if(NOT word_spacing_header STREQUAL word_spacing_previous_header)
+    file(WRITE "${word_spacing_adapted_header}" "${word_spacing_header}")
+endif()
+
+file(READ "${word_spacing_core}/pdfpagecontentprocessor.cpp" word_spacing_processor)
+string(REPLACE "\r\n" "\n" word_spacing_processor "${word_spacing_processor}")
+string(SHA256 word_spacing_processor_hash "${word_spacing_processor}")
+if(NOT word_spacing_processor_hash STREQUAL "0ceee241804b1a5f6d59986973a3e1fe3555dfcf2c4d3f4ec29730ded35a32aa")
+    message(FATAL_ERROR "Review Type0 raw-code spacing for the new PDF4QT content processor")
+endif()
+set(word_spacing_advance "const PDFReal additionalAdvance = (character == QChar(QChar::Space)) ? wordSpacing + characterSpacing : characterSpacing;")
+string(FIND "${word_spacing_processor}" "${word_spacing_advance}" word_spacing_advance_index)
+if(word_spacing_advance_index LESS 0)
+    message(FATAL_ERROR "Pinned Type0 raw-code spacing processor anchor is missing")
+endif()
+string(REPLACE "${word_spacing_advance}"
+    "const bool appliesWordSpacing = item.sourceWordSpacingApplies.value_or(character == QChar(QChar::Space));\n                    const PDFReal additionalAdvance = characterSpacing + (appliesWordSpacing ? wordSpacing : 0);"
+    word_spacing_processor "${word_spacing_processor}")
+set(word_spacing_adapted_processor "${CMAKE_BINARY_DIR}/adapted/pdfpagecontentprocessor.cpp")
+if(EXISTS "${word_spacing_adapted_processor}")
+    file(READ "${word_spacing_adapted_processor}" word_spacing_previous_processor)
+endif()
+if(NOT word_spacing_processor STREQUAL word_spacing_previous_processor)
+    file(WRITE "${word_spacing_adapted_processor}" "${word_spacing_processor}")
+endif()
+get_target_property(word_spacing_sources Pdf4QtLibCore SOURCES)
+list(FIND word_spacing_sources "sources/pdfpagecontentprocessor.cpp" word_spacing_source_index)
+if(word_spacing_source_index LESS 0)
+    message(FATAL_ERROR "Pinned Type0 content processor source is missing from target")
+endif()
+list(REMOVE_ITEM word_spacing_sources "sources/pdfpagecontentprocessor.cpp")
+set_property(TARGET Pdf4QtLibCore PROPERTY SOURCES "${word_spacing_sources};${word_spacing_adapted_processor}")
+
+# Include paths alone cannot override quoted local includes in upstream sources.
+# PUBLIC applies both to Core itself and its Widgets/document/UI/app consumers.
+if(MSVC)
+    target_compile_options(Pdf4QtLibCore PUBLIC "$<$<COMPILE_LANGUAGE:CXX>:/FI${word_spacing_adapted_header}>")
+else()
+    target_compile_options(Pdf4QtLibCore PUBLIC "$<$<COMPILE_LANGUAGE:CXX>:SHELL:-include \"${word_spacing_adapted_header}\">")
+endif()

@@ -1,0 +1,12 @@
+{
+  "stage": "before r2 retention test edit",
+  "test_source_path": "evidence/m5-dev43-target-r1-20261013/redaction_shared_tests-r1.cpp",
+  "test_source_sha256": "7f5ce67dc3af9a3d4f1c1a59548a3ee07375f6c7eb3d6ab8460198471b11e358",
+  "criteria_sha256": "549232640c1b627d504f25d17861b3dd46311a33de951fe9298b1c030a9d340f",
+  "failed_input": "fixtures/redaction-copy/mixed-word-spacing-v1/code32-kept-nonspace-positive.pdf",
+  "input_sha256": "d08a1c31fcfd4990c35e517a1292646d28f7fac29a5282aedc0d6f31814a2bb6",
+  "failed_output": "evidence/m5-dev43-target-r1-20261013/mixed-word-spacing-code32-kept-nonspace-positive.pdf",
+  "output_sha256": "36d5f250270c52aa504d42360c137114eefaf54156121708f501d09d8e7add33",
+  "failure_report_sha256": "126406b555c5aea1dfa06fa9a818cc4986af45bcf11d42861256372477048132",
+  "recorded_at_utc": "2026-10-13T05:32:15.4407751Z"
+}

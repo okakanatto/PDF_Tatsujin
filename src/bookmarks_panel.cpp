@@ -6,6 +6,16 @@ BookmarksPanel::BookmarksPanel(QWidget* parent) : QWidget(parent)
 {
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    edit = new QPushButton("しおりを編集…");
+    edit->setObjectName("editDocumentBookmarks");
+    edit->setEnabled(false);
+    layout->addWidget(edit);
+    connect(edit, &QPushButton::clicked, this,
+            [this]
+            {
+                if (editRequested)
+                    editRequested();
+            });
     notice = new QLabel;
     notice->setWordWrap(true);
     tree = new QTreeWidget;
@@ -25,6 +35,10 @@ BookmarksPanel::BookmarksPanel(QWidget* parent) : QWidget(parent)
             [this](QTreeWidgetItem* item) { activate(item); });
     connect(tree, &QTreeWidget::itemActivated, this,
             [this](QTreeWidgetItem* item) { activate(item); });
+}
+void BookmarksPanel::setEditable(bool value)
+{
+    edit->setEnabled(value);
 }
 void BookmarksPanel::activate(QTreeWidgetItem* item)
 {
@@ -78,7 +92,7 @@ void BookmarksPanel::setDocument(const PDFDocument* document, quint64 revision,
         if (!target.valid())
             item->setForeground(0, QColor("#657185"));
         targets.insert(item, target);
-        item->setExpanded(expanded.contains(count) || (first && !parent));
+        item->setExpanded(expanded.contains(count) || (first && bookmark.expanded));
         if (current == count)
             tree->setCurrentItem(item);
         ++count;

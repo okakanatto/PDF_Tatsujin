@@ -1,0 +1,5086 @@
+{
+  "version": "0.2.0-rc6",
+  "date": "2026-10-08",
+  "product_source_commit": "cbf74c24a0eb018f154e5a1f18a9a2def770071c",
+  "environment": {
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen"
+  },
+  "process": {
+    "exit_code": 0,
+    "exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "completed": true,
+    "headless": true,
+    "filter": null
+  },
+  "pass_count": 75,
+  "tests": [
+    {
+      "name": "Reading_device_image_decode",
+      "status": "PASS",
+      "elapsed_ms": 6
+    },
+    {
+      "name": "C07_OCR_job_cleanup",
+      "status": "PASS",
+      "elapsed_ms": 51
+    },
+    {
+      "name": "C07_LongPaths",
+      "status": "PASS",
+      "elapsed_ms": 134
+    },
+    {
+      "name": "B01_writing_roundtrip",
+      "status": "PASS",
+      "elapsed_ms": 174
+    },
+    {
+      "name": "B01_writing_coordinates",
+      "status": "PASS",
+      "elapsed_ms": 142
+    },
+    {
+      "name": "B01_writing_UI",
+      "status": "PASS",
+      "elapsed_ms": 788
+    },
+    {
+      "name": "B01_fonts_roundtrip",
+      "status": "PASS",
+      "elapsed_ms": 824
+    },
+    {
+      "name": "B01_fonts_failures",
+      "status": "PASS",
+      "elapsed_ms": 92
+    },
+    {
+      "name": "B01_fonts_UI",
+      "status": "PASS",
+      "elapsed_ms": 514
+    },
+    {
+      "name": "B01_signature_library",
+      "status": "PASS",
+      "elapsed_ms": 146
+    },
+    {
+      "name": "B04_page_arrange",
+      "status": "PASS",
+      "elapsed_ms": 97
+    },
+    {
+      "name": "B05_page_merge_insert",
+      "status": "PASS",
+      "elapsed_ms": 74
+    },
+    {
+      "name": "B06_page_exports",
+      "status": "PASS",
+      "elapsed_ms": 52
+    },
+    {
+      "name": "B04_page_organizer_UI",
+      "status": "PASS",
+      "elapsed_ms": 586
+    },
+    {
+      "name": "B03_form_values",
+      "status": "PASS",
+      "elapsed_ms": 648
+    },
+    {
+      "name": "B03_form_input_UI",
+      "status": "PASS",
+      "elapsed_ms": 209
+    },
+    {
+      "name": "B03_form_keyboard",
+      "status": "PASS",
+      "elapsed_ms": 118
+    },
+    {
+      "name": "M2_visible_panel_lifetime",
+      "status": "PASS",
+      "elapsed_ms": 422
+    },
+    {
+      "name": "B02_annotations",
+      "status": "PASS",
+      "elapsed_ms": 190
+    },
+    {
+      "name": "B02_annotations_UI",
+      "status": "PASS",
+      "elapsed_ms": 272
+    },
+    {
+      "name": "B08_combined_workflow",
+      "status": "PASS",
+      "elapsed_ms": 8150
+    },
+    {
+      "name": "Navigation_bookmarks",
+      "status": "PASS",
+      "elapsed_ms": 427
+    },
+    {
+      "name": "Navigation_links",
+      "status": "PASS",
+      "elapsed_ms": 228
+    },
+    {
+      "name": "Navigation_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 383
+    },
+    {
+      "name": "Reading_page_input",
+      "status": "PASS",
+      "elapsed_ms": 320
+    },
+    {
+      "name": "Reading_focus_layout",
+      "status": "PASS",
+      "elapsed_ms": 1515
+    },
+    {
+      "name": "Reading_OCR_cancel",
+      "status": "PASS",
+      "elapsed_ms": 7030
+    },
+    {
+      "name": "Reading_initial_panels",
+      "status": "PASS",
+      "elapsed_ms": 709
+    },
+    {
+      "name": "Reading_compiler_startup",
+      "status": "PASS",
+      "elapsed_ms": 88
+    },
+    {
+      "name": "Reading_image_navigation",
+      "status": "PASS",
+      "elapsed_ms": 1998
+    },
+    {
+      "name": "Pan_navigation",
+      "status": "PASS",
+      "elapsed_ms": 263
+    },
+    {
+      "name": "Pan_input",
+      "status": "PASS",
+      "elapsed_ms": 116
+    },
+    {
+      "name": "Pan_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 181
+    },
+    {
+      "name": "Selection_ranges",
+      "status": "PASS",
+      "elapsed_ms": 158
+    },
+    {
+      "name": "Selection_autoscroll",
+      "status": "PASS",
+      "elapsed_ms": 2529
+    },
+    {
+      "name": "Selection_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 175
+    },
+    {
+      "name": "Selection_words",
+      "status": "PASS",
+      "elapsed_ms": 124
+    },
+    {
+      "name": "Selection_word_boundaries",
+      "status": "PASS",
+      "elapsed_ms": 0
+    },
+    {
+      "name": "Selection_word_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 506
+    },
+    {
+      "name": "Viewer_page_previews",
+      "status": "PASS",
+      "elapsed_ms": 3463
+    },
+    {
+      "name": "Search_occurrences_history",
+      "status": "PASS",
+      "elapsed_ms": 364
+    },
+    {
+      "name": "Search_generation_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 868
+    },
+    {
+      "name": "Search_IME_commit",
+      "status": "PASS",
+      "elapsed_ms": 324
+    },
+    {
+      "name": "Viewer_continuous_navigation",
+      "status": "PASS",
+      "elapsed_ms": 313
+    },
+    {
+      "name": "Viewer_crop_rotation_userunit",
+      "status": "PASS",
+      "elapsed_ms": 457
+    },
+    {
+      "name": "Viewer_signature_save_undo",
+      "status": "PASS",
+      "elapsed_ms": 426
+    },
+    {
+      "name": "A01_UI_layout_review",
+      "status": "PASS",
+      "elapsed_ms": 580
+    },
+    {
+      "name": "A01_document_and_UI",
+      "status": "PASS",
+      "elapsed_ms": 391
+    },
+    {
+      "name": "A01_search_highlight_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 237
+    },
+    {
+      "name": "A02_UI_pointer_drag_undo_copy",
+      "status": "PASS",
+      "elapsed_ms": 338
+    },
+    {
+      "name": "A02_UI_placement_cancel",
+      "status": "PASS",
+      "elapsed_ms": 162
+    },
+    {
+      "name": "A02_A03_UI_signature_identity",
+      "status": "PASS",
+      "elapsed_ms": 245
+    },
+    {
+      "name": "A02_UI_drag_interrupted",
+      "status": "PASS",
+      "elapsed_ms": 166
+    },
+    {
+      "name": "A02_A03_signature_roundtrip",
+      "status": "PASS",
+      "elapsed_ms": 91
+    },
+    {
+      "name": "A04_rotations_crop_userunit",
+      "status": "PASS",
+      "elapsed_ms": 102
+    },
+    {
+      "name": "A05_OCR_eight_pages",
+      "status": "PASS",
+      "elapsed_ms": 37993
+    },
+    {
+      "name": "A05_A08_same_window_OCR_search_copy_save",
+      "status": "PASS",
+      "elapsed_ms": 7543
+    },
+    {
+      "name": "A06_mixed_pages_and_content",
+      "status": "PASS",
+      "elapsed_ms": 13726
+    },
+    {
+      "name": "A07_existing_OCR_blank_photo",
+      "status": "PASS",
+      "elapsed_ms": 783
+    },
+    {
+      "name": "A08_signature_rotate_OCR_undo_redo",
+      "status": "PASS",
+      "elapsed_ms": 6250
+    },
+    {
+      "name": "A09_cancel_after_first_page",
+      "status": "PASS",
+      "elapsed_ms": 7241
+    },
+    {
+      "name": "A09_worker_crash",
+      "status": "PASS",
+      "elapsed_ms": 458
+    },
+    {
+      "name": "A09_UI_cancel_and_cleanup",
+      "status": "PASS",
+      "elapsed_ms": 7301
+    },
+    {
+      "name": "A10_save_conflict_path_case",
+      "status": "PASS",
+      "elapsed_ms": 261
+    },
+    {
+      "name": "A10_save_conflict_and_readonly",
+      "status": "PASS",
+      "elapsed_ms": 66
+    },
+    {
+      "name": "A10_save_dialog_cancel",
+      "status": "PASS",
+      "elapsed_ms": 145
+    },
+    {
+      "name": "A10_UI_close_unsaved",
+      "status": "PASS",
+      "elapsed_ms": 270
+    },
+    {
+      "name": "A10_NTFS_access_denied",
+      "status": "PASS",
+      "elapsed_ms": 16
+    },
+    {
+      "name": "A03_Windows_PDF_printer",
+      "status": "PASS",
+      "elapsed_ms": 1478
+    },
+    {
+      "name": "A11_UI_open_error_routing",
+      "status": "PASS",
+      "elapsed_ms": 108
+    },
+    {
+      "name": "A11_protected_and_invalid",
+      "status": "PASS",
+      "elapsed_ms": 26
+    },
+    {
+      "name": "D07_form_annotation_link_outline_preservation",
+      "status": "PASS",
+      "elapsed_ms": 75
+    },
+    {
+      "name": "A03_annotation_print_flags",
+      "status": "PASS",
+      "elapsed_ms": 19
+    },
+    {
+      "name": "A03_print_page_selection",
+      "status": "PASS",
+      "elapsed_ms": 489
+    },
+    {
+      "name": "A03_Qt_PDF_print_path",
+      "status": "PASS",
+      "elapsed_ms": 351
+    }
+  ],
+  "long_path_save": {
+    "AppContainer": false,
+    "original_preserved": true,
+    "path_characters": 369,
+    "private_read_write_cleanup": true,
+    "save_replace_reopen_undo": true
+  },
+  "network_zero_capabilities": {
+    "status": "PASS",
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "probe_sha256": "ba3c22bab6cd473cabe64fd07afcc57418000e2eb8ecbd37852373f064bb5937",
+    "network_probe": {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "loopback_connect_error": 10060,
+      "passed": true
+    },
+    "control_probe": {
+      "is_AppContainer": 0,
+      "capability_count": 0,
+      "loopback_connect_error": 0,
+      "passed": true
+    },
+    "payload_and_OCR_tokens": [
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": true
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": true
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": true
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      }
+    ],
+    "flows": [
+      {
+        "name": "signature",
+        "exit": 0,
+        "tests": 5,
+        "failures": 0
+      },
+      {
+        "name": "OCR",
+        "exit": 0,
+        "tests": 2,
+        "failures": 0
+      },
+      {
+        "name": "cancel",
+        "exit": 0,
+        "tests": 1,
+        "failures": 0
+      },
+      {
+        "name": "long-paths",
+        "exit": 0,
+        "tests": 1,
+        "failures": 0
+      }
+    ],
+    "scope": "Windows AppContainer, no network capabilities; same development PC, Qt offscreen and synthetic UI input. Not clean Windows or native IME acceptance.",
+    "temporary_profile_removed": true
+  },
+  "assets": {
+    "status": "PASS",
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "long_assets": {
+      "model_path_utf16_units": 397,
+      "tests": 2,
+      "failures": 0,
+      "exit_code": 0
+    },
+    "missing_requested_English_model": {
+      "exit_code": 2,
+      "partial_result_not_published": true,
+      "source_unchanged": true
+    },
+    "missing_bundled_font": {
+      "exit_code": 1,
+      "no_hidden_dialog_wait": true
+    },
+    "scope": "Same Windows development PC, Qt offscreen, Unicode assets; executable installation beyond MAX_PATH is a separate Windows startup limitation."
+  },
+  "independent_M1": {
+    "engines": {
+      "pdfium": "153.0.7999.0",
+      "pypdf": "see dependency-lock.json",
+      "poppler": "pdftoppm version 26.07.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+    },
+    "acceptance_thresholds": {
+      "CER_jpn": 0.02,
+      "CER_eng": 0.01,
+      "search_each_language": 19,
+      "search_total": 20,
+      "position_max_mm": 2
+    },
+    "viewer_GUI": {
+      "Adobe_Reader": "未実行",
+      "Firefox": "未実行",
+      "physical_print": "未実行",
+      "PDF_printer": "未実行"
+    },
+    "OCR_evaluation": {
+      "jpn": {
+        "CER": 0.005050505050505051,
+        "CER_status": "PASS",
+        "searches": [
+          {
+            "term": "市民公園",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.05680101182725694
+              }
+            ]
+          },
+          {
+            "term": "管理事務所",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.07558216518825954
+              }
+            ]
+          },
+          {
+            "term": "花壇",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.18729476928710936
+              }
+            ]
+          },
+          {
+            "term": "植え替え",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.2333621554904514
+              }
+            ]
+          },
+          {
+            "term": "落ち葉",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.20530615912543404
+              },
+              {
+                "page": 4,
+                "position_delta_mm": 0.0593202379014757
+              }
+            ]
+          },
+          {
+            "term": "遊具",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.06082342995537652
+              }
+            ]
+          },
+          {
+            "term": "記録簿",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.20939721001519096
+              }
+            ]
+          },
+          {
+            "term": "水質",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.17090365091959636
+              }
+            ]
+          },
+          {
+            "term": "水鳥",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.48244255913628475
+              }
+            ]
+          },
+          {
+            "term": "救護所",
+            "found": true,
+            "locations": [
+              {
+                "page": 3,
+                "position_delta_mm": 0.10369737413194444
+              }
+            ]
+          },
+          {
+            "term": "観測所",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.1430818133884006
+              }
+            ]
+          },
+          {
+            "term": "気温",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.3199040306939019
+              }
+            ]
+          },
+          {
+            "term": "湿度",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.3641089121500651
+              }
+            ]
+          },
+          {
+            "term": "風向",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.40753326416015623
+              }
+            ]
+          },
+          {
+            "term": "降水量",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.467198011610243
+              }
+            ]
+          },
+          {
+            "term": "雨量計",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.059341769748263884
+              }
+            ]
+          },
+          {
+            "term": "観測点",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.11126043531629774
+              }
+            ]
+          },
+          {
+            "term": "補正",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.25073835584852433
+              }
+            ]
+          },
+          {
+            "term": "防災",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.15149269104003904
+              }
+            ]
+          },
+          {
+            "term": "農業",
+            "found": true,
+            "locations": [
+              {
+                "page": 4,
+                "position_delta_mm": 0.17104899088541664
+              }
+            ]
+          }
+        ],
+        "search_found": 20,
+        "search_status": "PASS"
+      },
+      "eng": {
+        "CER": 0.0004553734061930783,
+        "CER_status": "PASS",
+        "searches": [
+          {
+            "term": "coastal",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.23344020843505855
+              }
+            ]
+          },
+          {
+            "term": "surveys",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.43171891106499566
+              }
+            ]
+          },
+          {
+            "term": "beach",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.10511847601996527
+              }
+            ]
+          },
+          {
+            "term": "tide",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.04106661478678385
+              }
+            ]
+          },
+          {
+            "term": "container",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.056370374891493054
+              }
+            ]
+          },
+          {
+            "term": "instruments",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.08450173272026909
+              }
+            ]
+          },
+          {
+            "term": "laboratory",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.1997993893093533
+              }
+            ]
+          },
+          {
+            "term": "uncertainty",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.08776380750868056
+              }
+            ]
+          },
+          {
+            "term": "coastline",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.1006936815049913
+              }
+            ]
+          },
+          {
+            "term": "departure",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.08665491739908854
+              }
+            ]
+          },
+          {
+            "term": "railway",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.10060217115614149
+              }
+            ]
+          },
+          {
+            "term": "archive",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.11376351250542534
+              }
+            ]
+          },
+          {
+            "term": "timetables",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.17155498928493923
+              }
+            ]
+          },
+          {
+            "term": "photographs",
+            "found": true,
+            "locations": [
+              {
+                "page": 7,
+                "position_delta_mm": 0.0833390129937066
+              },
+              {
+                "page": 8,
+                "position_delta_mm": 0.158022223578559
+              }
+            ]
+          },
+          {
+            "term": "catalog",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.1267472161187066
+              }
+            ]
+          },
+          {
+            "term": "scanning",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.0779802746242947
+              }
+            ]
+          },
+          {
+            "term": "recognition",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.17257775200737846
+              }
+            ]
+          },
+          {
+            "term": "comparison",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.04784376356336805
+              }
+            ]
+          },
+          {
+            "term": "restoration",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.13244777255588108
+              }
+            ]
+          },
+          {
+            "term": "backups",
+            "found": true,
+            "locations": [
+              {
+                "page": 8,
+                "position_delta_mm": 0.04879116482204861
+              }
+            ]
+          }
+        ],
+        "search_found": 20,
+        "search_status": "PASS"
+      }
+    },
+    "OCR_line_alignment": [
+      {
+        "page": 1,
+        "reference_lines": 16,
+        "output_lines": 16,
+        "max_mm": 0.7964199490017361,
+        "status": "PASS"
+      },
+      {
+        "page": 2,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.9216814676920573,
+        "status": "PASS"
+      },
+      {
+        "page": 3,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.8059585571289062,
+        "status": "PASS"
+      },
+      {
+        "page": 4,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.8452757093641492,
+        "status": "PASS"
+      },
+      {
+        "page": 5,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.1592603047688802,
+        "status": "PASS"
+      },
+      {
+        "page": 6,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.15978783501519098,
+        "status": "PASS"
+      },
+      {
+        "page": 7,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.14233627319335937,
+        "status": "PASS"
+      },
+      {
+        "page": 8,
+        "reference_lines": 15,
+        "output_lines": 15,
+        "max_mm": 0.1606921725802951,
+        "status": "PASS"
+      }
+    ],
+    "selected_OCR_evaluation": {
+      "jpn": {
+        "CER": 0.005050505050505051,
+        "status": "PASS"
+      },
+      "eng": {
+        "CER": 0.007741347905282332,
+        "status": "PASS"
+      }
+    },
+    "OCR_visible_preservation": [
+      {
+        "page": 1,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 2,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 3,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 4,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 5,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 6,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 7,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "page": 8,
+        "changed_bbox": null,
+        "status": "PASS"
+      }
+    ],
+    "mixed_visible_preservation": [
+      {
+        "input": "D04.pdf",
+        "page": 1,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "input": "D04.pdf",
+        "page": 2,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "input": "D04.pdf",
+        "page": 3,
+        "changed_bbox": null,
+        "status": "PASS"
+      },
+      {
+        "input": "D05-before.pdf",
+        "page": 1,
+        "changed_bbox": null,
+        "status": "PASS"
+      }
+    ],
+    "rotated_OCR_alignment": {
+      "rotation": 90,
+      "reference_lines": 16,
+      "output_lines": 16,
+      "max_mm": 0.7964199490017361,
+      "coordinates": "PDFium text boxes in unrotated PDF page coordinates"
+    },
+    "signature": {
+      "annotations": [
+        {
+          "subtype": "/Stamp",
+          "contents": "山田 太郎\n髙橋\n2026年10月4日",
+          "appearance": true,
+          "print_flag": true,
+          "embedded_edit_metadata": true
+        }
+      ],
+      "engines_rendered": [
+        "PDFium",
+        "Poppler"
+      ],
+      "printing": "未実行"
+    },
+    "form_preservation": {
+      "before_values": {
+        "name": "山田 太郎",
+        "notes": "Line one\nLine two",
+        "agree": "/Yes",
+        "choice": "/A",
+        "combo": "Blue",
+        "list": "South"
+      },
+      "after_values": {
+        "name": "山田 太郎",
+        "notes": "Line one\nLine two",
+        "agree": "/Yes",
+        "choice": "/A",
+        "combo": "Blue",
+        "list": "South"
+      },
+      "values_equal": true,
+      "before_annotations": [
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Text",
+        "/Link"
+      ],
+      "after_annotations": [
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Widget",
+        "/Text",
+        "/Link",
+        "/Stamp"
+      ],
+      "outline_before": "[{'/Title': 'First page', '/Page': IndirectObject(13, 0, 2172584791792), '/Type': '/Fit', '/%is_open%': True}]",
+      "outline_after": "[{'/Title': 'First page', '/Page': IndirectObject(13, 0, 2172585702320), '/Type': '/Fit', '/%is_open%': True}]",
+      "outline_equal": true,
+      "links_equal": true,
+      "comments_equal": true
+    }
+  },
+  "independent_M2": {
+    "engines": {
+      "pdfium": "153.0.7999.0",
+      "poppler": "pdftoppm version 26.07.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+    },
+    "native_Reader_GUI": "未実行",
+    "physical_print": "未実行",
+    "files": {
+      "form-input.pdf": {
+        "values": {
+          "name": "髙橋 香織",
+          "notes": "東京都\n申請内容の追記",
+          "agree": "/Off",
+          "choice": "/B",
+          "combo": "Red",
+          "list": "West"
+        },
+        "widgets": [
+          {
+            "page": 1,
+            "name": "name",
+            "value": "髙橋 香織"
+          },
+          {
+            "page": 1,
+            "name": "notes",
+            "value": "東京都\n申請内容の追記"
+          },
+          {
+            "page": 1,
+            "name": "agree",
+            "value": "/Off"
+          },
+          {
+            "page": 1,
+            "name": "choice",
+            "value": "/B"
+          },
+          {
+            "page": 1,
+            "name": "choice",
+            "value": "/B"
+          },
+          {
+            "page": 1,
+            "name": "combo",
+            "value": "Red"
+          },
+          {
+            "page": 1,
+            "name": "list",
+            "value": "West"
+          }
+        ],
+        "poppler_rendered": true,
+        "poppler_diagnostics": "Syntax Error: No display font for 'Symbol'\nSyntax Error: No display font for 'ArialUnicode'",
+        "sha256": "595a7e664ad5cf7889dc3ae6d0316ac7a906b785c98f2e66d64ce2941c5257f3"
+      },
+      "form-reedited.pdf": {
+        "values": {
+          "name": "再編集した氏名",
+          "notes": "東京都\n申請内容の追記",
+          "agree": "/Off",
+          "choice": "/B",
+          "combo": "Red",
+          "list": "West"
+        },
+        "widgets": [
+          {
+            "page": 1,
+            "name": "name",
+            "value": "再編集した氏名"
+          },
+          {
+            "page": 1,
+            "name": "notes",
+            "value": "東京都\n申請内容の追記"
+          },
+          {
+            "page": 1,
+            "name": "agree",
+            "value": "/Off"
+          },
+          {
+            "page": 1,
+            "name": "choice",
+            "value": "/B"
+          },
+          {
+            "page": 1,
+            "name": "choice",
+            "value": "/B"
+          },
+          {
+            "page": 1,
+            "name": "combo",
+            "value": "Red"
+          },
+          {
+            "page": 1,
+            "name": "list",
+            "value": "West"
+          }
+        ]
+      },
+      "m2-combined.pdf": {
+        "values": {
+          "name": "髙橋 香織",
+          "notes": "Line one\nLine two",
+          "agree": "/Yes",
+          "choice": "/A",
+          "combo": "Blue",
+          "list": "South"
+        },
+        "widgets": [
+          {
+            "page": 2,
+            "name": "name",
+            "value": "髙橋 香織"
+          },
+          {
+            "page": 2,
+            "name": "notes",
+            "value": "Line one\nLine two"
+          },
+          {
+            "page": 2,
+            "name": "agree",
+            "value": "/Yes"
+          },
+          {
+            "page": 2,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 2,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 2,
+            "name": "combo",
+            "value": "Blue"
+          },
+          {
+            "page": 2,
+            "name": "list",
+            "value": "South"
+          }
+        ],
+        "poppler_rendered": true,
+        "poppler_diagnostics": "Syntax Error: No display font for 'Symbol'\nSyntax Error: No display font for 'ArialUnicode'",
+        "sha256": "f809e978531c8c378c4b062abda831aadf7882ab389216de5d129fda3422077a"
+      },
+      "m2-combined-reedited.pdf": {
+        "values": {
+          "name": "髙橋 香織",
+          "notes": "Line one\nLine two",
+          "agree": "/Yes",
+          "choice": "/A",
+          "combo": "Blue",
+          "list": "South"
+        },
+        "widgets": [
+          {
+            "page": 2,
+            "name": "name",
+            "value": "髙橋 香織"
+          },
+          {
+            "page": 2,
+            "name": "notes",
+            "value": "Line one\nLine two"
+          },
+          {
+            "page": 2,
+            "name": "agree",
+            "value": "/Yes"
+          },
+          {
+            "page": 2,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 2,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 2,
+            "name": "combo",
+            "value": "Blue"
+          },
+          {
+            "page": 2,
+            "name": "list",
+            "value": "South"
+          }
+        ]
+      },
+      "pages-merged.pdf": {
+        "widgets": [
+          {
+            "page": 2,
+            "name": "name",
+            "value": "山田 太郎"
+          },
+          {
+            "page": 2,
+            "name": "notes",
+            "value": "Line one\nLine two"
+          },
+          {
+            "page": 2,
+            "name": "agree",
+            "value": "/Yes"
+          },
+          {
+            "page": 2,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 2,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 2,
+            "name": "combo",
+            "value": "Blue"
+          },
+          {
+            "page": 2,
+            "name": "list",
+            "value": "South"
+          }
+        ]
+      },
+      "pages-form-extracted.pdf": {
+        "widgets": [
+          {
+            "page": 1,
+            "name": "name",
+            "value": "山田 太郎"
+          },
+          {
+            "page": 1,
+            "name": "notes",
+            "value": "Line one\nLine two"
+          },
+          {
+            "page": 1,
+            "name": "agree",
+            "value": "/Yes"
+          },
+          {
+            "page": 1,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 1,
+            "name": "choice",
+            "value": "/A"
+          },
+          {
+            "page": 1,
+            "name": "combo",
+            "value": "Blue"
+          },
+          {
+            "page": 1,
+            "name": "list",
+            "value": "South"
+          }
+        ]
+      },
+      "annotations.pdf": {
+        "standard_types": 5,
+        "Japanese_contents": true,
+        "arrow_ending": true,
+        "highlight_quads": 2,
+        "visible_difference": true,
+        "poppler_rendered": true,
+        "poppler_diagnostics": "",
+        "sha256": "bffed6fc1c8689f07d51124818d81f4addcf4094981141bdeabc116bc22256f1"
+      },
+      "writing.pdf": {
+        "poppler_rendered": true,
+        "poppler_diagnostics": "",
+        "sha256": "7e05d443d86e7a6b87e909c67b847f8fbeb9dace1dc84fc509903dbc45289ddf"
+      },
+      "annotations-ui.pdf": {
+        "poppler_rendered": true,
+        "poppler_diagnostics": "",
+        "sha256": "06eb99c45f12e798ef959f0dbaa837d33c1bdcb6cb1567d36ce1b8bbff6d1032"
+      }
+    },
+    "status": "PASS"
+  },
+  "independent_fonts": {
+    "status": "PASS",
+    "engines": {
+      "pdfium": "153.0.7999.0",
+      "poppler": "pdftoppm version 26.07.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+    },
+    "files": [
+      {
+        "file": "font-0.pdf",
+        "family": "Meiryo UI",
+        "programs": [
+          {
+            "base_font": "/MeiryoUI",
+            "embedded_bytes": 10136,
+            "glyphs": 21,
+            "family": "Meiryo UI",
+            "postscript_name": "MeiryoUI",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-0-edited.pdf",
+        "family": "Meiryo UI",
+        "programs": [
+          {
+            "base_font": "/MeiryoUI",
+            "embedded_bytes": 10188,
+            "glyphs": 22,
+            "family": "Meiryo UI",
+            "postscript_name": "MeiryoUI",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-1.pdf",
+        "family": "Meiryo",
+        "programs": [
+          {
+            "base_font": "/Meiryo",
+            "embedded_bytes": 10148,
+            "glyphs": 21,
+            "family": "Meiryo",
+            "postscript_name": "Meiryo",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-1-edited.pdf",
+        "family": "Meiryo",
+        "programs": [
+          {
+            "base_font": "/Meiryo",
+            "embedded_bytes": 10200,
+            "glyphs": 22,
+            "family": "Meiryo",
+            "postscript_name": "Meiryo",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-2.pdf",
+        "family": "Yu Gothic",
+        "programs": [
+          {
+            "base_font": "/YuGothic-Regular",
+            "embedded_bytes": 7028,
+            "glyphs": 21,
+            "family": "Yu Gothic",
+            "postscript_name": "YuGothic-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-2-edited.pdf",
+        "family": "Yu Gothic",
+        "programs": [
+          {
+            "base_font": "/YuGothic-Regular",
+            "embedded_bytes": 7076,
+            "glyphs": 22,
+            "family": "Yu Gothic",
+            "postscript_name": "YuGothic-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-3.pdf",
+        "family": "Yu Mincho",
+        "programs": [
+          {
+            "base_font": "/YuMincho-Regular",
+            "embedded_bytes": 7424,
+            "glyphs": 21,
+            "family": "Yu Mincho",
+            "postscript_name": "YuMincho-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-3-edited.pdf",
+        "family": "Yu Mincho",
+        "programs": [
+          {
+            "base_font": "/YuMincho-Regular",
+            "embedded_bytes": 7548,
+            "glyphs": 22,
+            "family": "Yu Mincho",
+            "postscript_name": "YuMincho-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-4.pdf",
+        "family": "MS Gothic",
+        "programs": [
+          {
+            "base_font": "/MS-Gothic",
+            "embedded_bytes": 5552,
+            "glyphs": 21,
+            "family": "MS Gothic",
+            "postscript_name": "MS-Gothic",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-4-edited.pdf",
+        "family": "MS Gothic",
+        "programs": [
+          {
+            "base_font": "/MS-Gothic",
+            "embedded_bytes": 5604,
+            "glyphs": 22,
+            "family": "MS Gothic",
+            "postscript_name": "MS-Gothic",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-5.pdf",
+        "family": "MS Mincho",
+        "programs": [
+          {
+            "base_font": "/MS-Mincho",
+            "embedded_bytes": 7476,
+            "glyphs": 21,
+            "family": "MS Mincho",
+            "postscript_name": "MS-Mincho",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-5-edited.pdf",
+        "family": "MS Mincho",
+        "programs": [
+          {
+            "base_font": "/MS-Mincho",
+            "embedded_bytes": 7608,
+            "glyphs": 22,
+            "family": "MS Mincho",
+            "postscript_name": "MS-Mincho",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-6.pdf",
+        "family": "Arial",
+        "programs": [
+          {
+            "base_font": "/ArialMT",
+            "embedded_bytes": 14560,
+            "glyphs": 23,
+            "family": "Arial",
+            "postscript_name": "ArialMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-6-edited.pdf",
+        "family": "Arial",
+        "programs": [
+          {
+            "base_font": "/ArialMT",
+            "embedded_bytes": 14616,
+            "glyphs": 24,
+            "family": "Arial",
+            "postscript_name": "ArialMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-7.pdf",
+        "family": "Times New Roman",
+        "programs": [
+          {
+            "base_font": "/TimesNewRomanPSMT",
+            "embedded_bytes": 15452,
+            "glyphs": 23,
+            "family": "Times New Roman",
+            "postscript_name": "TimesNewRomanPSMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-7-edited.pdf",
+        "family": "Times New Roman",
+        "programs": [
+          {
+            "base_font": "/TimesNewRomanPSMT",
+            "embedded_bytes": 15564,
+            "glyphs": 24,
+            "family": "Times New Roman",
+            "postscript_name": "TimesNewRomanPSMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-8.pdf",
+        "family": "Noto Sans JP",
+        "programs": [
+          {
+            "base_font": "/NotoSansJP-Regular",
+            "embedded_bytes": 6800,
+            "glyphs": 21,
+            "family": "Noto Sans JP Thin",
+            "postscript_name": "NotoSansJP-Thin",
+            "fsType": 0
+          }
+        ]
+      },
+      {
+        "file": "font-8-edited.pdf",
+        "family": "Noto Sans JP",
+        "programs": [
+          {
+            "base_font": "/NotoSansJP-Regular",
+            "embedded_bytes": 6888,
+            "glyphs": 22,
+            "family": "Noto Sans JP Thin",
+            "postscript_name": "NotoSansJP-Thin",
+            "fsType": 0
+          }
+        ]
+      }
+    ],
+    "native_Reader_GUI": "未実行",
+    "machine_without_the_selected_system_fonts": "未実行"
+  },
+  "firefox_M1": {
+    "mode": "Firefox headless, bundled PDF.js; search through viewer event bus",
+    "native_find_bar": "未実行; Firefox integrated native find bar is outside content DOM",
+    "ground_truth_sha256": "7a8878927ec067c80f8b5b42640203beb7d7a99daec17a790d7f5e661e4b15e7",
+    "OS_clipboard_copy": "未実行; DOM selection only, user's clipboard untouched",
+    "physical_printer": "未実行",
+    "searches": {
+      "jpn": [
+        {
+          "events": [
+            {
+              "current": 0,
+              "state": 3,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "total": 0,
+              "type": "count"
+            },
+            {
+              "current": 1,
+              "state": 2,
+              "total": 1,
+              "type": "state"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "市民公園",
+          "term": "市民公園",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "管理事務所",
+          "term": "管理事務所",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "花壇",
+          "term": "花壇",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "植え替え",
+          "term": "植え替え",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            },
+            {
+              "current": 1,
+              "total": 2,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "落ち葉",
+          "term": "落ち葉",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 2,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 2,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "遊具",
+          "term": "遊具",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 2,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "記録簿",
+          "term": "記録簿",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "水質",
+          "term": "水質",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "水鳥",
+          "term": "水鳥",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "3",
+          "selected_text": "救護所",
+          "term": "救護所",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "観測所",
+          "term": "観測所",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "気温",
+          "term": "気温",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "total": 0,
+              "type": "count"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 2,
+              "total": 2,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "湿度",
+          "term": "湿度",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 2,
+              "state": 3,
+              "total": 2,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "風向",
+          "term": "風向",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "降水量",
+          "term": "降水量",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "雨量計",
+          "term": "雨量計",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "観測点",
+          "term": "観測点",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 2,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "補正",
+          "term": "補正",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 2,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "防災",
+          "term": "防災",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "4",
+          "selected_text": "農業",
+          "term": "農業",
+          "found": true
+        }
+      ],
+      "eng": [
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "coastal",
+          "term": "coastal",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 2,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "surveys",
+          "term": "surveys",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 2,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "beach",
+          "term": "beach",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "tide",
+          "term": "tide",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "container",
+          "term": "container",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "instruments",
+          "term": "instruments",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "laboratory",
+          "term": "laboratory",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "uncertainty",
+          "term": "uncertainty",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "coastline",
+          "term": "coastline",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "7",
+          "selected_text": "departure",
+          "term": "departure",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "railway",
+          "term": "railway",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 2,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "archive",
+          "term": "archive",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 2,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "timetables",
+          "term": "timetables",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "total": 0,
+              "type": "count"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 2,
+              "total": 3,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "photographs",
+          "term": "photographs",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 2,
+              "state": 3,
+              "total": 3,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "catalog",
+          "term": "catalog",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "scanning",
+          "term": "scanning",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "recognition",
+          "term": "recognition",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "comparison",
+          "term": "comparison",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "restoration",
+          "term": "restoration",
+          "found": true
+        },
+        {
+          "events": [
+            {
+              "current": 1,
+              "state": 3,
+              "total": 1,
+              "type": "state"
+            },
+            {
+              "current": 0,
+              "state": 0,
+              "total": 0,
+              "type": "state"
+            },
+            {
+              "current": 1,
+              "total": 1,
+              "type": "count"
+            }
+          ],
+          "highlights": 1,
+          "label": "",
+          "page": "8",
+          "selected_text": "backups",
+          "term": "backups",
+          "found": true
+        }
+      ]
+    },
+    "pages": [
+      {
+        "page": 1,
+        "language": "jpn",
+        "split": "tune",
+        "reference_characters": 602,
+        "errors": 5,
+        "CER": 0.008305647840531562,
+        "selected_text": "地域の図書館では、来館者が安心して資料を探せるように案内を整えています。 入口の地図に\r\nは、新聞、雑誌、児童書、参考図書の場所を示しました。受付では貸出カードの作り方を説明\r\nし、返却期限を印刷した紙を渡します。予約した本が届いた場合は、事前に選んだ連絡方法で\r\nお知らせします。\r\n読書室の机と椅子は毎朝点検します。照明の明るさを調整し、窓からの日差しが強い時間帯に\r\nはカーテンを閉めます。静かな席を希望する方と、グループで相談する方が同じ場所で困らな\r\nいように、利用区域を分けています。わからないことがあれば係員に声をかけてください。\r\n資料の保存には温度と湿度の管理が欠かせません。古い写真や地図は専用の箱に入れ、閲覧す\r\nるときは汚れを防ぐ敷物を使います。破れや変色を見つけた場合は、その場所を記録 して担当\r\n者へ報告します。 修理中の資料には返却予定日を表示します。\r\n新しい展示は毎月最初の火曜日に始まります。 今月のテーマは町の交通と暮らしです。昔の駅\r\n舎、商店街、公園の写真を年代順に並べました。展示の説明文は大きな文字で印刷しています\r\n。 来館者の感想は専用の箱で受け付け、次回の企画を考える参考にします。\r\n閉館前には館内放送で時間を案内します。忘れ物がないかを確認し、借りた資料の冊数を確か\r\nめてからお帰りください。貸出中の資料は返却ポストでも受け付けます。ただし付属品のある\r\n資料は窓口へお持ちください。"
+      },
+      {
+        "page": 2,
+        "language": "jpn",
+        "split": "tune",
+        "reference_characters": 590,
+        "errors": 3,
+        "CER": 0.005084745762711864,
+        "selected_text": "工場の設備点検は、作業開始前の確認から始まります。担当者は手順書を読み、工具 と保護具\r\nがそろっていることを確かめます。機械の周囲に障害物がないか、床が濡れていないかを確認\r\nします。異常を見つけた場合は運転を始めず、責任者へ報告してください。\r\n点検表には設備番号、実施日時、担当者名、確認結果を記入します。測定値は単位を付けて記\r\n録し、前回の値と比較します。数値が許容範囲内でも、変化が急な場合は原因を調べます。記\r\n録を後から書き直すときは、変更した理由がわかるように残します。\r\n部品の交換は指定された順序で進めます。取り外したねじや留め具は箱にまとめ、別の設備の\r\n部品と混ざらないようにします。新しい部品の型式を確認してから取り付けます。 交換後は工\r\n具の置き忘れがないことを確認し、保護カバーを元の位置に戻します。\r\n作業を引き継ぐ際には、完了した項目と未完了の項目を分けて説明します。特に注意が必要な\r\n箇所は、口頭だけでなく書面でも伝えます。判断に迷う場合は、経験だけで進めずに手順書と\r\n責任者の指示を確認します。 安全のための停止をためらわないことが大切です。\r\n月末には点検記録を集計します。故障の回数だけでなく、停止時間、交換部品、発見のきっか\r\nけも調べます。同じ異常が繰り返されている設備は、保全計画を見直します。改善した内容は\r\n次の担当者にも共有し、毎日の確認に反映します。"
+      },
+      {
+        "page": 3,
+        "language": "jpn",
+        "split": "evaluation",
+        "reference_characters": 591,
+        "errors": 3,
+        "CER": 0.005076142131979695,
+        "selected_text": "市民公園の管理事務所では、季節に合わせて花壇の植え替えを計画しています。春は入口付近\r\nに明るい色の花を植え、夏は木陰の休憩場所を整えます。秋には落ち葉を集め、冬には通路の\r\n凍結を確認します。訪れる人が歩きやすいように、段差や水たまりも点検します。\r\n遊具の点検では、金属部分のひび、ねじの緩み、地面の状態を調べます。 修理が必要な遊具は\r\n使用を停止し、理由を示した案内を取り付けます。修理が終わるまで立ち入れないように囲い\r\nを設けます。点検した日時と担当者は記録簿に残し、次の確認に役立てます。\r\n池の周囲では水質と生き物の様子を観察します。えさの与えすぎは水を汚す原因になるため、\r\n決められたルールを掲示します。 水鳥が休む場所には近づきすぎないように案内します。清掃\r\nの際は、ごみだけでなく人危険な落とし物がないかも確認します。\r\n休日の催しでは、会場の配置図を入口に掲示します。受付、休憩所、救護所の位置をわかりや\r\nすく示し、通路には物を置きません。雨天時の対応は開催前に決め、変更があれば早めに知ら\r\nせます。片付けが終わった後は、忘れ物と設備の状態を確認します。\r\n公園を長く気持ちよく使うために、利用者からの意見を集めています。ベンチの場所、案内板\r\nの読みやすさ、夜間の明るさなど、具体的な気づきをお寄せください。寄せられた意見は定期\r\n的に整理し、対応した内容と今後の予定を掲示します。"
+      },
+      {
+        "page": 4,
+        "language": "jpn",
+        "split": "evaluation",
+        "reference_characters": 597,
+        "errors": 3,
+        "CER": 0.005025125628140704,
+        "selected_text": "観測所では、毎日同じ時刻に気温、湿度、風向、降水量を記録します。測定器の設置場所には\r\n周囲の建物や樹木の影響があります。そのため、機器を移動する場合は位置と理由を記録し、\r\n以前の観測値と単純に比較しないように注意します。\r\n雨量計の入口に落ち葉や虫が入ると、正しい値を測れないことがあります。 担当者は定期的に\r\n内部を確認し、必要な清掃を行います。清掃した日時も観測記録に残します。強い雨や風が予\r\n想される日は、無理に屋外へ出ず、安全を確保してから点検します。\r\n収集したデータは、まず欠けている時刻や異常な値がないかを確認します。異常が疑われる値\r\nはすぐに削除せず、周辺の観測点や機器の状態と照らし合わせます。補正を行う場合は、元の\r\n値と補正後の値を区別して保存します。判断の根拠も担当者が読める形で残します。\r\n月ごとの報告書には、平均値だけでなく最高値と最低値も掲載します。 観測できなかった日が\r\nある場合は、その日数と理由を明記します。表とグラフでは同じ単位を使い、比較する期間を\r\nそろえます。 長期的な傾向と一日の変動を混同しない説明を心がけます。\r\n観測の結果は防災や農業の計画にも利用されます。ただし、一つの地点の数値だけで広い地域\r\n全体の状態を決めることはできません。利用する目的と測定条件を確認し、必要に応じて複数\r\nの資料を組み合わせます。わからない点は推測で埋めず、未確認として示します。"
+      },
+      {
+        "page": 5,
+        "language": "eng",
+        "split": "tune",
+        "reference_characters": 1050,
+        "errors": 6,
+        "CER": 0.005714285714285714,
+        "selected_text": "The community workshop opens at nine each morning. Visitors register at the front\r\ndesk and receive a short explanation of the available equipment. Staﬀ check that\r\ntools are clean, guards are secure, and emergency exits are clear. Each participant\r\nreads the instructions before beginning a project. Questions are welcome at every\r\nstage of the work.\r\nMaterials are stored by type and size. Wood belongs on the lower shelves, while\r\nsmall metal parts are kept in labeled drawers. A separate cabinet holds protective\r\nglasses and gloves. Borrowed tools must be returned to their marked places. This\r\narrangement makes missing items easier to notice and helps the next visitor prepare\r\nwithout delay.\r\nAt the end of a session, participants remove waste from their benches and report\r\nany damage. Staﬀ record repairs in a shared notebook. A broken tool stays out of\r\nservice until a qualiﬁed person has inspected it. The monthly review considers\r\nboth accidents and situations that almost caused an accident. The purpose is to\r\nimprove the workspace for everyone."
+      },
+      {
+        "page": 6,
+        "language": "eng",
+        "split": "tune",
+        "reference_characters": 1057,
+        "errors": 6,
+        "CER": 0.005676442762535478,
+        "selected_text": "The museum prepares a new exhibition every season. Curators begin by selecting\r\nobjects that tell a clear story. They check the condition of each object and\r\nconﬁrm that it can be displayed safely. Labels explain where the object came from,\r\nhow it was used, and why it matters. Dates and measurements are checked against the\r\ncollection records.\r\nLighting is adjusted before the public enters the gallery. Fragile paper needs\r\nlower light levels than stone or metal. Display cases must allow visitors to see\r\nimportant details without touching the objects. Staﬀ walk through the room to\r\ncheck the route, the signs, and the space around each case. They also test the\r\nreading height of the labels.\r\nAfter the exhibition closes, every object is examined again. Changes in condition\r\nare photographed and described. Packing materials are selected to protect the\r\nsurfaces during transport. The ﬁnal report records what worked well and what\r\nshould change next time. Visitor comments help the team understand which\r\nexplanations were clear and which needed more context."
+      },
+      {
+        "page": 7,
+        "language": "eng",
+        "split": "evaluation",
+        "reference_characters": 1097,
+        "errors": 9,
+        "CER": 0.008204193254329991,
+        "selected_text": "The coastal research team surveys the same beach throughout the year. Members\r\nrecord the date, tide level, weather, and starting position before collecting\r\nsamples.They follow a marked route so that observations from diﬀerent visits can\r\nbe compared. Equipment is checked before departure, and each container receives a\r\nunique label.\r\nSamples are handled carefully to avoid mixing material from separate locations. The\r\nteam uses clean instruments and records the depth of each collection. Photographs\r\nshow the surrounding area as well as the sample point. If a location cannot be\r\nreached safely, the team records the reason and leaves the entry incomplete. Safety\r\ntakes priority over ﬁnishing every planned measurement.\r\nBack at the laboratory, staﬀ compare the labels with the ﬁeld notes. Unexpected\r\nresults are checked against the original observations. The report presents\r\nuncertainty alongside the measurements and explains any gaps in the record.\r\nRepeated surveys reveal gradual changes that a single visit cannot show. The\r\ncollected evidence supports careful decisions about the coastline."
+      },
+      {
+        "page": 8,
+        "language": "eng",
+        "split": "evaluation",
+        "reference_characters": 1099,
+        "errors": 8,
+        "CER": 0.007279344858962694,
+        "selected_text": "The railway archive contains maps, timetables, photographs, and maintenance\r\nrecords. Researchers request materials using the reference numbers in the catalog.\r\nStaﬀ retrieve the requested items and explain any handling restrictions. Large\r\nmaps are supported on a clean table, and loose photographs remain in their\r\nprotective sleeves.\r\nDigital copies make frequently requested records easier to consult. Before\r\nscanning, staﬀ check page order and note any missing sections. Images are reviewed\r\nfor focus, alignment, and complete margins. Text recognition helps users search the\r\ncollection, but the original image remains available for comparison. Uncertain\r\nwords are not silently replaced with guesses.\r\nEach completed record includes the source, date of capture, equipment settings, and\r\nreview status. A second staﬀ member checks a sample of the results. Files are\r\nstored in more than one location, and restoration tests conﬁrm that the backups\r\ncan be used. The archive publishes clear descriptions of its coverage so that\r\nresearchers understand both the strengths and the limits of the collection."
+      }
+    ],
+    "browser_version": "157.0",
+    "build_id": "20260924084938",
+    "geckodriver_version": "0.37.1",
+    "print": "WebDriver Print Page output; inspect PDF separately",
+    "evaluation": {
+      "jpn": {
+        "CER": 0.005050505050505051,
+        "found": 20,
+        "status": "PASS"
+      },
+      "eng": {
+        "CER": 0.007741347905282332,
+        "found": 20,
+        "status": "PASS"
+      }
+    }
+  },
+  "firefox_M2": {
+    "mode": "headless Firefox PDF.js, separate profile",
+    "native_browser_UI": "未実行",
+    "OS_clipboard": "未実行",
+    "documents": [
+      {
+        "file": "form-input.pdf",
+        "annotations": [
+          {
+            "contents": "Existing comment retained",
+            "name": null,
+            "rect": [
+              350,
+              648,
+              372,
+              670
+            ],
+            "type": 1,
+            "value": null
+          },
+          {
+            "contents": "",
+            "name": null,
+            "rect": [
+              40,
+              350,
+              200,
+              375
+            ],
+            "type": 2,
+            "value": null
+          },
+          {
+            "contents": "署名は保持",
+            "name": null,
+            "rect": [
+              60,
+              50,
+              148,
+              81.2
+            ],
+            "type": 13,
+            "value": null
+          },
+          {
+            "contents": "",
+            "name": "name",
+            "rect": [
+              45,
+              730,
+              265,
+              755
+            ],
+            "type": 20,
+            "value": "髙橋 香織"
+          },
+          {
+            "contents": "",
+            "name": "notes",
+            "rect": [
+              45,
+              645,
+              265,
+              710
+            ],
+            "type": 20,
+            "value": "東京都\n申請内容の追記"
+          },
+          {
+            "contents": "",
+            "name": "agree",
+            "rect": [
+              45,
+              600,
+              65,
+              620
+            ],
+            "type": 20,
+            "value": "Off"
+          },
+          {
+            "contents": "",
+            "name": "choice",
+            "rect": [
+              45,
+              550,
+              65,
+              570
+            ],
+            "type": 20,
+            "value": "B"
+          },
+          {
+            "contents": "",
+            "name": "choice",
+            "rect": [
+              85,
+              550,
+              105,
+              570
+            ],
+            "type": 20,
+            "value": "B"
+          },
+          {
+            "contents": "",
+            "name": "combo",
+            "rect": [
+              45,
+              500,
+              245,
+              522
+            ],
+            "type": 20,
+            "value": [
+              "Blue"
+            ]
+          },
+          {
+            "contents": "",
+            "name": "list",
+            "rect": [
+              45,
+              420,
+              245,
+              480
+            ],
+            "type": 20,
+            "value": [
+              "West"
+            ]
+          }
+        ],
+        "printed_pages": 1,
+        "independent_print_engine": "PDFium",
+        "printed_characters": 64,
+        "canvas_rendered": true,
+        "WebDriver_print_PDF": true
+      },
+      {
+        "file": "annotations.pdf",
+        "annotations": [
+          {
+            "contents": "日本語の確認コメント",
+            "name": null,
+            "rect": [
+              60,
+              300,
+              92,
+              332
+            ],
+            "type": 1,
+            "value": null
+          },
+          {
+            "contents": "枠",
+            "name": null,
+            "rect": [
+              110,
+              300,
+              210,
+              350
+            ],
+            "type": 5,
+            "value": null
+          },
+          {
+            "contents": "直線",
+            "name": null,
+            "rect": [
+              240,
+              280,
+              340,
+              350
+            ],
+            "type": 4,
+            "value": null
+          },
+          {
+            "contents": "矢印",
+            "name": null,
+            "rect": [
+              365,
+              305,
+              485,
+              380.20754
+            ],
+            "type": 4,
+            "value": null
+          },
+          {
+            "contents": "",
+            "name": null,
+            "rect": [
+              60,
+              440,
+              200,
+              480
+            ],
+            "type": 9,
+            "value": null
+          },
+          {
+            "contents": "日本語の確認コメント",
+            "name": null,
+            "rect": [
+              90,
+              300,
+              190,
+              400
+            ],
+            "type": 16,
+            "value": null
+          }
+        ],
+        "printed_pages": 1,
+        "independent_print_engine": "PDFium",
+        "printed_characters": 63,
+        "canvas_rendered": true,
+        "WebDriver_print_PDF": true
+      },
+      {
+        "file": "writing.pdf",
+        "annotations": [
+          {
+            "contents": "申込書への追記\n髙橋",
+            "name": null,
+            "rect": [
+              60,
+              100,
+              180,
+              154.4
+            ],
+            "type": 13,
+            "value": null
+          },
+          {
+            "contents": "2026年10月4日",
+            "name": null,
+            "rect": [
+              60,
+              160,
+              178.72,
+              191.2
+            ],
+            "type": 13,
+            "value": null
+          },
+          {
+            "contents": "",
+            "name": null,
+            "rect": [
+              80,
+              250,
+              224,
+              298
+            ],
+            "type": 13,
+            "value": null
+          },
+          {
+            "contents": "",
+            "name": null,
+            "rect": [
+              60,
+              330,
+              180,
+              370
+            ],
+            "type": 13,
+            "value": null
+          }
+        ],
+        "printed_pages": 1,
+        "independent_print_engine": "PDFium",
+        "printed_characters": 88,
+        "canvas_rendered": true,
+        "WebDriver_print_PDF": true
+      },
+      {
+        "file": "m2-combined.pdf",
+        "annotations": [
+          {
+            "contents": "Existing note: retain this annotation",
+            "name": null,
+            "rect": [
+              550,
+              758,
+              572,
+              780
+            ],
+            "type": 1,
+            "value": null
+          }
+        ],
+        "printed_pages": 2,
+        "independent_print_engine": "PDFium",
+        "printed_characters": 114,
+        "canvas_rendered": true,
+        "WebDriver_print_PDF": true
+      }
+    ],
+    "browser_version": "157.0",
+    "build_id": "20260924084938",
+    "status": "PASS"
+  },
+  "Qt_scale_tests": [
+    {
+      "Qt_scale": 1,
+      "passed": 14,
+      "details": {
+        "device_pixel_ratio": 1,
+        "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        "editor_text": "20.00 pt",
+        "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        "size_text": "20.00 pt"
+      }
+    },
+    {
+      "Qt_scale": 1.5,
+      "passed": 14,
+      "details": {
+        "device_pixel_ratio": 1.5,
+        "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        "editor_text": "20.00 pt",
+        "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        "size_text": "20.00 pt"
+      }
+    },
+    {
+      "Qt_scale": 2,
+      "passed": 14,
+      "details": {
+        "device_pixel_ratio": 2,
+        "editor_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        "editor_text": "20.00 pt",
+        "size_font": "Noto Sans JP,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+        "size_text": "20.00 pt"
+      }
+    }
+  ],
+  "native_windows_font_process": {
+    "exit_code": 0,
+    "exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "completed": true,
+    "headless": false,
+    "filter": "B01_fonts_roundtrip"
+  },
+  "native_print_and_access_denial": {
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "volume_full": "未実行; NTFS write denial is a separate test",
+    "acl_restored": true,
+    "native_printer_requested": true
+  },
+  "startup_cleanup": {
+    "status": "PASS",
+    "process_exit": 0,
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "abandoned_removed": true,
+    "unmarked_preserved": true,
+    "different_marker_preserved": true,
+    "directory_junction_preserved": true,
+    "nested_junction_preserved": true,
+    "linked_payload_unchanged": true,
+    "scope": "Actual packaged Windows app startup with isolated process TEMP/TMP and real NTFS junctions; not clean/offline acceptance"
+  },
+  "performance": {
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "CPU": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "RAM_bytes": 16907878400,
+    "runs_per_case": 3,
+    "memory_scope": "parent plus recursive OCR children, sampled every 20ms",
+    "mode": "Windows real Qt application, offscreen; OS file cache not cleared",
+    "timing_scope": "first_readable_ms starts after QApplication/font initialization. startup_capture_complete_ms starts before process launch, includes PNG encoding/writing, and is an observed upper bound sampled every 20ms; neither is physical-display latency.",
+    "unexecuted": [
+      "physical-display FPS",
+      "Acrobat comparison",
+      "hours-long soak"
+    ],
+    "cases": {
+      "D01.pdf": {
+        "runs": [
+          {
+            "elapsed_seconds": 0.4640112000051886,
+            "peak_process_group_rss_bytes": 61788160,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 187.73809999402147,
+            "first_page_ms": 82,
+            "first_readable_ms": 86,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 4,
+            "pages": 1,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 71
+          },
+          {
+            "elapsed_seconds": 0.45034220001252834,
+            "peak_process_group_rss_bytes": 62107648,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 169.43620001256932,
+            "first_page_ms": 76,
+            "first_readable_ms": 80,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 4,
+            "pages": 1,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 66
+          },
+          {
+            "elapsed_seconds": 0.4539583000005223,
+            "peak_process_group_rss_bytes": 61853696,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 169.74549999576993,
+            "first_page_ms": 77,
+            "first_readable_ms": 81,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 4,
+            "pages": 1,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 59
+          }
+        ],
+        "median_first_readable_ms": 81,
+        "median_startup_capture_complete_ms": 169.74549999576993,
+        "peak_rss_bytes": 62107648
+      },
+      "D10-digital-100.pdf": {
+        "runs": [
+          {
+            "elapsed_seconds": 0.475838800004567,
+            "peak_process_group_rss_bytes": 63356928,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 172.8504999919096,
+            "first_page_ms": 86,
+            "first_readable_ms": 96,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 10,
+            "pages": 100,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 70
+          },
+          {
+            "elapsed_seconds": 0.4552733000018634,
+            "peak_process_group_rss_bytes": 63258624,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 170.68660000222735,
+            "first_page_ms": 74,
+            "first_readable_ms": 80,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 6,
+            "pages": 100,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 63
+          },
+          {
+            "elapsed_seconds": 0.46176769999146927,
+            "peak_process_group_rss_bytes": 63455232,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 190.26839999423828,
+            "first_page_ms": 86,
+            "first_readable_ms": 95,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 9,
+            "pages": 100,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 64
+          }
+        ],
+        "median_first_readable_ms": 95,
+        "median_startup_capture_complete_ms": 172.8504999919096,
+        "peak_rss_bytes": 63455232
+      },
+      "D10-image-50.pdf": {
+        "runs": [
+          {
+            "elapsed_seconds": 0.5483712999994168,
+            "peak_process_group_rss_bytes": 169693184,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 284.63490000285674,
+            "first_page_ms": 165,
+            "first_readable_ms": 178,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 13,
+            "pages": 50,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 71
+          },
+          {
+            "elapsed_seconds": 0.607583799996064,
+            "peak_process_group_rss_bytes": 166694912,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 321.5382999915164,
+            "first_page_ms": 191,
+            "first_readable_ms": 203,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 12,
+            "pages": 50,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 75
+          },
+          {
+            "elapsed_seconds": 0.5564626999985194,
+            "peak_process_group_rss_bytes": 166588416,
+            "max_process_count": 1,
+            "startup_capture_complete_ms": 282.7308000123594,
+            "first_page_ms": 175,
+            "first_readable_ms": 186,
+            "image_pixels": 1088000,
+            "measurement_version": 2,
+            "observation_ms": 250,
+            "open_ms": 11,
+            "pages": 50,
+            "qt_platform": "offscreen",
+            "window_visible_ms": 69
+          }
+        ],
+        "median_first_readable_ms": 186,
+        "median_startup_capture_complete_ms": 284.63490000285674,
+        "peak_rss_bytes": 169693184
+      },
+      "same-window-OCR": {
+        "runs": [
+          {
+            "elapsed_seconds": 6.457990800001426,
+            "peak_process_group_rss_bytes": 307105792,
+            "max_process_count": 2,
+            "startup_capture_complete_ms": null,
+            "operation": {
+              "details": {
+                "clipboard_characters": 635,
+                "dialogs": [
+                  "OCR結果"
+                ],
+                "elapsed_ms": 6067
+              },
+              "elapsed_ms": 6368,
+              "name": "A05_A08_same_window_OCR_search_copy_save",
+              "status": "PASS"
+            }
+          },
+          {
+            "elapsed_seconds": 6.912752400006866,
+            "peak_process_group_rss_bytes": 305934336,
+            "max_process_count": 2,
+            "startup_capture_complete_ms": null,
+            "operation": {
+              "details": {
+                "clipboard_characters": 635,
+                "dialogs": [
+                  "OCR結果"
+                ],
+                "elapsed_ms": 6535
+              },
+              "elapsed_ms": 6838,
+              "name": "A05_A08_same_window_OCR_search_copy_save",
+              "status": "PASS"
+            }
+          },
+          {
+            "elapsed_seconds": 6.242983600008301,
+            "peak_process_group_rss_bytes": 307818496,
+            "max_process_count": 2,
+            "startup_capture_complete_ms": null,
+            "operation": {
+              "details": {
+                "clipboard_characters": 635,
+                "dialogs": [
+                  "OCR結果"
+                ],
+                "elapsed_ms": 5889
+              },
+              "elapsed_ms": 6169,
+              "name": "A05_A08_same_window_OCR_search_copy_save",
+              "status": "PASS"
+            }
+          }
+        ],
+        "median_seconds": 6.457990800001426,
+        "peak_rss_bytes": 307818496
+      }
+    }
+  },
+  "interaction_process": {
+    "exit_code": 0,
+    "product_exe_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "harness_sha256": "22a0bd36ede2de72e68b900beaf9f46b98de9c950b385c7dbb0b24dacb30fd20",
+    "source_commit": "cbf74c24a0eb018f154e5a1f18a9a2def770071c",
+    "mode": "Shared product UI, separate harness, synthetic Qt input, offscreen"
+  },
+  "interaction_medians": {
+    "cancel_until_worker_cleanup_ms": 44.2523,
+    "drag_commit_until_page_ready_ms": 37.3103,
+    "drag_preview_event_and_repaint_ms": 1.8488,
+    "navigate_during_OCR_until_ready_ms": 3.3726
+  },
+  "interactions": {
+    "qt_platform": "offscreen",
+    "runs": [
+      {
+        "cancel_until_worker_cleanup_ms": 36.7441,
+        "drag_Undo_and_cancel_preservation": true,
+        "drag_commit_until_page_ready_ms": 40.9288,
+        "drag_preview_event_and_repaint_ms": [
+          4.0614,
+          2.4848,
+          1.8279,
+          1.6515,
+          1.6595,
+          2.134,
+          1.7253,
+          1.6996,
+          1.6894,
+          1.694,
+          1.6858,
+          1.6855,
+          1.693,
+          1.7019,
+          2.0655,
+          3.0322,
+          1.8697,
+          1.6685,
+          1.6822,
+          1.6651,
+          1.6825,
+          1.7539,
+          1.6887,
+          1.9123,
+          1.6851,
+          1.6678,
+          1.6799,
+          1.6517,
+          1.66,
+          1.6726
+        ],
+        "navigate_during_OCR_until_ready_ms": 2.6382,
+        "run": 1
+      },
+      {
+        "cancel_until_worker_cleanup_ms": 44.2523,
+        "drag_Undo_and_cancel_preservation": true,
+        "drag_commit_until_page_ready_ms": 19.4837,
+        "drag_preview_event_and_repaint_ms": [
+          5.7882,
+          3.8877,
+          3.0369,
+          2.0767,
+          2.0171,
+          2.2875,
+          1.8856,
+          1.646,
+          1.6704,
+          1.69,
+          1.6714,
+          1.9334,
+          1.6751,
+          1.6958,
+          1.6784,
+          1.6519,
+          1.64,
+          1.6622,
+          1.7125,
+          1.6872,
+          2.3039,
+          2.5889,
+          1.9067,
+          1.6303,
+          1.6303,
+          1.6457,
+          1.6252,
+          1.6374,
+          1.6217,
+          1.8122
+        ],
+        "navigate_during_OCR_until_ready_ms": 4.2139,
+        "run": 2
+      },
+      {
+        "cancel_until_worker_cleanup_ms": 49.5795,
+        "drag_Undo_and_cancel_preservation": true,
+        "drag_commit_until_page_ready_ms": 37.3103,
+        "drag_preview_event_and_repaint_ms": [
+          2.6465,
+          2.0798,
+          2.0383,
+          2.1268,
+          2.2347,
+          2.2713,
+          2.3445,
+          2.4988,
+          2.1246,
+          2.1598,
+          2.0351,
+          2.869,
+          2.3936,
+          1.9796,
+          2.6972,
+          2.8461,
+          1.9638,
+          2.1257,
+          2.1955,
+          2.1513,
+          2.1387,
+          2.4091,
+          2.0376,
+          2.0749,
+          1.8927,
+          1.6775,
+          1.6761,
+          1.699,
+          1.9748,
+          2.419
+        ],
+        "navigate_during_OCR_until_ready_ms": 3.3726,
+        "run": 3
+      }
+    ],
+    "scope": "shared product UI, synthetic Qt events and synchronous offscreen repaint; not physical pointer/display latency",
+    "status": "PASS"
+  },
+  "soak": {
+    "cycles": 32,
+    "elapsed_ms": 305818,
+    "pages_visited": 2400,
+    "requested_seconds": 300,
+    "scope": "Repeated product Window open/read/close, alternating frozen digital/image PDFs; offscreen, no FPS claim",
+    "status": "PASS",
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "harness_sha256": "98eda3c01df5a5069cea8c9dd4d291eec29df884f4c4d08d180869ebd96c67c5",
+    "peak_RSS_bytes": 219987968,
+    "peak_private_bytes": 249540608,
+    "peak_threads": 33,
+    "peak_handles": 316,
+    "idle_sampling": "Last preceding sample within the 300ms closed-window interval",
+    "idle_median_first_3": {
+      "rss": 50728960,
+      "private": 34119680,
+      "threads": 29,
+      "handles": 301
+    },
+    "idle_median_last_3": {
+      "rss": 74948608,
+      "private": 56971264,
+      "threads": 26,
+      "handles": 303
+    },
+    "limits": "Same development PC, shared product UI in isolated harness, other user activity and OS cache uncontrolled; duration is stated, not hours-long proof"
+  },
+  "distribution_audit": {
+    "status": "PASS",
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "binaries": [
+      {
+        "file": "archive.dll",
+        "sha256": "f0d849296938a5016d1555531fe19a13b76591d16e716b2859314ed27fd656d5",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "XmlLite.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "bcrypt.dll": "Windows:System32",
+          "bz2.dll": "package:bz2.dll",
+          "liblzma.dll": "package:liblzma.dll",
+          "lz4.dll": "package:lz4.dll",
+          "ole32.dll": "Windows:System32",
+          "z.dll": "package:z.dll",
+          "zstd.dll": "package:zstd.dll"
+        }
+      },
+      {
+        "file": "asmjit.dll",
+        "sha256": "944b8ec8cf5e7265eaebda16ee0af64e1e5d7cb9d36241c57a37999a4030a12b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "blend2d.dll",
+        "sha256": "6b9e90eb2d8a110b2e1bfedf871fb71fbfac948abee5e3047d60b0adfb9a1fed",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "asmjit.dll": "package:asmjit.dll"
+        }
+      },
+      {
+        "file": "brotlicommon.dll",
+        "sha256": "ae809e012108f1d56a24a6873fa75d80e13f110fcefdcca2e38953d0914328c1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "brotlidec.dll",
+        "sha256": "f470c37e0ca2c218779b45aecc53a0f2e1e77c9584e9153876adcdc3dd160cec",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "brotlicommon.dll": "package:brotlicommon.dll"
+        }
+      },
+      {
+        "file": "brotlienc.dll",
+        "sha256": "ed2b18c3b9fa116a7d77dd80cb1d652a2a1369e56cbf9c75cd3b830933e57ee1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "brotlicommon.dll": "package:brotlicommon.dll"
+        }
+      },
+      {
+        "file": "bz2.dll",
+        "sha256": "e8459d441651badb375539b961f44080809c58bb8406b490654f64a2274870a0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "concrt140.dll",
+        "sha256": "b2faf3b85b23c840b654e57d5497a0ad31acd02fb01856cad4725a1715d5f78e",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "D3Dcompiler_47.dll",
+        "sha256": "e994847e01a6f1e4cbdc5a864616ac262f67ee4f14db194984661a8d927ab7f4",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "RPCRT4.dll": "Windows:System32",
+          "msvcrt.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "freetype.dll",
+        "sha256": "a60eca953d064760f9fb9ae26a854ec1bdfe5a44302fa7bf23edeec0e00b9304",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "brotlidec.dll": "package:brotlidec.dll",
+          "bz2.dll": "package:bz2.dll",
+          "libpng16.dll": "package:libpng16.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "generic/qtuiotouchplugin.dll",
+        "sha256": "6e9784408b75adc57a28527e6ebc24baada0e90fb5bf4946ccb9798bd8784057",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "gif.dll",
+        "sha256": "249186812daf33a4c4032b9b9b5c43cafef31b50890c74d930c7e378d6317c1d",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "hwloc-15.dll",
+        "sha256": "6b798e0cfe04bf07e4b85d052dce9371b3f45c4da90fbabd1df5a3693e4459e0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "iconengines/qsvgicon.dll",
+        "sha256": "92c6fa5cadc4161fec213f2f6cbb9d793436b222ee88369b70a97123b1e3302a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Svg.dll": "package:Qt6Svg.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qgif.dll",
+        "sha256": "cee83c066006c46f8dee16f33e524bac12f166ac667f4a86956473e8e207d68b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qicns.dll",
+        "sha256": "83ecab9232f204bbb3c9a2f5dca626ec9f4f31d466b457f91979a6b6ea43dee2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qico.dll",
+        "sha256": "82afc4eb27771e452a39fdc896bc638a138a0afb820d1b813b36cabba48c178d",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qjpeg.dll",
+        "sha256": "43ca4ed440f9f03e79f75fd76905e3350ec4008650d02d7041fdd2ac4043dfd2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qsvg.dll",
+        "sha256": "f613467380c982c166f573ce7e0a35243ef49a4ae253dcfa07e0f781d8f73bbe",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Svg.dll": "package:Qt6Svg.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qtga.dll",
+        "sha256": "24674e6a2e9a2b14d890bfcec2ba19550ebb28b0a9aad6565435070c8795428a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qtiff.dll",
+        "sha256": "0402ca2e00feb50147111921d786fed941cfa4255a2a454260f63ae1179c3bca",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qwbmp.dll",
+        "sha256": "cc8b5e7f0f284dd234910bada302fab273132d0145d4db5abe53fc4a59457c9a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qwebp.dll",
+        "sha256": "4e3de65c0487add2ac20befd2c2d80084e65372704139899ec9e1da90191fcc0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "jpeg62.dll",
+        "sha256": "a7148bea16f01df7bf6f193b872c7b4d9fb282c0e9c24705d8dd0c3892212794",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "lcms2-2.dll",
+        "sha256": "3609da3ee03cafbe6c26372e88c83fa9e890dd1da2b64c1447ba71993543f439",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "legacy.dll",
+        "sha256": "3f46771d69d14a1a9f262889b1697060b31a83aa07b10e2ebfa2d7bfc12380cb",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll"
+        }
+      },
+      {
+        "file": "leptonica-1.87.0.dll",
+        "sha256": "abde70ec16b80b48c8d0ff373dfa65722f7874a4355b114069bafe3f6072ae57",
+        "machine": "x64",
+        "dependencies": {
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "gif.dll": "package:gif.dll",
+          "jpeg62.dll": "package:jpeg62.dll",
+          "libpng16.dll": "package:libpng16.dll",
+          "libwebp.dll": "package:libwebp.dll",
+          "libwebpmux.dll": "package:libwebpmux.dll",
+          "openjp2.dll": "package:openjp2.dll",
+          "tiff.dll": "package:tiff.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "libcrypto-3-x64.dll",
+        "sha256": "cc8988346c5680cb25ffb78651befbfadc89be6c0a73ea8637a03d0dd4b131e3",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "CRYPT32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libcurl.dll",
+        "sha256": "73b5fac48e63f1c985f9e46c5d34404a519cfe854daa91364244e8c034b5c2c7",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "CRYPT32.dll": "Windows:System32",
+          "IPHLPAPI.DLL": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "Secur32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "bcrypt.dll": "Windows:System32",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "liblzma.dll",
+        "sha256": "fb53a94348a365bd52281b91658fc5690e8f79fee03573bc95f2ecaf3f4ce0eb",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libpng16.dll",
+        "sha256": "8b269231e29a79dafbe4ec7bb47d38f649cd87f73596e9e87af01b71ad8de3f1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "libsharpyuv.dll",
+        "sha256": "68ec545d1c7a5dac16f6d8e2cdd9b3c9ed7020d931dd91d91723de635147bcc8",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libssl-3-x64.dll",
+        "sha256": "8cffefb573a130cd0ebb66e6e27d2375b32b0d1ad1102a32fed0e085e399ec8a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll"
+        }
+      },
+      {
+        "file": "libwebp.dll",
+        "sha256": "6c7d2a42abe57167d5a097504da1d0b1f8f8300dbdc5c0aeeb0745c781e599d2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libsharpyuv.dll": "package:libsharpyuv.dll"
+        }
+      },
+      {
+        "file": "libwebpdecoder.dll",
+        "sha256": "2daef7e345bc67b511459ac2446127c1be8aaab8e30b2f2625effceb53eb961b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libwebpdemux.dll",
+        "sha256": "1f7df6ce9ade7c65e625069caaf133bed525c19f8e3f8c7164e8983987e42701",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libwebp.dll": "package:libwebp.dll"
+        }
+      },
+      {
+        "file": "libwebpmux.dll",
+        "sha256": "e500e59034c4a24425cb6bc63f2e7b32b57987794adf368903a36495300eb39c",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libwebp.dll": "package:libwebp.dll"
+        }
+      },
+      {
+        "file": "lz4.dll",
+        "sha256": "c75bf7a0b36a7cdc6bea523e263555803df1a7dc9a1072de8ec70f4c9d6fd4f9",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140.dll",
+        "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_1.dll",
+        "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_2.dll",
+        "sha256": "1d60da3ac2b06482912ca852fa7047436e6e474b4cfffa3bf77f4598cfbf454c",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_atomic_wait.dll",
+        "sha256": "e7963645e0d1db08e300614d4c5fa7194bd8173e9ab7a5558859e6b232ed3241",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-core-synch-l1-2-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_codecvt_ids.dll",
+        "sha256": "ae8d922b00cdd93e3ebecc37beb46c800f383ebdeb9f9e5b84e04a72428b6fb3",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "networkinformation/qnetworklistmanager.dll",
+        "sha256": "9a00977c2406a0cacfd25e24e9f32d7d2721a8e125f7576def00307a5850d067",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "OLEAUT32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "openjp2.dll",
+        "sha256": "6602d5a474fae998fe6510c51b831298fb6c13dc97ad647c7c534ebd64041726",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Pdf4QtLibCore.dll",
+        "sha256": "9548873b341a2f7fb413a7023759426ec1e5773e07b7a10e7863a621645d3c6d",
+        "machine": "x64",
+        "dependencies": {
+          "CRYPT32.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_ATOMIC_WAIT.dll": "package:MSVCP140_ATOMIC_WAIT.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Xml.dll": "package:Qt6Xml.dll",
+          "Secur32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "blend2d.dll": "package:blend2d.dll",
+          "freetype.dll": "package:freetype.dll",
+          "jpeg62.dll": "package:jpeg62.dll",
+          "lcms2-2.dll": "package:lcms2-2.dll",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll",
+          "mscms.dll": "Windows:System32",
+          "openjp2.dll": "package:openjp2.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "Pdf4QtLibWidgets.dll",
+        "sha256": "5330d38e9387fa0812a7ceb96e0a98eba88e8539f82b69afe68db5fa34e82852",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Pdf4QtLibCore.dll": "package:Pdf4QtLibCore.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Svg.dll": "package:Qt6Svg.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "PDFTatsujin.exe",
+        "sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Pdf4QtLibCore.dll": "package:Pdf4QtLibCore.dll",
+          "Pdf4QtLibWidgets.dll": "package:Pdf4QtLibWidgets.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6PrintSupport.dll": "package:Qt6PrintSupport.dll",
+          "Qt6Test.dll": "package:Qt6Test.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "SHELL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "tesseract55.dll": "package:tesseract55.dll"
+        }
+      },
+      {
+        "file": "platforms/qoffscreen.dll",
+        "sha256": "80f71afcd3cbec3c13375f5449d4eaecd64d9ca26c70bc83615039d094eb562a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "platforms/qwindows.dll",
+        "sha256": "133983755958a0f4d955b4a6f3712a014ac62351ec5edd3c32b802094f66ac96",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "COMDLG32.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "IMM32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "OLEAUT32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "SETUPAPI.dll": "Windows:System32",
+          "SHELL32.dll": "Windows:System32",
+          "SHLWAPI.dll": "Windows:System32",
+          "UIAutomationCore.DLL": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "WINMM.dll": "Windows:System32",
+          "WTSAPI32.dll": "Windows:System32",
+          "api-ms-win-core-winrt-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-core-winrt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-shcore-scaling-l1-1-1.dll": "Windows:API-contract-resolved",
+          "d3d9.dll": "Windows:System32",
+          "dwmapi.dll": "Windows:System32",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Concurrent.dll",
+        "sha256": "f41bd61b718649d862e436932069daad124d4ba0e25d322ed66a19204206b349",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Core.dll",
+        "sha256": "b6c6bedca4e798f9a6cfae20946688ab0a0c3dbd7de605951b0ffb7b679e4f53",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "AUTHZ.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MPR.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "NETAPI32.dll": "Windows:System32",
+          "OLEAUT32.dll": "Windows:System32",
+          "SHELL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "USERENV.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "VERSION.dll": "Windows:System32",
+          "WINMM.dll": "Windows:System32",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-core-synch-l1-2-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Gui.dll",
+        "sha256": "569f50c8fde5e3841197e4f44bc4673b330e2f8744391f36f0dccc17fc858f03",
+        "machine": "x64",
+        "dependencies": {
+          "DWrite.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "MSVCP140_2.dll": "package:MSVCP140_2.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "SHELL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "UxTheme.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "d3d11.dll": "Windows:System32",
+          "d3d12.dll": "Windows:System32",
+          "dxgi.dll": "Windows:System32",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Network.dll",
+        "sha256": "dcd4d0951de4f8a7d8609dd2f44cb32cc7fd507c7562b635346df2de6707374b",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "DNSAPI.dll": "Windows:System32",
+          "IPHLPAPI.DLL": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Secur32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "WINHTTP.dll": "Windows:System32",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6PrintSupport.dll",
+        "sha256": "ba7fb068079399a28a75c8bc052f476acd413479909ed122cb16ddea24400b39",
+        "machine": "x64",
+        "dependencies": {
+          "COMDLG32.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Svg.dll",
+        "sha256": "da0da4afa90789bf7f7dcc61f745308b3e02af7afb74269fc2b1ac771b1f93a3",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Test.dll",
+        "sha256": "6d93033dc3a3d5d30be93ab277d6ebef9474e7887012bb832cbb124af6ebc703",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Widgets.dll",
+        "sha256": "36cfd5321d60623047f51bc9ce34333e1d090aca7a23b45e6c8a79f92d6a1aa6",
+        "machine": "x64",
+        "dependencies": {
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "USER32.dll": "Windows:System32",
+          "UxTheme.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "dwmapi.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Xml.dll",
+        "sha256": "ad471c0f6711d0a02da58240b8ebaf14af9a9bdeedb2bf60bb05bc8f8a2671d0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "spng.dll",
+        "sha256": "cd53736afbfedd0ece079daa2b35ec47b5c7023b3fbcd7b34a27f355914cd677",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "styles/qmodernwindowsstyle.dll",
+        "sha256": "750970c6a92d3af2b78c034e3b3ff379a7d61fa7b574d8c2e39f884a6bab568e",
+        "machine": "x64",
+        "dependencies": {
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "USER32.dll": "Windows:System32",
+          "UxTheme.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tbb12.dll",
+        "sha256": "07afacbc97f5f8db61a9e5f945d76af2dc079e4c5f5f75d7b6f3ea907378a9bc",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tbbmalloc.dll",
+        "sha256": "ae54af1959228851534a0b0c59a46240eb3285895c71fee707e003bef86e4a60",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tbbmalloc_proxy.dll",
+        "sha256": "f41fd2e3eccc7e4905bdc3a28832e1f02686cb628358ebdb1b116ed91b7d26f3",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "tbbmalloc.dll": "package:tbbmalloc.dll"
+        }
+      },
+      {
+        "file": "tesseract55.dll",
+        "sha256": "c2142b0e7a6edc64891d198e8a6ab5edcdab1a16f99a204cd5153194322691f1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "archive.dll": "package:archive.dll",
+          "leptonica-1.87.0.dll": "package:leptonica-1.87.0.dll",
+          "libcurl.dll": "package:libcurl.dll"
+        }
+      },
+      {
+        "file": "tiff.dll",
+        "sha256": "e5172df3ed872ba64088aa52b35535cedcec83ec0ec8948ff8a5b0cdf86b5bf8",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "jpeg62.dll": "package:jpeg62.dll",
+          "liblzma.dll": "package:liblzma.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "tls/qcertonlybackend.dll",
+        "sha256": "9f03bd4a3fb9779439bbea7b151fbbadf556541e56a7493481a5140625c4da7f",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tls/qschannelbackend.dll",
+        "sha256": "33d5b218ffbe581742fd07dd2da5b7394b66f41161235e785642bbcb2b5834e2",
+        "machine": "x64",
+        "dependencies": {
+          "CRYPT32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "Secur32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "bcrypt.dll": "Windows:System32",
+          "ncrypt.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "turbojpeg.dll",
+        "sha256": "299ab1d628ef14080d820f00453229a7fdd080b738a095ba801d63457d898528",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "spng.dll": "package:spng.dll"
+        }
+      },
+      {
+        "file": "vccorlib140.dll",
+        "sha256": "6b8d8a76c3e6664293407553650e60b94df9aaafc7c92057ea83032bd228e44f",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "OLEAUT32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-core-winrt-error-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-core-winrt-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-core-winrt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "vcruntime140.dll",
+        "sha256": "184146852727a9db4eea06178716bec3cdbb1015c911f6b0f915b184ad7775b2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "vcruntime140_1.dll",
+        "sha256": "e6bfb3662ab4b1969a73441dbe35c96d51441b6bff8cf1fe7430bd5b246ca605",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "vcruntime140_threads.dll",
+        "sha256": "a6222020b500a9a86b36e040c2dbd0e459716db1bf2810a11cd7512ea9b8d89b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "z.dll",
+        "sha256": "9700041939b72ab2f0a3eb52339508de84163e879e96af8c0cc74800dd0e56de",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "zstd.dll",
+        "sha256": "017f7abae1486b156f48c14de4ab8c575086d2fe84ad5a846ecac57aa86a6d5a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      }
+    ],
+    "binary_count": 75,
+    "assets_matched": 6,
+    "notices_matched": 104,
+    "desktop_release_CRT": {
+      "family": "Microsoft.VC145.CRT",
+      "version": "14.50.35710",
+      "configuration": "Desktop x64 Release",
+      "files": [
+        {
+          "file": "concrt140.dll",
+          "sha256": "b2faf3b85b23c840b654e57d5497a0ad31acd02fb01856cad4725a1715d5f78e"
+        },
+        {
+          "file": "msvcp140_1.dll",
+          "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380"
+        },
+        {
+          "file": "msvcp140_2.dll",
+          "sha256": "1d60da3ac2b06482912ca852fa7047436e6e474b4cfffa3bf77f4598cfbf454c"
+        },
+        {
+          "file": "msvcp140_atomic_wait.dll",
+          "sha256": "e7963645e0d1db08e300614d4c5fa7194bd8173e9ab7a5558859e6b232ed3241"
+        },
+        {
+          "file": "msvcp140_codecvt_ids.dll",
+          "sha256": "ae8d922b00cdd93e3ebecc37beb46c800f383ebdeb9f9e5b84e04a72428b6fb3"
+        },
+        {
+          "file": "msvcp140.dll",
+          "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb"
+        },
+        {
+          "file": "vccorlib140.dll",
+          "sha256": "6b8d8a76c3e6664293407553650e60b94df9aaafc7c92057ea83032bd228e44f"
+        },
+        {
+          "file": "vcruntime140_1.dll",
+          "sha256": "e6bfb3662ab4b1969a73441dbe35c96d51441b6bff8cf1fe7430bd5b246ca605"
+        },
+        {
+          "file": "vcruntime140_threads.dll",
+          "sha256": "a6222020b500a9a86b36e040c2dbd0e459716db1bf2810a11cd7512ea9b8d89b"
+        },
+        {
+          "file": "vcruntime140.dll",
+          "sha256": "184146852727a9db4eea06178716bec3cdbb1015c911f6b0f915b184ad7775b2"
+        }
+      ]
+    },
+    "scope": "Static PE imports including delay imports, bundled assets and notices; current Windows System32/API contracts. Does not establish clean Windows, all dynamic plugin use, or legal approval."
+  },
+  "real_scans": {
+    "executable_sha256": "2aa8ef33c6fbd18b85b920c6ef5cd95b392701e89b7f54a7c6a7676c042372b0",
+    "truth_manifest_sha256": "6c8da43a51bc94126e5043cb3725fc0c842391326934d7dcecd06f35996306ab",
+    "scope": "two public-domain book pages; diagnostic only, separate from fixed D03 thresholds",
+    "normalization": "NFC and whitespace only",
+    "pages": [
+      {
+        "id": "R01",
+        "language": "jpn",
+        "source": "https://commons.wikimedia.org/wiki/File:Rashomon.djvu",
+        "reuse": "Public domain original and mechanical scan; Commons PD-scan/PD-old-95-expired/PDM 1.0",
+        "pdf_sha256": "3aacaa53cae300f148c38781ca6d3be59e444786446e5205deb4bb6f5bb98609",
+        "diagnostic_CER": 0.9933774834437086,
+        "search": {
+          "羅生門": false,
+          "京都": false,
+          "地震": false,
+          "佛像": false
+        },
+        "visible_content_unchanged": true
+      },
+      {
+        "id": "R02",
+        "language": "eng",
+        "source": "https://commons.wikimedia.org/wiki/File:The_Yellow_Wall_Paper.djvu",
+        "reuse": "Public domain original; Commons PD-old-80-expired/PDM 1.0",
+        "pdf_sha256": "d8b82996d91a640b0433164322b561675b7c60232d6fc1299d48ed922d9d74a8",
+        "diagnostic_CER": 0.0032679738562091504,
+        "search": {
+          "phosphates": true,
+          "Personally": true,
+          "congenial": false,
+          "opposition": true
+        },
+        "visible_content_unchanged": true
+      }
+    ]
+  },
+  "full_acceptance": "not declared; see M3_RC6_REPORT.md",
+  "unexecuted": [
+    "native IME end-to-end on RC6",
+    "OS display scaling 100/150/200 percent",
+    "third-party first-use trial",
+    "clean Windows/offline A12",
+    "actual volume-full save failure",
+    "native Reader GUI and physical printing",
+    "machine without selected Windows fonts",
+    "physical-display FPS and Acrobat comparison",
+    "hours-long soak and cold OS cache",
+    "UNC/network-filesystem save"
+  ],
+  "known_limits": [
+    "Windows Start-Process failed before application execution in a Japanese/emoji executable path exceeding 350 characters; use a shorter installation path. PDF saves, worker temporary paths and 397-unit asset paths were separately tested.",
+    "Old Japanese vertical/ruby scan CER 99.34%, search 0/4; diagnostic failure retained",
+    "Final 5-minute soak closed-window RSS increased between first and last three medians; does not prove absence of leaks"
+  ]
+}

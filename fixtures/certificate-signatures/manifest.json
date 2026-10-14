@@ -1,0 +1,154 @@
+{
+  "license": "CC0-1.0; generated synthetic test data",
+  "private_keys_written": false,
+  "test_ca_sha256": "06ee772cf784a9d2ce6cd2f6a8c8ff91e9c66aa7e1f1f35b2118558c060b96c8",
+  "cases": [
+    {
+      "file": "valid.pdf",
+      "sha256": "886450a95c4230f85efea2eab9a32c9101a67a45b6fd3e16fb825a74771bcd7b",
+      "integrity": "Unchanged",
+      "chain": "LocalTrusted",
+      "entire_file": true
+    },
+    {
+      "file": "expired.pdf",
+      "sha256": "cc97c2a1e15974a1ed2f79ef2b6d4111d5a288dfa112770bd1df31e5303134d0",
+      "integrity": "Unchanged",
+      "chain": "Expired",
+      "entire_file": true
+    },
+    {
+      "file": "future.pdf",
+      "sha256": "ca7a7384b8ac66d98833e01965b96c14788b7d090534f9780463242f852f8e64",
+      "integrity": "Unchanged",
+      "chain": "NotYetValid",
+      "entire_file": true
+    },
+    {
+      "file": "self-signed.pdf",
+      "sha256": "6e1963e857256bfaa72e8079a118bc2882871ad83c249211a4a4065d4f971346",
+      "integrity": "Unchanged",
+      "chain": "Untrusted",
+      "entire_file": true
+    },
+    {
+      "file": "EC.pdf",
+      "sha256": "69a9879b410d6f2b7f3ded3fa81c9ffeba0b6d8d6038b1a2667fec3179da0ec5",
+      "integrity": "Unchanged",
+      "chain": "LocalTrusted",
+      "entire_file": true
+    },
+    {
+      "file": "CAdES.pdf",
+      "sha256": "a09049c17a802a869644e5793603f5190b536ea907011d9b38d83fbe4f4cdc1b",
+      "integrity": "Unchanged",
+      "chain": "LocalTrusted",
+      "entire_file": true
+    },
+    {
+      "file": "tampered.pdf",
+      "sha256": "67e92088bb800de57cde175c36e8db0c16a0e23e9c08db2ace7e025effaf4a5b",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": true
+    },
+    {
+      "file": "appended.pdf",
+      "sha256": "29a73a3fe3740423807d3d3469a559ee47410ef7f4fcbe988242b025d75dd341",
+      "integrity": "Unchanged",
+      "chain": "LocalTrusted",
+      "entire_file": false
+    },
+    {
+      "file": "blank.pdf",
+      "sha256": "4e59caa16bab5b3505c917e603b665af1b9ac324175658bf3f0578c72a9d9ad4",
+      "integrity": "Unsigned",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "unknown.pdf",
+      "sha256": "c25549a979e45de9945411a69e391eb79de0ecc242d511f4d2200f67d5a58346",
+      "integrity": "Unsupported",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "unbound.pdf",
+      "sha256": "6752afa11cbd3cb1c7ab18d217ebbb0053b56e5b38dd100e38ad387ef5f2ba14",
+      "integrity": "Unsupported",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "double.pdf",
+      "sha256": "8cebea699d14a778cf64baa0fab8b159de8284dbbc43fbdf2c7919a928e437ac",
+      "integrity": "Unchanged",
+      "chain": "LocalTrusted",
+      "entire_file": true
+    },
+    {
+      "file": "bad-CMS.pdf",
+      "sha256": "39098dbdac56bc3310ca3ffc5fbb6844d29971fc5bb302e1148681b008b6823b",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": true
+    },
+    {
+      "file": "range-negative.pdf",
+      "sha256": "3246bc0b9d64bab335ef479e025153d511186f71821e391775ea99ce041d7162",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "range-overlap.pdf",
+      "sha256": "f03ae7fd0db71e17974cc1f6df4035c80aa75bcb8fee43c7fd2cfb82ee3e9460",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "range-overflow.pdf",
+      "sha256": "677bcbf371639d93ab45a2ed271b28e6b20c088e1d79730df3c3e903152397c9",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "range-extra.pdf",
+      "sha256": "0a67349dc2cfe8c120221fba604d79f435508abbc847a385f817aff207f71208",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "range-mismatch.pdf",
+      "sha256": "78b49bda4fb78043cd32f9daf9784d6c55f3cd9dad8a04e22533e64eb43dc3e8",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "range-noninteger.pdf",
+      "sha256": "546f547cbaed13b3b1111b93b68b64079266bacad811c178db89d1a341dc141d",
+      "integrity": "Invalid",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "weak-hash.pdf",
+      "sha256": "2f064cf5f3bda8f154f52cfd68c1b11740dc6668a066b39f0a8c65248d6b0e8e",
+      "integrity": "Unsupported",
+      "chain": "NotChecked",
+      "entire_file": false
+    },
+    {
+      "file": "weak-key.pdf",
+      "sha256": "7ba9d7bd4e134efc01a7988231365af9b2b9566ffb9e350ee96898ac6809044c",
+      "integrity": "Unsupported",
+      "chain": "NotChecked",
+      "entire_file": true
+    }
+  ]
+}

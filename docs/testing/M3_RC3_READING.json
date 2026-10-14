@@ -1,0 +1,349 @@
+{
+  "status": "PASS",
+  "scope": "Same frozen PDFs, QPainter, 3 runs x 3 laps, no downsampling; representative viewport pixels exact",
+  "baseline_executable_sha256": "a829a2e17da44860a3a515962a2299b3029c9ea81766455e8e1c1ada83efd19a",
+  "candidate_executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+  "baseline_summary_sha256": "5f5a37eb29c3b212ee9f70e012b485b024ab82c29e9def2ba0e9ec38d39fb0db",
+  "candidate_summary_sha256": "ed5dcda1b14ad14c65ed7b0e5e85f3ff69b08b27016d5bf75c6daf5566dd41da",
+  "documents": {
+    "D10-digital-100.pdf": {
+      "baseline": {
+        "p95_ms_each_run": [
+          11,
+          9,
+          10
+        ],
+        "median_of_run_p95_ms": 10,
+        "elapsed_seconds_each_run": [
+          22.94608800000003,
+          21.864541200000076,
+          22.12310560000003
+        ],
+        "median_elapsed_seconds": 22.12310560000003,
+        "peak_RSS_bytes": 70578176
+      },
+      "candidate": {
+        "p95_ms_each_run": [
+          10,
+          10,
+          10
+        ],
+        "median_of_run_p95_ms": 10,
+        "elapsed_seconds_each_run": [
+          22.3112572,
+          22.114766000000145,
+          22.181394800000135
+        ],
+        "median_elapsed_seconds": 22.181394800000135,
+        "peak_RSS_bytes": 70356992
+      },
+      "viewport_images": [
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-1-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-1-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-1-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-2-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-2-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-2-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-3-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-3-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-0",
+          "file": "lap-3-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-1-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-1-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-1-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-2-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-2-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-2-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-3-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-3-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-1",
+          "file": "lap-3-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-1-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-1-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-1-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-2-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-2-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-2-page-51.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-3-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-3-page-100.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-digital-100.pdf-2",
+          "file": "lap-3-page-51.png",
+          "pixels_equal": true
+        }
+      ]
+    },
+    "D10-image-50.pdf": {
+      "baseline": {
+        "p95_ms_each_run": [
+          245,
+          320,
+          257
+        ],
+        "median_of_run_p95_ms": 257,
+        "elapsed_seconds_each_run": [
+          42.22006190000002,
+          45.91343789999996,
+          44.80582149999998
+        ],
+        "median_elapsed_seconds": 44.80582149999998,
+        "peak_RSS_bytes": 210591744
+      },
+      "candidate": {
+        "p95_ms_each_run": [
+          116,
+          129,
+          105
+        ],
+        "median_of_run_p95_ms": 116,
+        "elapsed_seconds_each_run": [
+          26.614495199999965,
+          26.849929099999827,
+          25.97289170000022
+        ],
+        "median_elapsed_seconds": 26.614495199999965,
+        "peak_RSS_bytes": 217239552
+      },
+      "viewport_images": [
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-1-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-1-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-1-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-2-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-2-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-2-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-3-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-3-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-0",
+          "file": "lap-3-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-1-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-1-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-1-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-2-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-2-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-2-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-3-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-3-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-1",
+          "file": "lap-3-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-1-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-1-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-1-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-2-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-2-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-2-page-50.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-3-page-1.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-3-page-26.png",
+          "pixels_equal": true
+        },
+        {
+          "run": "D10-image-50.pdf-2",
+          "file": "lap-3-page-50.png",
+          "pixels_equal": true
+        }
+      ]
+    }
+  },
+  "limits": "OS caches and other user activity are not controlled; no physical FPS, cold-cache, long-soak or Acrobat claim"
+}

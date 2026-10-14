@@ -1,0 +1,10 @@
+{
+  "page": 0,
+  "image": 0,
+  "position_and_size_mm": [25.4, 304.8, 50.8, 25.4],
+  "physical_points": [72, 864, 144, 72],
+  "raw_pdf_rectangle": [36, 324, 72, 36],
+  "signature": "既存画像の範囲外署名",
+  "preflight": "Source page has UserUnit=2. The original UI proposal at y=432 physical points intersects invisible text and must be refused; that proposal is retained and tested as a refusal before this positive operation.",
+  "scope": "Separate positive operation frozen before first UI execution; original input and original UI proposal retained"
+}

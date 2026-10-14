@@ -1,0 +1,20 @@
+{
+  "scope": "Frozen before execution; synthetic fixtures only, no product acceptance declaration",
+  "source_sha256": "3831c5c0b5a4a1f2b20263b96fe9ef1541544afc555e019786764361c2d5d057",
+  "required": [
+    "selected visible and invisible text removed",
+    "selected image pixels absent from extracted images",
+    "selected field value/default/appearance removed",
+    "unselected searchable text and form remain usable",
+    "MediaBox/CropBox/Rotate/UserUnit preserved",
+    "metadata/attachments/unreachable payload absent",
+    "source unchanged"
+  ],
+  "not_acceptable": [
+    "opaque overlay only",
+    "rasterizing ordinary saves",
+    "outlining all remaining text",
+    "dropping unaffected forms or annotations",
+    "claiming execution is security acceptance"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "files": {
+    "shared-forms.pdf": "6eafa4f04939f7bb41149db9d766bf02715b79b1525fb4b480e440ab1f4af121",
+    "cyclic-form.pdf": "d4cfd5d646064e4d2d30ee5397788f797956b4dd3db13b9fd2a323c9d23779df",
+    "group-form.pdf": "df18d8472674dec3ea84b5e03096ce6cf170a3852adb0d3cbcf6c2d58a4c1366",
+    "clipped-form.pdf": "a4d4e184a4ccde4fa7f9c4f18bea8a9355d5c57dbd7d7d826f2189d0ea34ef18"
+  },
+  "source_sha256": "d668f98fcc0730be30d42d65f35b5644f692c380193099c837feebaddd20b85f",
+  "first_pdf_bounds": [
+    110,
+    580,
+    60,
+    40
+  ],
+  "second_pdf_bounds": [
+    370,
+    580,
+    60,
+    40
+  ],
+  "first_physical": [
+    110,
+    172,
+    60,
+    40
+  ],
+  "target_physical": [
+    115,
+    177,
+    48,
+    32
+  ],
+  "replacement": "../replacement.png",
+  "replacement_sha256": "eb71696200c6f418017bccdf6804f23b7443b974218ebe99bc3d586c92490e5d",
+  "required": [
+    "Only first nested image invocation changes",
+    "Other shared Forms/images, glyphs, forms and original immutable",
+    "Undo/Redo/save/reopen/reedit",
+    "BBox overflow, cycle, explicit clipping and transparency group refuse atomically"
+  ],
+  "scope": "Synthetic CC0 graphics; shared existing image and Noto fixture resources; fixed before first nested-image edit; original acceptance unchanged"
+}

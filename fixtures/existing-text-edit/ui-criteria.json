@@ -1,0 +1,13 @@
+{
+  "source": "visible/body-text.pdf",
+  "signature": "本文編集の範囲外署名",
+  "replacements": {
+    "Original body line": "Edited body line",
+    "日本語の本文を編集します": "本文の日本語を編集します"
+  },
+  "geometry_mm": [25.4, 50.8, 76.2, 10.16],
+  "geometry_physical_points": [72, 144, 216, 28.8],
+  "unsupported_text": "未収録漢字",
+  "required": ["Actual menu and keyboard input", "Japanese Qt clipboard paste, not native IME acceptance", "Preview before explicit apply", "One Undo per apply", "Reopen and searchable edited text", "Unknown glyph and external source update refuse", "Delete needs consent", "Running worker Esc cancels without mutation"],
+  "scope": "Fixed before first body UI operation; original invisible input and failures retained"
+}

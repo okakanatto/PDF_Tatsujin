@@ -1,0 +1,249 @@
+{
+  "version": "0.5.0-dev35",
+  "status": "PASS within fixed profiles; general M5/M6 and shipping not accepted",
+  "product_source_commit": "0fae792cc4abc503490c18d384a1536f37aabfcf",
+  "executable_sha256": "9789090f9a5766d5d668657b0736f0bd61c3c7eb7881e78b9e3bb4588897c177",
+  "app_tests": {
+    "status": "PASS",
+    "executable_sha256": "9789090f9a5766d5d668657b0736f0bd61c3c7eb7881e78b9e3bb4588897c177",
+    "normal_including_layout": 241,
+    "additional_windows_tests": 2,
+    "total": 243,
+    "old240_names_preserved": true,
+    "runs": [
+      "evidence/m6-dev35-full-20261012",
+      "evidence/m6-dev35-windows-denied-20261012",
+      "evidence/m6-dev35-windows-printer-20261012"
+    ],
+    "full_suite_completed_runs": 1
+  },
+  "styled_form_independent_outputs": 26,
+  "prior_styled_part_independent_outputs": 15,
+  "prior_body_text_outputs": 10,
+  "prior_form_text_outputs": 7,
+  "prior_form_image_outputs": 7,
+  "redaction_success_outputs": 118,
+  "redaction_refusal_output_absence": 6,
+  "legacy_redaction_copy_outputs": 12,
+  "legacy_redaction_scan_outputs": 2,
+  "M1_independent": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "jpn_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "jpn_search",
+        "status": "PASS"
+      },
+      {
+        "name": "jpn_selected_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_search",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_selected_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_1",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_2",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_3",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_4",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_5",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_6",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_7",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_8",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_1",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_2",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_3",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_4",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_5",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_6",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_7",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_8",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf1",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf2",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf3",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D05-before.pdf1",
+        "status": "PASS"
+      },
+      {
+        "name": "rotated_alignment",
+        "status": "PASS"
+      },
+      {
+        "name": "Japanese_signature",
+        "status": "PASS"
+      },
+      {
+        "name": "form_values_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_outline_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_links_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_comments_equal",
+        "status": "PASS"
+      }
+    ],
+    "count": 32,
+    "executable_sha256": "9789090f9a5766d5d668657b0736f0bd61c3c7eb7881e78b9e3bb4588897c177",
+    "input_report": "evidence/m6-dev35-full-20261012/independent-verification.json",
+    "report_sha256": "3fb55dc75a3035d91ca73a1fcbabfae149b2f7dbfc94019c34aca62ab28bdb1a"
+  },
+  "prior_dev33_empty_glyph_diagnostic": "Protected PASS; not re-executed in dev35",
+  "criterion_sha256": "d7ae8793fb2d2e3e27f452885c75a005a30ab7a55ab2b18d452358302c6969e9",
+  "raster": {
+    "dpi": 300,
+    "boundary_pixels": 1,
+    "outside_pixels": 0,
+    "independent_reference_full_page_difference_pixels": 0,
+    "reference": "Fixed original input and criterion only; no product output; same renderer hinted glyph ink for Poppler mask"
+  },
+  "cancellation_stages": 1065,
+  "refusal_conditions": 6,
+  "source_CI": {
+    "conclusion": "success",
+    "databaseId": 38181189898,
+    "headSha": "0fae792cc4abc503490c18d384a1536f37aabfcf",
+    "status": "completed"
+  },
+  "static_audit": "77 PE / 9 assets / 106 notices PASS on developer Windows; clean Windows unexecuted",
+  "runtime_preservation": {
+    "status": "PASS",
+    "components": 86,
+    "unchanged": 85,
+    "changed": [
+      "PDFTatsujin.exe"
+    ],
+    "executable_sha256": "9789090f9a5766d5d668657b0736f0bd61c3c7eb7881e78b9e3bb4588897c177"
+  },
+  "protection": {
+    "files": 37,
+    "prior_stable_records": 136,
+    "prior_counts": [
+      184,
+      283
+    ]
+  },
+  "distribution": {
+    "fixed": "PASS; 24 related tests",
+    "fixed_path": "dist/PDFTatsujin-0.5.0-dev35-final/PDFTatsujin.exe",
+    "archive": {
+      "all_files_match": true,
+      "files": 673,
+      "exe_sha256": "9789090f9a5766d5d668657b0736f0bd61c3c7eb7881e78b9e3bb4588897c177",
+      "zip_sha256": "db1d98620b0f16703365cf4799d04d1cbfd6671359d183c62860ab31a946383b",
+      "zip_bytes": 153794559,
+      "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+    },
+    "actual_extraction": {
+      "status": "PASS",
+      "actual_app_files": 670,
+      "manifest_files": 669,
+      "executable_sha256": "9789090f9a5766d5d668657b0736f0bd61c3c7eb7881e78b9e3bb4588897c177",
+      "archive_sha256": "db1d98620b0f16703365cf4799d04d1cbfd6671359d183c62860ab31a946383b",
+      "scope": "Complete application extracted from actual ZIP; every extracted byte and manifest entry matched. Qt source members already verified, not redundantly extracted."
+    },
+    "extracted_tests": "PASS; 24 related tests",
+    "manifest_unchanged_after_tests": true,
+    "public_binary": "禁止"
+  },
+  "preserved_failures": [
+    "Initial unopened test document 2 FAIL; recovered to 6 PASS",
+    "25 PASS / 1 FAIL using PDFium outline for Poppler: 2 selected-glyph edge pixels; renderer-specific fixed-source reference and full-page exact comparison added",
+    "Premature legacy redaction independent record 11 conditions; geometry unexecuted; preserved and recovered to complete 12; completed-producer guard added",
+    "Initial span conversion compile error",
+    "Local untracked fetch script excluded from public style scope, unchanged"
+  ],
+  "unexecuted": [
+    "Native IME/OS clipboard/DPI",
+    "Reader/Word actual UI",
+    "Clean Windows",
+    "Physical printer",
+    "Actual full volume",
+    "Third-party/Acrobat comparison",
+    "Final performance/redistribution review",
+    "New executable network-zero",
+    "pdftotext"
+  ],
+  "not_accepted": [
+    "General irrecoverable redaction",
+    "General body/image editing and relative mixed-font flow",
+    "Office reverse/layout/table recovery",
+    "Complex OCR R01",
+    "Accessibility authoring/reading"
+  ]
+}

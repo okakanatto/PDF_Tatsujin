@@ -1,0 +1,13 @@
+{
+  "source": "D03.pdf",
+  "source_sha256": "c431c448d4e72cc963ffd4827c45a15533049feb19e352d5f48607cb2b3e1eb7",
+  "original_page_indices": [2, 6],
+  "raw_pdf_rectangle": [45, 765, 48, 18],
+  "remove": "市民公園",
+  "keep_japanese": ["管理事務所", "花壇"],
+  "keep_english": ["coastal", "surveys"],
+  "max_position_error_pt": 0.5,
+  "render_dpi": 300,
+  "boundary_tolerance_pixels": 1,
+  "scope": "Additional fixed criterion for an existing real OCR layer. The right edge 93 is in the independently measured gap after 園 (91.1526) and before の (93.0271). The original scan-before-OCR criterion is unchanged."
+}

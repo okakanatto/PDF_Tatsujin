@@ -1,0 +1,13 @@
+{
+  "engine": "LibreOffice",
+  "version": "26.8.1.1",
+  "platform": "Windows x64",
+  "installer": "LibreOffice_26.8.1_Win_x86-64.msi",
+  "bytes": 374870016,
+  "sha256": "c6298b10cfa1748bcbedad94c62ce771e240e5021bfd6d7a967cd571b04b5312",
+  "download": "https://download.documentfoundation.org/libreoffice/stable/26.8.1/win/x86_64/LibreOffice_26.8.1_Win_x86-64.msi",
+  "checksums": "https://download.documentfoundation.org/libreoffice/stable/26.8.1/win/x86_64/LibreOffice_26.8.1_Win_x86-64.msi.mirrorlist",
+  "licenses": "https://www.libreoffice.org/licenses/",
+  "configuration": "External optional engine; private profile, headless, owned Windows job. No Word automation, OS installation or Office setting changes by the application.",
+  "distribution": "Not embedded in the application candidate. Preserve the engine's own license.txt, LICENSE.html and NOTICE; its terms are separate from this application's MIT. General redistribution review remains open."
+}

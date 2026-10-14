@@ -1,0 +1,23 @@
+{
+  "files": {
+    "uniform.pdf": "b051290ca1e929bf04eebe72048d4ee713ca0e8f34213546f32f56a192dca281",
+    "mixed-fonts.pdf": "25adfd4a51d5edb447bbe19a70e790a391c2428c85a7f59a6ca44299f22eb64d"
+  },
+  "source_sha256": "878c862cbf57ad38409c5841e47c60d0399c1e9e90a7624bafeb3baadc582693",
+  "selected": "First body line\nSecond body line",
+  "replacement": "Edited first line\nEdited second line",
+  "japanese": "本文の一行目を編集します。\n本文の二行目を編集します。",
+  "reedited": "第一行を再編集しました。\n第二行を再編集しました。",
+  "original_lines": 2,
+  "leading_pt": 22,
+  "explicit_family": "Meiryo UI",
+  "following": "AFTER MULTILINE STATE",
+  "geometry": [
+    120,
+    300,
+    320,
+    80
+  ],
+  "refused": "Changed line count and mixed font state; original immutable",
+  "scope": "Additional synthetic CC0 input fixed before first multiline product operation; original criteria and thresholds unchanged"
+}

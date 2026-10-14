@@ -1,0 +1,20 @@
+Microsoft Visual C++ Runtime (Desktop x64 Release)
+Copyright Microsoft Corporation. All rights reserved.
+
+These unmodified DLLs come from the installed, non-preview Visual Studio
+Build Tools VC/Redist/MSVC/<version>/x64/Microsoft.VC145.CRT directory.
+Their version and SHA-256 hashes are recorded in runtime-origin.json.
+They retain Microsoft's terms and are not licensed under this project's MIT
+license. No debug_nonredist or OneCore runtime is included in RC4's final bundle.
+
+The Visual Studio 2026 distributable-code list permits licensed users to
+redistribute listed unmodified runtime files with their application, subject
+to the accompanying software license terms. Redistribution by downstream
+builders requires their own compliance with those terms.
+
+Official distributable-code list:
+https://learn.microsoft.com/en-us/visualstudio/releases/2026/redistribution
+Build Tools terms:
+https://visualstudio.microsoft.com/license-terms/vs2026-ga-diagnostic-buildtools/
+Runtime terms:
+https://visualstudio.microsoft.com/license-terms/vs2026-ga-visualcpp-v14-redist-runtime/

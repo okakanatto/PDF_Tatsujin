@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import statistics
 import subprocess
+import shutil
 import time
 
 import psutil
@@ -49,9 +50,22 @@ def main():
     product = args.app_directory.resolve()
     executable = args.harness.resolve()
     args.output.mkdir(parents=True, exist_ok=False)
+    # Windows searches beside the EXE before PATH. Isolate the harness from the
+    # build folder's mutable DLLs so measurements use the specified candidate.
+    runner = args.output.resolve() / "runner"
+    runner.mkdir()
+    isolated_executable = runner / executable.name
+    shutil.copy2(executable, isolated_executable)
     env = os.environ.copy()
     env["PATH"] = (
-        str(product) + os.pathsep + str(Path(os.environ["SystemRoot"]) / "System32")
+        str(product)
+        + os.pathsep
+        + str(
+            Path(
+                os.environ.get("SystemRoot", os.environ.get("SYSTEMROOT", "C:/Windows"))
+            )
+            / "System32"
+        )
     )
     env["QT_QPA_PLATFORM"] = "offscreen"
     env["QT_PLUGIN_PATH"] = str(product)
@@ -91,7 +105,7 @@ def main():
             samples = []
             started = time.perf_counter()
             with subprocess.Popen(
-                [str(executable), str(source), str(target)],
+                [str(isolated_executable), str(source), str(target)],
                 env=env,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.PIPE,

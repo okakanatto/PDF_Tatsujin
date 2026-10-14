@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "milestone": "M5 dev42 limited embedded horizontal mixed-width CMap",
+  "acceptance": "GENERAL_COMPLETION_WITHHELD",
+  "source_commit": "2fe1475af4b02acc72480654263819afb2880206",
+  "source_CI": {
+    "run_id": 38339107036,
+    "conclusion": "success"
+  },
+  "executable": {
+    "path": "evidence/dev42-r6-PDFTatsujin.exe",
+    "sha256": "7a7fdb1bad2f083c9c8f52c7d9f7d67b63d8ddacb92d2600f1399fa00aee726b",
+    "bytes": 5212160
+  },
+  "producer": {
+    "run": "evidence/m5-dev42-full-native-r1-20261013",
+    "native_passed": 260,
+    "native_failed": 0,
+    "old_names_preserved": 258,
+    "added_names": [
+      "M5RM01_mixed_width_CMap",
+      "M5RM02_mixed_width_CMap_UI"
+    ],
+    "process": {
+      "path": "evidence/m5-dev42-full-native-r1-20261013/process-result.json",
+      "sha256": "8346b5503f33843ce82599475b1a30d78c77c012b825c1390e48f4aedccce068",
+      "bytes": 551
+    },
+    "selftest": {
+      "path": "evidence/m5-dev42-full-native-r1-20261013/selftest.json",
+      "sha256": "72b4bfd76369bd2a408eacfc250832f1f58ecd972a38ce0d3a95c4ace48f9491",
+      "bytes": 286026
+    }
+  },
+  "scope": {
+    "font": "embedded horizontal TrueType, single BMP Unicode",
+    "code_lengths": [
+      1,
+      2
+    ],
+    "effective_Tw": 0,
+    "encoding_key": "(code_length,value) -> CID -> GID",
+    "ToUnicode_key": "(code_length,value) -> Unicode, independent of GID",
+    "atomic_rejections": [
+      "ambiguous prefixes",
+      "truncated codes",
+      "redefinition",
+      "UseCMap",
+      "unknown structures",
+      "unevaluated nonzero Tw"
+    ]
+  },
+  "fixtures": {
+    "v1": {
+      "path": "fixtures/redaction-copy/mixed-cmap-v1/criteria.json",
+      "sha256": "fc20b71f3990ffe4fa468389f0867297ebe0fcf2c8aa261de03c694b8f8af118",
+      "bytes": 647375
+    },
+    "v1_status": "Immutable failed geometric generator contract retained",
+    "v2": {
+      "path": "fixtures/redaction-copy/mixed-cmap-v2/criteria.json",
+      "sha256": "796b7ae0ef979583d0180c91c1020dd30405530d044daf39e83339f0b2ae326a",
+      "bytes": 788323
+    },
+    "v2_pdf_bytes_equal_v1": true,
+    "v2_core_files": 45,
+    "v2_core_bytes": 1675933,
+    "fixed_sidecars": [
+      {
+        "path": "fixtures/redaction-copy/mixed-cmap-v2/decoder-safety-r2.json",
+        "sha256": "5f39b3584811a0411573999bc5e7e0aa7eb241127c1ae0266f6ab87299287efa",
+        "bytes": 1380
+      },
+      {
+        "path": "fixtures/redaction-copy/mixed-cmap-v2/space-selection.json",
+        "sha256": "2168ad0c1ffd1bfb0d618d2068c80265197fb3f8f21e8f2511cf4754c26e7698",
+        "bytes": 2154
+      },
+      {
+        "path": "fixtures/redaction-copy/mixed-cmap-v2/renderer-metrics.json",
+        "sha256": "7d0fdd3d8a1888796566467e385a0d8c11695c9b8b236065ba75241161b75056",
+        "bytes": 56420
+      }
+    ],
+    "v2_geometry_fields_corrected_before_product_use": 66,
+    "v2_freeze_sequence": "After v1 native failure and initial feature implementation; before first v2 product use; unchanged PDF bytes/thresholds"
+  },
+  "independent": {
+    "mixed_semantics": {
+      "status": "PASS_SCOPED",
+      "passed": 46,
+      "failed": 0
+    },
+    "mixed_direct_raster": {
+      "status": "FAIL",
+      "passed": 41,
+      "failed": 5,
+      "thresholds_unchanged": true,
+      "observed_cause": "Local source PDFium code value collision across different code lengths; does not qualify the direct contract",
+      "failed_outputs": "Literal PDFs/reports/controls retained; no archive qualification"
+    },
+    "all_positive_Poppler_72_96_300dpi": "zero outside-delta",
+    "TJ_PDFium_and_Poppler_72_96_300dpi": "zero outside-delta",
+    "fresh_CVT_hint_realpoint": 101,
+    "checks": [
+      {
+        "name": "cvt-index",
+        "report": "evidence/dev42-independent-full-cvt-index-r1.json",
+        "report_sha256": "db779b56db887d4c0e0c077b733b7096a7b392c44eb39cee04561569de82a1c2",
+        "scope_passed": 11,
+        "direct_report_passed": 11,
+        "direct_report_failed": 0,
+        "exit_code": 0,
+        "producer": {
+          "run": "evidence\\m5-dev42-full-native-r1-20261013",
+          "process_sha256": "8346b5503f33843ce82599475b1a30d78c77c012b825c1390e48f4aedccce068",
+          "selftest_sha256": "72b4bfd76369bd2a408eacfc250832f1f58ecd972a38ce0d3a95c4ace48f9491",
+          "exe_sha256": "7a7fdb1bad2f083c9c8f52c7d9f7d67b63d8ddacb92d2600f1399fa00aee726b"
+        }
+      },
+      {
+        "name": "cvt",
+        "report": "evidence/dev42-independent-full-cvt-r1.json",
+        "report_sha256": "0fcd798f529d5f369bdc7f0938f05d4aef3def721be2abbdb31c5d5bed0c1370",
+        "scope_passed": 41,
+        "direct_report_passed": 41,
+        "direct_report_failed": 0,
+        "exit_code": 0,
+        "producer": {
+          "run": "evidence\\m5-dev42-full-native-r1-20261013",
+          "process_sha256": "8346b5503f33843ce82599475b1a30d78c77c012b825c1390e48f4aedccce068",
+          "selftest_sha256": "72b4bfd76369bd2a408eacfc250832f1f58ecd972a38ce0d3a95c4ace48f9491",
+          "exe_sha256": "7a7fdb1bad2f083c9c8f52c7d9f7d67b63d8ddacb92d2600f1399fa00aee726b"
+        }
+      },
+      {
+        "name": "hinting",
+        "report": "evidence/dev42-independent-full-hinting-r1.json",
+        "report_sha256": "4636ec88a306fb915162da424a41bfd196026364dcbd36f8adeefbfa96ee7451",
+        "scope_passed": 31,
+        "direct_report_passed": 31,
+        "direct_report_failed": 0,
+        "exit_code": 0,
+        "producer": {
+          "run": "evidence\\m5-dev42-full-native-r1-20261013",
+          "process_sha256": "8346b5503f33843ce82599475b1a30d78c77c012b825c1390e48f4aedccce068",
+          "selftest_sha256": "72b4bfd76369bd2a408eacfc250832f1f58ecd972a38ce0d3a95c4ace48f9491",
+          "exe_sha256": "7a7fdb1bad2f083c9c8f52c7d9f7d67b63d8ddacb92d2600f1399fa00aee726b"
+        }
+      },
+      {
+        "name": "boundaries",
+        "report": "evidence/dev42-independent-full-boundaries-r1.json",
+        "report_sha256": "9f470d6fbb7bac8dd227ff1e691bff248555348a15cd9d0974280165b43e8fdd",
+        "scope_passed": 18,
+        "direct_report_passed": 18,
+        "direct_report_failed": 0,
+        "exit_code": 0,
+        "producer": {
+          "run": "evidence\\m5-dev42-full-native-r1-20261013",
+          "process_sha256": "8346b5503f33843ce82599475b1a30d78c77c012b825c1390e48f4aedccce068",
+          "selftest_sha256": "72b4bfd76369bd2a408eacfc250832f1f58ecd972a38ce0d3a95c4ace48f9491",
+          "exe_sha256": "7a7fdb1bad2f083c9c8f52c7d9f7d67b63d8ddacb92d2600f1399fa00aee726b"
+        }
+      },
+      {
+        "name": "mixed-cmap",
+        "report": "evidence/dev42-independent-full-mixed-cmap-r1.json",
+        "report_sha256": "dd684da66c1bfe2b5366fc79bf30d8609af3e104f38dac592d77b283d05fa906",
+        "scope_passed": 46,
+        "direct_report_passed": 41,
+        "direct_report_failed": 5,
+        "exit_code": 1,
+        "producer": {
+          "run": "evidence\\m5-dev42-full-native-r1-20261013",
+          "process_sha256": "8346b5503f33843ce82599475b1a30d78c77c012b825c1390e48f4aedccce068",
+          "selftest_sha256": "72b4bfd76369bd2a408eacfc250832f1f58ecd972a38ce0d3a95c4ace48f9491",
+          "exe_sha256": "7a7fdb1bad2f083c9c8f52c7d9f7d67b63d8ddacb92d2600f1399fa00aee726b"
+        }
+      }
+    ],
+    "binding": {
+      "path": "evidence/dev42-extra-independent-full-runtime-bindings-r1.json",
+      "sha256": "25ca2c1ef26713b4fe7cb52bfa52e75d69a9a387d883b5b04ac25e87ed1c3a03",
+      "bytes": 12746
+    },
+    "MIAP_dense256_source32767_action": "UNOBSERVED: both engines72/96dpi change0",
+    "instruction4096_action": "UNPROVEN"
+  },
+  "existing_M5": {
+    "status": "PASS_SCOPED",
+    "passed": 124,
+    "groups": 19,
+    "byte_identical_reuse_groups": 15,
+    "byte_identical_reuse_conditions": 86,
+    "fresh_groups": 4,
+    "fresh_conditions": 38,
+    "report": {
+      "path": "evidence/dev42-M5-independent-summary-final.json",
+      "sha256": "74018e1a9745271547cd2b26edfd50d54f7da19034ddce919f4bb7ec027e520a",
+      "bytes": 43801
+    }
+  },
+  "editing": {
+    "status": "PASS_SCOPED",
+    "fresh_conditions": 160,
+    "fresh_families": 9,
+    "generated_reference_PDFs": 321,
+    "reference_bytes": 16028625,
+    "report": {
+      "path": "evidence/dev42-editing-independent-summary-final.json",
+      "sha256": "2a65875da6a175424dc4b54bb0723dda7dd955feb3a70c1dfc5045bd0a4ef375",
+      "bytes": 127421
+    }
+  },
+  "M1": {
+    "status": "PASS_FIXED_EVALUATION",
+    "status_fields": 26,
+    "separate_boolean_checks": 7,
+    "CER": {
+      "jpn": 0.005050505050505051,
+      "eng": 0.0004553734061930783
+    },
+    "search_found_each_language": 20,
+    "position_max_mm": 0.9216814676920573,
+    "thresholds": {
+      "CER_jpn": 0.02,
+      "CER_eng": 0.01,
+      "search_each_language": 19,
+      "search_total": 20,
+      "position_max_mm": 2
+    },
+    "report": {
+      "path": "evidence/dev42-M1-independent-summary-final.json",
+      "sha256": "0954f8d6d2f012a2fa9b50babdb116d7858bc094fe0f7b74294fb2a06bc38038",
+      "bytes": 4366
+    },
+    "general_acceptance": "withheld"
+  },
+  "counts": "Overlapping sets are reported separately, not summed into a general acceptance count",
+  "general_remaining": [
+    "general TrueType/CFF/variable fonts",
+    "complex clipping and transparency",
+    "general body editing and Office reverse conversion",
+    "complex OCR and accessibility",
+    "M3 clean target Windows, GUI/IME/OS clipboard, performance, novice usability, physical printing, distribution conditions"
+  ],
+  "next_feature": "Freeze positive/negative Tw/Tc, code32 vs Unicode space, all text operators, retained positions and both engine raster thresholds before nonzero Tw implementation",
+  "publication": "Existing Draft PR1 source only; merge and general binaries prohibited",
+  "human_stopped_chat": "01a12f91-5e89-75b0-851c-c9872a8ddee4 remains stopped"
+}

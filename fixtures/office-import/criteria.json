@@ -1,0 +1,52 @@
+{
+  "files": {
+    "embedded-object.docx": "794f93c6c8bbfdb9a03e5f68c8921d5f826e2a00678afda197454a759bc27f3f",
+    "fixture.png": "a0ede2037f635b3c42f4edb45b87be94888c63176d1062000b2e1d43be88bdc2",
+    "invalid.docx": "a25a3d2f6a5edad22d96a05ee688ad47729e16d3a3c881a7440c1344645af48a",
+    "macro.docx": "4352988db4272422d4adb7af4b0a7612654b8c11c8bd3f6c6f07c8b396c0ea14",
+    "pages-images.docx": "ee8fa4137ac9fd1bbe8a2437561833d815dfbf11c6708edd028a702a0d236335",
+    "remote-image.docx": "fd83544b5328149ca0a2d3bc99b3299af5c4e71ed2e90fb7edecfa83163dd0dc",
+    "simple.docx": "d65409ac1797dd0aa4a2f09eebaf79f14d666c887370295110b3f83e8f8e9160"
+  },
+  "expected_pages": {
+    "simple.docx": [
+      [
+        "日本語・English Document",
+        "検索できる日本語PDFです。",
+        "English document conversion preserves searchable text.",
+        "項目",
+        "金額",
+        "合計",
+        "1200円"
+      ]
+    ],
+    "pages-images.docx": [
+      [
+        "1ページ目 First page",
+        "画像と本文を保持します。"
+      ],
+      [
+        "2ページ目 Second page",
+        "日本語とEnglishをコピーできます。"
+      ]
+    ]
+  },
+  "page_size_pt": [
+    595.3,
+    841.9
+  ],
+  "geometry_tolerance_pt": 0.5,
+  "image_rgb_sha256": "52fb5ac6cc0cd39e3b6845e337a15331f17465a639a08052a8371faf16e06d5b",
+  "image_size": [
+    128,
+    64
+  ],
+  "image_physical_width_pt": 113.38582677165356,
+  "refused": [
+    "macro.docx",
+    "embedded-object.docx",
+    "remote-image.docx",
+    "invalid.docx"
+  ],
+  "scope": "Synthetic CC0 text, table and raster inputs; expectations fixed before first product conversion. No private document or embedded system font. Original contracts unchanged."
+}

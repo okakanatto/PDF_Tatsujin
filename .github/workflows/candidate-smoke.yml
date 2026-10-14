@@ -1,0 +1,71 @@
+name: Packaged candidate smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published prerelease tag
+        required: true
+        default: v0.2.0-rc4
+
+permissions:
+  contents: read
+
+jobs:
+  packaged:
+    runs-on: windows-2025
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag }}
+          sparse-checkout: fixtures
+          persist-credentials: false
+      - name: Download and verify the public ZIP
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RC_TAG: ${{ inputs.tag }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $payload = Join-Path $env:RUNNER_TEMP 'pdf-tatsujin-candidate'
+          New-Item -ItemType Directory $payload | Out-Null
+          gh release download $env:RC_TAG --repo $env:GITHUB_REPOSITORY --dir $payload --pattern '*.zip' --pattern '*.sha256'
+          if ($LASTEXITCODE -ne 0) { throw 'Candidate download failed' }
+          $archives = @(Get-ChildItem $payload -File -Filter '*.zip')
+          $hashes = @(Get-ChildItem $payload -File -Filter '*.sha256')
+          if ($archives.Count -ne 1 -or $hashes.Count -ne 1) { throw 'Expected exactly one ZIP and checksum' }
+          $expected = (Get-Content $hashes[0].FullName -Raw).Trim().Split(' ')[0]
+          if ($expected -notmatch '^[a-fA-F0-9]{64}$') { throw 'Invalid checksum file' }
+          $actual = (Get-FileHash $archives[0].FullName -Algorithm SHA256).Hash.ToLower()
+          if ($actual -ne $expected) { throw 'Downloaded ZIP hash mismatch' }
+          Expand-Archive $archives[0].FullName (Join-Path $payload 'expanded')
+          "ZIP SHA-256: $actual" >> $env:GITHUB_STEP_SUMMARY
+      - name: Run the packaged app without development DLL paths
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $payload = Join-Path $env:RUNNER_TEMP 'pdf-tatsujin-candidate'
+          $apps = @(Get-ChildItem (Join-Path $payload 'expanded') -Directory -Filter 'PDFTatsujin-*')
+          if ($apps.Count -ne 1) { throw 'Candidate folder missing or ambiguous' }
+          $exe = Join-Path $apps[0].FullName 'PDFTatsujin.exe'
+          $manifest = Get-Content (Join-Path $apps[0].FullName 'build-manifest.json') -Raw | ConvertFrom-Json
+          $actual = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower()
+          if ($actual -ne $manifest.executable_sha256) { throw 'Executable hash mismatch' }
+          $fixtures = Join-Path $env:GITHUB_WORKSPACE 'fixtures'
+          $env:PATH = "$env:SystemRoot\System32"
+          $env:QT_QPA_PLATFORM = 'offscreen'
+          Remove-Item Env:QT_PLUGIN_PATH,Env:TATSU_ASSETS -ErrorAction SilentlyContinue
+          foreach ($filter in @('A02','A05','B08')) {
+            $env:TATSU_TEST_FILTER = $filter
+            $output = Join-Path $payload $filter
+            $arguments = @('--selftest',('"'+$fixtures+'"'),('"'+$output+'"'))
+            $process = Start-Process $exe -ArgumentList $arguments -WindowStyle Hidden -PassThru
+            if (!$process.WaitForExit(240000)) { $process.Kill(); throw "$filter timed out" }
+            if ($process.ExitCode -ne 0) { throw "$filter exited $($process.ExitCode)" }
+            $result = Get-Content (Join-Path $output 'selftest.json') -Raw | ConvertFrom-Json
+            if ($result.failures -ne 0 -or $result.tests.Count -eq 0 -or @($result.tests | Where-Object status -ne 'PASS').Count -ne 0) { throw "$filter incomplete or failed" }
+            "$filter : $($result.tests.Count) PASS; platform=$($result.platform); Qt=$($result.qt)" >> $env:GITHUB_STEP_SUMMARY
+          }
+          "Executable SHA-256: $actual" >> $env:GITHUB_STEP_SUMMARY
+          'Scope: GitHub Windows Server 2025 hosted runner, Qt offscreen. Not clean Windows 11, offline, native IME, or human usability acceptance.' >> $env:GITHUB_STEP_SUMMARY
