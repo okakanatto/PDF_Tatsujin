@@ -1,0 +1,8 @@
+{
+  "all_files_match": true,
+  "files": 407,
+  "exe_sha256": "02d20bb8311bc89c77c163ae8c4a824f57098ac2a72995b7c8f81e4f051c3363",
+  "zip_sha256": "9c2c9d10100298e5e4355e0f28297f060566d40b76534a41436276230602fabb",
+  "zip_bytes": 139104595,
+  "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+}

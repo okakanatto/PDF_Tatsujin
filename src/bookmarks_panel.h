@@ -12,10 +12,13 @@ public:
     void reset();
     void setDocument(const PDFDocument* document, quint64 revision, const QStringList& labels);
     std::function<void(const NavigationTarget&)> activated;
+    std::function<void()> editRequested;
+    void setEditable(bool value);
 
 private:
     QTreeWidget* tree;
     QLabel* notice;
+    QPushButton* edit;
     QMap<QTreeWidgetItem*, NavigationTarget> targets;
     quint64 version = std::numeric_limits<quint64>::max();
     void activate(QTreeWidgetItem* item);

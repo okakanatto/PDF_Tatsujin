@@ -1,0 +1,9 @@
+{
+  "page_lines": 40,
+  "page_text": "A",
+  "page_width_pt": 200,
+  "group_width_pt": 24,
+  "expected_page_reason": "ページ",
+  "expected_group_reason": "表示範囲",
+  "scope": "Additional overflow refusal cases frozen before their first product operation; prior conditions unchanged"
+}

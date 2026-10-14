@@ -1,0 +1,83 @@
+{
+  "version": "0.5.0-dev39",
+  "status": "TESTS_PASS_WITH_UNEXECUTED_SCOPE",
+  "product_source_commit": "34db3d1fa62584294422c5cb7af2a3178164eef5",
+  "executable": "evidence/dev39-PDFTatsujin.exe",
+  "executable_sha256": "ce6e85e4bbbe76195ab7c6aaa8e6368a08305a45ea5fec093dc21b50f051f20c",
+  "fixed_candidate": "dev35",
+  "runtime_reused": "dev36",
+  "new_zip_and_expansion": "unexecuted",
+  "full_regression": {
+    "completed": true,
+    "exit_code": 0,
+    "tests": 253,
+    "acl_restored": true,
+    "printer": true,
+    "old_test_count": 251,
+    "old_tests_retained": true
+  },
+  "independent": [
+    {
+      "path": "evidence/dev39-independent-hinting-final.json",
+      "sha256": "db903618f9ef3339ccac8b4c7fa010bf968be2a0356c358937373f7557aaeaee",
+      "scope": "hinting",
+      "passed": 31
+    },
+    {
+      "path": "evidence/dev39-independent-boundaries-final.json",
+      "sha256": "202017ef9674ffc477329deb7bec089500c40e5704c5757bbc9a68cd2ecfa2db",
+      "scope": "boundaries",
+      "passed": 18
+    },
+    {
+      "path": "evidence/dev39-M5-independent-summary-final.json",
+      "sha256": "cc69fb5b19bff9c1d499cedfcf5ff80d3fa5b34445c2f177ed0e30a5fee37ed2",
+      "scope": "existing-M5",
+      "passed": 124
+    },
+    {
+      "path": "evidence/dev39-editing-independent-summary-final.json",
+      "sha256": "b46198705b4d11fec4380676f8b5341fbe7b97665806b396383adc19d69f70c5",
+      "scope": "editing",
+      "passed": 160
+    },
+    {
+      "path": "evidence/dev39-M1-independent-summary-final.json",
+      "sha256": "8819f6da041ad36616788cfd4cc3ef46a2718029676f63806155e5ecb8c15322",
+      "scope": "limited-M1-thresholds-search-signature-preservation",
+      "status": "PASS"
+    }
+  ],
+  "M5_existing_modes": {
+    "reused_groups": 18,
+    "reexecuted_groups": 1
+  },
+  "editing_modes": {
+    "reused_groups": 0,
+    "reexecuted_groups": 9
+  },
+  "audit_defects": {
+    "proof": "evidence/dev39-audit-resource-proof.json",
+    "missed_by_previous_audit": 2,
+    "caught_by_resource_GID_closure_audit": 2
+  },
+  "PUSH_point_effect": {
+    "proof": "evidence/dev39-M5-target-point-observation.json",
+    "observed_cases": 8,
+    "PDFium72_changed_pixels": 28,
+    "PDFium96_changed_pixels": 44,
+    "4096_instruction_effect": "unobserved; zero difference"
+  },
+  "protection": "evidence/dev39-protection-proof.json",
+  "source_CI": {
+    "run_id": 38237290385,
+    "conclusion": "success"
+  },
+  "general_M5_acceptance": "withheld",
+  "remaining": [
+    "CVT reference-only rebuilding and operand remapping",
+    "General fpgm/prep/CFF/variable fonts/CMap/DR/DA/sharedForm/redaction graphics",
+    "General text/images/Office inverse conversion/complex tables/OCR R01/accessibility",
+    "Native IME/OS clipboard/DPI/external GUIs/clean Windows/physical printing/full-volume failure/user evaluation/final distribution audits"
+  ]
+}

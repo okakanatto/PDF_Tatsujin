@@ -1,0 +1,76 @@
+{
+  "files": {
+    "page.pdf": "4fa6b235a3350b951edcf0ee89ff03b66ce64dbda2219b1f4f2a10fd4a935d9c",
+    "rotated.pdf": "69c5c2372fe59f7210eecfc3dd3efc8c4c644467b5e8e729de49ceef1440e45d",
+    "shared.pdf": "1ae0a9df4de573c3b000002b4bd855ef45f9d31430a84eb376059b1c52907abd",
+    "inherited.pdf": "5852b90e71a64f1888d14ad89a1ff12f36ad9c2fc941e93051a99abb902ee231",
+    "position-refused.pdf": "f81b0c6cf2720672f5d35936af4cd81a60a7febbf77bc1d9c360f76d0b6fb68b",
+    "spacing-refused.pdf": "acd2f18b1da35a7be0c01a71994736cb91917e24e5063309926c1f803c2d2d8e",
+    "relative-refused.pdf": "8bf790d13aa7aea99c38be5d3fbb28b543dfd0af3f669e68c7918b6dd49a252d",
+    "bbox-refused.pdf": "c9f7c0b40472b7d2306383a3a47da7359e352b132cdf044c9022eee2ab317768",
+    "cycle-refused.pdf": "8d6b106692a1aca77aff7766571377194a0f90cc85dec43dd2e4c02186f18ca5",
+    "group-refused.pdf": "a459dbc3869a16eb2c1522ae356313f6f4d66dd23c6ee289fc869e1716dfbc95",
+    "clip-refused.pdf": "fb708ede1959ee572ccf5890f03cbe946a6229decef05e14a6e45942073e11ce"
+  },
+  "source_inputs": {
+    "fixtures/existing-text-edit/styled-parts-v1/absolute.pdf": "84b9b5251329dc9dba1102f165fc75bef080148cd7a0f24e8f3d99cdae67b945",
+    "fixtures/existing-text-edit/styled-parts-v1/rotated.pdf": "dba23eb3721b204892a49b2852cca086e42745ae7e484647549f9aecb511fe3b",
+    "fixtures/existing-text-edit/styled-form-parts-v1/shared.pdf": "ed4ba7d1b71e328d73b0199330ab7710b176444344ece1a15c029c657eb80bcd",
+    "fixtures/existing-text-edit/styled-form-parts-v1/inherited.pdf": "2fdd4d60268454a018ef45ebfcfbf35b6b96b71277e9837b87b713ad63847119",
+    "fixtures/existing-text-edit/styled-form-parts-v1/bbox-refused.pdf": "3174f0f655a34ccafa2bf4e336b69b6bc868248741882930b1b8713cbfb0a890",
+    "fixtures/existing-text-edit/styled-form-parts-v1/cycle-refused.pdf": "f93f88c3e6f8d6834e899b27a7d8a910259ec0687da910a544de906fcc743058",
+    "fixtures/existing-text-edit/styled-form-parts-v1/group-refused.pdf": "d728d3f8cf37cf4792ccff5178e42d456e6966c9fb4ad48df950247ec5e5e20d",
+    "fixtures/existing-text-edit/styled-form-parts-v1/clip-refused.pdf": "2bb2154e762b87e5d58fc0d219968c91d7f637cf74d500cd8c1161c91df85943"
+  },
+  "positives": {
+    "page": 0,
+    "rotated": 0,
+    "shared": 2,
+    "inherited": 2
+  },
+  "replacements": {
+    "Intro ": "Start ",
+    "Styled phrase": "Bold text",
+    "Suffix intact": "End intact",
+    "編集します日本語本文": "日本語本文編集します"
+  },
+  "remove": "Styled phrase",
+  "reedited": "Bold edit",
+  "following": "FOLLOWING STYLE STATE",
+  "refused": [
+    "cycle-refused",
+    "group-refused",
+    "clip-refused"
+  ],
+  "restricted": [
+    "position-refused",
+    "relative-refused",
+    "spacing-refused",
+    "bbox-refused"
+  ],
+  "page_overflow": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+  "form_overflow": "WWWWWWWWWWWWWWWWWWWWWWWW",
+  "output_cases": [
+    "intro",
+    "bold",
+    "suffix",
+    "japanese",
+    "removed",
+    "saved",
+    "reedited"
+  ],
+  "second_call_cases": [
+    "shared",
+    "inherited"
+  ],
+  "ui_cases": [
+    "replaced",
+    "removed"
+  ],
+  "arithmetic_tolerance_pt": 1e-08,
+  "outside_pixels": 0,
+  "raster_dpi": 300,
+  "boundary_pixels": 1,
+  "coordinates": "Every real character box exactly equals independent source-and-criteria reference; only the selected BT/ET suffix moves",
+  "scope": "Synthetic CC0 single-line flowing parts; OFL Japanese subset; fixed before product operations. Prior contracts and inputs unchanged."
+}

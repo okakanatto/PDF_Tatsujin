@@ -1,0 +1,15 @@
+{
+  "file": "body-text.pdf",
+  "sha256": "878c862cbf57ad38409c5841e47c60d0399c1e9e90a7624bafeb3baadc582693",
+  "source_sha256": "78a6b63e28a0f0637194e2fb1d61c07c7b74af5bd8eb2dbcdb3d062b62e2c7e7",
+  "selected": "Original body line",
+  "replacement": "本文の編集をテストします。",
+  "families": [
+    "Noto Sans JP",
+    "Meiryo UI"
+  ],
+  "following_text": "AFTER FONT STATE",
+  "unsupported_scalar": 1114111,
+  "required": "Following block has no Tf and must preserve original glyphs, font and positions after explicit family replacement",
+  "scope": "Additional state-leakage input fixed before first font operation; original cases unchanged"
+}

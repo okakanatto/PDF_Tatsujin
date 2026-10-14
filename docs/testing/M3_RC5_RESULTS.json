@@ -1,0 +1,913 @@
+{
+  "version": "0.2.0-rc5",
+  "date": "2026-10-08",
+  "environment": {
+    "platform": "Windows 11 Version 25H2",
+    "qt": "6.9.3",
+    "qt_platform": "offscreen"
+  },
+  "process": {
+    "exit_code": 0,
+    "exe_sha256": "02d20bb8311bc89c77c163ae8c4a824f57098ac2a72995b7c8f81e4f051c3363",
+    "completed": true,
+    "headless": true,
+    "filter": null
+  },
+  "pass_count": 74,
+  "tests": [
+    {
+      "name": "Reading_device_image_decode",
+      "status": "PASS",
+      "elapsed_ms": 5
+    },
+    {
+      "name": "C07_OCR_job_cleanup",
+      "status": "PASS",
+      "elapsed_ms": 52
+    },
+    {
+      "name": "B01_writing_roundtrip",
+      "status": "PASS",
+      "elapsed_ms": 175
+    },
+    {
+      "name": "B01_writing_coordinates",
+      "status": "PASS",
+      "elapsed_ms": 137
+    },
+    {
+      "name": "B01_writing_UI",
+      "status": "PASS",
+      "elapsed_ms": 769
+    },
+    {
+      "name": "B01_fonts_roundtrip",
+      "status": "PASS",
+      "elapsed_ms": 795
+    },
+    {
+      "name": "B01_fonts_failures",
+      "status": "PASS",
+      "elapsed_ms": 90
+    },
+    {
+      "name": "B01_fonts_UI",
+      "status": "PASS",
+      "elapsed_ms": 499
+    },
+    {
+      "name": "B01_signature_library",
+      "status": "PASS",
+      "elapsed_ms": 97
+    },
+    {
+      "name": "B04_page_arrange",
+      "status": "PASS",
+      "elapsed_ms": 88
+    },
+    {
+      "name": "B05_page_merge_insert",
+      "status": "PASS",
+      "elapsed_ms": 106
+    },
+    {
+      "name": "B06_page_exports",
+      "status": "PASS",
+      "elapsed_ms": 79
+    },
+    {
+      "name": "B04_page_organizer_UI",
+      "status": "PASS",
+      "elapsed_ms": 556
+    },
+    {
+      "name": "B03_form_values",
+      "status": "PASS",
+      "elapsed_ms": 521
+    },
+    {
+      "name": "B03_form_input_UI",
+      "status": "PASS",
+      "elapsed_ms": 176
+    },
+    {
+      "name": "B03_form_keyboard",
+      "status": "PASS",
+      "elapsed_ms": 104
+    },
+    {
+      "name": "M2_visible_panel_lifetime",
+      "status": "PASS",
+      "elapsed_ms": 375
+    },
+    {
+      "name": "B02_annotations",
+      "status": "PASS",
+      "elapsed_ms": 175
+    },
+    {
+      "name": "B02_annotations_UI",
+      "status": "PASS",
+      "elapsed_ms": 294
+    },
+    {
+      "name": "B08_combined_workflow",
+      "status": "PASS",
+      "elapsed_ms": 5917
+    },
+    {
+      "name": "Navigation_bookmarks",
+      "status": "PASS",
+      "elapsed_ms": 422
+    },
+    {
+      "name": "Navigation_links",
+      "status": "PASS",
+      "elapsed_ms": 243
+    },
+    {
+      "name": "Navigation_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 346
+    },
+    {
+      "name": "Reading_page_input",
+      "status": "PASS",
+      "elapsed_ms": 324
+    },
+    {
+      "name": "Reading_focus_layout",
+      "status": "PASS",
+      "elapsed_ms": 1512
+    },
+    {
+      "name": "Reading_OCR_cancel",
+      "status": "PASS",
+      "elapsed_ms": 6333
+    },
+    {
+      "name": "Reading_initial_panels",
+      "status": "PASS",
+      "elapsed_ms": 805
+    },
+    {
+      "name": "Reading_compiler_startup",
+      "status": "PASS",
+      "elapsed_ms": 81
+    },
+    {
+      "name": "Reading_image_navigation",
+      "status": "PASS",
+      "elapsed_ms": 1818
+    },
+    {
+      "name": "Pan_navigation",
+      "status": "PASS",
+      "elapsed_ms": 281
+    },
+    {
+      "name": "Pan_input",
+      "status": "PASS",
+      "elapsed_ms": 92
+    },
+    {
+      "name": "Pan_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 178
+    },
+    {
+      "name": "Selection_ranges",
+      "status": "PASS",
+      "elapsed_ms": 185
+    },
+    {
+      "name": "Selection_autoscroll",
+      "status": "PASS",
+      "elapsed_ms": 2723
+    },
+    {
+      "name": "Selection_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 134
+    },
+    {
+      "name": "Selection_words",
+      "status": "PASS",
+      "elapsed_ms": 96
+    },
+    {
+      "name": "Selection_word_boundaries",
+      "status": "PASS",
+      "elapsed_ms": 0
+    },
+    {
+      "name": "Selection_word_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 421
+    },
+    {
+      "name": "Viewer_page_previews",
+      "status": "PASS",
+      "elapsed_ms": 3399
+    },
+    {
+      "name": "Search_occurrences_history",
+      "status": "PASS",
+      "elapsed_ms": 321
+    },
+    {
+      "name": "Search_generation_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 693
+    },
+    {
+      "name": "Search_IME_commit",
+      "status": "PASS",
+      "elapsed_ms": 315
+    },
+    {
+      "name": "Viewer_continuous_navigation",
+      "status": "PASS",
+      "elapsed_ms": 297
+    },
+    {
+      "name": "Viewer_crop_rotation_userunit",
+      "status": "PASS",
+      "elapsed_ms": 408
+    },
+    {
+      "name": "Viewer_signature_save_undo",
+      "status": "PASS",
+      "elapsed_ms": 382
+    },
+    {
+      "name": "A01_UI_layout_review",
+      "status": "PASS",
+      "elapsed_ms": 623
+    },
+    {
+      "name": "A01_document_and_UI",
+      "status": "PASS",
+      "elapsed_ms": 375
+    },
+    {
+      "name": "A01_search_highlight_lifecycle",
+      "status": "PASS",
+      "elapsed_ms": 225
+    },
+    {
+      "name": "A02_UI_pointer_drag_undo_copy",
+      "status": "PASS",
+      "elapsed_ms": 328
+    },
+    {
+      "name": "A02_UI_placement_cancel",
+      "status": "PASS",
+      "elapsed_ms": 144
+    },
+    {
+      "name": "A02_A03_UI_signature_identity",
+      "status": "PASS",
+      "elapsed_ms": 220
+    },
+    {
+      "name": "A02_UI_drag_interrupted",
+      "status": "PASS",
+      "elapsed_ms": 160
+    },
+    {
+      "name": "A02_A03_signature_roundtrip",
+      "status": "PASS",
+      "elapsed_ms": 88
+    },
+    {
+      "name": "A04_rotations_crop_userunit",
+      "status": "PASS",
+      "elapsed_ms": 81
+    },
+    {
+      "name": "A05_OCR_eight_pages",
+      "status": "PASS",
+      "elapsed_ms": 29626
+    },
+    {
+      "name": "A05_A08_same_window_OCR_search_copy_save",
+      "status": "PASS",
+      "elapsed_ms": 5614
+    },
+    {
+      "name": "A06_mixed_pages_and_content",
+      "status": "PASS",
+      "elapsed_ms": 10577
+    },
+    {
+      "name": "A07_existing_OCR_blank_photo",
+      "status": "PASS",
+      "elapsed_ms": 813
+    },
+    {
+      "name": "A08_signature_rotate_OCR_undo_redo",
+      "status": "PASS",
+      "elapsed_ms": 5069
+    },
+    {
+      "name": "A09_cancel_after_first_page",
+      "status": "PASS",
+      "elapsed_ms": 5161
+    },
+    {
+      "name": "A09_worker_crash",
+      "status": "PASS",
+      "elapsed_ms": 481
+    },
+    {
+      "name": "A09_UI_cancel_and_cleanup",
+      "status": "PASS",
+      "elapsed_ms": 5414
+    },
+    {
+      "name": "A10_save_conflict_path_case",
+      "status": "PASS",
+      "elapsed_ms": 258
+    },
+    {
+      "name": "A10_save_conflict_and_readonly",
+      "status": "PASS",
+      "elapsed_ms": 85
+    },
+    {
+      "name": "A10_save_dialog_cancel",
+      "status": "PASS",
+      "elapsed_ms": 94
+    },
+    {
+      "name": "A10_UI_close_unsaved",
+      "status": "PASS",
+      "elapsed_ms": 242
+    },
+    {
+      "name": "A10_NTFS_access_denied",
+      "status": "PASS",
+      "elapsed_ms": 23
+    },
+    {
+      "name": "A03_Windows_PDF_printer",
+      "status": "PASS",
+      "elapsed_ms": 1115
+    },
+    {
+      "name": "A11_UI_open_error_routing",
+      "status": "PASS",
+      "elapsed_ms": 88
+    },
+    {
+      "name": "A11_protected_and_invalid",
+      "status": "PASS",
+      "elapsed_ms": 20
+    },
+    {
+      "name": "D07_form_annotation_link_outline_preservation",
+      "status": "PASS",
+      "elapsed_ms": 57
+    },
+    {
+      "name": "A03_annotation_print_flags",
+      "status": "PASS",
+      "elapsed_ms": 15
+    },
+    {
+      "name": "A03_print_page_selection",
+      "status": "PASS",
+      "elapsed_ms": 347
+    },
+    {
+      "name": "A03_Qt_PDF_print_path",
+      "status": "PASS",
+      "elapsed_ms": 221
+    }
+  ],
+  "font_roundtrip": {
+    "Meiryo_UI_available": true,
+    "families": [
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "Meiryo UI",
+        "file": "font-0.pdf",
+        "fsType": 8,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      },
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "Meiryo",
+        "file": "font-1.pdf",
+        "fsType": 8,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      },
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "Yu Gothic",
+        "file": "font-2.pdf",
+        "fsType": 8,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      },
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "Yu Mincho",
+        "file": "font-3.pdf",
+        "fsType": 8,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      },
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "MS Gothic",
+        "file": "font-4.pdf",
+        "fsType": 8,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      },
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "MS Mincho",
+        "file": "font-5.pdf",
+        "fsType": 8,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      },
+      {
+        "edited_text": "PDF text ABC 123\nEditable font !",
+        "family": "Arial",
+        "file": "font-6.pdf",
+        "fsType": 8,
+        "text": "PDF text ABC 123\nEditable font"
+      },
+      {
+        "edited_text": "PDF text ABC 123\nEditable font !",
+        "family": "Times New Roman",
+        "file": "font-7.pdf",
+        "fsType": 8,
+        "text": "PDF text ABC 123\nEditable font"
+      },
+      {
+        "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+        "family": "Noto Sans JP",
+        "file": "font-8.pdf",
+        "fsType": 0,
+        "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+      }
+    ],
+    "reedit_and_undo": true,
+    "saved_appearance_exact": true
+  },
+  "font_failures": {
+    "embedding_permissions": true,
+    "explicit_fallback": true,
+    "legacy_pdf": true,
+    "missing_font_preserves_state": true,
+    "template_family": true,
+    "unsupported_glyph_preserves_state": true
+  },
+  "font_ui": {
+    "actual_pointer_placement": true,
+    "family": "Meiryo UI",
+    "minimum_window": true,
+    "native_IME": "未実行",
+    "reopen_family_change_undo_redo": true,
+    "signature_picker": true
+  },
+  "windows_backend": {
+    "process": {
+      "exit_code": 0,
+      "exe_sha256": "02d20bb8311bc89c77c163ae8c4a824f57098ac2a72995b7c8f81e4f051c3363",
+      "completed": true,
+      "headless": false,
+      "filter": "B01_fonts_roundtrip"
+    },
+    "platform": "windows",
+    "tests": [
+      {
+        "details": {
+          "Meiryo_UI_available": true,
+          "families": [
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "Meiryo UI",
+              "file": "font-0.pdf",
+              "fsType": 8,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            },
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "Meiryo",
+              "file": "font-1.pdf",
+              "fsType": 8,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            },
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "Yu Gothic",
+              "file": "font-2.pdf",
+              "fsType": 8,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            },
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "Yu Mincho",
+              "file": "font-3.pdf",
+              "fsType": 8,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            },
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "MS Gothic",
+              "file": "font-4.pdf",
+              "fsType": 8,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            },
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "MS Mincho",
+              "file": "font-5.pdf",
+              "fsType": 8,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            },
+            {
+              "edited_text": "PDF text ABC 123\nEditable font !",
+              "family": "Arial",
+              "file": "font-6.pdf",
+              "fsType": 8,
+              "text": "PDF text ABC 123\nEditable font"
+            },
+            {
+              "edited_text": "PDF text ABC 123\nEditable font !",
+              "family": "Times New Roman",
+              "file": "font-7.pdf",
+              "fsType": 8,
+              "text": "PDF text ABC 123\nEditable font"
+            },
+            {
+              "edited_text": "山田 太郎 髙橋\n申込書への追記 ABC 123 !",
+              "family": "Noto Sans JP",
+              "file": "font-8.pdf",
+              "fsType": 0,
+              "text": "山田 太郎 髙橋\n申込書への追記 ABC 123"
+            }
+          ],
+          "reedit_and_undo": true,
+          "saved_appearance_exact": true
+        },
+        "elapsed_ms": 994,
+        "name": "B01_fonts_roundtrip",
+        "status": "PASS"
+      }
+    ]
+  },
+  "independent_fonts": {
+    "status": "PASS",
+    "engines": {
+      "pdfium": "153.0.7999.0",
+      "poppler": "pdftoppm version 26.07.0\nCopyright 2005-2026 The Poppler Developers - http://poppler.freedesktop.org\nCopyright 1996-2011, 2022 Glyph & Cog, LLC"
+    },
+    "files": [
+      {
+        "file": "font-0.pdf",
+        "family": "Meiryo UI",
+        "programs": [
+          {
+            "base_font": "/MeiryoUI",
+            "embedded_bytes": 10136,
+            "glyphs": 21,
+            "family": "Meiryo UI",
+            "postscript_name": "MeiryoUI",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-0-edited.pdf",
+        "family": "Meiryo UI",
+        "programs": [
+          {
+            "base_font": "/MeiryoUI",
+            "embedded_bytes": 10188,
+            "glyphs": 22,
+            "family": "Meiryo UI",
+            "postscript_name": "MeiryoUI",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-1.pdf",
+        "family": "Meiryo",
+        "programs": [
+          {
+            "base_font": "/Meiryo",
+            "embedded_bytes": 10148,
+            "glyphs": 21,
+            "family": "Meiryo",
+            "postscript_name": "Meiryo",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-1-edited.pdf",
+        "family": "Meiryo",
+        "programs": [
+          {
+            "base_font": "/Meiryo",
+            "embedded_bytes": 10200,
+            "glyphs": 22,
+            "family": "Meiryo",
+            "postscript_name": "Meiryo",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-2.pdf",
+        "family": "Yu Gothic",
+        "programs": [
+          {
+            "base_font": "/YuGothic-Regular",
+            "embedded_bytes": 7028,
+            "glyphs": 21,
+            "family": "Yu Gothic",
+            "postscript_name": "YuGothic-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-2-edited.pdf",
+        "family": "Yu Gothic",
+        "programs": [
+          {
+            "base_font": "/YuGothic-Regular",
+            "embedded_bytes": 7076,
+            "glyphs": 22,
+            "family": "Yu Gothic",
+            "postscript_name": "YuGothic-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-3.pdf",
+        "family": "Yu Mincho",
+        "programs": [
+          {
+            "base_font": "/YuMincho-Regular",
+            "embedded_bytes": 7424,
+            "glyphs": 21,
+            "family": "Yu Mincho",
+            "postscript_name": "YuMincho-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-3-edited.pdf",
+        "family": "Yu Mincho",
+        "programs": [
+          {
+            "base_font": "/YuMincho-Regular",
+            "embedded_bytes": 7548,
+            "glyphs": 22,
+            "family": "Yu Mincho",
+            "postscript_name": "YuMincho-Regular",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-4.pdf",
+        "family": "MS Gothic",
+        "programs": [
+          {
+            "base_font": "/MS-Gothic",
+            "embedded_bytes": 5552,
+            "glyphs": 21,
+            "family": "MS Gothic",
+            "postscript_name": "MS-Gothic",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-4-edited.pdf",
+        "family": "MS Gothic",
+        "programs": [
+          {
+            "base_font": "/MS-Gothic",
+            "embedded_bytes": 5604,
+            "glyphs": 22,
+            "family": "MS Gothic",
+            "postscript_name": "MS-Gothic",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-5.pdf",
+        "family": "MS Mincho",
+        "programs": [
+          {
+            "base_font": "/MS-Mincho",
+            "embedded_bytes": 7476,
+            "glyphs": 21,
+            "family": "MS Mincho",
+            "postscript_name": "MS-Mincho",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-5-edited.pdf",
+        "family": "MS Mincho",
+        "programs": [
+          {
+            "base_font": "/MS-Mincho",
+            "embedded_bytes": 7608,
+            "glyphs": 22,
+            "family": "MS Mincho",
+            "postscript_name": "MS-Mincho",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-6.pdf",
+        "family": "Arial",
+        "programs": [
+          {
+            "base_font": "/ArialMT",
+            "embedded_bytes": 14560,
+            "glyphs": 23,
+            "family": "Arial",
+            "postscript_name": "ArialMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-6-edited.pdf",
+        "family": "Arial",
+        "programs": [
+          {
+            "base_font": "/ArialMT",
+            "embedded_bytes": 14616,
+            "glyphs": 24,
+            "family": "Arial",
+            "postscript_name": "ArialMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-7.pdf",
+        "family": "Times New Roman",
+        "programs": [
+          {
+            "base_font": "/TimesNewRomanPSMT",
+            "embedded_bytes": 15452,
+            "glyphs": 23,
+            "family": "Times New Roman",
+            "postscript_name": "TimesNewRomanPSMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-7-edited.pdf",
+        "family": "Times New Roman",
+        "programs": [
+          {
+            "base_font": "/TimesNewRomanPSMT",
+            "embedded_bytes": 15564,
+            "glyphs": 24,
+            "family": "Times New Roman",
+            "postscript_name": "TimesNewRomanPSMT",
+            "fsType": 8
+          }
+        ]
+      },
+      {
+        "file": "font-8.pdf",
+        "family": "Noto Sans JP",
+        "programs": [
+          {
+            "base_font": "/NotoSansJP-Regular",
+            "embedded_bytes": 6800,
+            "glyphs": 21,
+            "family": "Noto Sans JP Thin",
+            "postscript_name": "NotoSansJP-Thin",
+            "fsType": 0
+          }
+        ]
+      },
+      {
+        "file": "font-8-edited.pdf",
+        "family": "Noto Sans JP",
+        "programs": [
+          {
+            "base_font": "/NotoSansJP-Regular",
+            "embedded_bytes": 6888,
+            "glyphs": 22,
+            "family": "Noto Sans JP Thin",
+            "postscript_name": "NotoSansJP-Thin",
+            "fsType": 0
+          }
+        ]
+      }
+    ],
+    "native_Reader_GUI": "未実行",
+    "machine_without_the_selected_system_fonts": "未実行"
+  },
+  "network": {
+    "status": "PASS",
+    "executable_sha256": "02d20bb8311bc89c77c163ae8c4a824f57098ac2a72995b7c8f81e4f051c3363",
+    "probe_sha256": "ba3c22bab6cd473cabe64fd07afcc57418000e2eb8ecbd37852373f064bb5937",
+    "network_probe": {
+      "is_AppContainer": 1,
+      "capability_count": 0,
+      "loopback_connect_error": 10060,
+      "passed": true
+    },
+    "control_probe": {
+      "is_AppContainer": 0,
+      "capability_count": 0,
+      "loopback_connect_error": 0,
+      "passed": true
+    },
+    "payload_and_OCR_tokens": [
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": true
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": true
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": false
+      },
+      {
+        "is_AppContainer": 1,
+        "capability_count": 0,
+        "OCR_child": true
+      }
+    ],
+    "flows": [
+      {
+        "name": "signature",
+        "exit": 0,
+        "tests": 5,
+        "failures": 0
+      },
+      {
+        "name": "OCR",
+        "exit": 0,
+        "tests": 2,
+        "failures": 0
+      },
+      {
+        "name": "cancel",
+        "exit": 0,
+        "tests": 1,
+        "failures": 0
+      }
+    ],
+    "scope": "Windows AppContainer, no network capabilities; same development PC, Qt offscreen and synthetic UI input. Not clean Windows or native IME acceptance.",
+    "temporary_profile_removed": true
+  },
+  "source_proof": {
+    "m3-rc5-regression-final-20261008/selftest.json": "c79ea7f96f714c4b94429644e8f14b7f22248dbba14fa8a1c8193c768294feb1",
+    "m3-rc5-regression-final-20261008/process-result.json": "ed42116b7a6993d5fd1d9dccd097d157c46d1c27d84e9af1e0ce3e96cfa98623",
+    "m3-rc5-regression-final-20261008/independent-verification.json": "74e717c89abfa71758712a6bf5cd3233645d45fd77f3b00c448a13ed7a8ee0d2",
+    "m3-rc5-regression-final-20261008/independent-m2.json": "620ae08a41c20872cfdb3b0d2e57905eabc02cba6f6e71fab5de911c4e4d8c81",
+    "m3-rc5-regression-final-20261008/independent-fonts.json": "e188ab4f94d253ef8fee22e51496323c071325aff572010770ba52c5963510c1",
+    "m3-rc5-fonts-windows-backend-20261008/selftest.json": "38ef0e839601d52325f73e26b0e39ce30a9f744b38eb33e0d213ce64bfef527e",
+    "no5/result.json": "9ae59e419e6fea01163d16d8d8f84d6ae9fd977b410fb0321d1e66cc3bf68ec6",
+    "m3-rc5-firefox-m2-r2-20261008/firefox-m2.json": "17ecc660edb5a080cc4812079808a910df1faff8a55aacf7b4ac91b09a93318c"
+  },
+  "limitations": [
+    "Native IME and physical-screen scaling unexecuted",
+    "Clean Windows, actual disk full, Reader GUI and physical print unexecuted",
+    "RC5 long soak and Acrobat comparison unexecuted",
+    "AppContainer long temporary path: Windows error 206; short-path test kept separate",
+    "Missing family simulated in metadata; real machine without selected fonts unexecuted"
+  ]
+}

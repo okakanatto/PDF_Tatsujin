@@ -2,6 +2,9 @@ name: Source checks
 
 on:
   push:
+    # Pull requests cover development branches; avoid running each update twice.
+    branches: [main]
+    tags: ['**']
   pull_request:
   workflow_dispatch:
 

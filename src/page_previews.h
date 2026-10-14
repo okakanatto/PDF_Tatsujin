@@ -8,7 +8,7 @@
 
 namespace tatsu
 {
-class PagePreviews final : public QListWidget
+class PagePreviews : public QListWidget
 {
     Q_OBJECT
 public:

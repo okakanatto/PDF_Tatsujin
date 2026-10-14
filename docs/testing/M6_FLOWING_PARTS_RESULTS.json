@@ -1,0 +1,3925 @@
+{
+  "version": "0.5.0-dev36",
+  "source_commit": "c77599a79989eb2d702c409e240b4d37a2457fb2",
+  "executable_sha256": "1c4720ea66ae4297b859918cfe85609bd456127e512126dd105866eda1e5a232",
+  "application_directory": "dist/PDFTatsujin-0.5.0-dev36-working",
+  "status": "PASS_WITH_UNEXECUTED_SCOPE",
+  "application_tests": {
+    "status": "PASS",
+    "executable_sha256": "1c4720ea66ae4297b859918cfe85609bd456127e512126dd105866eda1e5a232",
+    "normal_including_layout": 244,
+    "additional_windows_tests": 2,
+    "total": 246,
+    "old243_names_preserved": true,
+    "runs": [
+      "evidence/m6-dev36-full-20261012",
+      "evidence/m6-dev36-windows-denied-20261012",
+      "evidence/m6-dev36-windows-printer-20261012"
+    ],
+    "full_suite_completed_runs": 1
+  },
+  "independent_editing": {
+    "status": "PASS",
+    "groups": [
+      {
+        "scope": "flowing-parts",
+        "count": 32,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "flowing-inherited-bold.pdf",
+            "sha256": "877e74ce59a2a5130f47b03253036e2a0de406af46c9a01fc2c56e10c05f1e9a",
+            "baseline_sha256": "113fe24ffa83bc2449030bfde86f86e6fbbe36f15775662ad56c515ff729c164",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-intro.pdf",
+            "sha256": "0f7e6483490ad8683073854fcebb9cd0e1878b091c82734069d7f3e3b13770a3",
+            "baseline_sha256": "17fe349adf759f4da04f30e65d87f769e5652d9f696a5d0aa96b243fdab7e05c",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-japanese.pdf",
+            "sha256": "0f9f19a2d90a84c153b7afab4145d20d07f3f62443929a945462fc147a36ec66",
+            "baseline_sha256": "20fca2f9eba7a9da1cb1ce48eb9a6cc0143df914bdf2bf496d96993097a43f57",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-reedited.pdf",
+            "sha256": "dc4965ca12c52bab67834e032686b02f06a57d54e5cd098d6c953e17978468cd",
+            "baseline_sha256": "bb9ef0712012adb8049f185261c243eacf30035bcd817a464b4b3e14c660d903",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-removed.pdf",
+            "sha256": "07e0339d768752598075ad572b4f170fc09324bb3d0450f9bb6eebf450109c2d",
+            "baseline_sha256": "e8185b19a0a98dd82d2e7accbd7a6c60029aab6bcd803dfd432888242bafe89c",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-saved.pdf",
+            "sha256": "17f61165d7789346cdfb08651b0c9936df6ecd72df55d85e8b8a9708a84c2c91",
+            "baseline_sha256": "113fe24ffa83bc2449030bfde86f86e6fbbe36f15775662ad56c515ff729c164",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-second.pdf",
+            "sha256": "2c92ead8eb8b5e46c982f7116c1383392dca5d736a4dea98c8d53eb48d237386",
+            "baseline_sha256": "63be43658ab0c6f033d488b02583b0a47635b325f5da920a5290dc14303bc2e8",
+            "identical": false
+          },
+          {
+            "file": "flowing-inherited-suffix.pdf",
+            "sha256": "8f05efdbf1b7403585124b5955fb99545c69ddf7d1926c3a0ee731251e8381df",
+            "baseline_sha256": "fe061ab9e7580fbd3cfef3fe4bd1a50d13ae26577e77d86350c675c8efa072ce",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-bold.pdf",
+            "sha256": "33f9ca0f60127018994a08e506ad930d6062e545dc5e0ceb71da40cb166f61ab",
+            "baseline_sha256": "393cc816930dd192987eb10741eeb9829543c1c81123adee364b0e4f8c6e396d",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-intro.pdf",
+            "sha256": "d5d9fa1fca9b7863d8e634d51fd7e3a3ce200e0635be83d6fd0493a3fac11c4f",
+            "baseline_sha256": "39632c2bbbde1e275b34299f0e80000bbf373e188860deac575fce6d4568b3d5",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-japanese.pdf",
+            "sha256": "3e83b9b1c8e44dace90581287315b1c881af2d765dbfce29fd9ad6a3633eb1d6",
+            "baseline_sha256": "303c451c308dfa1add9aad71829fc01d38e5065d1ad12e4d4262da41e322648c",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-reedited.pdf",
+            "sha256": "6a90d3201bbcd3448d79ee89cf3046905fb6576872b946a8f3c6439ce8dde150",
+            "baseline_sha256": "54c88afc1ef3448e072bd292b70b14e59543188ac149d4b8798c1f23e30c2eb0",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-removed.pdf",
+            "sha256": "5a900bdeec964561c2d4989158c85043e72eec07d8e8f76f0cc50dc1f5ac8825",
+            "baseline_sha256": "b73cec0eaa08d4d4202f97f59fa2fd6af296075d3d387d193fafd51c8b219ba7",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-saved.pdf",
+            "sha256": "33f9ca0f60127018994a08e506ad930d6062e545dc5e0ceb71da40cb166f61ab",
+            "baseline_sha256": "ea4ac61136207fc64d0cbb1db5623441625c2856f9789b37c1e495dd21dddc8a",
+            "identical": false
+          },
+          {
+            "file": "flowing-page-suffix.pdf",
+            "sha256": "4d43f1f86bfeda3d5985ecd1d78ee1de87c5f3bb911d4a0f224da763a9c3e610",
+            "baseline_sha256": "c820da07ed026e9e69e3d09ab66ec621a10790b3e67d704009c8e526766efc1a",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-bold.pdf",
+            "sha256": "4a742265fa1ff4e5aa09dadd9c5c8a70f5d1ddf3ecdb9acf5bd63ac4d941e87e",
+            "baseline_sha256": "33d4d7b4f1ec00a7f3f873e52a027cb85d37965775648b0560779fc36bee64c8",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-intro.pdf",
+            "sha256": "606ea882a91443aac682fcb2d263c8c152e381e6678cf5bbc474ed283feeb606",
+            "baseline_sha256": "1f114c5bfe93ec473605642436b62336c52b1cfc7226192edd564d3db9de5b5d",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-japanese.pdf",
+            "sha256": "89d656702713dca3deda081ec4dd35829e963f2785a283db4145040b73a7ef30",
+            "baseline_sha256": "4c5cd5ab35f5e86104083d27dbaf02fa6d094faec8955fa9584c4668faad600d",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-reedited.pdf",
+            "sha256": "44ed22597f1a98f12da554c913df87c35eb94a013966ca9c43fb0e8645e714e4",
+            "baseline_sha256": "bdf3234cd52358ca5cb3257f7cb01bf3849997df930af32e4fd7edb1d7084e8e",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-removed.pdf",
+            "sha256": "9677cbe0f57ea487a693ddda90b9380bf1adc5333bab140c88bbb05ebed224b7",
+            "baseline_sha256": "85f3f2b5bfdec96d394c6fcb0eeb22168c8ea326128a9e0cca05a53e48861974",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-saved.pdf",
+            "sha256": "33e8231e68a2b528ac50c8634441180f2b485641611741d64f94050c5b74aa8b",
+            "baseline_sha256": "33d4d7b4f1ec00a7f3f873e52a027cb85d37965775648b0560779fc36bee64c8",
+            "identical": false
+          },
+          {
+            "file": "flowing-rotated-suffix.pdf",
+            "sha256": "b694625ae14451cdf3a22a7d7bb78d7772be188e8eabec8e83df1c0c7157f781",
+            "baseline_sha256": "bfdc691135d8b23ab2f744ac9bf7ecc9223d8468ca58013427c012f0e93e4f6f",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-bold.pdf",
+            "sha256": "5d0cc64755b1df04872b2d8067dc7490f3720c1a4ba688e66766496e319279b5",
+            "baseline_sha256": "c1da6a1684529578022b397aa99ae1294b80e6725a2e1ea87557fc447f984c61",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-intro.pdf",
+            "sha256": "fb5c677e19d8ea8606e823f231f17e2fd5c7e82353a4e6731c6903d4e753a0d6",
+            "baseline_sha256": "aa0207f5e1269f3dec9b51dab9a26dec7cc824da48229a2355df48a4f1c91355",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-japanese.pdf",
+            "sha256": "07fd40ec713513c0be1d877d4a3dd4e6f2975a90b38d773cd65b096a66016d7f",
+            "baseline_sha256": "dee780e66ad9e909c652255ca2341ce729455a2ba3b29b888ef94e8b32efcfd3",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-reedited.pdf",
+            "sha256": "26deefb3ccc048ea98140d7649ff32017a265ba708843f2da8ea840ab264c347",
+            "baseline_sha256": "054c6573b2eadf0b607f78bc5e85e906905611376be008bcfc37b9096ead7e5c",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-removed.pdf",
+            "sha256": "cfda8453eff379cb1707bd9f2ef664b21158dcc8320161bac04413abef253016",
+            "baseline_sha256": "593808398dc467889adeb6a115342e031faeace75eaa1593749589af4a14abfd",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-saved.pdf",
+            "sha256": "5d0cc64755b1df04872b2d8067dc7490f3720c1a4ba688e66766496e319279b5",
+            "baseline_sha256": "2ba66311ab50e5bfc072dbd2366b7d22ae2dd273842b6b3c0ebbcb92834cf6e5",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-second.pdf",
+            "sha256": "eb4769187a47ec98f1292563f0a550a40b077980cb2fe9e1b174317ccdc8a8f8",
+            "baseline_sha256": "2b8fb799f87f01944677eb234db13cfa3071ded7659e16d38b5d09b3d2e63f0c",
+            "identical": false
+          },
+          {
+            "file": "flowing-shared-suffix.pdf",
+            "sha256": "6dee332007fa2fd4e4feb5e3e6e27cbe10dc44e9c13170d0ffc4c844dbd1aa2e",
+            "baseline_sha256": "54d3cfe9a18507df1a8620f9948105c4bf870182ef2be77cb62e94497d315977",
+            "identical": false
+          },
+          {
+            "file": "flowing-ui-removed.pdf",
+            "sha256": "0677ce49bdc90f33054f4e929e922803b5940c95b79a9c59053736f15caaecac",
+            "baseline_sha256": "39ba470150c5594ec73322318e713f9079fd9625a49220871705d64b3a830e21",
+            "identical": false
+          },
+          {
+            "file": "flowing-ui-replaced.pdf",
+            "sha256": "8b853273899730c5456c8e34738ed57ff96b5be0b160c8f3923e6c6fe7958517",
+            "baseline_sha256": "f50dfa10570cd1f122c5fe5fe7099adc56c4ce0a87daf61af39aa78e955dccd3",
+            "identical": false
+          },
+          {
+            "file": "flowing-ui-source.pdf",
+            "sha256": "e7293dbb4da0b26141600b42fffeb1a80033b8b85d167de67d5593aad86200a3",
+            "baseline_sha256": "8a4e616a2dc4df09b27e4594de7ff490025cc84063a5d4c784904c76ce81c1da",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-flowing-parts.json"
+      },
+      {
+        "scope": "styled-form-parts",
+        "count": 26,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "styled-form-inherited-bold.pdf",
+            "sha256": "3a93301d1b2e684e64c19c661513c1937464bbc0879d032d4338fc2a8519e104",
+            "baseline_sha256": "8e98fb858aa39cc05230aee25e2fcbfd54c73a8fffc999294664f519e51aa423",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-intro.pdf",
+            "sha256": "b0b70dc6eea60e6dedbe9ca1f9b76b96592e275fb5d30ac96a4df896d137268a",
+            "baseline_sha256": "f89a423d90dc14f761b57f71c5e889eff0390660b50f47f0689a6cd9535af872",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-japanese.pdf",
+            "sha256": "89fb3b34c85cc7cc4bbbb194d743bb942f0917534e960d4f748818fb0cda697c",
+            "baseline_sha256": "20427e8b9671571ee6cebfad76c1d0fbf071165ce999199e290be17a69d32a1e",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-reedited.pdf",
+            "sha256": "60efaf60fc081692f593c58d46cdb984da8ab40e4ca0d2637be18ebcbdd5fea3",
+            "baseline_sha256": "f9fa3271aa5b71cb9b270324d713f49090de75255e7da58437426fcaa1337625",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-removed.pdf",
+            "sha256": "0efe21052f6d3baa1944daf14e2ade45e93c53ffd4df7889d56d84997dbe1794",
+            "baseline_sha256": "ba627f785b35e9ee9be24a258861d14be56151b612ca45b662cca3b7bd02e4cf",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-saved.pdf",
+            "sha256": "3a93301d1b2e684e64c19c661513c1937464bbc0879d032d4338fc2a8519e104",
+            "baseline_sha256": "8e98fb858aa39cc05230aee25e2fcbfd54c73a8fffc999294664f519e51aa423",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-second.pdf",
+            "sha256": "0c0061ef68179d0ff965199226d37f1414250247d7dbd79725956e098c5c3804",
+            "baseline_sha256": "2a22f21b778474f179ed5dba8caa0bdb666f75481f2ad0f1bad186b93d7c54c2",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-suffix.pdf",
+            "sha256": "08738f2720f7b011b45f4c0f00573b967b0ab95bc60be5347d3b0fd74c1e4aaf",
+            "baseline_sha256": "b714bf7cafa22761e589c02adce31ae9348b427bcde05a3df5fefa75173a5960",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-bold.pdf",
+            "sha256": "1d3788a63e683142522febb8b1c69f640dbdc3220677ad95c7723a6286db9d7d",
+            "baseline_sha256": "148bde8da79e2c0901edcc69aa97f7acefabe4e2a322aad56246bc0d809046bd",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-intro.pdf",
+            "sha256": "d34b149d44e8b7188e04d58bbce32d74d8a8f073df7c4a79d56e1d82e6721bb9",
+            "baseline_sha256": "8ec95b06fc6965940502770d895876807e9e94baaf50af5ad652edc36b5e728a",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-japanese.pdf",
+            "sha256": "afe6ca3e2d96cd23f456a3c98108eadcdd2964525e96add9aa7ad71c84b5d65d",
+            "baseline_sha256": "979268cfaf255d07a96ca7c9cf8e3a79097376c2e7501eb18d60e60120d037ca",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-reedited.pdf",
+            "sha256": "5090fd1cbf843ff2d2cd6f5aac5ea75c0234b1dae232a1d7f39aa960a4848210",
+            "baseline_sha256": "b03a8fc7db0450c0390b1a7be101d9369bd1968b68bff0d5f9e315c789f88348",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-removed.pdf",
+            "sha256": "b37e9be8d06c6643466384bc0eed623a4e0208f133c74a76ba583418da1e2c85",
+            "baseline_sha256": "fb4eacfcde21687482c09b9e59153e770bce502f4a283abded1879f10617ee1d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-saved.pdf",
+            "sha256": "a5ec489dab105d9113294c38e2b3991e302aaba6e6e88d836e1c10464743142a",
+            "baseline_sha256": "5adcce7e661c3c4180d8d4192ebaf892169c05b281b5493a58317acd7ddde1b4",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-second.pdf",
+            "sha256": "6a0dd518b400e11dc5053885e42ca5216a71745b9b33df17712f37ff41912257",
+            "baseline_sha256": "3afec3b87ebe6b9307d586ffb055cef3b54a07713e8809a64532670dfa59abac",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-suffix.pdf",
+            "sha256": "3b2e0c66bc579162c23d25c30713c496a2900a70e680245ee441688db7858a83",
+            "baseline_sha256": "eb70e8237fb12efe332983e7be687e1b9023a839e20d5ffd5422d86ea1fa23d8",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-bold.pdf",
+            "sha256": "a413a294161a05be8a8461c0ab3468ea36361a39f3a0eb3fe4bcc73991452c2e",
+            "baseline_sha256": "09d070a09e87b628761fc4893fd3f6d58fe5901d0881d246bd55d31bb64b2c18",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-intro.pdf",
+            "sha256": "38f35ba9e76f1a0132a4f1d33c251d8e416b05b09ce647770f93e26ef5a7f453",
+            "baseline_sha256": "ab07cc7a6f0cc6dc5f05077be95209ed91bbdd5eb413277aa8f6049a2e669ddc",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-japanese.pdf",
+            "sha256": "4feaf0a2cd78b6f8b2bbffd5715b74e9f9120455b3c1253d2c79faeb0e5c24dc",
+            "baseline_sha256": "75a32f233b04e5a1e4368a9d9f4308d90c17e53e54b0af6ecb9f0167c39461a9",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-reedited.pdf",
+            "sha256": "5b1f6ba514dec68d5ffcef83caa90aee048e1dd6acba5bd44042c6d503beae3c",
+            "baseline_sha256": "300bdc293fd69c751490cc9372b2e025645bec02f95260a352b59bb6511dd363",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-removed.pdf",
+            "sha256": "e0cc705086691bbacb2a7e9a8024fb88cba7801990d9503fe85b0152cc4a2c55",
+            "baseline_sha256": "e269dcc181d90569f3b0b8dec7e0d5f38d82ed502237599dc7359168d76ad8d9",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-saved.pdf",
+            "sha256": "584fd3f9024556a65e8b5d0463fa0c2eb6b03a0309121afc6f779f53a8dbc9ad",
+            "baseline_sha256": "f72daa1ac7f1d6c6e01f7156c13927750c6c34a5c9409979b2732d35608347de",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-second.pdf",
+            "sha256": "4ee89e918ac1ec4a64e38089a1fb93e23c4d9157365fc6df5e11b91459b4ca76",
+            "baseline_sha256": "e39a7856669cb5fa0a47fb3d70eba47fa5787257eae39fc2768972474b74427d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-suffix.pdf",
+            "sha256": "54c68bda0da2f6552f915ff19ba4ffb8c2bfd0c10f903427b2a393c90a8c0d31",
+            "baseline_sha256": "4246e52b77bcfd5ab145f6edb2383a466d518a844bad478ee64317fd5c40a991",
+            "identical": false
+          },
+          {
+            "file": "styled-form-ui-recovered.pdf",
+            "sha256": "094feee92bc8f6e4dbab94eb9be3ebfd98856cdf092fea17f17c4a0141c9bf0e",
+            "baseline_sha256": "d3dbf13a5f91b8c22fa8bb248e3beae7baceef10987370d3f7f03e5b1dd4ad8d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-ui-source.pdf",
+            "sha256": "f00204ec5d283825c28234f389b7170fff7b1da98c8872db21310295146859a9",
+            "baseline_sha256": "f1d9dc5d60a5ab530b1efc46064d0763318b2b721a82cbff37934beb4b951f36",
+            "identical": false
+          },
+          {
+            "file": "styled-form-ui.pdf",
+            "sha256": "f78db8f8a744e39f084af61f263c1140f2738461495e8bd329644dac46037bbf",
+            "baseline_sha256": "3994e818bfacd209d3b5150901aac0be49c1a6f07260bbf271864e4dd9adbcd1",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-styled-forms.json"
+      },
+      {
+        "scope": "existing-styled-parts",
+        "count": 15,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "styled-absolute-bold.pdf",
+            "sha256": "95da5b9cd45825211c66fa5055c2513ddd213a567ba203dee965d6823ad2c0a2",
+            "baseline_sha256": "ed6d8b436316b7e15580facfbd706246fc72eb1a238515f147ceb94d273aec18",
+            "identical": false
+          },
+          {
+            "file": "styled-absolute-intro.pdf",
+            "sha256": "7f4de2b05184141bab3bf2980264f0ea35cd1d8672c439f767ce7a782c303b97",
+            "baseline_sha256": "6feb8a8d5ddd5ed91651320c3b4541793b7ed305b1783d4656a14d8acd328f12",
+            "identical": false
+          },
+          {
+            "file": "styled-absolute-japanese.pdf",
+            "sha256": "81571af62c85152b30199fb6a3cbefdd883c8c1d782f202453dc27e06512c67d",
+            "baseline_sha256": "1f7aeb44d1abf0fdaec99ab5e556137aa86e08e80e4b248138b2d3ebc08b21ae",
+            "identical": false
+          },
+          {
+            "file": "styled-absolute-reedited.pdf",
+            "sha256": "b1e612a4d88957d3876b35f472fd0e78f54712ffbe0d7beb37211b0f3c68c441",
+            "baseline_sha256": "69bd7eaf7b8472095d696607e7930ac8c1d187b92ac440a29bbfbaa8cfbe5cec",
+            "identical": false
+          },
+          {
+            "file": "styled-absolute-removed.pdf",
+            "sha256": "c1d96e0fbdab8cbf259dec4b20f832f38c6a5f2858a83976273264799d4e46fd",
+            "baseline_sha256": "dc333ce62d0a7c7f6cfb23faf42902fba5c4bb93d498f146cde326ddca65d5f9",
+            "identical": false
+          },
+          {
+            "file": "styled-absolute-saved.pdf",
+            "sha256": "d53f95398cd88a5c4c00dc93b1b37aaf86444badab549b606593151b852dbc24",
+            "baseline_sha256": "f3a32f73ddcd16a2f98fd7ef072297b6cb5c72a5e659d57eaf609b5b80402680",
+            "identical": false
+          },
+          {
+            "file": "styled-absolute-suffix.pdf",
+            "sha256": "fe5da9bc89b693219acbf203f805ba2f778e27ea12bb310f5cbe09b7fea7b9dc",
+            "baseline_sha256": "4dff13468f24c0fc1eb245ca8221306f090e16a6fee1f4b256eadb78c7c28f4d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-bold.pdf",
+            "sha256": "3a93301d1b2e684e64c19c661513c1937464bbc0879d032d4338fc2a8519e104",
+            "baseline_sha256": "8e98fb858aa39cc05230aee25e2fcbfd54c73a8fffc999294664f519e51aa423",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-intro.pdf",
+            "sha256": "b0b70dc6eea60e6dedbe9ca1f9b76b96592e275fb5d30ac96a4df896d137268a",
+            "baseline_sha256": "f89a423d90dc14f761b57f71c5e889eff0390660b50f47f0689a6cd9535af872",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-japanese.pdf",
+            "sha256": "89fb3b34c85cc7cc4bbbb194d743bb942f0917534e960d4f748818fb0cda697c",
+            "baseline_sha256": "20427e8b9671571ee6cebfad76c1d0fbf071165ce999199e290be17a69d32a1e",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-reedited.pdf",
+            "sha256": "60efaf60fc081692f593c58d46cdb984da8ab40e4ca0d2637be18ebcbdd5fea3",
+            "baseline_sha256": "f9fa3271aa5b71cb9b270324d713f49090de75255e7da58437426fcaa1337625",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-removed.pdf",
+            "sha256": "0efe21052f6d3baa1944daf14e2ade45e93c53ffd4df7889d56d84997dbe1794",
+            "baseline_sha256": "ba627f785b35e9ee9be24a258861d14be56151b612ca45b662cca3b7bd02e4cf",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-saved.pdf",
+            "sha256": "3a93301d1b2e684e64c19c661513c1937464bbc0879d032d4338fc2a8519e104",
+            "baseline_sha256": "8e98fb858aa39cc05230aee25e2fcbfd54c73a8fffc999294664f519e51aa423",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-second.pdf",
+            "sha256": "0c0061ef68179d0ff965199226d37f1414250247d7dbd79725956e098c5c3804",
+            "baseline_sha256": "2a22f21b778474f179ed5dba8caa0bdb666f75481f2ad0f1bad186b93d7c54c2",
+            "identical": false
+          },
+          {
+            "file": "styled-form-inherited-suffix.pdf",
+            "sha256": "08738f2720f7b011b45f4c0f00573b967b0ab95bc60be5347d3b0fd74c1e4aaf",
+            "baseline_sha256": "b714bf7cafa22761e589c02adce31ae9348b427bcde05a3df5fefa75173a5960",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-bold.pdf",
+            "sha256": "1d3788a63e683142522febb8b1c69f640dbdc3220677ad95c7723a6286db9d7d",
+            "baseline_sha256": "148bde8da79e2c0901edcc69aa97f7acefabe4e2a322aad56246bc0d809046bd",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-intro.pdf",
+            "sha256": "d34b149d44e8b7188e04d58bbce32d74d8a8f073df7c4a79d56e1d82e6721bb9",
+            "baseline_sha256": "8ec95b06fc6965940502770d895876807e9e94baaf50af5ad652edc36b5e728a",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-japanese.pdf",
+            "sha256": "afe6ca3e2d96cd23f456a3c98108eadcdd2964525e96add9aa7ad71c84b5d65d",
+            "baseline_sha256": "979268cfaf255d07a96ca7c9cf8e3a79097376c2e7501eb18d60e60120d037ca",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-reedited.pdf",
+            "sha256": "5090fd1cbf843ff2d2cd6f5aac5ea75c0234b1dae232a1d7f39aa960a4848210",
+            "baseline_sha256": "b03a8fc7db0450c0390b1a7be101d9369bd1968b68bff0d5f9e315c789f88348",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-removed.pdf",
+            "sha256": "b37e9be8d06c6643466384bc0eed623a4e0208f133c74a76ba583418da1e2c85",
+            "baseline_sha256": "fb4eacfcde21687482c09b9e59153e770bce502f4a283abded1879f10617ee1d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-saved.pdf",
+            "sha256": "a5ec489dab105d9113294c38e2b3991e302aaba6e6e88d836e1c10464743142a",
+            "baseline_sha256": "5adcce7e661c3c4180d8d4192ebaf892169c05b281b5493a58317acd7ddde1b4",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-second.pdf",
+            "sha256": "6a0dd518b400e11dc5053885e42ca5216a71745b9b33df17712f37ff41912257",
+            "baseline_sha256": "3afec3b87ebe6b9307d586ffb055cef3b54a07713e8809a64532670dfa59abac",
+            "identical": false
+          },
+          {
+            "file": "styled-form-rotated-suffix.pdf",
+            "sha256": "3b2e0c66bc579162c23d25c30713c496a2900a70e680245ee441688db7858a83",
+            "baseline_sha256": "eb70e8237fb12efe332983e7be687e1b9023a839e20d5ffd5422d86ea1fa23d8",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-bold.pdf",
+            "sha256": "a413a294161a05be8a8461c0ab3468ea36361a39f3a0eb3fe4bcc73991452c2e",
+            "baseline_sha256": "09d070a09e87b628761fc4893fd3f6d58fe5901d0881d246bd55d31bb64b2c18",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-intro.pdf",
+            "sha256": "38f35ba9e76f1a0132a4f1d33c251d8e416b05b09ce647770f93e26ef5a7f453",
+            "baseline_sha256": "ab07cc7a6f0cc6dc5f05077be95209ed91bbdd5eb413277aa8f6049a2e669ddc",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-japanese.pdf",
+            "sha256": "4feaf0a2cd78b6f8b2bbffd5715b74e9f9120455b3c1253d2c79faeb0e5c24dc",
+            "baseline_sha256": "75a32f233b04e5a1e4368a9d9f4308d90c17e53e54b0af6ecb9f0167c39461a9",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-reedited.pdf",
+            "sha256": "5b1f6ba514dec68d5ffcef83caa90aee048e1dd6acba5bd44042c6d503beae3c",
+            "baseline_sha256": "300bdc293fd69c751490cc9372b2e025645bec02f95260a352b59bb6511dd363",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-removed.pdf",
+            "sha256": "e0cc705086691bbacb2a7e9a8024fb88cba7801990d9503fe85b0152cc4a2c55",
+            "baseline_sha256": "e269dcc181d90569f3b0b8dec7e0d5f38d82ed502237599dc7359168d76ad8d9",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-saved.pdf",
+            "sha256": "584fd3f9024556a65e8b5d0463fa0c2eb6b03a0309121afc6f779f53a8dbc9ad",
+            "baseline_sha256": "f72daa1ac7f1d6c6e01f7156c13927750c6c34a5c9409979b2732d35608347de",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-second.pdf",
+            "sha256": "4ee89e918ac1ec4a64e38089a1fb93e23c4d9157365fc6df5e11b91459b4ca76",
+            "baseline_sha256": "e39a7856669cb5fa0a47fb3d70eba47fa5787257eae39fc2768972474b74427d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-shared-suffix.pdf",
+            "sha256": "54c68bda0da2f6552f915ff19ba4ffb8c2bfd0c10f903427b2a393c90a8c0d31",
+            "baseline_sha256": "4246e52b77bcfd5ab145f6edb2383a466d518a844bad478ee64317fd5c40a991",
+            "identical": false
+          },
+          {
+            "file": "styled-form-ui-recovered.pdf",
+            "sha256": "094feee92bc8f6e4dbab94eb9be3ebfd98856cdf092fea17f17c4a0141c9bf0e",
+            "baseline_sha256": "d3dbf13a5f91b8c22fa8bb248e3beae7baceef10987370d3f7f03e5b1dd4ad8d",
+            "identical": false
+          },
+          {
+            "file": "styled-form-ui-source.pdf",
+            "sha256": "f00204ec5d283825c28234f389b7170fff7b1da98c8872db21310295146859a9",
+            "baseline_sha256": "f1d9dc5d60a5ab530b1efc46064d0763318b2b721a82cbff37934beb4b951f36",
+            "identical": false
+          },
+          {
+            "file": "styled-form-ui.pdf",
+            "sha256": "f78db8f8a744e39f084af61f263c1140f2738461495e8bd329644dac46037bbf",
+            "baseline_sha256": "3994e818bfacd209d3b5150901aac0be49c1a6f07260bbf271864e4dd9adbcd1",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-bold.pdf",
+            "sha256": "dbbdb5ff92adf7e52d8278cc27729eda5c5b53a1f98ca22674107cf50110f68a",
+            "baseline_sha256": "6ef00941440b6aa9a553d747d2fc9d4d55b52c25dff2ce4ce553febbbecba998",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-intro.pdf",
+            "sha256": "a3478fb5eb549a804021e135428bdbe46918f64c677f39413cdf19cdca3dfc85",
+            "baseline_sha256": "34f9264e7e3c570ec5677b45b3605f97daa6a7638b212c82e3240138a35c62e7",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-japanese.pdf",
+            "sha256": "02b7cff717e9a635ad79f555d2633a5e25bdc02e8053c5def1618f95f565fef4",
+            "baseline_sha256": "53c86f2ecf8a08eefd875d3ad3654fc9bd39d06a1ab3b1a3b18899e8dcf0f1d5",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-reedited.pdf",
+            "sha256": "b8fc32d9fffe154ed31453883b0a687456fd79940d62b61bd1f0b89a26bb890e",
+            "baseline_sha256": "3516936f33eea3d06f9a6dbd7702ae420cde146d8c136900fc5c95b87da1fc34",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-removed.pdf",
+            "sha256": "ec6db1adaa9605fafc185f906f9475a9f70a111e072d36a933a030620edd5194",
+            "baseline_sha256": "2a1381ac1412ec2dd000bc8d16b267900ee47f0651505f2bda4125ba621a496b",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-saved.pdf",
+            "sha256": "28f73b2b57ff3ac4e3a901407554209c299761ce3d1c48503747c712e017110d",
+            "baseline_sha256": "a5fa48b63d547c18dd2badb8dac00af6d6ec6dbcbf33088fb8bcbd8da4d716e4",
+            "identical": false
+          },
+          {
+            "file": "styled-rotated-suffix.pdf",
+            "sha256": "af567b9a18eaa1d4f28f3102a204791cc56f7e869955ee204d83c4bb9fbc43aa",
+            "baseline_sha256": "081acfa47c480b9e8225bf67d99d612f89b627cfc8dd1255b5f4cf2c77c0f9aa",
+            "identical": false
+          },
+          {
+            "file": "styled-ui-source.pdf",
+            "sha256": "23208e2f63b633f18c68b5939bafb39be35a6e9056ab6cf6f8cc9b532a0c0fb7",
+            "baseline_sha256": "cf5fbae625e773b18974a64bab36a518ca3fa6b9a24324f51b4655cdbd80da2a",
+            "identical": false
+          },
+          {
+            "file": "styled-ui.pdf",
+            "sha256": "5494e367d8b48a69f216f948b85d011c33e3685e8f9d7e8f4fee63abe5fa16a4",
+            "baseline_sha256": "9c09610205827fdb55d5403ce8ade56ef17f0a6a29b4b00e18d3691605b73add",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-styled-parts.json"
+      },
+      {
+        "scope": "existing-text",
+        "count": 10,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "existing-text-english.pdf",
+            "sha256": "a62baba2c1f1c926297c607f5696a360c8a68f06436dac82e80bcddd8b9d6e16",
+            "baseline_sha256": "8cffc2591b62ab8116818485c27b8f2baddd18b007b13516828677bef74eea46",
+            "identical": false
+          },
+          {
+            "file": "existing-text-font-meiryo.pdf",
+            "sha256": "c8dc11e9136b631a82e70c4291614fbcc4709ecd7cc1430804d839e6db2e18b7",
+            "baseline_sha256": "644289e5aaafc9b4d9a4ba9bd4ae733ddfc735923f32c526e10ceac20d4509cf",
+            "identical": false
+          },
+          {
+            "file": "existing-text-font-noto.pdf",
+            "sha256": "7a6a25bd10725e7db867edee1dcdb2effaa91534d45b00050d061aaca6b71890",
+            "baseline_sha256": "a0776e0ee16f3b7b06161bc7ad642623906df85929a43c9a8401b738cf3156dc",
+            "identical": false
+          },
+          {
+            "file": "existing-text-font-reedited-meiryo.pdf",
+            "sha256": "c90d892c20569756208b13de7cbcc852dbd5330dd7e61428832d9b2e52cac334",
+            "baseline_sha256": "0a75623d9aaefee97b3bd76859c62d8277674df5e6141b70661335d9a36fbe44",
+            "identical": false
+          },
+          {
+            "file": "existing-text-font-reedited-noto.pdf",
+            "sha256": "f443f5b77f170d97d86f95b6acc59e88afee8062eed2b5864f082e6d4d2e877d",
+            "baseline_sha256": "01b2f8bb1390e75f6c69ad73c47a909d06cf81b3fd1f6d453ca3566263d9030a",
+            "identical": false
+          },
+          {
+            "file": "existing-text-font-ui.pdf",
+            "sha256": "5213046c08d2e972133b2f51afec6b24a1a05af572beb1d94d2524c79d93d4dc",
+            "baseline_sha256": "043c945ae8338fb81a0078c25f49907b6c9baadaf1a0f1d07d897aae82a6c8dd",
+            "identical": false
+          },
+          {
+            "file": "existing-text-japanese.pdf",
+            "sha256": "af820c39ca6f01bab334a736a51e94ed78035cd02792c4afeb0b6fb78d5ef192",
+            "baseline_sha256": "63411bce7189aec242775531bbb63d903651a950c2854cbba4a122fe171d6624",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-relative-leading-english.pdf",
+            "sha256": "73755564c809c2ce8236f9f3d3204e7ab8945087cc1284fd2b145fee2fdc7a9e",
+            "baseline_sha256": "95baff504112ad51767a61b81589aa32bb3abf0b637a507fd7f4814e93fd8d91",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-relative-leading-japanese.pdf",
+            "sha256": "0cbecaef62937c8bd121f3e48807f1a5e1a76fa4c7c0594fe0d8c89538d38b20",
+            "baseline_sha256": "006c48f05c4ac65f02576f31d1dc289e23f027d76fc726cf3dfd283cda1368de",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-relative-leading-reedited.pdf",
+            "sha256": "2575f49ea9b7815c73ea9510d9338c04c109a99d6e1218b3d96683f177fc5119",
+            "baseline_sha256": "095fc909c6fd1d299f9fd3e5f242cb469d7bcbcbe570b84060a4a8d4b78bcff1",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-relative-position-english.pdf",
+            "sha256": "5c588c03ecee627d34a83921cd115c4851a15a229414a9f5038e87853ca3b2fa",
+            "baseline_sha256": "6af6a642ff1e04413de1213858a1f9f8d0b9134f6750d006bef36d4049699f15",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-relative-position-japanese.pdf",
+            "sha256": "578e30a5926a698e5c2479be679b27cae361c232c786ba3b2e0e0691c6fd935b",
+            "baseline_sha256": "98550b1e6143a640f0f9fdc6a380ac0e8aa7be9a8e8cca12e7b44b33b7ec2f3d",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-relative-position-reedited.pdf",
+            "sha256": "25e07031c316a212693e57f82a02b93877e363a19bd3ca46b3bb73c875acfb3c",
+            "baseline_sha256": "0f05e42fdb701578ec9e248682e24f1909ee92d95ffc8d2ff293fc88c224d28c",
+            "identical": false
+          },
+          {
+            "file": "existing-text-line-count-ui.pdf",
+            "sha256": "415e5b267e7ed59d77a5535c062795b7ad4ab1134f8997300b2cf9c1be3270b9",
+            "baseline_sha256": "006c48f05c4ac65f02576f31d1dc289e23f027d76fc726cf3dfd283cda1368de",
+            "identical": false
+          },
+          {
+            "file": "existing-text-moved.pdf",
+            "sha256": "ba548e61922a2ac6095bcc60ba3c72d77fe541b09fac97e754db947c62663c6c",
+            "baseline_sha256": "ef0603e123d7f16f9dfbff9efceb7a164e8fd9356989fead63356e6b01fa2f9e",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-english.pdf",
+            "sha256": "97b478b8bcc911aaedf3983fcfda0ce9ccba9a78771f38c962b9758c50438767",
+            "baseline_sha256": "23304d7f4cc0aa2340b9e94f47ac5a8913ad9a86f087ca9b12046d107ecc6447",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-japanese.pdf",
+            "sha256": "1ead02fbe4476e25e3111315ac42d98a6d54e82ee91e8e5c9457086910b53925",
+            "baseline_sha256": "91945fff043b60f6ea5094a6fb8d721fc53485285c1b1104c428d367d8b9237e",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-moved.pdf",
+            "sha256": "df01eda8053f4c744b7579b071ad327129e7667642c6f29d3932a4a9537fde3a",
+            "baseline_sha256": "9d0a3850c0342db69bdfb01794a83eec0197bb89d92e605751087eb444b59e06",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-reedited.pdf",
+            "sha256": "190679a498f3f4733d392e88d5ea3b710909e1a7b863f8e56ceb3b05d7c238e0",
+            "baseline_sha256": "30fe93f2f9fb1293cae4d7c17af6979add51314b4d491e9549253c4d5cf81a11",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-removed.pdf",
+            "sha256": "3ec7c6837e68fd4f8c150d4d13b14f7a0c54e9f8eb29eefaef6bc9323404813c",
+            "baseline_sha256": "efa639492bbc2c0b07b1994e9dc7497d10c2a3d023268f8f7e00c76b18b1d361",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-rotated.pdf",
+            "sha256": "16b519e31b2c887ccda8cecb17675c43338fd3b73e43afd42c1f446e5e52083a",
+            "baseline_sha256": "003c537acb689f0e93ed8618e29c186ce3cd71a6e8ee3cb4f8167f626873f18b",
+            "identical": false
+          },
+          {
+            "file": "existing-text-multiline-ui.pdf",
+            "sha256": "3485a03f077efeaa98b38b4515f78a3413e3e9209cc3a89c20dba82c7bf368e4",
+            "baseline_sha256": "af9a0c06e03c417c2bfc5b7a64d728a2f5a9414841b58d20b5294e3a15f50f72",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-leading-english.pdf",
+            "sha256": "32cdb732ea47a57cc98963a4778cd8603fb262a95133783a0279856b87aafb46",
+            "baseline_sha256": "4a9a50cfe4a79906adb14371a4df228ea1ee08e0f308050c2200affa9fc8f17d",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-leading-japanese.pdf",
+            "sha256": "dcbde765ae4471a45cc634e2276413a916b7623c3101233c3dff83faa46d4694",
+            "baseline_sha256": "6605e5dd0e538381bcf108f7a9023cb6337a1dc4b7d2c7f15c59317d6b956d33",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-leading-moved.pdf",
+            "sha256": "3173bd721c0aff1646e9cc4a5e087ffabc8c5719f263d8b395c95a309a0e9b94",
+            "baseline_sha256": "428868c74ff9a62b5f6ab78affe8187c3a0a6715378a550e8e014c622b82e152",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-leading-reedited.pdf",
+            "sha256": "70f09791ecebb249d1657ffeb182a84dca9a7030942dfaa60913db2e3a79434e",
+            "baseline_sha256": "302a32df41cfe772784e7187c2610fb559ee5f74b327df5042fa6f91159784cf",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-leading-removed.pdf",
+            "sha256": "6dd20edea82d7be14c17b1c955776462af4600af15dd96b1d62868c82dae7c21",
+            "baseline_sha256": "32e23eef557c17dd5012d6e790035fe2b8cb5847e66bcb1054abb38b40d0fd6a",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-leading-ui.pdf",
+            "sha256": "961e065b63b4e24daa1ed5996070896a04a2649dd30e5cbac63328e2a51a8cef",
+            "baseline_sha256": "d8f5a0e2d452df8c1861216319bc62b200ff3334392f20d6945cb5f480efcfcc",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-position-english.pdf",
+            "sha256": "44c197fc1826484d832eb95747c142ba0ac40307dd40ef5e696fffb0f0e894fa",
+            "baseline_sha256": "71ac49f586868e48af126c48d7ffcee77532722b3ef44411b1c16838ac608a5a",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-position-japanese.pdf",
+            "sha256": "3473bdded8f552be61d38433128f631ab85bdfde36da6b1466fd9718e07da91d",
+            "baseline_sha256": "669116b9cc2417385edffd2df4f63013c33c6fd00a0b47783b675042db08c1a3",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-position-moved.pdf",
+            "sha256": "cc5515b049ebbdccc8c5d39370a441ee80bfe7f414f8d020e5ebd96f5a144bb9",
+            "baseline_sha256": "fd928e9dbad3aa8c1e37be622d4571bd69dea12268dc53bc4b25caef54e00147",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-position-reedited.pdf",
+            "sha256": "88ba07ed32ee92829df0f32fe16b29d449207918809b257661967cc7b81e1383",
+            "baseline_sha256": "d8e29ae3a2a2ffaf0805e6dfb8ec5a8ff9876a5fe96f3a58ec6c8912ee6d2bfd",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-position-removed.pdf",
+            "sha256": "766cb8ccebb02dc82b16eae9e4ac253c99ec59aa476c4362fd08d49277843c15",
+            "baseline_sha256": "7eca4e670b35e2b91743bd37d893e526d54ff694f4438014ba31d89228a4eba0",
+            "identical": false
+          },
+          {
+            "file": "existing-text-relative-position-ui.pdf",
+            "sha256": "2c63eb68541a4893223423423a2fa2b93c984cd48343d74afd1c005d4644d324",
+            "baseline_sha256": "7f9be545c4ae83fe679d289eaf4d4ea1000f63b07dbdbbac59bbb7eede985e4b",
+            "identical": false
+          },
+          {
+            "file": "existing-text-removed.pdf",
+            "sha256": "d80c52ea437109626c80165ef706b3b4353df962bf6b611dc01eb032b0e04a8e",
+            "baseline_sha256": "cfaf1938eafb475da5e8cf50a07e3e1412819996f5714e4eb2fc12a162825000",
+            "identical": false
+          },
+          {
+            "file": "existing-text-restored-english.pdf",
+            "sha256": "f163eb8e2982ac3e95deb998b067ca2f69fe88a216922fc85afdc9e72adee7b4",
+            "baseline_sha256": "9a5ae02cc62db213431cfef5428cdaa73e711102696a9e9028d31ceabf0e7299",
+            "identical": false
+          },
+          {
+            "file": "existing-text-restored-japanese.pdf",
+            "sha256": "21b6e1faae19a3d90ecb2dbe610879b017c640aede6171118e5aad6f6552ebf1",
+            "baseline_sha256": "7ede8e414e20fefc20e594294b3631f4f08f7adcda49ddf31fc8041c64e53551",
+            "identical": false
+          },
+          {
+            "file": "existing-text-rotated.pdf",
+            "sha256": "55411bc443fff8b4868b310c56141dbf0cd1fcb74ce0089f1ca526620cdc7d9e",
+            "baseline_sha256": "574b6946892f6cc05cbd5dda812288a2bb03bbec43fc8b5a46fb9a45afd7b493",
+            "identical": false
+          },
+          {
+            "file": "existing-text-ui-external-source.pdf",
+            "sha256": "67fe607d090807db4fc954925bb872be21bc7bcb1721f5c9c130178dfbaed450",
+            "baseline_sha256": "67fe607d090807db4fc954925bb872be21bc7bcb1721f5c9c130178dfbaed450",
+            "identical": true
+          },
+          {
+            "file": "existing-text-ui-moved.pdf",
+            "sha256": "2a3eb5cabb1649d2c10bb626fdfce9461c3d435f8d6d36b57517a249d81eae42",
+            "baseline_sha256": "6cee8a69ee99ba35db7b41c09e4cb17f94f6c8873fee199d80ac8823104dee52",
+            "identical": false
+          },
+          {
+            "file": "existing-text-ui-removed.pdf",
+            "sha256": "252ad65554853b4cb72c31df02d251bcfc821bb28423217c8e5c79d6e864b92c",
+            "baseline_sha256": "d5d9e092ebf5948cdb516ada34022a1970a76dc5045fa772a6ea7954ae685515",
+            "identical": false
+          },
+          {
+            "file": "existing-text-ui-source.pdf",
+            "sha256": "d67c18eb18e4cbd6d380f471341cae3338245b371b82d69ab35e113a49273271",
+            "baseline_sha256": "596832f205c64fe1ea68ba1f4472fbc1c3b0fd169c2b535ddf0a43ed25368314",
+            "identical": false
+          },
+          {
+            "file": "existing-text-ui.pdf",
+            "sha256": "1158de56d6bb01e69850c51528615ef6114733d6b69e30b381c098ec81f9ce01",
+            "baseline_sha256": "807fc23e28bc48e35b72e2d854366f8e583c1968a21341e5305493a69ebade7b",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-english.pdf",
+            "sha256": "3a94f97dca7f4705b3b61e65b3a0dae1ff33ba25c21eb45563b8e595860e4970",
+            "baseline_sha256": "18d9f8cb79afb9567e0575b4673b0252e255d6076013d7b3b80274c21a76d05e",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-form.pdf",
+            "sha256": "59f464a18e2ecd7911a161da4a5bc793d2ed5be256517029c438c2d654125c0b",
+            "baseline_sha256": "2f3ddf5e427280beb748bb6dea95e444db0044c5fd8ff607a25c7c7a214d7116",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-japanese.pdf",
+            "sha256": "78d0031fbab31f5d9425f9048c31d277c389f0ea3254315b1a91d6cae51dc52d",
+            "baseline_sha256": "e5a0b1929b02f66d21f0f41e53246b32def1bfca764ba2e0c3b280b62cf0e5db",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-long_word.pdf",
+            "sha256": "45e88d40b433e6c69f864613ecd6be8badc783427727a6619e8a08852de2fc6b",
+            "baseline_sha256": "58a6fdffc9fced81609c202071845cf42b0ab9b828406f8ecd633644cf2d9132",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-narrow.pdf",
+            "sha256": "91c60a98cf281617a09101c5349671ae792a94e6bb041ea1ca31d4f322c64b0c",
+            "baseline_sha256": "9a0f50139aef847a8ae97b3604abb8c2f522ec8ed42977c6cc834f28c1571e3e",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-observed-english.pdf",
+            "sha256": "3a94f97dca7f4705b3b61e65b3a0dae1ff33ba25c21eb45563b8e595860e4970",
+            "baseline_sha256": "18d9f8cb79afb9567e0575b4673b0252e255d6076013d7b3b80274c21a76d05e",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-observed-japanese.pdf",
+            "sha256": "78d0031fbab31f5d9425f9048c31d277c389f0ea3254315b1a91d6cae51dc52d",
+            "baseline_sha256": "e5a0b1929b02f66d21f0f41e53246b32def1bfca764ba2e0c3b280b62cf0e5db",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-observed-long_word.pdf",
+            "sha256": "45e88d40b433e6c69f864613ecd6be8badc783427727a6619e8a08852de2fc6b",
+            "baseline_sha256": "58a6fdffc9fced81609c202071845cf42b0ab9b828406f8ecd633644cf2d9132",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-reedited.pdf",
+            "sha256": "698754797dfdb1acc5daf94b454d4ceb54a139fdc873907f3d7b6cb13baf0a35",
+            "baseline_sha256": "88c166fb9c8d93b2319e3474c739e035f5d88f3ad76f93f8b5b57dcf969de369",
+            "identical": false
+          },
+          {
+            "file": "existing-text-wrapped-ui.pdf",
+            "sha256": "a6d8f4ef473c22932b65ddea3e99eb976249ca13204b88267085a548210a354b",
+            "baseline_sha256": "80a219f5419cbc8d6a776721622a515ed6160ee8977fba12c6e159062fd1ab86",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-existing-text.json"
+      },
+      {
+        "scope": "form-text",
+        "count": 7,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "existing-form-image-bbox-edge.pdf",
+            "sha256": "8ffdcba086755523be785372637ae0e47bb5a3ef6415a47eb168da0d9b9ee052",
+            "baseline_sha256": "3e641cfedbd45746e1ba2b9c5832646482fc7a2291c028167244c99073d77129",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-history.pdf",
+            "sha256": "00e7e158804a2cd6084b33abeba851880e88b03f31ba6f1f44f8aa3a24b048ee",
+            "baseline_sha256": "dfa871b83773908c59bada5c2d3650939521dfee16e1090434cfbd6b2f6464c2",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-moved.pdf",
+            "sha256": "6abbf582f15d08697bed822e92da6f32dae9842155613039112996389e5629da",
+            "baseline_sha256": "0a7c6ba01bcf04744f71028e2152d3356f9ae683eace62627aecab047b9caab4",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-reedited.pdf",
+            "sha256": "5b730eaa3a13720a2970b680f55420ce77a6592a74ebfb857584e06441575b84",
+            "baseline_sha256": "2c5e1dc65aaaf3afdf13e4e0b7f12ddd704c65971d9a2e2a5d3fd6dfe5612cca",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-removed.pdf",
+            "sha256": "a1d90523a00fc99d2ccdb48b1415f6d0a0f42238254a6b89f667d447f2970ecb",
+            "baseline_sha256": "76019a187e5d570b521f13d1f7c87197d4caf0fc96d853cb0bfce38e1c31d4a5",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-replaced.pdf",
+            "sha256": "00e7e158804a2cd6084b33abeba851880e88b03f31ba6f1f44f8aa3a24b048ee",
+            "baseline_sha256": "dfa871b83773908c59bada5c2d3650939521dfee16e1090434cfbd6b2f6464c2",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-restored.pdf",
+            "sha256": "3eaed329ed3bd9f2b12a3c2a42296f80023dc18b708e7efeead10c487c458cbb",
+            "baseline_sha256": "266df27229e99e70248a93e86e581352de136a64c848d3e57b4206d9b2540ce3",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-ui.pdf",
+            "sha256": "7d0891818baeb813855c4d15cf702a34f3a7c87b4d4d4d18327d68817dc7555c",
+            "baseline_sha256": "3c0b0c377dd33eb9c1cf8f6d8170dd087ef3479b6b35bd59ae55d74270473ff9",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-english.pdf",
+            "sha256": "dee822432a7312df92ab96b3513f99058879007771503830d0109eb16df31733",
+            "baseline_sha256": "e43aa7f9b97956d71ed26a56387e0774e7ff88c42f407422b678e9f1900bcd76",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-japanese.pdf",
+            "sha256": "6f3f129f8ef94c7094cda96c2bf84e70f3f133241e2079b4ab69bb84d6792305",
+            "baseline_sha256": "57b9f4b5ace272bf84a4ff08ec520a38ab1040d4e1d0b4f977985463f61e20de",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-lines.pdf",
+            "sha256": "e947e3a2e7f45c08e52511d40c1011007aba5074dfb868b22f1ab051b3bb2aab",
+            "baseline_sha256": "28337e439b83cc03784e1ee3daa66a712b9888214b289058596650ef71af378b",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-moved.pdf",
+            "sha256": "185f7de3bd592168b1e7d9e5008c177ed81ebabbe971cfe9d7ef040f79616d49",
+            "baseline_sha256": "55005e72ecd3192ff06b8b95fa89b9e6e717a565f73a550a2b8380e5884c7927",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-reedited.pdf",
+            "sha256": "e0963eab8fc02d1049fcf78922f500a3340d1bd20475984546c7859709e1017d",
+            "baseline_sha256": "8a4ad47a162b296d665f7bbf020bdb09b549460765a7da12154dee09b5f18df1",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-removed.pdf",
+            "sha256": "d9ae12346df31709a299ff2787ee49c3136aa809977646ebb8455c4cb4024647",
+            "baseline_sha256": "4d60030b825562f6926bc688be44dcb3d2b66eebec168634f3cffb68478b73b3",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-ui.pdf",
+            "sha256": "cee1367448bd1d8e11a6405b432fae9ef3c67a2c8f510a338fbc29042516881b",
+            "baseline_sha256": "b334c6cbc393cd443cfb239ac574cdf5a0f06caf451add011c1faff3749f4995",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-form-text.json"
+      },
+      {
+        "scope": "form-images",
+        "count": 7,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "existing-form-image-bbox-edge.pdf",
+            "sha256": "8ffdcba086755523be785372637ae0e47bb5a3ef6415a47eb168da0d9b9ee052",
+            "baseline_sha256": "3e641cfedbd45746e1ba2b9c5832646482fc7a2291c028167244c99073d77129",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-history.pdf",
+            "sha256": "00e7e158804a2cd6084b33abeba851880e88b03f31ba6f1f44f8aa3a24b048ee",
+            "baseline_sha256": "dfa871b83773908c59bada5c2d3650939521dfee16e1090434cfbd6b2f6464c2",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-moved.pdf",
+            "sha256": "6abbf582f15d08697bed822e92da6f32dae9842155613039112996389e5629da",
+            "baseline_sha256": "0a7c6ba01bcf04744f71028e2152d3356f9ae683eace62627aecab047b9caab4",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-reedited.pdf",
+            "sha256": "5b730eaa3a13720a2970b680f55420ce77a6592a74ebfb857584e06441575b84",
+            "baseline_sha256": "2c5e1dc65aaaf3afdf13e4e0b7f12ddd704c65971d9a2e2a5d3fd6dfe5612cca",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-removed.pdf",
+            "sha256": "a1d90523a00fc99d2ccdb48b1415f6d0a0f42238254a6b89f667d447f2970ecb",
+            "baseline_sha256": "76019a187e5d570b521f13d1f7c87197d4caf0fc96d853cb0bfce38e1c31d4a5",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-replaced.pdf",
+            "sha256": "00e7e158804a2cd6084b33abeba851880e88b03f31ba6f1f44f8aa3a24b048ee",
+            "baseline_sha256": "dfa871b83773908c59bada5c2d3650939521dfee16e1090434cfbd6b2f6464c2",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-restored.pdf",
+            "sha256": "3eaed329ed3bd9f2b12a3c2a42296f80023dc18b708e7efeead10c487c458cbb",
+            "baseline_sha256": "266df27229e99e70248a93e86e581352de136a64c848d3e57b4206d9b2540ce3",
+            "identical": false
+          },
+          {
+            "file": "existing-form-image-ui.pdf",
+            "sha256": "7d0891818baeb813855c4d15cf702a34f3a7c87b4d4d4d18327d68817dc7555c",
+            "baseline_sha256": "3c0b0c377dd33eb9c1cf8f6d8170dd087ef3479b6b35bd59ae55d74270473ff9",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-english.pdf",
+            "sha256": "dee822432a7312df92ab96b3513f99058879007771503830d0109eb16df31733",
+            "baseline_sha256": "e43aa7f9b97956d71ed26a56387e0774e7ff88c42f407422b678e9f1900bcd76",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-japanese.pdf",
+            "sha256": "6f3f129f8ef94c7094cda96c2bf84e70f3f133241e2079b4ab69bb84d6792305",
+            "baseline_sha256": "57b9f4b5ace272bf84a4ff08ec520a38ab1040d4e1d0b4f977985463f61e20de",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-lines.pdf",
+            "sha256": "e947e3a2e7f45c08e52511d40c1011007aba5074dfb868b22f1ab051b3bb2aab",
+            "baseline_sha256": "28337e439b83cc03784e1ee3daa66a712b9888214b289058596650ef71af378b",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-moved.pdf",
+            "sha256": "185f7de3bd592168b1e7d9e5008c177ed81ebabbe971cfe9d7ef040f79616d49",
+            "baseline_sha256": "55005e72ecd3192ff06b8b95fa89b9e6e717a565f73a550a2b8380e5884c7927",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-reedited.pdf",
+            "sha256": "e0963eab8fc02d1049fcf78922f500a3340d1bd20475984546c7859709e1017d",
+            "baseline_sha256": "8a4ad47a162b296d665f7bbf020bdb09b549460765a7da12154dee09b5f18df1",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-removed.pdf",
+            "sha256": "d9ae12346df31709a299ff2787ee49c3136aa809977646ebb8455c4cb4024647",
+            "baseline_sha256": "4d60030b825562f6926bc688be44dcb3d2b66eebec168634f3cffb68478b73b3",
+            "identical": false
+          },
+          {
+            "file": "existing-form-text-ui.pdf",
+            "sha256": "cee1367448bd1d8e11a6405b432fae9ef3c67a2c8f510a338fbc29042516881b",
+            "baseline_sha256": "b334c6cbc393cd443cfb239ac574cdf5a0f06caf451add011c1faff3749f4995",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-form-images.json"
+      },
+      {
+        "scope": "redaction-copy",
+        "count": 12,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "redaction-existing.pdf",
+            "sha256": "74efc7964fcdbdf56a4bf6fceff0cd720b5f49e641e71ba23861cdfb7a0e6826",
+            "baseline_sha256": "74efc7964fcdbdf56a4bf6fceff0cd720b5f49e641e71ba23861cdfb7a0e6826",
+            "identical": true
+          },
+          {
+            "file": "redaction-font-following-font-switch.pdf",
+            "sha256": "501cf78cbfc83aff61d043bfa5a0380ae30582a7a772545da6ff6e5d5bca10b5",
+            "baseline_sha256": "501cf78cbfc83aff61d043bfa5a0380ae30582a7a772545da6ff6e5d5bca10b5",
+            "identical": true
+          },
+          {
+            "file": "redaction-font-invisible-OCR.pdf",
+            "sha256": "6439db2a50515c00fcd0d0adb16f53e834edadd0cfc38124a9a19a9c949ae544",
+            "baseline_sha256": "6439db2a50515c00fcd0d0adb16f53e834edadd0cfc38124a9a19a9c949ae544",
+            "identical": true
+          },
+          {
+            "file": "redaction-font-untagged-font.pdf",
+            "sha256": "16bc631541a8c0a005a361fab6b07ca13ecde314befebd897d3f9aa79e67b673",
+            "baseline_sha256": "16bc631541a8c0a005a361fab6b07ca13ecde314befebd897d3f9aa79e67b673",
+            "identical": true
+          },
+          {
+            "file": "redaction-font-visible.pdf",
+            "sha256": "4cb629c39230440bf521f1ac706970efafd1bb77061fc5df1232a33f6fe86b8c",
+            "baseline_sha256": "4cb629c39230440bf521f1ac706970efafd1bb77061fc5df1232a33f6fe86b8c",
+            "identical": true
+          },
+          {
+            "file": "redaction-form-reedited.pdf",
+            "sha256": "e64d2ca5dbbc25e65283f59f92b908a2d054573ffd683dd476dd97e7acd83ee7",
+            "baseline_sha256": "19864262aeec165abcf7d80ef329c253fc79e4cd01c3b1353320219d4cae720e",
+            "identical": false
+          },
+          {
+            "file": "redaction-foundation.pdf",
+            "sha256": "3c739cd41520f55d201335d5cc72feeff59618c7085323bc628c050273317c88",
+            "baseline_sha256": "3c739cd41520f55d201335d5cc72feeff59618c7085323bc628c050273317c88",
+            "identical": true
+          },
+          {
+            "file": "redaction-geometry-ui.pdf",
+            "sha256": "2a544aa5176a9191deecba3d897f2f1a02cdbea0d60cae3c653d440810df1e15",
+            "baseline_sha256": "2a544aa5176a9191deecba3d897f2f1a02cdbea0d60cae3c653d440810df1e15",
+            "identical": true
+          },
+          {
+            "file": "redaction-owned-input.pdf",
+            "sha256": "13cbf6d236d23bc714108060740142638a97470ca906fd035c764ed9ee83b21d",
+            "baseline_sha256": "13cbf6d236d23bc714108060740142638a97470ca906fd035c764ed9ee83b21d",
+            "identical": true
+          },
+          {
+            "file": "redaction-partial-real-ocr.pdf",
+            "sha256": "7044d6f24913655f08aae3049ed04622650740cb4375792077d572c03fc0c7fb",
+            "baseline_sha256": "a981579efea3e9577bb22aebeb1f3f905fd02223d5deb31dcd9179bcef87d7ae",
+            "identical": false
+          },
+          {
+            "file": "redaction-racing.pdf",
+            "sha256": "3246ff60ec8c0b97fbf663f6a89045915efa9f291f3c45d76ed006e8001ead17",
+            "baseline_sha256": "3246ff60ec8c0b97fbf663f6a89045915efa9f291f3c45d76ed006e8001ead17",
+            "identical": true
+          },
+          {
+            "file": "redaction-real-ocr-before.pdf",
+            "sha256": "41a770a2b591bb4c6abcafa7e6342f557f1732b9d4e6d00a2c6b826e74ee4024",
+            "baseline_sha256": "ae02d277d4d2b7c32dd4730fd4d41fe3731943882a4b631e590c53f2ceae413c",
+            "identical": false
+          },
+          {
+            "file": "redaction-real-ocr-ui.pdf",
+            "sha256": "fb4e8f4928759cda4a2dbff9fa4caee162667e2482d9e2adc61aba7fbca4f085",
+            "baseline_sha256": "58522e9265cd8f73775e1da223c302775633cbe782d37b922e61aa6d31d96275",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-before-ocr.pdf",
+            "sha256": "139f61960b1483bcff0873a41d4c64e93e32ab5793c11737b438ecf3324908f2",
+            "baseline_sha256": "5d3df6392c7648319f872e652b7308320bd01caffc438c9b51d583432f6195d1",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-ocr-candidate.pdf",
+            "sha256": "9faf65e1c2f6f9e0cefabdd09dc64a72d922ad70e3ff28a9fc57b4fc86f73e39",
+            "baseline_sha256": "b6c84ee43aa9daf9949c01f90e059d6f2aec1274f22b9e47fdaf0b97c50d1e99",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-ocr-saved.pdf",
+            "sha256": "9faf65e1c2f6f9e0cefabdd09dc64a72d922ad70e3ff28a9fc57b4fc86f73e39",
+            "baseline_sha256": "b6c84ee43aa9daf9949c01f90e059d6f2aec1274f22b9e47fdaf0b97c50d1e99",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-source.pdf",
+            "sha256": "023532fb7a134e1eba794ea9ac02e72a10b9febd97a1b5e0099d319e916d9816",
+            "baseline_sha256": "1d77564255f07be79eada1d6eff68a544edec5cfc2ad36cca4e76832e9ca9f57",
+            "identical": false
+          },
+          {
+            "file": "redaction-ui-font-invisible-OCR.pdf",
+            "sha256": "425ef205f09824aaf6ac4a35f89ca24864fd78b927dfdce31077d00b5e1700a8",
+            "baseline_sha256": "425ef205f09824aaf6ac4a35f89ca24864fd78b927dfdce31077d00b5e1700a8",
+            "identical": true
+          },
+          {
+            "file": "redaction-ui-font-surviving-subset-text.pdf",
+            "sha256": "a75093367c1e45439536ac6d6b65602a39fd39c65093f942b11141f564d785eb",
+            "baseline_sha256": "a75093367c1e45439536ac6d6b65602a39fd39c65093f942b11141f564d785eb",
+            "identical": true
+          },
+          {
+            "file": "redaction-ui-font-visible.pdf",
+            "sha256": "d349a1d060c4d9de2bd3c11aff3a7237800b95f0258796e76ee5bc798277670f",
+            "baseline_sha256": "d349a1d060c4d9de2bd3c11aff3a7237800b95f0258796e76ee5bc798277670f",
+            "identical": true
+          },
+          {
+            "file": "redaction-ui-reedited.pdf",
+            "sha256": "9ec8e3485a3a3e2e070341b5c11762228c1c0f85476e0e3d9f4357391ffeab25",
+            "baseline_sha256": "6b57c41e62baee309ba487fc3ca222a737f500c1aa9632796ff927e331d2ad0b",
+            "identical": false
+          },
+          {
+            "file": "redaction-ui-source-snapshot.pdf",
+            "sha256": "fa10f34aafea6fb4e10b99f8e30cb463a776b8681e21d81c355676d4bd8f2424",
+            "baseline_sha256": "7ab5bdcfd2480a0ff13eaa42904e380426391cfc6dcbfb658c8ff60ba7ad6fdd",
+            "identical": false
+          },
+          {
+            "file": "redaction-ui.pdf",
+            "sha256": "297242d479c5aefc5986213537fbc9de7698b3bb1a602c7004da9e394a10ead5",
+            "baseline_sha256": "990e13b0e0c02045386a27095ff60f0f3efedf696f300205e3d043f0bd9c072d",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-redaction-copy.json"
+      },
+      {
+        "scope": "redaction-scan",
+        "count": 2,
+        "status": "PASS",
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "redaction-scan-before-ocr.pdf",
+            "sha256": "139f61960b1483bcff0873a41d4c64e93e32ab5793c11737b438ecf3324908f2",
+            "baseline_sha256": "5d3df6392c7648319f872e652b7308320bd01caffc438c9b51d583432f6195d1",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-ocr-candidate.pdf",
+            "sha256": "9faf65e1c2f6f9e0cefabdd09dc64a72d922ad70e3ff28a9fc57b4fc86f73e39",
+            "baseline_sha256": "b6c84ee43aa9daf9949c01f90e059d6f2aec1274f22b9e47fdaf0b97c50d1e99",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-ocr-saved.pdf",
+            "sha256": "9faf65e1c2f6f9e0cefabdd09dc64a72d922ad70e3ff28a9fc57b4fc86f73e39",
+            "baseline_sha256": "b6c84ee43aa9daf9949c01f90e059d6f2aec1274f22b9e47fdaf0b97c50d1e99",
+            "identical": false
+          },
+          {
+            "file": "redaction-scan-source.pdf",
+            "sha256": "023532fb7a134e1eba794ea9ac02e72a10b9febd97a1b5e0099d319e916d9816",
+            "baseline_sha256": "1d77564255f07be79eada1d6eff68a544edec5cfc2ad36cca4e76832e9ca9f57",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-full-20261012/independent-redaction-scan.json"
+      }
+    ],
+    "reexecuted_groups": 8,
+    "reused_groups": 0,
+    "rendering_not_repeated_for_identical_bytes": true
+  },
+  "independent_M5": {
+    "status": "PASS",
+    "passed": 124,
+    "groups": [
+      {
+        "scope": "standard-families",
+        "passed": 24,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "schema-Helvetica-middle.pdf",
+            "sha256": "d7a906c50e566d91fc171bde8c657bbf4ad273787cebc5c31b8e61b935aaf0bb",
+            "baseline_sha256": "d7a906c50e566d91fc171bde8c657bbf4ad273787cebc5c31b8e61b935aaf0bb",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-leading.pdf",
+            "sha256": "205971bc2f620dded5b6c878de6b34861cce0b1613e62f48c5340ac861d990f9",
+            "baseline_sha256": "205971bc2f620dded5b6c878de6b34861cce0b1613e62f48c5340ac861d990f9",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-Bold-middle.pdf",
+            "sha256": "cf51002fa07529f3ea379ab25229ef2654f3b054bbd5dfc494cb5e14f3f3dd78",
+            "baseline_sha256": "cf51002fa07529f3ea379ab25229ef2654f3b054bbd5dfc494cb5e14f3f3dd78",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-Bold-leading.pdf",
+            "sha256": "258535bcd4bf84ff860a3a3d74ba1c745da4c6ae2b441dd28854ddb24ea47ccf",
+            "baseline_sha256": "258535bcd4bf84ff860a3a3d74ba1c745da4c6ae2b441dd28854ddb24ea47ccf",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-Oblique-middle.pdf",
+            "sha256": "a01dab8bbd2d0818080e9e095c24889b257bce45a594cb306f3a1573fe42ea2b",
+            "baseline_sha256": "a01dab8bbd2d0818080e9e095c24889b257bce45a594cb306f3a1573fe42ea2b",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-Oblique-leading.pdf",
+            "sha256": "3e14fa95cba82b4cef1c947cc1b6fdc1503e66ef1bedc0e874436e9ad243f610",
+            "baseline_sha256": "3e14fa95cba82b4cef1c947cc1b6fdc1503e66ef1bedc0e874436e9ad243f610",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-BoldOblique-middle.pdf",
+            "sha256": "a1ea00250a1d290713bf83a12b119b598db90b515535d55ca9068428ddc7c97d",
+            "baseline_sha256": "a1ea00250a1d290713bf83a12b119b598db90b515535d55ca9068428ddc7c97d",
+            "identical": true
+          },
+          {
+            "file": "schema-Helvetica-BoldOblique-leading.pdf",
+            "sha256": "e0c44ec23950ee479d5eded4b45f77964cde670d7a8f6849866eeb5011e07d23",
+            "baseline_sha256": "e0c44ec23950ee479d5eded4b45f77964cde670d7a8f6849866eeb5011e07d23",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-Roman-middle.pdf",
+            "sha256": "97fa3500b6e0e69d6c39c3716beb46d9e4faa058124b7c9c04f17b4c0291602a",
+            "baseline_sha256": "97fa3500b6e0e69d6c39c3716beb46d9e4faa058124b7c9c04f17b4c0291602a",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-Roman-leading.pdf",
+            "sha256": "7b4c5b212b50adff2bf163a04f40eecc607b85fb4f966ca09bb9ae238b65f0d0",
+            "baseline_sha256": "7b4c5b212b50adff2bf163a04f40eecc607b85fb4f966ca09bb9ae238b65f0d0",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-Bold-middle.pdf",
+            "sha256": "e7d45257a1e522bf3d9d1edeef2245e69f0fc9556c41d346d2c9b56bdc75c3b2",
+            "baseline_sha256": "e7d45257a1e522bf3d9d1edeef2245e69f0fc9556c41d346d2c9b56bdc75c3b2",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-Bold-leading.pdf",
+            "sha256": "0b94ed71c07a8eddfd994a9dc9cbb5c2fcc7693cae4c500f91fd2fa8654e211a",
+            "baseline_sha256": "0b94ed71c07a8eddfd994a9dc9cbb5c2fcc7693cae4c500f91fd2fa8654e211a",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-Italic-middle.pdf",
+            "sha256": "7115365feceaedcf327d81476df89bdd6e2ec1dae9ed9206c8a9240e8014b647",
+            "baseline_sha256": "7115365feceaedcf327d81476df89bdd6e2ec1dae9ed9206c8a9240e8014b647",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-Italic-leading.pdf",
+            "sha256": "037a449ecbb572f64e5ecdfd7bcae80bbf5dcd3a95e57a402a4a06a45f752b91",
+            "baseline_sha256": "037a449ecbb572f64e5ecdfd7bcae80bbf5dcd3a95e57a402a4a06a45f752b91",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-BoldItalic-middle.pdf",
+            "sha256": "14159d9188bcd8183dd28dbb747e1b06a07f76294bf32c72454c5c66a00017b7",
+            "baseline_sha256": "14159d9188bcd8183dd28dbb747e1b06a07f76294bf32c72454c5c66a00017b7",
+            "identical": true
+          },
+          {
+            "file": "schema-Times-BoldItalic-leading.pdf",
+            "sha256": "7ab03546a83dc3350f6340862f8eab6746cbacee9ef43ef4e374da5dfe068135",
+            "baseline_sha256": "7ab03546a83dc3350f6340862f8eab6746cbacee9ef43ef4e374da5dfe068135",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-middle.pdf",
+            "sha256": "5f658444f9427257fab271ddd821eafa17e90d0756c06819767bbc7952559508",
+            "baseline_sha256": "5f658444f9427257fab271ddd821eafa17e90d0756c06819767bbc7952559508",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-leading.pdf",
+            "sha256": "22e1274f03939cd587e09c01b493782fffd92e7f04eed3e8f70604d045abf118",
+            "baseline_sha256": "22e1274f03939cd587e09c01b493782fffd92e7f04eed3e8f70604d045abf118",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-Bold-middle.pdf",
+            "sha256": "cb04d5d1dd9ab673d4f3004ff15780d46adbaa12e506970ed7c1656ea6bc270b",
+            "baseline_sha256": "cb04d5d1dd9ab673d4f3004ff15780d46adbaa12e506970ed7c1656ea6bc270b",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-Bold-leading.pdf",
+            "sha256": "88e694333514e35a41ecf52c199885fd6fb361e0491ef091497a5fd4975ef93c",
+            "baseline_sha256": "88e694333514e35a41ecf52c199885fd6fb361e0491ef091497a5fd4975ef93c",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-Oblique-middle.pdf",
+            "sha256": "6ce1f1b5e5c9093ff39b0f2b4fafbb46d67351599896a8f99d54c0e2b54deaeb",
+            "baseline_sha256": "6ce1f1b5e5c9093ff39b0f2b4fafbb46d67351599896a8f99d54c0e2b54deaeb",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-Oblique-leading.pdf",
+            "sha256": "a43bf503963427036dac4b52427f8fd8ac487c5e05a404d6d258322347f08869",
+            "baseline_sha256": "a43bf503963427036dac4b52427f8fd8ac487c5e05a404d6d258322347f08869",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-BoldOblique-middle.pdf",
+            "sha256": "f4bf204920931d54a93732ce2191ac3254b8f116b5ad7dd1ab73fd92c468c138",
+            "baseline_sha256": "f4bf204920931d54a93732ce2191ac3254b8f116b5ad7dd1ab73fd92c468c138",
+            "identical": true
+          },
+          {
+            "file": "schema-Courier-BoldOblique-leading.pdf",
+            "sha256": "20d2bb21f69ae615e94770d77f9ff8017fddf796d13020cbada0bd4ade60f8b5",
+            "baseline_sha256": "20d2bb21f69ae615e94770d77f9ff8017fddf796d13020cbada0bd4ade60f8b5",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-standard-families-independent-20261012.json"
+      },
+      {
+        "scope": "direct-schema",
+        "passed": 4,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "schema-direct-outside-refused.pdf",
+            "expected_refusal": true,
+            "output_absent": true
+          },
+          {
+            "file": "schema-direct-shared-page.pdf",
+            "sha256": "66efdfbfc6a6cbde08588fb659449a0c43259c8d46ab66425340fcd1de83d276",
+            "baseline_sha256": "66efdfbfc6a6cbde08588fb659449a0c43259c8d46ab66425340fcd1de83d276",
+            "identical": true
+          },
+          {
+            "file": "schema-direct-shared-form.pdf",
+            "sha256": "4c3d6092b315829ee1f7e5b0dc6ac212ffbe52eb7995a86f37265de495b73936",
+            "baseline_sha256": "4c3d6092b315829ee1f7e5b0dc6ac212ffbe52eb7995a86f37265de495b73936",
+            "identical": true
+          },
+          {
+            "file": "schema-direct-alias-page.pdf",
+            "sha256": "4ec08406caf574bac700404e46179dcf405c88274f85303a4357f031ed5b1a7c",
+            "baseline_sha256": "4ec08406caf574bac700404e46179dcf405c88274f85303a4357f031ed5b1a7c",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-direct-schema-independent-20261012.json"
+      },
+      {
+        "scope": "direct-schema-followup",
+        "passed": 2,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "schema-direct-appearance.pdf",
+            "sha256": "67984c443f6f891905cb51e2297884a116cb3f288a762f24ff4f8b14edfde4fa",
+            "baseline_sha256": "67984c443f6f891905cb51e2297884a116cb3f288a762f24ff4f8b14edfde4fa",
+            "identical": true
+          },
+          {
+            "file": "schema-direct-reference-page.pdf",
+            "sha256": "66efdfbfc6a6cbde08588fb659449a0c43259c8d46ab66425340fcd1de83d276",
+            "baseline_sha256": "66efdfbfc6a6cbde08588fb659449a0c43259c8d46ab66425340fcd1de83d276",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-direct-schema-followup-independent-20261012.json"
+      },
+      {
+        "scope": "schema",
+        "passed": 11,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "schema-to-unicode-refused.pdf",
+            "expected_refusal": true,
+            "output_absent": true
+          },
+          {
+            "file": "schema-encoding-dictionary-refused.pdf",
+            "expected_refusal": true,
+            "output_absent": true
+          },
+          {
+            "file": "schema-descriptor-refused.pdf",
+            "expected_refusal": true,
+            "output_absent": true
+          },
+          {
+            "file": "schema-outside-reference-refused.pdf",
+            "expected_refusal": true,
+            "output_absent": true
+          },
+          {
+            "file": "schema-plain-control.pdf",
+            "sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "baseline_sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "identical": true
+          },
+          {
+            "file": "schema-private-string.pdf",
+            "sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "baseline_sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "identical": true
+          },
+          {
+            "file": "schema-private-direct.pdf",
+            "sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "baseline_sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "identical": true
+          },
+          {
+            "file": "schema-private-stream.pdf",
+            "sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "baseline_sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "identical": true
+          },
+          {
+            "file": "schema-shared-page.pdf",
+            "sha256": "32d6154c4bad566c0d1a179dd023c673e73ace4356e400cd87c501db3bd110f8",
+            "baseline_sha256": "32d6154c4bad566c0d1a179dd023c673e73ace4356e400cd87c501db3bd110f8",
+            "identical": true
+          },
+          {
+            "file": "schema-shared-form.pdf",
+            "sha256": "51773b0782c289300ba9fe27762ad22206a022accdcd921e4891a2b566cc53e7",
+            "baseline_sha256": "51773b0782c289300ba9fe27762ad22206a022accdcd921e4891a2b566cc53e7",
+            "identical": true
+          },
+          {
+            "file": "schema-duplicate-stream.pdf",
+            "sha256": "32d6154c4bad566c0d1a179dd023c673e73ace4356e400cd87c501db3bd110f8",
+            "baseline_sha256": "32d6154c4bad566c0d1a179dd023c673e73ace4356e400cd87c501db3bd110f8",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-schema-independent-20261012.json"
+      },
+      {
+        "scope": "schema-followup",
+        "passed": 2,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "schema-descriptor-known-string-refused.pdf",
+            "expected_refusal": true,
+            "output_absent": true
+          },
+          {
+            "file": "schema-obsolete-name.pdf",
+            "sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "baseline_sha256": "75f7759532a784eaae972db53a9c60366c2a1d2a22c4aeb41df01b5622f59139",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-schema-followup-independent-20261012.json"
+      },
+      {
+        "scope": "binding",
+        "passed": 1,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "binding-same-direct.pdf",
+            "sha256": "b88464996b9dbeff316e80ad299621cc33daacb1488e9d09dd531cd6dce4c24c",
+            "baseline_sha256": "b88464996b9dbeff316e80ad299621cc33daacb1488e9d09dd531cd6dce4c24c",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-binding-independent-20261012.json"
+      },
+      {
+        "scope": "binding-followup",
+        "passed": 4,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "binding-middle-span.pdf",
+            "sha256": "67fb2fb736fb401202b675304c1ba2068b697b47cee71af23a4693249fbf5777",
+            "baseline_sha256": "67fb2fb736fb401202b675304c1ba2068b697b47cee71af23a4693249fbf5777",
+            "identical": true
+          },
+          {
+            "file": "binding-following-Tj.pdf",
+            "sha256": "f8fc024df27431c0540a15950a0324ee1874fbefe15bcd0733b3fea91cdd53b5",
+            "baseline_sha256": "f8fc024df27431c0540a15950a0324ee1874fbefe15bcd0733b3fea91cdd53b5",
+            "identical": true
+          },
+          {
+            "file": "binding-rotation-90.pdf",
+            "sha256": "298e885dbc6c9fe09f57a275123c14a9017f7351d239294cbef25a236795d741",
+            "baseline_sha256": "298e885dbc6c9fe09f57a275123c14a9017f7351d239294cbef25a236795d741",
+            "identical": true
+          },
+          {
+            "file": "binding-fractional-origin-size.pdf",
+            "sha256": "fc7dfac47202e9297d01d2118a39fe30b1fb9cf9f38c84d019f3fc11621f8a23",
+            "baseline_sha256": "fc7dfac47202e9297d01d2118a39fe30b1fb9cf9f38c84d019f3fc11621f8a23",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-binding-followup-independent-20261012.json"
+      },
+      {
+        "scope": "aliases",
+        "passed": 9,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "alias-same-page-tj.pdf",
+            "sha256": "e397acd833671b93f8fa5fd9f0f7d8fc86de7dd60055dd538c9f5d9b3692b309",
+            "baseline_sha256": "e397acd833671b93f8fa5fd9f0f7d8fc86de7dd60055dd538c9f5d9b3692b309",
+            "identical": true
+          },
+          {
+            "file": "alias-same-page-tj-array.pdf",
+            "sha256": "16e7177e3ff0ff9cf93aacfad0d630bae732763d2dea7817decc56292cea8e9e",
+            "baseline_sha256": "16e7177e3ff0ff9cf93aacfad0d630bae732763d2dea7817decc56292cea8e9e",
+            "identical": true
+          },
+          {
+            "file": "alias-restore-q.pdf",
+            "sha256": "c228d7bb60a9a2d875346c54d3dd03baa00584c068f45d15b48b7ce743d369f7",
+            "baseline_sha256": "c228d7bb60a9a2d875346c54d3dd03baa00584c068f45d15b48b7ce743d369f7",
+            "identical": true
+          },
+          {
+            "file": "alias-form-only-alias.pdf",
+            "sha256": "346a0b62a18f3c30f913835d5ece6f136d092908d43ffbb239a2e8c0698366f4",
+            "baseline_sha256": "346a0b62a18f3c30f913835d5ece6f136d092908d43ffbb239a2e8c0698366f4",
+            "identical": true
+          },
+          {
+            "file": "alias-form-restoration.pdf",
+            "sha256": "e945020a22f6523d40d17e6b4e5b1d4624a620f3f15b7629f275e4a53cd56af5",
+            "baseline_sha256": "e945020a22f6523d40d17e6b4e5b1d4624a620f3f15b7629f275e4a53cd56af5",
+            "identical": true
+          },
+          {
+            "file": "alias-nested-form.pdf",
+            "sha256": "b713dc8d7d71bab92c4a2abe6fe9d1f4513eb97da5d3c587434d4c58c29a91f9",
+            "baseline_sha256": "b713dc8d7d71bab92c4a2abe6fe9d1f4513eb97da5d3c587434d4c58c29a91f9",
+            "identical": true
+          },
+          {
+            "file": "alias-appearance-states.pdf",
+            "sha256": "008d9e962a809c7583b14c0de3d14a9cdb1593cf45a5dc96930dd93f7cf014d8",
+            "baseline_sha256": "008d9e962a809c7583b14c0de3d14a9cdb1593cf45a5dc96930dd93f7cf014d8",
+            "identical": true
+          },
+          {
+            "file": "alias-other-page-alias.pdf",
+            "sha256": "c31048e93e4598c99c2446598980b91f62c0284909daaf6d1f3f033d18461025",
+            "baseline_sha256": "c31048e93e4598c99c2446598980b91f62c0284909daaf6d1f3f033d18461025",
+            "identical": true
+          },
+          {
+            "file": "alias-alias-first.pdf",
+            "sha256": "7a4442440bd807357e98b3dfbdcf7ddc89bb5ef5f597ce835bb1c2f2834d20ac",
+            "baseline_sha256": "7a4442440bd807357e98b3dfbdcf7ddc89bb5ef5f597ce835bb1c2f2834d20ac",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-aliases-independent-20261012.json"
+      },
+      {
+        "scope": "aliases-followup",
+        "passed": 3,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "alias-direct-standard.pdf",
+            "sha256": "5de5f10cd636ae12a9fa06f8525295803cd5d110f2653a220d270c3bdf1c4a31",
+            "baseline_sha256": "5de5f10cd636ae12a9fa06f8525295803cd5d110f2653a220d270c3bdf1c4a31",
+            "identical": true
+          },
+          {
+            "file": "alias-inherited-form-font.pdf",
+            "sha256": "147edb0b2bdd7151ab8d84e4b3793e2da4f35677a8eeb7fa0e3a312943b1cd20",
+            "baseline_sha256": "147edb0b2bdd7151ab8d84e4b3793e2da4f35677a8eeb7fa0e3a312943b1cd20",
+            "identical": true
+          },
+          {
+            "file": "alias-identity-H-alias.pdf",
+            "sha256": "f733b92d1c851c8c6f0a2b2aa63014a890f62a629b37be5403af5f895bf8136b",
+            "baseline_sha256": "f733b92d1c851c8c6f0a2b2aa63014a890f62a629b37be5403af5f895bf8136b",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-aliases-followup-independent-20261012.json"
+      },
+      {
+        "scope": "clips",
+        "passed": 13,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "clip-page.pdf",
+            "sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "baseline_sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "identical": true
+          },
+          {
+            "file": "clip-oversize.pdf",
+            "sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "baseline_sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "identical": true
+          },
+          {
+            "file": "clip-negative-width.pdf",
+            "sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "baseline_sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "identical": true
+          },
+          {
+            "file": "clip-scaled.pdf",
+            "sha256": "15344c9c879448078337b23ca34e2e4c6f5825298ce362146edfd96beb1d22c1",
+            "baseline_sha256": "15344c9c879448078337b23ca34e2e4c6f5825298ce362146edfd96beb1d22c1",
+            "identical": true
+          },
+          {
+            "file": "clip-reflected.pdf",
+            "sha256": "e823b7bdf0cfe16ce8816fe8a60e207c0a385f4c40852129ceaf38cf68c07369",
+            "baseline_sha256": "e823b7bdf0cfe16ce8816fe8a60e207c0a385f4c40852129ceaf38cf68c07369",
+            "identical": true
+          },
+          {
+            "file": "clip-repeated.pdf",
+            "sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "baseline_sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "identical": true
+          },
+          {
+            "file": "clip-evenodd.pdf",
+            "sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "baseline_sha256": "5e04c78321555e15ac6993fb9bfdeff1dc1628b26a0061bf5c5dceb09956ba4b",
+            "identical": true
+          },
+          {
+            "file": "clip-rotation-90.pdf",
+            "sha256": "6db1d20d08c6bc12230dc850b011dd755322e8150d40afa1a7ed11e3672ceb1e",
+            "baseline_sha256": "6db1d20d08c6bc12230dc850b011dd755322e8150d40afa1a7ed11e3672ceb1e",
+            "identical": true
+          },
+          {
+            "file": "clip-rotation-180.pdf",
+            "sha256": "406715c7756be6402711c082a59bc4b54878d92166a6b6898b60216f1f0b3b42",
+            "baseline_sha256": "406715c7756be6402711c082a59bc4b54878d92166a6b6898b60216f1f0b3b42",
+            "identical": true
+          },
+          {
+            "file": "clip-rotation-270.pdf",
+            "sha256": "9059b260dd5dda882d7aefcb1083aeb6176debb8783dc294af055bcc9adb15f2",
+            "baseline_sha256": "9059b260dd5dda882d7aefcb1083aeb6176debb8783dc294af055bcc9adb15f2",
+            "identical": true
+          },
+          {
+            "file": "clip-form.pdf",
+            "sha256": "c0404d4ef947b4ccade4482d493444f5ecada612e6eb5de71fbf17d037cc57c5",
+            "baseline_sha256": "c0404d4ef947b4ccade4482d493444f5ecada612e6eb5de71fbf17d037cc57c5",
+            "identical": true
+          },
+          {
+            "file": "clip-custom-CMap.pdf",
+            "sha256": "512c2750e2540f7368b7ea9b3f7efbbdfdd92f6de025210275123fb419fa6004",
+            "baseline_sha256": "512c2750e2540f7368b7ea9b3f7efbbdfdd92f6de025210275123fb419fa6004",
+            "identical": true
+          },
+          {
+            "file": "clip-shared-page.pdf",
+            "sha256": "e29b76a20133630263c013100425d42374f49cf61b6626dcfd4cffea73516e8c",
+            "baseline_sha256": "e29b76a20133630263c013100425d42374f49cf61b6626dcfd4cffea73516e8c",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-clips-independent-20261012.json"
+      },
+      {
+        "scope": "clips-followup",
+        "passed": 1,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "clip-quarter-turn.pdf",
+            "sha256": "82edefd14e074fa6a4cd2d84a5239e461bb4f5538d87273f6d7d7e3a40b92ed3",
+            "baseline_sha256": "82edefd14e074fa6a4cd2d84a5239e461bb4f5538d87273f6d7d7e3a40b92ed3",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-clips-followup-independent-20261012.json"
+      },
+      {
+        "scope": "cmap",
+        "passed": 8,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "path-cidchar.pdf",
+            "sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "baseline_sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "identical": true
+          },
+          {
+            "file": "path-cidrange.pdf",
+            "sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "baseline_sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "identical": true
+          },
+          {
+            "file": "path-bfrange-array.pdf",
+            "sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "baseline_sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "identical": true
+          },
+          {
+            "file": "path-TJ.pdf",
+            "sha256": "7772d892a55387fbbf5a61a8a06dad55faeeb2a2d4dc5f67f8a5264273164f1d",
+            "baseline_sha256": "7772d892a55387fbbf5a61a8a06dad55faeeb2a2d4dc5f67f8a5264273164f1d",
+            "identical": true
+          },
+          {
+            "file": "path-shared-page.pdf",
+            "sha256": "6d58d5c3c3ce85aede1705bfcb7284a1123fec08397f49cc3c8c7cd770939291",
+            "baseline_sha256": "6d58d5c3c3ce85aede1705bfcb7284a1123fec08397f49cc3c8c7cd770939291",
+            "identical": true
+          },
+          {
+            "file": "path-quote.pdf",
+            "sha256": "50f89f8399ed2fbb625d551f55df3ed9ac0c74d3f7d7abd33f65f48c05fe837d",
+            "baseline_sha256": "50f89f8399ed2fbb625d551f55df3ed9ac0c74d3f7d7abd33f65f48c05fe837d",
+            "identical": true
+          },
+          {
+            "file": "path-double-quote.pdf",
+            "sha256": "6755d02fd6f6ce345ab13b92841857c4340a08db0f1246c7a29b8cde4f239d37",
+            "baseline_sha256": "6755d02fd6f6ce345ab13b92841857c4340a08db0f1246c7a29b8cde4f239d37",
+            "identical": true
+          },
+          {
+            "file": "path-alias-same.pdf",
+            "sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "baseline_sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-cmap-independent-20261012.json"
+      },
+      {
+        "scope": "cmap-followup",
+        "passed": 4,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "path-target-quote.pdf",
+            "sha256": "66b86ceac05802bfa3497992877e7ec4c0ca5aa6ea69842dcd974fcb527010f2",
+            "baseline_sha256": "66b86ceac05802bfa3497992877e7ec4c0ca5aa6ea69842dcd974fcb527010f2",
+            "identical": true
+          },
+          {
+            "file": "path-target-double-quote.pdf",
+            "sha256": "d9c1cfed9da6ea2f0bb975592003ce744df31e964a62bca51bedd335e69155ee",
+            "baseline_sha256": "d9c1cfed9da6ea2f0bb975592003ce744df31e964a62bca51bedd335e69155ee",
+            "identical": true
+          },
+          {
+            "file": "path-bfrange-scalar.pdf",
+            "sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "baseline_sha256": "fdef21897fa80c7515cf3da763a919912f1bc494b0ac1365eec061f9bd58d57f",
+            "identical": true
+          },
+          {
+            "file": "path-rotated-form.pdf",
+            "sha256": "91255423079c794b2c2939ab9ee789383f7b147ef6cfa67f0da399f38d6d0627",
+            "baseline_sha256": "91255423079c794b2c2939ab9ee789383f7b147ef6cfa67f0da399f38d6d0627",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-cmap-followup-independent-20261012.json"
+      },
+      {
+        "scope": "font-tables",
+        "passed": 4,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "path-reserved.pdf",
+            "sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "baseline_sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "identical": true
+          },
+          {
+            "file": "path-revision.pdf",
+            "sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "baseline_sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "identical": true
+          },
+          {
+            "file": "path-hint-summary.pdf",
+            "sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "baseline_sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "identical": true
+          },
+          {
+            "file": "path-all-metadata.pdf",
+            "sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "baseline_sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-font-tables-independent-20261012.json"
+      },
+      {
+        "scope": "shared",
+        "passed": 9,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "shared-pages.pdf",
+            "sha256": "44226558981ca1a9d6d3bc94242a379c5ac69f89fdb769b71a5a87f8de2dac28",
+            "baseline_sha256": "44226558981ca1a9d6d3bc94242a379c5ac69f89fdb769b71a5a87f8de2dac28",
+            "identical": true
+          },
+          {
+            "file": "shared-alias-font.pdf",
+            "sha256": "44226558981ca1a9d6d3bc94242a379c5ac69f89fdb769b71a5a87f8de2dac28",
+            "baseline_sha256": "44226558981ca1a9d6d3bc94242a379c5ac69f89fdb769b71a5a87f8de2dac28",
+            "identical": true
+          },
+          {
+            "file": "shared-copied-streams.pdf",
+            "sha256": "4272b450b1e558fc903fe45eaf2520375f4e45a92e661d41abf7027509df7164",
+            "baseline_sha256": "4272b450b1e558fc903fe45eaf2520375f4e45a92e661d41abf7027509df7164",
+            "identical": true
+          },
+          {
+            "file": "shared-inherited.pdf",
+            "sha256": "c9896f5aa874dff28c048a4a96202207b8230a96a6ccd535df88468655977bcd",
+            "baseline_sha256": "c9896f5aa874dff28c048a4a96202207b8230a96a6ccd535df88468655977bcd",
+            "identical": true
+          },
+          {
+            "file": "shared-unused.pdf",
+            "sha256": "330632fa201895ec9083601458aa85139838951db513add4f7fee9dc6e2005e7",
+            "baseline_sha256": "330632fa201895ec9083601458aa85139838951db513add4f7fee9dc6e2005e7",
+            "identical": true
+          },
+          {
+            "file": "shared-sibling-form.pdf",
+            "sha256": "5e87105faef05ba394bff2261b096c4ce7d65a8369ca8a4ed0f0c96098026d44",
+            "baseline_sha256": "5e87105faef05ba394bff2261b096c4ce7d65a8369ca8a4ed0f0c96098026d44",
+            "identical": true
+          },
+          {
+            "file": "shared-nested-outside-form.pdf",
+            "sha256": "39e9fcec125b0033c7227265be659ec46bfc6b7c2c9b728f09b125ea62d123bf",
+            "baseline_sha256": "39e9fcec125b0033c7227265be659ec46bfc6b7c2c9b728f09b125ea62d123bf",
+            "identical": true
+          },
+          {
+            "file": "shared-appearance.pdf",
+            "sha256": "6b06b72a0474589920ed87b3651738152a3ba62ee4917571d6a52fb5ffb90082",
+            "baseline_sha256": "6b06b72a0474589920ed87b3651738152a3ba62ee4917571d6a52fb5ffb90082",
+            "identical": true
+          },
+          {
+            "file": "shared-appearance-states.pdf",
+            "sha256": "f2bf492e505741d5137c2bc22d3c1e6e073f88c902d3a48e10a8fbe6b9b90fae",
+            "baseline_sha256": "f2bf492e505741d5137c2bc22d3c1e6e073f88c902d3a48e10a8fbe6b9b90fae",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-shared-independent-20261012.json"
+      },
+      {
+        "scope": "paths",
+        "passed": 6,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "path-fill.pdf",
+            "sha256": "19db20e28e2c0e1a6e9761fd21e56d7f137e81696af7af349a96356671f25367",
+            "baseline_sha256": "19db20e28e2c0e1a6e9761fd21e56d7f137e81696af7af349a96356671f25367",
+            "identical": true
+          },
+          {
+            "file": "path-stroke-round.pdf",
+            "sha256": "39c7baba2a57f1da0b3829f3a275cb6a02b5476d04bb6cf030fdcb18795533ae",
+            "baseline_sha256": "39c7baba2a57f1da0b3829f3a275cb6a02b5476d04bb6cf030fdcb18795533ae",
+            "identical": true
+          },
+          {
+            "file": "path-stroke-square.pdf",
+            "sha256": "97b4f970aaa24b61a5536dbfeffc0d78b094267deb6c8447766a832097da6995",
+            "baseline_sha256": "97b4f970aaa24b61a5536dbfeffc0d78b094267deb6c8447766a832097da6995",
+            "identical": true
+          },
+          {
+            "file": "path-bezier.pdf",
+            "sha256": "abbe7bc7217274e9e0a20e3ca877f6817b58870be6c8c0f96983a4eea3bc20ce",
+            "baseline_sha256": "abbe7bc7217274e9e0a20e3ca877f6817b58870be6c8c0f96983a4eea3bc20ce",
+            "identical": true
+          },
+          {
+            "file": "path-compound.pdf",
+            "sha256": "19db20e28e2c0e1a6e9761fd21e56d7f137e81696af7af349a96356671f25367",
+            "baseline_sha256": "19db20e28e2c0e1a6e9761fd21e56d7f137e81696af7af349a96356671f25367",
+            "identical": true
+          },
+          {
+            "file": "path-form.pdf",
+            "sha256": "e8c93f6752898fa9347dbfbafa286f8408277dba14d79a5906525254e59f7637",
+            "baseline_sha256": "e8c93f6752898fa9347dbfbafa286f8408277dba14d79a5906525254e59f7637",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-paths-independent-20261012.json"
+      },
+      {
+        "scope": "followup",
+        "passed": 4,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "path-rotation-0.pdf",
+            "sha256": "24bd2091a788ab56bdd037a47f1b8e65f7e4886afa87ac4c6ad27c126ccec926",
+            "baseline_sha256": "24bd2091a788ab56bdd037a47f1b8e65f7e4886afa87ac4c6ad27c126ccec926",
+            "identical": true
+          },
+          {
+            "file": "path-rotation-90.pdf",
+            "sha256": "5ccd6bbc58bee9366e98b47ba0b11b8e0d14cb3847606e9a896749257bc5f8a4",
+            "baseline_sha256": "5ccd6bbc58bee9366e98b47ba0b11b8e0d14cb3847606e9a896749257bc5f8a4",
+            "identical": true
+          },
+          {
+            "file": "path-rotation-180.pdf",
+            "sha256": "c6748627c370a884ea9fff9c4a00c45dd3d86ec2c1f653dbccede6ea22f2dcd2",
+            "baseline_sha256": "c6748627c370a884ea9fff9c4a00c45dd3d86ec2c1f653dbccede6ea22f2dcd2",
+            "identical": true
+          },
+          {
+            "file": "path-rotation-270.pdf",
+            "sha256": "b14cdff76c03b6215d974ab4ca3a7784d37be44710c100eda62dda0e65cf4c84",
+            "baseline_sha256": "b14cdff76c03b6215d974ab4ca3a7784d37be44710c100eda62dda0e65cf4c84",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-followup-independent-20261012.json"
+      },
+      {
+        "scope": "partial",
+        "passed": 13,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reexecuted",
+        "comparison": [
+          {
+            "file": "partial-standard.pdf",
+            "sha256": "e0987cbed22beb911cf6f1d9acc676ef4daf49e85c92c991b427cbe35cc2b508",
+            "baseline_sha256": "e0987cbed22beb911cf6f1d9acc676ef4daf49e85c92c991b427cbe35cc2b508",
+            "identical": true
+          },
+          {
+            "file": "partial-visible.pdf",
+            "sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "baseline_sha256": "693a7c518442df394543fd774001d4beb994f2e958fe4a757be04cbdf829313e",
+            "identical": true
+          },
+          {
+            "file": "partial-invisible.pdf",
+            "sha256": "04a6aafcc17a769255afa1712c59cb10b8443ec8a9a61310e2438ac8a022fb55",
+            "baseline_sha256": "04a6aafcc17a769255afa1712c59cb10b8443ec8a9a61310e2438ac8a022fb55",
+            "identical": true
+          },
+          {
+            "file": "partial-TJ-spacing.pdf",
+            "sha256": "b8bfc509cc58e85d4ee2adbf83a5ee354717fdbc62d700c3e7f574b6bbc42550",
+            "baseline_sha256": "b8bfc509cc58e85d4ee2adbf83a5ee354717fdbc62d700c3e7f574b6bbc42550",
+            "identical": true
+          },
+          {
+            "file": "partial-identity-H.pdf",
+            "sha256": "713584ebc2feb95b928e6ed4158bf0c67dc4c57fc31594010062ba565baeef6e",
+            "baseline_sha256": "713584ebc2feb95b928e6ed4158bf0c67dc4c57fc31594010062ba565baeef6e",
+            "identical": true
+          },
+          {
+            "file": "partial-form.pdf",
+            "sha256": "2ce4531ce6cab75606be44050bd3bd7473fdafe856f9f92d1f4df0b51a8a04a9",
+            "baseline_sha256": "2ce4531ce6cab75606be44050bd3bd7473fdafe856f9f92d1f4df0b51a8a04a9",
+            "identical": true
+          },
+          {
+            "file": "partial-nested-form.pdf",
+            "sha256": "393305925d0dd7d9d443dfc1c1a077da22b4d5059e2e4229c29c551e808f1ae4",
+            "baseline_sha256": "393305925d0dd7d9d443dfc1c1a077da22b4d5059e2e4229c29c551e808f1ae4",
+            "identical": true
+          },
+          {
+            "file": "partial-scan-OCR.pdf",
+            "sha256": "7fe072e51fc903148226b85083d8ce8c327fc684da7017f76d178c4f27ffb0de",
+            "baseline_sha256": "7fe072e51fc903148226b85083d8ce8c327fc684da7017f76d178c4f27ffb0de",
+            "identical": true
+          },
+          {
+            "file": "partial-rotation-0.pdf",
+            "sha256": "b74e574b69ecaf3618f29be8ab98aa7ef3ddf4a57190ffada4ed1ac8056f5837",
+            "baseline_sha256": "b74e574b69ecaf3618f29be8ab98aa7ef3ddf4a57190ffada4ed1ac8056f5837",
+            "identical": true
+          },
+          {
+            "file": "partial-rotation-90.pdf",
+            "sha256": "22e950ee93c32030badd3670f4fa65aed7990daf5248d4ab4b2b5ccc328d01e0",
+            "baseline_sha256": "22e950ee93c32030badd3670f4fa65aed7990daf5248d4ab4b2b5ccc328d01e0",
+            "identical": true
+          },
+          {
+            "file": "partial-rotation-180.pdf",
+            "sha256": "dcc69239e3a57bb2c22bf85cd824f389f2d28e9e746c32df0959c917dc00d41e",
+            "baseline_sha256": "dcc69239e3a57bb2c22bf85cd824f389f2d28e9e746c32df0959c917dc00d41e",
+            "identical": true
+          },
+          {
+            "file": "partial-rotation-270.pdf",
+            "sha256": "d188d0ae9af10e79dcd189081f73d3990e3ced993e09b8129c9b0433a58606fb",
+            "baseline_sha256": "d188d0ae9af10e79dcd189081f73d3990e3ced993e09b8129c9b0433a58606fb",
+            "identical": true
+          },
+          {
+            "file": "redaction-real-ocr-before.pdf",
+            "sha256": "41a770a2b591bb4c6abcafa7e6342f557f1732b9d4e6d00a2c6b826e74ee4024",
+            "baseline_sha256": "ae02d277d4d2b7c32dd4730fd4d41fe3731943882a4b631e590c53f2ceae413c",
+            "identical": false
+          },
+          {
+            "file": "redaction-partial-real-ocr.pdf",
+            "sha256": "7044d6f24913655f08aae3049ed04622650740cb4375792077d572c03fc0c7fb",
+            "baseline_sha256": "a981579efea3e9577bb22aebeb1f3f905fd02223d5deb31dcd9179bcef87d7ae",
+            "identical": false
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-partial-independent-20261012.json"
+      },
+      {
+        "scope": "composite",
+        "passed": 2,
+        "failed": 0,
+        "unexecuted": 0,
+        "mode": "reused_identical_bytes",
+        "comparison": [
+          {
+            "file": "partial-composite-compound.pdf",
+            "sha256": "014859062f6cc7f02ee8dc4cebe217198aa31fd5be1be8f2cd9048e4acf4bb2b",
+            "baseline_sha256": "014859062f6cc7f02ee8dc4cebe217198aa31fd5be1be8f2cd9048e4acf4bb2b",
+            "identical": true
+          },
+          {
+            "file": "partial-composite-required-notdef.pdf",
+            "sha256": "fecabcad0a5daf3c4d1e6a462ca2832be0d2fd9ad2553c29a4aae92b5a2deb4b",
+            "baseline_sha256": "fecabcad0a5daf3c4d1e6a462ca2832be0d2fd9ad2553c29a4aae92b5a2deb4b",
+            "identical": true
+          }
+        ],
+        "report": "evidence/m6-dev36-M5-composite-independent-20261012.json"
+      }
+    ],
+    "reexecuted_groups": 1,
+    "reused_groups": 18,
+    "rendering_not_repeated_for_identical_bytes": true
+  },
+  "independent_M1": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "jpn_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "jpn_search",
+        "status": "PASS"
+      },
+      {
+        "name": "jpn_selected_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_search",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_selected_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_1",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_2",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_3",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_4",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_5",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_6",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_7",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_8",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_1",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_2",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_3",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_4",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_5",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_6",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_7",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_8",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf1",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf2",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf3",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D05-before.pdf1",
+        "status": "PASS"
+      },
+      {
+        "name": "rotated_alignment",
+        "status": "PASS"
+      },
+      {
+        "name": "Japanese_signature",
+        "status": "PASS"
+      },
+      {
+        "name": "form_values_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_outline_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_links_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_comments_equal",
+        "status": "PASS"
+      }
+    ],
+    "count": 32,
+    "executable_sha256": "1c4720ea66ae4297b859918cfe85609bd456127e512126dd105866eda1e5a232",
+    "input_report": "evidence/m6-dev36-full-20261012/independent-verification.json",
+    "report_sha256": "84b25ee2c4c909737483f8784931b9cb96b5b3f0a26adb4b3bf2562d7ccc89cb"
+  },
+  "source_style": {
+    "status": "PASS",
+    "cpp": 366,
+    "python": 148,
+    "fixed_source_and_fixtures": true,
+    "reproduction_files": 12,
+    "inputs": [
+      {
+        "file": "page.pdf",
+        "sha256": "4fa6b235a3350b951edcf0ee89ff03b66ce64dbda2219b1f4f2a10fd4a935d9c",
+        "selected_phrase_counts": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "file": "rotated.pdf",
+        "sha256": "69c5c2372fe59f7210eecfc3dd3efc8c4c644467b5e8e729de49ceef1440e45d",
+        "selected_phrase_counts": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "file": "shared.pdf",
+        "sha256": "1ae0a9df4de573c3b000002b4bd855ef45f9d31430a84eb376059b1c52907abd",
+        "selected_phrase_counts": [
+          2,
+          1,
+          0
+        ]
+      },
+      {
+        "file": "inherited.pdf",
+        "sha256": "5852b90e71a64f1888d14ad89a1ff12f36ad9c2fc941e93051a99abb902ee231",
+        "selected_phrase_counts": [
+          2,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "static_distribution": {
+    "status": "PASS",
+    "executable_sha256": "1c4720ea66ae4297b859918cfe85609bd456127e512126dd105866eda1e5a232",
+    "binaries": [
+      {
+        "file": "archive.dll",
+        "sha256": "f0d849296938a5016d1555531fe19a13b76591d16e716b2859314ed27fd656d5",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "XmlLite.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "bcrypt.dll": "Windows:System32",
+          "bz2.dll": "package:bz2.dll",
+          "liblzma.dll": "package:liblzma.dll",
+          "lz4.dll": "package:lz4.dll",
+          "ole32.dll": "Windows:System32",
+          "z.dll": "package:z.dll",
+          "zstd.dll": "package:zstd.dll"
+        }
+      },
+      {
+        "file": "asmjit.dll",
+        "sha256": "944b8ec8cf5e7265eaebda16ee0af64e1e5d7cb9d36241c57a37999a4030a12b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "blend2d.dll",
+        "sha256": "6b9e90eb2d8a110b2e1bfedf871fb71fbfac948abee5e3047d60b0adfb9a1fed",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "asmjit.dll": "package:asmjit.dll"
+        }
+      },
+      {
+        "file": "brotlicommon.dll",
+        "sha256": "ae809e012108f1d56a24a6873fa75d80e13f110fcefdcca2e38953d0914328c1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "brotlidec.dll",
+        "sha256": "f470c37e0ca2c218779b45aecc53a0f2e1e77c9584e9153876adcdc3dd160cec",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "brotlicommon.dll": "package:brotlicommon.dll"
+        }
+      },
+      {
+        "file": "brotlienc.dll",
+        "sha256": "ed2b18c3b9fa116a7d77dd80cb1d652a2a1369e56cbf9c75cd3b830933e57ee1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "brotlicommon.dll": "package:brotlicommon.dll"
+        }
+      },
+      {
+        "file": "bz2.dll",
+        "sha256": "e8459d441651badb375539b961f44080809c58bb8406b490654f64a2274870a0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "concrt140.dll",
+        "sha256": "b2faf3b85b23c840b654e57d5497a0ad31acd02fb01856cad4725a1715d5f78e",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "D3Dcompiler_47.dll",
+        "sha256": "e994847e01a6f1e4cbdc5a864616ac262f67ee4f14db194984661a8d927ab7f4",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "RPCRT4.dll": "Windows:System32",
+          "msvcrt.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "dxcompiler.dll",
+        "sha256": "b855ee494c60a5dd0638d4574bc4d728c87fac5d415b9be3122058b5adefda77",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "OLEAUT32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "dxil.dll",
+        "sha256": "2ae215743ca9c9c5ccfe4d53856e582c234a300a3186fc987c1d2bbe0738c50a",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "freetype.dll",
+        "sha256": "a60eca953d064760f9fb9ae26a854ec1bdfe5a44302fa7bf23edeec0e00b9304",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "brotlidec.dll": "package:brotlidec.dll",
+          "bz2.dll": "package:bz2.dll",
+          "libpng16.dll": "package:libpng16.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "generic/qtuiotouchplugin.dll",
+        "sha256": "6e9784408b75adc57a28527e6ebc24baada0e90fb5bf4946ccb9798bd8784057",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "gif.dll",
+        "sha256": "249186812daf33a4c4032b9b9b5c43cafef31b50890c74d930c7e378d6317c1d",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "hwloc-15.dll",
+        "sha256": "6b798e0cfe04bf07e4b85d052dce9371b3f45c4da90fbabd1df5a3693e4459e0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "iconengines/qsvgicon.dll",
+        "sha256": "92c6fa5cadc4161fec213f2f6cbb9d793436b222ee88369b70a97123b1e3302a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Svg.dll": "package:Qt6Svg.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qgif.dll",
+        "sha256": "cee83c066006c46f8dee16f33e524bac12f166ac667f4a86956473e8e207d68b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qicns.dll",
+        "sha256": "83ecab9232f204bbb3c9a2f5dca626ec9f4f31d466b457f91979a6b6ea43dee2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qico.dll",
+        "sha256": "82afc4eb27771e452a39fdc896bc638a138a0afb820d1b813b36cabba48c178d",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qjpeg.dll",
+        "sha256": "43ca4ed440f9f03e79f75fd76905e3350ec4008650d02d7041fdd2ac4043dfd2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qsvg.dll",
+        "sha256": "f613467380c982c166f573ce7e0a35243ef49a4ae253dcfa07e0f781d8f73bbe",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Svg.dll": "package:Qt6Svg.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qtga.dll",
+        "sha256": "24674e6a2e9a2b14d890bfcec2ba19550ebb28b0a9aad6565435070c8795428a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qtiff.dll",
+        "sha256": "0402ca2e00feb50147111921d786fed941cfa4255a2a454260f63ae1179c3bca",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qwbmp.dll",
+        "sha256": "cc8b5e7f0f284dd234910bada302fab273132d0145d4db5abe53fc4a59457c9a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "imageformats/qwebp.dll",
+        "sha256": "4e3de65c0487add2ac20befd2c2d80084e65372704139899ec9e1da90191fcc0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "jpeg62.dll",
+        "sha256": "a7148bea16f01df7bf6f193b872c7b4d9fb282c0e9c24705d8dd0c3892212794",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "lcms2-2.dll",
+        "sha256": "3609da3ee03cafbe6c26372e88c83fa9e890dd1da2b64c1447ba71993543f439",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "legacy.dll",
+        "sha256": "3f46771d69d14a1a9f262889b1697060b31a83aa07b10e2ebfa2d7bfc12380cb",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll"
+        }
+      },
+      {
+        "file": "leptonica-1.87.0.dll",
+        "sha256": "abde70ec16b80b48c8d0ff373dfa65722f7874a4355b114069bafe3f6072ae57",
+        "machine": "x64",
+        "dependencies": {
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "gif.dll": "package:gif.dll",
+          "jpeg62.dll": "package:jpeg62.dll",
+          "libpng16.dll": "package:libpng16.dll",
+          "libwebp.dll": "package:libwebp.dll",
+          "libwebpmux.dll": "package:libwebpmux.dll",
+          "openjp2.dll": "package:openjp2.dll",
+          "tiff.dll": "package:tiff.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "libcrypto-3-x64.dll",
+        "sha256": "cc8988346c5680cb25ffb78651befbfadc89be6c0a73ea8637a03d0dd4b131e3",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "CRYPT32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libcurl.dll",
+        "sha256": "73b5fac48e63f1c985f9e46c5d34404a519cfe854daa91364244e8c034b5c2c7",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "CRYPT32.dll": "Windows:System32",
+          "IPHLPAPI.DLL": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "Secur32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "bcrypt.dll": "Windows:System32",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "liblzma.dll",
+        "sha256": "fb53a94348a365bd52281b91658fc5690e8f79fee03573bc95f2ecaf3f4ce0eb",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libpng16.dll",
+        "sha256": "8b269231e29a79dafbe4ec7bb47d38f649cd87f73596e9e87af01b71ad8de3f1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "libsharpyuv.dll",
+        "sha256": "68ec545d1c7a5dac16f6d8e2cdd9b3c9ed7020d931dd91d91723de635147bcc8",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libssl-3-x64.dll",
+        "sha256": "8cffefb573a130cd0ebb66e6e27d2375b32b0d1ad1102a32fed0e085e399ec8a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll"
+        }
+      },
+      {
+        "file": "libwebp.dll",
+        "sha256": "6c7d2a42abe57167d5a097504da1d0b1f8f8300dbdc5c0aeeb0745c781e599d2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libsharpyuv.dll": "package:libsharpyuv.dll"
+        }
+      },
+      {
+        "file": "libwebpdecoder.dll",
+        "sha256": "2daef7e345bc67b511459ac2446127c1be8aaab8e30b2f2625effceb53eb961b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "libwebpdemux.dll",
+        "sha256": "1f7df6ce9ade7c65e625069caaf133bed525c19f8e3f8c7164e8983987e42701",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libwebp.dll": "package:libwebp.dll"
+        }
+      },
+      {
+        "file": "libwebpmux.dll",
+        "sha256": "e500e59034c4a24425cb6bc63f2e7b32b57987794adf368903a36495300eb39c",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libwebp.dll": "package:libwebp.dll"
+        }
+      },
+      {
+        "file": "lz4.dll",
+        "sha256": "c75bf7a0b36a7cdc6bea523e263555803df1a7dc9a1072de8ec70f4c9d6fd4f9",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140.dll",
+        "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_1.dll",
+        "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_2.dll",
+        "sha256": "1d60da3ac2b06482912ca852fa7047436e6e474b4cfffa3bf77f4598cfbf454c",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_atomic_wait.dll",
+        "sha256": "e7963645e0d1db08e300614d4c5fa7194bd8173e9ab7a5558859e6b232ed3241",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-core-synch-l1-2-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "msvcp140_codecvt_ids.dll",
+        "sha256": "ae8d922b00cdd93e3ebecc37beb46c800f383ebdeb9f9e5b84e04a72428b6fb3",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "networkinformation/qnetworklistmanager.dll",
+        "sha256": "9a00977c2406a0cacfd25e24e9f32d7d2721a8e125f7576def00307a5850d067",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "OLEAUT32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "openjp2.dll",
+        "sha256": "6602d5a474fae998fe6510c51b831298fb6c13dc97ad647c7c534ebd64041726",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Pdf4QtLibCore.dll",
+        "sha256": "12d0e14de899456cce04c6699faeaa101eb99730e750bd7ba59bfb47587eb338",
+        "machine": "x64",
+        "dependencies": {
+          "CRYPT32.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_ATOMIC_WAIT.dll": "package:MSVCP140_ATOMIC_WAIT.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Xml.dll": "package:Qt6Xml.dll",
+          "Secur32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "blend2d.dll": "package:blend2d.dll",
+          "freetype.dll": "package:freetype.dll",
+          "jpeg62.dll": "package:jpeg62.dll",
+          "lcms2-2.dll": "package:lcms2-2.dll",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll",
+          "mscms.dll": "Windows:System32",
+          "openjp2.dll": "package:openjp2.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "Pdf4QtLibWidgets.dll",
+        "sha256": "0d4becc100ec9208b386eceb8f7226fa70999b05457575ee6958e0b055c66caf",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Pdf4QtLibCore.dll": "package:Pdf4QtLibCore.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Svg.dll": "package:Qt6Svg.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "PDFTatsujin.exe",
+        "sha256": "1c4720ea66ae4297b859918cfe85609bd456127e512126dd105866eda1e5a232",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "CRYPT32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Pdf4QtLibCore.dll": "package:Pdf4QtLibCore.dll",
+          "Pdf4QtLibWidgets.dll": "package:Pdf4QtLibWidgets.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6PrintSupport.dll": "package:Qt6PrintSupport.dll",
+          "Qt6Test.dll": "package:Qt6Test.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "SHELL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "libcrypto-3-x64.dll": "package:libcrypto-3-x64.dll",
+          "tesseract55.dll": "package:tesseract55.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "platforms/qoffscreen.dll",
+        "sha256": "80f71afcd3cbec3c13375f5449d4eaecd64d9ca26c70bc83615039d094eb562a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "platforms/qwindows.dll",
+        "sha256": "133983755958a0f4d955b4a6f3712a014ac62351ec5edd3c32b802094f66ac96",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "COMDLG32.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "IMM32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "OLEAUT32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "SETUPAPI.dll": "Windows:System32",
+          "SHELL32.dll": "Windows:System32",
+          "SHLWAPI.dll": "Windows:System32",
+          "UIAutomationCore.DLL": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "WINMM.dll": "Windows:System32",
+          "WTSAPI32.dll": "Windows:System32",
+          "api-ms-win-core-winrt-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-core-winrt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-shcore-scaling-l1-1-1.dll": "Windows:API-contract-resolved",
+          "d3d9.dll": "Windows:System32",
+          "dwmapi.dll": "Windows:System32",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Concurrent.dll",
+        "sha256": "f41bd61b718649d862e436932069daad124d4ba0e25d322ed66a19204206b349",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Core.dll",
+        "sha256": "b6c6bedca4e798f9a6cfae20946688ab0a0c3dbd7de605951b0ffb7b679e4f53",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "AUTHZ.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MPR.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "NETAPI32.dll": "Windows:System32",
+          "OLEAUT32.dll": "Windows:System32",
+          "SHELL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "USERENV.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "VERSION.dll": "Windows:System32",
+          "WINMM.dll": "Windows:System32",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-core-synch-l1-2-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Gui.dll",
+        "sha256": "569f50c8fde5e3841197e4f44bc4673b330e2f8744391f36f0dccc17fc858f03",
+        "machine": "x64",
+        "dependencies": {
+          "DWrite.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "MSVCP140_2.dll": "package:MSVCP140_2.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "SHELL32.dll": "Windows:System32",
+          "USER32.dll": "Windows:System32",
+          "UxTheme.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "d3d11.dll": "Windows:System32",
+          "d3d12.dll": "Windows:System32",
+          "dxgi.dll": "Windows:System32",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Network.dll",
+        "sha256": "dcd4d0951de4f8a7d8609dd2f44cb32cc7fd507c7562b635346df2de6707374b",
+        "machine": "x64",
+        "dependencies": {
+          "ADVAPI32.dll": "Windows:System32",
+          "DNSAPI.dll": "Windows:System32",
+          "IPHLPAPI.DLL": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Secur32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "WINHTTP.dll": "Windows:System32",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6PrintSupport.dll",
+        "sha256": "ba7fb068079399a28a75c8bc052f476acd413479909ed122cb16ddea24400b39",
+        "machine": "x64",
+        "dependencies": {
+          "COMDLG32.dll": "Windows:System32",
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "USER32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Svg.dll",
+        "sha256": "da0da4afa90789bf7f7dcc61f745308b3e02af7afb74269fc2b1ac771b1f93a3",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Test.dll",
+        "sha256": "6d93033dc3a3d5d30be93ab277d6ebef9474e7887012bb832cbb124af6ebc703",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "Qt6Widgets.dll",
+        "sha256": "36cfd5321d60623047f51bc9ce34333e1d090aca7a23b45e6c8a79f92d6a1aa6",
+        "machine": "x64",
+        "dependencies": {
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "USER32.dll": "Windows:System32",
+          "UxTheme.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "dwmapi.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "Qt6Xml.dll",
+        "sha256": "ad471c0f6711d0a02da58240b8ebaf14af9a9bdeedb2bf60bb05bc8f8a2671d0",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "MSVCP140_1.dll": "package:MSVCP140_1.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "spng.dll",
+        "sha256": "cd53736afbfedd0ece079daa2b35ec47b5c7023b3fbcd7b34a27f355914cd677",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "styles/qmodernwindowsstyle.dll",
+        "sha256": "750970c6a92d3af2b78c034e3b3ff379a7d61fa7b574d8c2e39f884a6bab568e",
+        "machine": "x64",
+        "dependencies": {
+          "GDI32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Gui.dll": "package:Qt6Gui.dll",
+          "Qt6Widgets.dll": "package:Qt6Widgets.dll",
+          "USER32.dll": "Windows:System32",
+          "UxTheme.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tbb12.dll",
+        "sha256": "07afacbc97f5f8db61a9e5f945d76af2dc079e4c5f5f75d7b6f3ea907378a9bc",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tbbmalloc.dll",
+        "sha256": "ae54af1959228851534a0b0c59a46240eb3285895c71fee707e003bef86e4a60",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tbbmalloc_proxy.dll",
+        "sha256": "f41fd2e3eccc7e4905bdc3a28832e1f02686cb628358ebdb1b116ed91b7d26f3",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "tbbmalloc.dll": "package:tbbmalloc.dll"
+        }
+      },
+      {
+        "file": "tesseract55.dll",
+        "sha256": "c2142b0e7a6edc64891d198e8a6ab5edcdab1a16f99a204cd5153194322691f1",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "WS2_32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-filesystem-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-locale-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "archive.dll": "package:archive.dll",
+          "leptonica-1.87.0.dll": "package:leptonica-1.87.0.dll",
+          "libcurl.dll": "package:libcurl.dll"
+        }
+      },
+      {
+        "file": "tiff.dll",
+        "sha256": "e5172df3ed872ba64088aa52b35535cedcec83ec0ec8948ff8a5b0cdf86b5bf8",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved",
+          "jpeg62.dll": "package:jpeg62.dll",
+          "liblzma.dll": "package:liblzma.dll",
+          "z.dll": "package:z.dll"
+        }
+      },
+      {
+        "file": "tls/qcertonlybackend.dll",
+        "sha256": "9f03bd4a3fb9779439bbea7b151fbbadf556541e56a7493481a5140625c4da7f",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "tls/qschannelbackend.dll",
+        "sha256": "33d5b218ffbe581742fd07dd2da5b7394b66f41161235e785642bbcb2b5834e2",
+        "machine": "x64",
+        "dependencies": {
+          "CRYPT32.dll": "Windows:System32",
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "Qt6Core.dll": "package:Qt6Core.dll",
+          "Qt6Network.dll": "package:Qt6Network.dll",
+          "Secur32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "bcrypt.dll": "Windows:System32",
+          "ncrypt.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "turbojpeg.dll",
+        "sha256": "299ab1d628ef14080d820f00453229a7fdd080b738a095ba801d63457d898528",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "spng.dll": "package:spng.dll"
+        }
+      },
+      {
+        "file": "vccorlib140.dll",
+        "sha256": "6b8d8a76c3e6664293407553650e60b94df9aaafc7c92057ea83032bd228e44f",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "MSVCP140.dll": "package:MSVCP140.dll",
+          "OLEAUT32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "VCRUNTIME140_1.dll": "package:VCRUNTIME140_1.dll",
+          "api-ms-win-core-winrt-error-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-core-winrt-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-core-winrt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-math-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved",
+          "ole32.dll": "Windows:System32"
+        }
+      },
+      {
+        "file": "vcruntime140.dll",
+        "sha256": "184146852727a9db4eea06178716bec3cdbb1015c911f6b0f915b184ad7775b2",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "vcruntime140_1.dll",
+        "sha256": "e6bfb3662ab4b1969a73441dbe35c96d51441b6bff8cf1fe7430bd5b246ca605",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "vcruntime140_threads.dll",
+        "sha256": "a6222020b500a9a86b36e040c2dbd0e459716db1bf2810a11cd7512ea9b8d89b",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "z.dll",
+        "sha256": "9700041939b72ab2f0a3eb52339508de84163e879e96af8c0cc74800dd0e56de",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-string-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      },
+      {
+        "file": "zstd.dll",
+        "sha256": "017f7abae1486b156f48c14de4ab8c575086d2fe84ad5a846ecac57aa86a6d5a",
+        "machine": "x64",
+        "dependencies": {
+          "KERNEL32.dll": "Windows:System32",
+          "VCRUNTIME140.dll": "package:VCRUNTIME140.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-runtime-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-stdio-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-time-l1-1-0.dll": "Windows:API-contract-resolved",
+          "api-ms-win-crt-utility-l1-1-0.dll": "Windows:API-contract-resolved"
+        }
+      }
+    ],
+    "binary_count": 77,
+    "assets_matched": 9,
+    "notices_matched": 106,
+    "desktop_release_CRT": {
+      "family": "Microsoft.VC145.CRT",
+      "version": "14.50.35710",
+      "configuration": "Desktop x64 Release",
+      "files": [
+        {
+          "file": "concrt140.dll",
+          "sha256": "b2faf3b85b23c840b654e57d5497a0ad31acd02fb01856cad4725a1715d5f78e"
+        },
+        {
+          "file": "msvcp140_1.dll",
+          "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380"
+        },
+        {
+          "file": "msvcp140_2.dll",
+          "sha256": "1d60da3ac2b06482912ca852fa7047436e6e474b4cfffa3bf77f4598cfbf454c"
+        },
+        {
+          "file": "msvcp140_atomic_wait.dll",
+          "sha256": "e7963645e0d1db08e300614d4c5fa7194bd8173e9ab7a5558859e6b232ed3241"
+        },
+        {
+          "file": "msvcp140_codecvt_ids.dll",
+          "sha256": "ae8d922b00cdd93e3ebecc37beb46c800f383ebdeb9f9e5b84e04a72428b6fb3"
+        },
+        {
+          "file": "msvcp140.dll",
+          "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb"
+        },
+        {
+          "file": "vccorlib140.dll",
+          "sha256": "6b8d8a76c3e6664293407553650e60b94df9aaafc7c92057ea83032bd228e44f"
+        },
+        {
+          "file": "vcruntime140_1.dll",
+          "sha256": "e6bfb3662ab4b1969a73441dbe35c96d51441b6bff8cf1fe7430bd5b246ca605"
+        },
+        {
+          "file": "vcruntime140_threads.dll",
+          "sha256": "a6222020b500a9a86b36e040c2dbd0e459716db1bf2810a11cd7512ea9b8d89b"
+        },
+        {
+          "file": "vcruntime140.dll",
+          "sha256": "184146852727a9db4eea06178716bec3cdbb1015c911f6b0f915b184ad7775b2"
+        }
+      ]
+    },
+    "scope": "Static PE imports including delay imports, bundled assets and notices; current Windows System32/API contracts. Does not establish clean Windows, all dynamic plugin use, or legal approval."
+  },
+  "source_CI": {
+    "conclusion": "success",
+    "databaseId": 38183852215,
+    "headSha": "c77599a79989eb2d702c409e240b4d37a2457fb2",
+    "status": "completed",
+    "workflowName": "Source checks"
+  },
+  "criterion_sha256": "1ac4f62edf2325101e0c8d0230a339518d6ae449eafd74fec2f5351fea968818",
+  "candidate_status": {
+    "working": "tested",
+    "fixed_dev35_preserved": true,
+    "new_fixed_candidate": "未実行",
+    "ZIP": "未実行",
+    "actual_extracted_launch": "未実行",
+    "reason": "Consolidate the feature group before next distribution update; preserve current verified candidates"
+  },
+  "failures_preserved": [
+    "M5 aggregate r1 missing unexecuted",
+    "M5 aggregate r2 missing criteria_sha256",
+    "Form independent initial missing Python fontTools path; inspection unexecuted until recovery"
+  ],
+  "unexecuted": [
+    "Native IME/OS clipboard/DPI",
+    "Clean Windows",
+    "Reader/Word real UI",
+    "Physical printing",
+    "Actual full volume",
+    "Third-party/Acrobat comparison",
+    "Final performance/shipping/licensing",
+    "New executable network-zero",
+    "pdftotext",
+    "General M5/M6, multiline mixed-font reflow, Office layout/table restoration, complex OCR R01, accessibility repair/readout"
+  ],
+  "record_policy": "Fixed dev35 and older distributions protected; dev36 raw executable and all input/target/full/failed orchestration evidence preserved; no new ZIP"
+}

@@ -1,0 +1,108 @@
+{
+  "version": "0.5.0-dev33",
+  "status": "PASS for frozen whole-glyph profile; general M5 acceptance not declared",
+  "source_commit": "5e56c684c11c5417a05e5f464ef055734fb1dafd",
+  "executable_sha256": "1f50e46e3fce549d021686d19d9624f233b76fc04f7abf55b4a7e5e25caafeba",
+  "cohort": {
+    "status": "PASS",
+    "executable_sha256": "1f50e46e3fce549d021686d19d9624f233b76fc04f7abf55b4a7e5e25caafeba",
+    "normal_including_layout": 235,
+    "additional_windows_tests": 2,
+    "total": 237,
+    "old236_names_preserved": true,
+    "runs": [
+      "evidence/m5-dev33-full-20261012",
+      "evidence/m5-dev33-windows-denied-20261012",
+      "evidence/m5-dev33-windows-printer-20261012"
+    ],
+    "full_suite_completed_runs": 1
+  },
+  "independent": {
+    "status": "PASS",
+    "success_outputs": 118,
+    "new_success_outputs": 24,
+    "retained_old_success_outputs": 94,
+    "refusal_absence_checks": 6,
+    "additional_probe": 1,
+    "app_sha256": "1f50e46e3fce549d021686d19d9624f233b76fc04f7abf55b4a7e5e25caafeba"
+  },
+  "M1_independent_count": 32,
+  "legacy_copy": 12,
+  "legacy_scan": 2,
+  "static_audit": {
+    "PE": 77,
+    "assets": 9,
+    "notices": 106
+  },
+  "format": {
+    "CXX": 362,
+    "Python": 143
+  },
+  "source_CI": [
+    {
+      "conclusion": "success",
+      "databaseId": 38175499115,
+      "headSha": "5e56c684c11c5417a05e5f464ef055734fb1dafd",
+      "status": "completed"
+    }
+  ],
+  "fixed_target_names": 31,
+  "actual_ZIP_extracted_target_names": 31,
+  "archive": {
+    "all_files_match": true,
+    "files": 665,
+    "exe_sha256": "1f50e46e3fce549d021686d19d9624f233b76fc04f7abf55b4a7e5e25caafeba",
+    "zip_sha256": "86462b4262ac200141e09672129d2704a282bbd5daa8123a427a09d945e91dc7",
+    "zip_bytes": 153739700,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "extraction": {
+    "status": "PASS",
+    "actual_app_files": 662,
+    "manifest_files": 661,
+    "executable_sha256": "1f50e46e3fce549d021686d19d9624f233b76fc04f7abf55b4a7e5e25caafeba",
+    "archive_sha256": "86462b4262ac200141e09672129d2704a282bbd5daa8123a427a09d945e91dc7",
+    "scope": "Complete application extracted from actual ZIP; every extracted byte and manifest entry matched. Qt source members already verified, not redundantly extracted."
+  },
+  "protected_current_failure_input_files": 283,
+  "protected_previous_failure_input_files": 184,
+  "v1_boundary": {
+    "status": "Boundary observed; v1 planned success conditions remain unaccepted",
+    "accepted": [
+      "Helvetica-middle.pdf",
+      "Helvetica-leading.pdf",
+      "Helvetica-Bold-middle.pdf",
+      "Helvetica-Bold-leading.pdf",
+      "Helvetica-Oblique-middle.pdf",
+      "Helvetica-Oblique-leading.pdf",
+      "Helvetica-BoldOblique-middle.pdf",
+      "Helvetica-BoldOblique-leading.pdf",
+      "Times-Roman-middle.pdf",
+      "Times-Roman-leading.pdf",
+      "Times-Bold-middle.pdf",
+      "Times-Bold-leading.pdf",
+      "Times-Italic-middle.pdf",
+      "Times-Italic-leading.pdf",
+      "Times-BoldItalic-middle.pdf",
+      "Times-BoldItalic-leading.pdf"
+    ],
+    "refused": [
+      "Courier-middle.pdf",
+      "Courier-leading.pdf",
+      "Courier-Bold-middle.pdf",
+      "Courier-Bold-leading.pdf",
+      "Courier-Oblique-middle.pdf",
+      "Courier-Oblique-leading.pdf",
+      "Courier-BoldOblique-middle.pdf",
+      "Courier-BoldOblique-leading.pdf"
+    ],
+    "accepted_count": 16,
+    "refused_count": 8,
+    "scope": "Original single-renderer source regions retained; partial app glyphs refused; not added to fixed app PASS count"
+  },
+  "region_provenance": "v1 source inputs and planned expectations retained unaccepted; v2 uses original Qt/PDFium whole ink before implementation, not redacted output; no threshold change",
+  "native_and_external": "Native IME/clipboard/DPI, Reader/Word UI, clean Windows, physical print, actual full disk, third-party/Acrobat comparison, final performance/shipping and new-exe zero-network remain unexecuted/unaccepted",
+  "general_remaining": "M5 general formats/DR-DA/forms/partial glyphs/paths/transparency/clips; M6 general editing/Office reverse/table/complex OCR/accessibility; old 16-22 not current remaining",
+  "binary_publication": false,
+  "merge": false
+}

@@ -1,0 +1,504 @@
+{
+  "version": "0.2.0-rc3",
+  "date": "2026-10-07",
+  "executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+  "scope": "Windows 11 Home 25H2 x64 on development PC; Qt 6.9.3 offscreen except separately recorded native UI",
+  "full_acceptance": "not declared; unexecuted contract items retained",
+  "regression": {
+    "pass": 71,
+    "fail": 0,
+    "process_exit": 0,
+    "completed": true,
+    "tests": [
+      {
+        "name": "Reading_device_image_decode",
+        "status": "PASS"
+      },
+      {
+        "name": "C07_OCR_job_cleanup",
+        "status": "PASS"
+      },
+      {
+        "name": "B01_writing_roundtrip",
+        "status": "PASS"
+      },
+      {
+        "name": "B01_writing_coordinates",
+        "status": "PASS"
+      },
+      {
+        "name": "B01_writing_UI",
+        "status": "PASS"
+      },
+      {
+        "name": "B01_signature_library",
+        "status": "PASS"
+      },
+      {
+        "name": "B04_page_arrange",
+        "status": "PASS"
+      },
+      {
+        "name": "B05_page_merge_insert",
+        "status": "PASS"
+      },
+      {
+        "name": "B06_page_exports",
+        "status": "PASS"
+      },
+      {
+        "name": "B04_page_organizer_UI",
+        "status": "PASS"
+      },
+      {
+        "name": "B03_form_values",
+        "status": "PASS"
+      },
+      {
+        "name": "B03_form_input_UI",
+        "status": "PASS"
+      },
+      {
+        "name": "B03_form_keyboard",
+        "status": "PASS"
+      },
+      {
+        "name": "M2_visible_panel_lifetime",
+        "status": "PASS"
+      },
+      {
+        "name": "B02_annotations",
+        "status": "PASS"
+      },
+      {
+        "name": "B02_annotations_UI",
+        "status": "PASS"
+      },
+      {
+        "name": "B08_combined_workflow",
+        "status": "PASS"
+      },
+      {
+        "name": "Navigation_bookmarks",
+        "status": "PASS"
+      },
+      {
+        "name": "Navigation_links",
+        "status": "PASS"
+      },
+      {
+        "name": "Navigation_lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "Reading_page_input",
+        "status": "PASS"
+      },
+      {
+        "name": "Reading_focus_layout",
+        "status": "PASS"
+      },
+      {
+        "name": "Reading_OCR_cancel",
+        "status": "PASS"
+      },
+      {
+        "name": "Reading_initial_panels",
+        "status": "PASS"
+      },
+      {
+        "name": "Reading_compiler_startup",
+        "status": "PASS"
+      },
+      {
+        "name": "Reading_image_navigation",
+        "status": "PASS"
+      },
+      {
+        "name": "Pan_navigation",
+        "status": "PASS"
+      },
+      {
+        "name": "Pan_input",
+        "status": "PASS"
+      },
+      {
+        "name": "Pan_lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection_ranges",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection_autoscroll",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection_lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection_words",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection_word_boundaries",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection_word_lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "Viewer_page_previews",
+        "status": "PASS"
+      },
+      {
+        "name": "Search_occurrences_history",
+        "status": "PASS"
+      },
+      {
+        "name": "Search_generation_lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "Search_IME_commit",
+        "status": "PASS"
+      },
+      {
+        "name": "Viewer_continuous_navigation",
+        "status": "PASS"
+      },
+      {
+        "name": "Viewer_crop_rotation_userunit",
+        "status": "PASS"
+      },
+      {
+        "name": "Viewer_signature_save_undo",
+        "status": "PASS"
+      },
+      {
+        "name": "A01_UI_layout_review",
+        "status": "PASS"
+      },
+      {
+        "name": "A01_document_and_UI",
+        "status": "PASS"
+      },
+      {
+        "name": "A01_search_highlight_lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "A02_UI_pointer_drag_undo_copy",
+        "status": "PASS"
+      },
+      {
+        "name": "A02_UI_placement_cancel",
+        "status": "PASS"
+      },
+      {
+        "name": "A02_A03_UI_signature_identity",
+        "status": "PASS"
+      },
+      {
+        "name": "A02_UI_drag_interrupted",
+        "status": "PASS"
+      },
+      {
+        "name": "A02_A03_signature_roundtrip",
+        "status": "PASS"
+      },
+      {
+        "name": "A04_rotations_crop_userunit",
+        "status": "PASS"
+      },
+      {
+        "name": "A05_OCR_eight_pages",
+        "status": "PASS"
+      },
+      {
+        "name": "A05_A08_same_window_OCR_search_copy_save",
+        "status": "PASS"
+      },
+      {
+        "name": "A06_mixed_pages_and_content",
+        "status": "PASS"
+      },
+      {
+        "name": "A07_existing_OCR_blank_photo",
+        "status": "PASS"
+      },
+      {
+        "name": "A08_signature_rotate_OCR_undo_redo",
+        "status": "PASS"
+      },
+      {
+        "name": "A09_cancel_after_first_page",
+        "status": "PASS"
+      },
+      {
+        "name": "A09_worker_crash",
+        "status": "PASS"
+      },
+      {
+        "name": "A09_UI_cancel_and_cleanup",
+        "status": "PASS"
+      },
+      {
+        "name": "A10_save_conflict_path_case",
+        "status": "PASS"
+      },
+      {
+        "name": "A10_save_conflict_and_readonly",
+        "status": "PASS"
+      },
+      {
+        "name": "A10_save_dialog_cancel",
+        "status": "PASS"
+      },
+      {
+        "name": "A10_UI_close_unsaved",
+        "status": "PASS"
+      },
+      {
+        "name": "A10_NTFS_access_denied",
+        "status": "PASS"
+      },
+      {
+        "name": "A03_Windows_PDF_printer",
+        "status": "PASS"
+      },
+      {
+        "name": "A11_UI_open_error_routing",
+        "status": "PASS"
+      },
+      {
+        "name": "A11_protected_and_invalid",
+        "status": "PASS"
+      },
+      {
+        "name": "D07_form_annotation_link_outline_preservation",
+        "status": "PASS"
+      },
+      {
+        "name": "A03_annotation_print_flags",
+        "status": "PASS"
+      },
+      {
+        "name": "A03_print_page_selection",
+        "status": "PASS"
+      },
+      {
+        "name": "A03_Qt_PDF_print_path",
+        "status": "PASS"
+      }
+    ]
+  },
+  "OCR_evaluation": {
+    "jpn": {
+      "CER": 0.005050505050505051,
+      "CER_status": "PASS",
+      "search_found": 20,
+      "search_status": "PASS"
+    },
+    "eng": {
+      "CER": 0.0004553734061930783,
+      "CER_status": "PASS",
+      "search_found": 20,
+      "search_status": "PASS"
+    }
+  },
+  "Firefox_DOM_evaluation": {
+    "jpn": {
+      "CER": 0.005050505050505051,
+      "found": 20,
+      "status": "PASS"
+    },
+    "eng": {
+      "CER": 0.007741347905282332,
+      "found": 20,
+      "status": "PASS"
+    }
+  },
+  "OCR_line_alignment_max_mm": 0.9216814676920573,
+  "M2_independent_status": "PASS",
+  "M2_Firefox_status": "PASS",
+  "reading_comparison": {
+    "status": "PASS",
+    "pixel_exact_representative_images": 54,
+    "documents": {
+      "D10-digital-100.pdf": {
+        "baseline": {
+          "p95_ms_each_run": [
+            11,
+            9,
+            10
+          ],
+          "median_of_run_p95_ms": 10,
+          "elapsed_seconds_each_run": [
+            22.94608800000003,
+            21.864541200000076,
+            22.12310560000003
+          ],
+          "median_elapsed_seconds": 22.12310560000003,
+          "peak_RSS_bytes": 70578176
+        },
+        "candidate": {
+          "p95_ms_each_run": [
+            10,
+            10,
+            10
+          ],
+          "median_of_run_p95_ms": 10,
+          "elapsed_seconds_each_run": [
+            22.3112572,
+            22.114766000000145,
+            22.181394800000135
+          ],
+          "median_elapsed_seconds": 22.181394800000135,
+          "peak_RSS_bytes": 70356992
+        }
+      },
+      "D10-image-50.pdf": {
+        "baseline": {
+          "p95_ms_each_run": [
+            245,
+            320,
+            257
+          ],
+          "median_of_run_p95_ms": 257,
+          "elapsed_seconds_each_run": [
+            42.22006190000002,
+            45.91343789999996,
+            44.80582149999998
+          ],
+          "median_elapsed_seconds": 44.80582149999998,
+          "peak_RSS_bytes": 210591744
+        },
+        "candidate": {
+          "p95_ms_each_run": [
+            116,
+            129,
+            105
+          ],
+          "median_of_run_p95_ms": 116,
+          "elapsed_seconds_each_run": [
+            26.614495199999965,
+            26.849929099999827,
+            25.97289170000022
+          ],
+          "median_elapsed_seconds": 26.614495199999965,
+          "peak_RSS_bytes": 217239552
+        }
+      }
+    },
+    "limits": "OS caches and other user activity are not controlled; no physical FPS, cold-cache, long-soak or Acrobat claim"
+  },
+  "startup_and_OCR": {
+    "D01.pdf": {
+      "median_first_readable_ms": 92,
+      "peak_rss_bytes": 47607808
+    },
+    "D10-digital-100.pdf": {
+      "median_first_readable_ms": 118,
+      "peak_rss_bytes": 49278976
+    },
+    "D10-image-50.pdf": {
+      "median_first_readable_ms": 207,
+      "peak_rss_bytes": 151621632
+    },
+    "same-window-OCR": {
+      "median_seconds": 6.767403300000069,
+      "peak_rss_bytes": 282697728
+    }
+  },
+  "startup_cleanup": {
+    "status": "PASS",
+    "process_exit": 0,
+    "executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+    "abandoned_removed": true,
+    "unmarked_preserved": true,
+    "different_marker_preserved": true,
+    "directory_junction_preserved": true,
+    "nested_junction_preserved": true,
+    "linked_payload_unchanged": true,
+    "scope": "Actual packaged Windows app startup with isolated process TEMP/TMP and real NTFS junctions; not clean/offline acceptance"
+  },
+  "native_signature_UI": {
+    "status": "PASS",
+    "version": "0.2.0-rc3",
+    "executable_sha256": "05591d1f9e0151efd28570be6dd08e3af8615baca2d00cadc7c4e75968ff701b",
+    "scope": "Native Windows UI through Computer Use on same development PC",
+    "observed": [
+      "D01 opened",
+      "IME roman keys yamada -> conversion 山田 -> commit",
+      "literal Unicode remainder and multiline input with 髙",
+      "signature placed",
+      "signature drag",
+      "move Undo",
+      "move Redo",
+      "native Save As dialog completed",
+      "saved PDF reopened using native Open dialog",
+      "saved signature dragged again",
+      "Ctrl+S completed",
+      "own test window closed; IME toggled back"
+    ],
+    "IME_product": "not recorded",
+    "first_saved_sha256": "9d84bb0978379a17d2826fedc7b5c3c9f20f395ed49f6bb46f123b9903dc1f29",
+    "final_saved_sha256": "a6e06a41588fd5d08d55a9e2a380d8cd966df259ee247744fc24d0bbefbd3458",
+    "final_signature_count": 1,
+    "PDFium_final_render": true,
+    "pypdf_Contents_and_AP_verified": true,
+    "unexecuted": [
+      "full signature entirely entered through IME",
+      "OS display-scale 100/150/200 percent",
+      "multiple IME products",
+      "native GUI OCR flow for this RC3 executable",
+      "third-party uninstructed trial"
+    ]
+  },
+  "real_scan_diagnostics": [
+    {
+      "id": "R01",
+      "CER": 0.9933774834437086,
+      "search_found": 0,
+      "search_total": 4,
+      "visible_content_unchanged": true
+    },
+    {
+      "id": "R02",
+      "CER": 0.0032679738562091504,
+      "search_found": 3,
+      "search_total": 4,
+      "visible_content_unchanged": true
+    }
+  ],
+  "evidence_sha256": {
+    "m3-rc3-regression-20261007/selftest.json": "74f8c7f4b1eae88920c9d39ac81d87cddd74aab9495714dfaa538f963a353176",
+    "m3-rc3-regression-20261007/process-result.json": "57f8063c073d64bbef79e510f0c4d93ef10c4de8f5a1b58b7ae897902a8f0a0d",
+    "m3-rc3-regression-20261007/independent-verification.json": "a6755e05e46cc99787cec34fb9e3c022681956628f15478f16e2be17c167e138",
+    "m3-rc3-regression-20261007/independent-m2.json": "281ee67f6596b4672dff549c8191dedb8d2797d6317b1135d4a9723033ad416b",
+    "m3-rc3-reading-comparison-20261007.json": "925e8151f8d05af9369ff7e4979be313364043063b721ed78aa35dc9d8bdac51",
+    "m3-rc3-startup-cleanup-20261007/startup-cleanup.json": "56e1e4036462b530fda225dc09afbc61af5e163fd87e0ac39b093d5e0aa71fdf",
+    "m3-rc3-performance-20261007/measurements.json": "5ab06f3f2b2c4cf037f6e7c0e2d28ffb9a911eaa04a3d74ba374aea060712456",
+    "m3-rc3-native-20261007/result.json": "4172b5a411067dde6ac39322bd9bee77f1df22d1af4b884c7d128f7b51df16f8",
+    "m3-rc3-firefox-20261007/firefox-verification.json": "efa01987bc10a43db0c096c8a573a69ff4d36a856be3efbd114002cd57242b9d",
+    "m3-rc3-firefox-m2-20261007/firefox-m2.json": "17ecc660edb5a080cc4812079808a910df1faff8a55aacf7b4ac91b09a93318c",
+    "m3-rc3-real-scans-20261007/real-scans.json": "39a1d9c1b82af2fa979676e909525844a7e37fd091563715e691a2f7980b29ec"
+  },
+  "unexecuted": [
+    "clean Windows without development tools",
+    "network-disabled A02/A05",
+    "real full isolated volume",
+    "Adobe Reader native GUI",
+    "physical printer",
+    "OS 100/150/200 percent display scaling",
+    "multiple IME products",
+    "uninstructed third-party trial",
+    "modern horizontal Japanese physical scan",
+    "cold-cache and long-soak",
+    "Acrobat comparison"
+  ]
+}

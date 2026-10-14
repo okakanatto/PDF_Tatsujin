@@ -1,0 +1,149 @@
+{
+  "version": "0.5.0-dev40",
+  "status": "TESTS_PASS_WITH_UNEXECUTED_SCOPE",
+  "product_source_commit": "e38bced33eaf0a9080a14e3a04d738b88c7c9303",
+  "executable": "evidence/dev40-PDFTatsujin.exe",
+  "executable_sha256": "17aefe3f66e23f4b61a169b44c361f5b74f95cbb558e49c1cd43685d3674c544",
+  "fixed_candidate": "dev35",
+  "runtime_reused": "dev36",
+  "new_zip_and_expansion": "unexecuted",
+  "criteria": {
+    "path": "fixtures/redaction-copy/cvt-references-v1/criteria.json",
+    "sha256": "1234729946a784d36e2d32bca4fc1e10642b01c3e900539996f236a440858be7",
+    "cases": 34,
+    "success": 13,
+    "refusal": 21,
+    "files": 36,
+    "bytes": 1071145,
+    "regenerated_byte_exact": true
+  },
+  "full_regression": {
+    "completed": true,
+    "exit_code": 0,
+    "tests": 256,
+    "old_test_count": 253,
+    "old_tests_retained": true,
+    "acl_restored": true,
+    "native_PDF_printer": true,
+    "physical_print": "unexecuted",
+    "run": "evidence/m5-dev40-full-native-r1-20261012",
+    "process_sha256": "f05678841e3eecc4a1a06e2fcab5bc3e35a1054451706a2735962c444f2fa63e",
+    "selftest_sha256": "6c3b4bbd328525c6346961ba4c528d2c5b0166d73486edd038da83147ef0a7c1"
+  },
+  "independent": [
+    {
+      "path": "evidence/dev40-independent-cvt-final.json",
+      "sha256": "eca5f84611d0f0b659cca411f40b9a60c095dd7897384702d0afb4a77bbfc552",
+      "passed": 41,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev40-independent-hinting-final.json",
+      "sha256": "7a8036582daf20288c219238a62d9c14023963fd6b05240bb400569ce518141f",
+      "passed": 31,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev40-independent-boundaries-final.json",
+      "sha256": "ee65c313779c880a95ab43ae75a040aade02b4d7b907db7ffc349a2e2c506c93",
+      "passed": 18,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev40-M5-independent-summary-final.json",
+      "sha256": "4f19e2576a0fd7e690db2568651dbf885e2b9cac2339218ba7c18043df7ef0f8",
+      "passed": 124,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev40-editing-independent-summary-final.json",
+      "sha256": "ac59d1c478e4688f8817e47f768affa1f05ea3a7feaad2083019a948f6963fce",
+      "passed": 160,
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/dev40-M1-independent-summary-final.json",
+      "sha256": "49e70e14198cb7cc6d2feaa6d38c61ba21f95f20f86ecf42ec71a55597fd5e97",
+      "passed": 26,
+      "status": "PASS"
+    }
+  ],
+  "M5_existing_modes": {
+    "reused_groups": 18,
+    "reused_conditions": 111,
+    "reexecuted_groups": 1,
+    "fresh_conditions": 13,
+    "case_aux_comparisons": 161,
+    "refusal_absence_checks": 42,
+    "refusal_checks_added_to_condition_count": false
+  },
+  "editing_modes": {
+    "reused_groups": 0,
+    "reexecuted_groups": 9,
+    "fresh_conditions": 160,
+    "generated_reference_PDFs": 321,
+    "generated_reference_bytes": 16028625,
+    "all_nine_have_both_engine_raster": false
+  },
+  "CVT": {
+    "local_dense_values_only": true,
+    "equal_values_at_distinct_old_indices_remain_distinct": true,
+    "final_same_source_reachability_witness": true,
+    "unknown_grammar_nonreflecting_refusal": true,
+    "fresh_negative_conditions": 5,
+    "position_error_max_pt": 0.28594970703125,
+    "position_error_threshold_pt": 0.5,
+    "outside_pixel_difference": 0,
+    "rectangle_boundary_px": 1,
+    "dpi": [
+      72,
+      96,
+      300
+    ]
+  },
+  "MIAP_effect": {
+    "PDFium72_changed_pixels": 56,
+    "PDFium96_changed_pixels": 86,
+    "Poppler72_changed_pixels": 0,
+    "Poppler96_changed_pixels": 0,
+    "Poppler_effect": "unobserved"
+  },
+  "M1": {
+    "limited_PASS_status_fields": 26,
+    "non_search_boolean_checks": 7,
+    "CER_jpn": 0.005050505050505051,
+    "CER_eng": 0.0004553734061930783,
+    "search_each_language": 20,
+    "search_total": 20,
+    "thresholds": {
+      "CER_jpn": 0.02,
+      "CER_eng": 0.01,
+      "search_each_language": 19,
+      "search_total": 20,
+      "position_max_mm": 2
+    },
+    "general_acceptance": "withheld"
+  },
+  "independent_implementer_separated": true,
+  "parent_integration": {
+    "path": "evidence/dev40-parent-sha-reconciliation.json",
+    "sha256": "b1a6a8fcf839858470bad6173381ee7b5425ad7342231a77ed49fe07558e7950"
+  },
+  "source_CI": {
+    "run_id": 38252057621,
+    "conclusion": "success"
+  },
+  "general_M5_acceptance": "withheld",
+  "remaining": [
+    "Dense CVT255/256 and source32767/negative32768 frozen boundaries: unexecuted design",
+    "4096 instruction drawing effect remains unobserved",
+    "General TrueType/fpgm/prep/CFF/variable fonts/CMap/DR/DA/sharedForms/redaction graphics",
+    "General text/images/Office inverse conversion/complex tables/OCR R01/accessibility",
+    "Native IME/OS clipboard/DPI/external GUIs/clean Windows/physical printing/full-volume failure/user evaluation/full performance/distribution audits"
+  ],
+  "next_designs": [
+    "docs/design/REDACTION_CVT_INDEX_BOUNDARIES.md"
+  ],
+  "dedup_plan_actual_savings_bytes": 0,
+  "recorded_at_utc": "2026-10-12T14:28:52.020846+00:00"
+}

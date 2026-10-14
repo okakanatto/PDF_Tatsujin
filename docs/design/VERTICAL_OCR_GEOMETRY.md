@@ -1,0 +1,15 @@
+# 縦書きOCRのCropBoxとページ単位
+
+未回転ページでは認識画像をPDF座標の300dpiで作る。物理的なUserUnitを認識時の字形サイズへ混ぜず、Probeの可視文字マスクと墨消し黒領域、生成する不可視文字層を同じ座標尺度へ揃える。元のCropBox・UserUnit・画像・注釈・署名を通常保存で保持する。水平OCRの既存処理は維持する。
+
+認識尺度は300/72/UserUnit、文字層の大きさはCropBoxのPDF座標幅・高さである。共通のpageMatrix／renderPageが最後にUserUnitを掛けるため、認識画像はページ単位に依存せず正立する。合成時には元CropBoxの原点を付け、UserUnitを変えない。モデル・文字・必要資産や既存の描画上限を削らない。
+
+標準入力に加え、回転なし・CropBox[30,20,580,820]・UserUnit1.5を実装前に別の固定条件へ追加した。元の33文字、3検索語、2mm位置、可視画素差0を維持する。固定SHAはvertical_ocr_fixtures.pyとソース検査に記録する。元の回転90の複合条件・そのFAILは別に保持し、新しい未回転条件の成功で置き換えない。
+
+UI試験は実際の言語選択、OCR、署名保持、検索位置、選択コピー、Undo／Redo、保存・再読込・再編集、保存後の幾何情報を検査する。独立PDFium／pypdfは元PDF座標の文字矩形をUserUnitで物理ポイントへ換算する。Popplerは全ページの可視画素を照合する。Firefoxは未回転のtextLayer原点から測ったDOMハイライトを実viewport.scaleで物理ポイントへ戻す。ページ枠や回転CSS矩形を原点へ混ぜない。
+
+dev19では回転ページを開始前とワーカーでジョブ全体を拒否し、未保存変更を保持した。認識倍率だけの診断はPDFiumの並べ替えで列内が逆順になり、単純な列TJもFirefoxの2mm位置が未達だった。これらのFAILとActualTextの不採用を保持する。dev20では別の標準列構成と一致する字体送り幅を実装し、元の回転90条件で実UI、PDFium／pypdf、PopplerとFirefoxの保存・再編集が成功した。[回転90の設計](VERTICAL_OCR_ROTATION.md)。180・270度は未対応として拒否する。[PDFiumの文字処理](https://pdfium.googlesource.com/pdfium/+/refs/heads/main/core/fpdftext/cpdf_textpage.cpp)は調査だけで、コードは取り込まない。
+
+固定入力での成功を一般の原稿精度やタグ／アクセシビリティの合格としない。回転、ルビ・旧字体R01、ネイティブGUI・IME・OSクリップボード等は引き続き追跡する。実行前後の失敗と診断生成・換算の訂正は試験記録に残す。
+
+dev21では実装前に別入力として凍結した180度・270度条件を追加し、製品の実OCR・UI・取消、保存／再編集後のPDFium／pypdf・Poppler・Firefoxで検証した。認識・文字層のPDF座標と元のCropBox・UserUnit・Rotateを同じ経路で保持する。上記のdev19・dev20の未対応とFAILは当時の履歴であり、新しい成功へ書き換えない。一般の複雑原稿R01とネイティブ環境等の未評価は維持する。

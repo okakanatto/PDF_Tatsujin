@@ -1,0 +1,85 @@
+{
+  "files": {
+    "page.pdf": "752744b53cbaae4574d00023d086f2d32c499bbf0ef7305b22baf23150ba6397",
+    "rotated.pdf": "21f450537e82f8480dbaa5990076eef18a16cb049473c0f064f109c3ff845a60",
+    "td.pdf": "1a445f33e1defb8d4e37e1d017b347ca8ed79a151fdc8abfc34003db17a2b8b9",
+    "shared.pdf": "422277d87527efaa59690e52b8fb8ebf3e05328e8d5bc59df57e51f1c037d301",
+    "inherited.pdf": "2c16c59160bf049ec551795cc549378e3e8d88b49a02b7778b9c9a4c0d305367",
+    "horizontal-refused.pdf": "119f1bbd26b3a1e33839d5e15aece7f4e92b63cb52ae265976f8a6989db20689",
+    "repeat-refused.pdf": "87b57dcce388590766239aeef3eac6f81ed0b6755b6df775ff5b3ee79c463b79",
+    "leading-refused.pdf": "277815ebc839091bffe5015ad339c24af02e6d9b4363539b33ead24785fe9ae7",
+    "position-refused.pdf": "74f7ff32304fe212d279e7421a20dbeee8efc4b6a7fae21435153c87d3d6cfa2",
+    "spacing-refused.pdf": "2aeda0c0e8b6e9be6bdef83fe098acc60c5637539f1ebccf3af31368b16a7e78",
+    "bbox-refused.pdf": "19c10de5ea75d010bf52e630fbda62e3143ffb874a17b30fa187e4ea38fc5f9a",
+    "cycle-refused.pdf": "c76d3955139e9b420038fb95effbccd95c108ee4d6a127fed2adddd0773850bf",
+    "group-refused.pdf": "0b4511330e8ae9ab5d9629cb02cdc2ea3fae8f9af2ee052834a4764f2926d195",
+    "clip-refused.pdf": "777b3756f7dff25749788941378fe94a8a94ae0c18134824daa5341c684f4a32"
+  },
+  "source_inputs": {
+    "page.pdf": "4fa6b235a3350b951edcf0ee89ff03b66ce64dbda2219b1f4f2a10fd4a935d9c",
+    "rotated.pdf": "69c5c2372fe59f7210eecfc3dd3efc8c4c644467b5e8e729de49ceef1440e45d",
+    "shared.pdf": "1ae0a9df4de573c3b000002b4bd855ef45f9d31430a84eb376059b1c52907abd",
+    "inherited.pdf": "5852b90e71a64f1888d14ad89a1ff12f36ad9c2fc941e93051a99abb902ee231",
+    "spacing-refused.pdf": "acd2f18b1da35a7be0c01a71994736cb91917e24e5063309926c1f803c2d2d8e",
+    "cycle-refused.pdf": "8d6b106692a1aca77aff7766571377194a0f90cc85dec43dd2e4c02186f18ca5",
+    "group-refused.pdf": "a459dbc3869a16eb2c1522ae356313f6f4d66dd23c6ee289fc869e1716dfbc95",
+    "clip-refused.pdf": "fb708ede1959ee572ccf5890f03cbe946a6229decef05e14a6e45942073e11ce"
+  },
+  "positives": {
+    "page": 0,
+    "rotated": 0,
+    "td": 0,
+    "shared": 2,
+    "inherited": 2
+  },
+  "replacements": {
+    "Second ": "Start ",
+    "Bold second": "Bold text",
+    "Suffix second": "End intact",
+    "日本語本文編集します": "編集します日本語本文"
+  },
+  "remove": "Bold second",
+  "reedited": "Bold edit",
+  "following": "FOLLOWING STYLE STATE",
+  "refused": [
+    "cycle-refused",
+    "group-refused",
+    "clip-refused"
+  ],
+  "restricted": [
+    "position-refused",
+    "horizontal-refused",
+    "repeat-refused",
+    "leading-refused",
+    "spacing-refused",
+    "bbox-refused"
+  ],
+  "page_overflow": "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+  "form_overflow": "WWWWWWWWWWWWWWWWWWWWWWWW",
+  "output_cases": [
+    "intro",
+    "bold",
+    "suffix",
+    "japanese",
+    "removed",
+    "saved",
+    "reedited"
+  ],
+  "second_call_cases": [
+    "shared",
+    "inherited"
+  ],
+  "ui_cases": [
+    "replaced",
+    "removed"
+  ],
+  "show_offset": 4,
+  "selected_line": 1,
+  "parts_per_line": 4,
+  "arithmetic_tolerance_pt": 1e-08,
+  "outside_pixels": 0,
+  "raster_dpi": 300,
+  "boundary_pixels": 1,
+  "coordinates": "All real character boxes exactly equal independent source-and-criteria reference; only selected physical line suffix moves",
+  "scope": "Synthetic CC0 relative multiline mixed-font profile; OFL Japanese subset; fixed before product operations; prior input and acceptance unchanged."
+}

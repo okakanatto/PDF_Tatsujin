@@ -1,4 +1,5 @@
 #include "reading_tests.h"
+#include "ui_icons.h"
 #include "window.h"
 #include <QtTest/QTest>
 #include <algorithm>
@@ -433,5 +434,69 @@ QJsonObject testReadingOcrCancel(const QString& fixtures, const QString& output)
             {"unsaved_signature_retained", true},
             {"temporary_removed", true},
             {"saved_signature_reeditable", true}};
+}
+QJsonObject testReadingIcons()
+{
+    const QList<QStyle::StandardPixmap> kinds{QStyle::SP_DialogOpenButton,
+                                              QStyle::SP_DialogSaveButton, QStyle::SP_ArrowBack,
+                                              QStyle::SP_ArrowForward};
+    QHash<int, qint64> identities;
+    for (const auto kind : kinds)
+    {
+        const auto shared = uiIcon(kind);
+        check(!shared.isNull(), "native document icon available");
+        identities[int(kind)] = shared.cacheKey();
+        const auto native = qApp->style()->standardIcon(kind);
+        for (const auto ratio : {1.0, 1.5, 2.0})
+            for (const auto mode : {QIcon::Normal, QIcon::Disabled})
+                check(shared.pixmap({18, 18}, ratio, mode).toImage() ==
+                          native.pixmap({18, 18}, ratio, mode).toImage(),
+                      "shared icon preserves native pixels at each DPR and enabled state");
+    }
+    for (int iteration = 0; iteration < 200; ++iteration)
+        for (const auto kind : kinds)
+            check(uiIcon(kind).cacheKey() == identities[int(kind)],
+                  "repeated lookups reuse an icon engine rather than fill new pixmap keys");
+    for (int iteration = 0; iteration < 2; ++iteration)
+    {
+        Window window;
+        for (const auto name : {"previousView", "nextView"})
+        {
+            const auto action = window.findChild<QAction*>(name);
+            const auto kind =
+                QString(name) == "previousView" ? QStyle::SP_ArrowBack : QStyle::SP_ArrowForward;
+            check(action && action->icon().cacheKey() == identities[int(kind)],
+                  "document windows share the navigation icon");
+            int controls = 0;
+            for (auto button : window.findChildren<QToolButton*>())
+                if (button->defaultAction() == action)
+                {
+                    ++controls;
+                    check(button->icon().cacheKey() == action->icon().cacheKey(),
+                          "left and reading-mode controls inherit their action icon");
+                }
+            check(controls == 2, "both navigation surfaces retain the icon");
+        }
+    }
+    struct PaletteRestore
+    {
+        QPalette original = qApp->palette();
+        ~PaletteRestore()
+        {
+            qApp->setPalette(original);
+        }
+    } restore;
+    auto palette = restore.original;
+    palette.setColor(QPalette::ButtonText, QColor(20, 60, 100));
+    qApp->setPalette(palette);
+    for (const auto kind : kinds)
+        check(uiIcon(kind).pixmap({18, 18}).toImage() ==
+                  qApp->style()->standardIcon(kind).pixmap({18, 18}).toImage(),
+              "palette changes use the current native icon appearance");
+    return {{"shared_icon_kinds", 4},
+            {"repeated_lookups", 800},
+            {"native_pixels_DPR", "1/1.5/2, enabled and disabled"},
+            {"navigation_surfaces", 2},
+            {"palette_change", true}};
 }
 } // namespace tatsu

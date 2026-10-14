@@ -1,0 +1,181 @@
+{
+  "version": "0.5.0-dev37",
+  "status": "PASS_WITH_UNEXECUTED_SCOPE",
+  "source_commit": "bcf63d722827a8c8dfe9465276f417584a2d4525",
+  "executable_sha256": "ca627eba4ada7571916c21d496d1e537eedb15436ef94b9579d8933ae23847cd",
+  "executable": "evidence/dev37-final-PDFTatsujin.exe",
+  "runtime_directory": "dist/PDFTatsujin-0.5.0-dev36-working",
+  "development_runtime_reuse": true,
+  "fixed_candidate": "dev35",
+  "new_distribution_zip_or_extraction": "unexecuted",
+  "criterion_sha256": "7d30fb24b74b61ffd35558f513d68a87d2b21a7871a86eb69161ccb97a629bd7",
+  "application_tests": {
+    "status": "PASS",
+    "total": 249,
+    "normal_including_layout": 247,
+    "additional_windows_tests": 2,
+    "old246_names_preserved": true,
+    "completed_full_suite_invocations": 2,
+    "first_full_suite": {
+      "run": "evidence/m6-dev37-full-root-r1-20261012",
+      "passed": 236,
+      "failed": 10,
+      "exit_code": 1,
+      "process_completed_successfully": false
+    },
+    "final_full_suite": {
+      "run": "evidence/m6-dev37-full-native-r2-20261012",
+      "passed": 249,
+      "failed": 0,
+      "exit_code": 0,
+      "process_completed_successfully": true
+    },
+    "acl_restored": true
+  },
+  "target_operations": {
+    "run": "evidence/m6-dev37-target-root-r1-20261012",
+    "passed": 12,
+    "output_PDFs": 47,
+    "actual_UI_outputs": 2,
+    "cancel_stages": 1337,
+    "other_refusals": 15,
+    "profile": "Fixed positive relative spacing; 2-64 physical lines, 64 shows, 4096 characters; original fonts; shared Form isolation"
+  },
+  "independent_editing": {
+    "status": "PASS",
+    "groups": [
+      {
+        "scope": "flowing-lines",
+        "count": 49,
+        "status": "PASS",
+        "mode": "reexecuted_all_rasters"
+      },
+      {
+        "scope": "flowing-parts",
+        "count": 32,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "styled-form-parts",
+        "count": 26,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "existing-styled-parts",
+        "count": 15,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "existing-text",
+        "count": 10,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "form-text",
+        "count": 7,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "form-images",
+        "count": 7,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "redaction-copy",
+        "count": 12,
+        "status": "PASS",
+        "mode": "reexecuted"
+      },
+      {
+        "scope": "redaction-scan",
+        "count": 2,
+        "status": "PASS",
+        "mode": "reexecuted"
+      }
+    ],
+    "total_conditions": 160,
+    "new_lines_receipt": "evidence/m6-dev37-full-native-r2-20261012/independent-flowing-lines.json",
+    "old_groups_receipt": "evidence/m6-dev37-editing-independent-summary-20261012.json",
+    "thresholds": {
+      "dpi": 300,
+      "boundary_pixels": 1,
+      "outside_changed_pixels": 0,
+      "all_real_coordinates_exact": true,
+      "full_reference_pixels_exact": [
+        "PDFium",
+        "Poppler"
+      ]
+    },
+    "product_output_used_for_reference_or_mask": false
+  },
+  "independent_M1": {
+    "conditions": 32,
+    "status": "PASS",
+    "receipt": "evidence/m6-dev37-full-native-r2-20261012/independent-verification.json",
+    "jpn_CER": 0.005050505050505051,
+    "eng_CER": 0.0004553734061930783,
+    "search_jpn": 20,
+    "search_eng": 20,
+    "thresholds_unchanged": {
+      "CER_jpn": 0.02,
+      "CER_eng": 0.01,
+      "search_each_of20": 19,
+      "position_mm": 2
+    }
+  },
+  "independent_M5": {
+    "status": "PASS",
+    "groups": 19,
+    "conditions": 124,
+    "success_conditions": 118,
+    "absent_refused_outputs": 6,
+    "reexecuted_groups": 1,
+    "reexecuted_conditions": 13,
+    "same_bytes_reused_groups": 18,
+    "rerendering_reused_groups": "unexecuted",
+    "receipt": "evidence/m6-dev37-M5-independent-summary-r3-20261012.json"
+  },
+  "source_style": {
+    "CPP_files": 366,
+    "public_Python_files": 149,
+    "PowerShell_syntax": "PASS",
+    "fixed_source_inputs": "PASS"
+  },
+  "source_CI": {
+    "head_commit": "bcf63d722827a8c8dfe9465276f417584a2d4525",
+    "run_id": 38214974516,
+    "conclusion": "success"
+  },
+  "failures_preserved": [
+    "evidence/m6-dev37-full-root-r1-20261012",
+    "evidence/dev37-native-recovery-Office_interop-20261012",
+    "evidence/m6-dev37-target-root-r1-20261012/independent-flowing-lines.json",
+    "evidence/dev37-independent-lines-r1-evaluator.py",
+    "evidence/dev37-public-python-style-20261012.log"
+  ],
+  "unexecuted": [
+    "native IME/OS clipboard/DPI",
+    "clean Windows offline startup",
+    "Reader/Word GUI",
+    "physical printing",
+    "real volume-full recovery",
+    "third-party first-use and Acrobat comparison",
+    "final performance and distribution licensing",
+    "new executable zero-communication test",
+    "new executable packaged static audit",
+    "dev37 new ZIP/extracted startup"
+  ],
+  "unfinished_feature_groups": [
+    "general true redaction including font preservation and irrecoverability",
+    "general text/image editing",
+    "Office layout reverse conversion and complex table restoration",
+    "complex OCR R01",
+    "tag repair/reading order/screen-reader accessibility"
+  ]
+}

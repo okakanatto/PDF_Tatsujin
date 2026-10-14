@@ -1,0 +1,242 @@
+{
+  "version": "0.5.0-dev34",
+  "status": "PASS within fixed profiles; general M5/M6 and shipping not accepted",
+  "product_source_commit": "b5778dcc28fe9bb18826f25dd910760aa140d449",
+  "executable_sha256": "2433ac8dbe366b015861f6cd1d968fb79a15e55e66b2034af651a7a7128079fd",
+  "app_tests": {
+    "status": "PASS",
+    "executable_sha256": "2433ac8dbe366b015861f6cd1d968fb79a15e55e66b2034af651a7a7128079fd",
+    "normal_including_layout": 238,
+    "additional_windows_tests": 2,
+    "total": 240,
+    "old237_names_preserved": true,
+    "runs": [
+      "evidence/m6-dev34-full-20261012",
+      "evidence/m6-dev34-windows-denied-r2-20261012",
+      "evidence/m6-dev34-windows-printer-20261012"
+    ],
+    "full_suite_completed_runs": 1
+  },
+  "styled_independent_outputs": 15,
+  "prior_body_text_independent_outputs": 10,
+  "prior_form_image_independent_outputs": 7,
+  "redaction_independent_success_outputs": 118,
+  "redaction_refusal_output_absence": 6,
+  "redaction_previous_dev33_empty_glyph_diagnostic": "PASS in protected dev33; not re-executed in dev34",
+  "legacy_redaction_copy_outputs": 12,
+  "legacy_redaction_scan_outputs": 2,
+  "M1_independent": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "jpn_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "jpn_search",
+        "status": "PASS"
+      },
+      {
+        "name": "jpn_selected_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_search",
+        "status": "PASS"
+      },
+      {
+        "name": "eng_selected_CER",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_1",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_2",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_3",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_4",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_5",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_6",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_7",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_alignment_8",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_1",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_2",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_3",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_4",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_5",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_6",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_7",
+        "status": "PASS"
+      },
+      {
+        "name": "OCR_visible_8",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf1",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf2",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D04.pdf3",
+        "status": "PASS"
+      },
+      {
+        "name": "mixed_visible_D05-before.pdf1",
+        "status": "PASS"
+      },
+      {
+        "name": "rotated_alignment",
+        "status": "PASS"
+      },
+      {
+        "name": "Japanese_signature",
+        "status": "PASS"
+      },
+      {
+        "name": "form_values_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_outline_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_links_equal",
+        "status": "PASS"
+      },
+      {
+        "name": "form_comments_equal",
+        "status": "PASS"
+      }
+    ],
+    "count": 32,
+    "executable_sha256": "2433ac8dbe366b015861f6cd1d968fb79a15e55e66b2034af651a7a7128079fd",
+    "input_report": "evidence/m6-dev34-full-20261012/independent-verification.json",
+    "report_sha256": "fdea07a1dde3ff0cc11bac0423af91907c1b17c6e6ad2e49b14daa8d37f79008"
+  },
+  "styled_criterion_sha256": "76781b4b06150f72fcc94d5cf9b693cd4c2485e0a58e0ba78549df5348e1aab9",
+  "source_CI": {
+    "databaseId": 38178674323,
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "b5778dcc28fe9bb18826f25dd910760aa140d449"
+  },
+  "static_audit": "77 PE / 9 assets / 106 notices PASS; developer Windows host, not clean Windows",
+  "runtime_preservation": {
+    "status": "PASS",
+    "components": 86,
+    "unchanged": 85,
+    "changed": [
+      "PDFTatsujin.exe"
+    ],
+    "executable_sha256": "2433ac8dbe366b015861f6cd1d968fb79a15e55e66b2034af651a7a7128079fd"
+  },
+  "protection_count": 30,
+  "previous_protected_input_failure_counts": [
+    184,
+    283
+  ],
+  "preflight_storage": {
+    "MeasuredAt": "2026-10-12T06:59:42.389982+09:00",
+    "Bytes": 26780517960,
+    "GB": 26.781,
+    "AdditionalAuthorizedBytes": 10000000000,
+    "AdditionalUsedBytes": 6780517960,
+    "WithinCombinedLimit": true
+  },
+  "distribution": {
+    "fixed": "PASS",
+    "archive": {
+      "all_files_match": true,
+      "files": 670,
+      "exe_sha256": "2433ac8dbe366b015861f6cd1d968fb79a15e55e66b2034af651a7a7128079fd",
+      "zip_sha256": "7cb1c956f0fdf868c1526da1811753cececbf1ea73ac9e7921676b9736525ffb",
+      "zip_bytes": 153776863,
+      "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+    },
+    "actual_extraction": {
+      "status": "PASS",
+      "actual_app_files": 667,
+      "manifest_files": 666,
+      "executable_sha256": "2433ac8dbe366b015861f6cd1d968fb79a15e55e66b2034af651a7a7128079fd",
+      "archive_sha256": "7cb1c956f0fdf868c1526da1811753cececbf1ea73ac9e7921676b9736525ffb",
+      "scope": "Complete application extracted from actual ZIP; every extracted byte and manifest entry matched. Qt source members already verified, not redundantly extracted."
+    },
+    "fixed_and_extracted_target_tests": 21,
+    "public_binary": "禁止",
+    "binary_publication_performed": false
+  },
+  "unexecuted": [
+    "Native IME/OS clipboard/DPI",
+    "Reader/Word actual GUI",
+    "Clean Windows",
+    "Physical printer",
+    "Actual full volume",
+    "Third-party/Acrobat comparison",
+    "Final performance/redistribution review",
+    "New executable network-zero",
+    "pdftotext"
+  ],
+  "not_accepted": [
+    "General irrecoverable redaction",
+    "General body/image editing including mixed relative flow",
+    "Office reverse/layout/table recovery",
+    "Complex OCR R01",
+    "Accessibility authoring/reading"
+  ],
+  "raw_failures_preserved": [
+    "late cancellation abnormal exit fa9b0fd9",
+    "PDFium generated-whitespace 6 PASS / 9 FAIL diagnosis",
+    "Office setup/missing producer",
+    "Premature M1 empty report preserved and marked unexecuted",
+    "Unmatched Windows filter with no test execution"
+  ]
+}

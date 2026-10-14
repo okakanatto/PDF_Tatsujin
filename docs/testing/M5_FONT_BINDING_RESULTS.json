@@ -1,0 +1,179 @@
+{
+  "version": "0.5.0-dev30",
+  "source_commit": "c181ad032ae36712a180e743f0ac66d9c952aebe",
+  "exe_sha256": "e44eb91c39b0906c2caec2501b80d5079067b7d60f3244c2ad58f64ca02908e3",
+  "normal_including_layout": 230,
+  "additional_windows_tests": 2,
+  "total": 232,
+  "old230_names_preserved": true,
+  "actual_full_suite_runs": 1,
+  "independent_app_redaction_conditions": 81,
+  "additional_diagnostic_probe_conditions": 1,
+  "diagnostic_probe_not_added_to_app_test_names": true,
+  "M1_independent_checks": 32,
+  "legacy_checks": [
+    {
+      "scope": "copy",
+      "count": 12
+    },
+    {
+      "scope": "scan",
+      "count": 2
+    }
+  ],
+  "static_distribution": {
+    "PE": 77,
+    "assets": 9,
+    "notices": 106
+  },
+  "formatting": {
+    "Cpp": 360,
+    "Python": 137
+  },
+  "independent_checks": [
+    {
+      "scope": "binding",
+      "passed": 1,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "binding-followup",
+      "passed": 4,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "aliases",
+      "passed": 9,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "aliases-followup",
+      "passed": 3,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "clips",
+      "passed": 13,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "clips-followup",
+      "passed": 1,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "cmap",
+      "passed": 8,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "cmap-followup",
+      "passed": 4,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "font-tables",
+      "passed": 4,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "shared",
+      "passed": 9,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "paths",
+      "passed": 6,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "followup",
+      "passed": 4,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "partial",
+      "passed": 13,
+      "failed": 0,
+      "unexecuted": 0
+    },
+    {
+      "scope": "composite",
+      "passed": 2,
+      "failed": 0,
+      "unexecuted": 0
+    }
+  ],
+  "baseline": {
+    "version": "dev29",
+    "probe_sha256": "d25f78f7b18e08a2f7fee39a6dd29fe24176911b860ac9dc1f586d7cfaf8f3b5",
+    "accepted_shadow_declarations": 2,
+    "correctly_refused_shadow": 1,
+    "maximum_position_error_pt": 6.605926513671875,
+    "control_PDFium_changed_pixels": 29,
+    "all_failures_preserved": true
+  },
+  "fixed_conditions": {
+    "main_success": 1,
+    "main_refusal": 3,
+    "followup_success": 4
+  },
+  "fixed_inputs": [
+    {
+      "folder": "font-binding-v1",
+      "criteria_sha256": "b167c53f03b5939aae9206d8bf0c38b205790413698e87c93462732b4c07f62b"
+    },
+    {
+      "folder": "font-binding-followup-v1",
+      "criteria_sha256": "7f585559474ea31e06f94c1b1f18c40a575e0b11e7e9dd5741d473d3bc3c9720"
+    }
+  ],
+  "regression_runs": [
+    "evidence/m5-dev30-full-20261012",
+    "evidence/m5-dev30-windows-denied-20261012",
+    "evidence/m5-dev30-windows-printer-20261012"
+  ],
+  "unexecuted": [
+    "Native GUI/IME/OS clipboard/DPI",
+    "Reader/Word GUI",
+    "clean Windows",
+    "physical printing",
+    "real volume full",
+    "third-party/Acrobat comparison",
+    "final performance/shipping evaluation",
+    "new executable zero-network proof",
+    "pdftotext"
+  ],
+  "M5_general_completion": "not declared",
+  "binary_publication": "not authorized",
+  "archive": {
+    "all_files_match": true,
+    "files": 656,
+    "exe_sha256": "e44eb91c39b0906c2caec2501b80d5079067b7d60f3244c2ad58f64ca02908e3",
+    "zip_sha256": "75736c1a9825f8a7906d445a02ab30613f1540ddc819083691af1f6e5a0f7fde",
+    "zip_bytes": 153713353,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "fixed_folder_tests": 26,
+  "actual_ZIP_extracted_tests": 26,
+  "extraction": {
+    "status": "PASS",
+    "actual_app_files": 653,
+    "manifest_files": 652,
+    "executable_sha256": "e44eb91c39b0906c2caec2501b80d5079067b7d60f3244c2ad58f64ca02908e3",
+    "archive_sha256": "75736c1a9825f8a7906d445a02ab30613f1540ddc819083691af1f6e5a0f7fde",
+    "scope": "Complete application extracted from actual ZIP; every extracted byte and manifest entry matched. Qt source members already verified, not redundantly extracted."
+  }
+}

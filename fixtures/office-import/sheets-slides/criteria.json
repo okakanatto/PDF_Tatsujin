@@ -1,0 +1,68 @@
+{
+  "files": {
+    "embedded.pptx": "144969a6336c03053b584eb230432f153947caa6251b9c9e0017309ef90daa53",
+    "external-book.xlsx": "6782eba549b11a88e4502770a85977b623782fd033bd50cad22fafe3e6cc99ab",
+    "external-formula.xlsx": "3c4f1627455a8340de4fe66d7c184bb92f5303d85fad5b733bef670c36c13602",
+    "fixture.png": "a0ede2037f635b3c42f4edb45b87be94888c63176d1062000b2e1d43be88bdc2",
+    "macro.xlsx": "71ffda7ce9b9c67908bf0f5b5eca1c5ffef950db1544ccade635869de937bcb0",
+    "sheets.xlsx": "28e968db6f4b32c1bb2dd16421d7f5170f5a06c540b46fc0a4ff678937bf4fe1",
+    "slides.pptx": "8fc5ed1f7af1c9fdc1d27cd13e6765388a4849911bbbdae2b8302c4c4509e7b9"
+  },
+  "expected_pages": {
+    "sheets.xlsx": [
+      [
+        "日本語の表",
+        "数量",
+        "金額",
+        "項目一",
+        "項目二",
+        "合計",
+        "30",
+        "3600"
+      ],
+      [
+        "English worksheet",
+        "Search and copy text",
+        "Image and print area"
+      ]
+    ],
+    "slides.pptx": [
+      [
+        "日本語のプレゼン資料",
+        "検索とコピーを確認します。"
+      ],
+      [
+        "English presentation",
+        "PowerPoint slides become searchable PDF."
+      ]
+    ]
+  },
+  "page_size_pt": {
+    "sheets.xlsx": [
+      595.3,
+      841.9
+    ],
+    "slides.pptx": [
+      720,
+      405
+    ]
+  },
+  "geometry_tolerance_pt": 0.5,
+  "image_size": [
+    128,
+    64
+  ],
+  "image_rgb_sha256": "52fb5ac6cc0cd39e3b6845e337a15331f17465a639a08052a8371faf16e06d5b",
+  "image_page": {
+    "sheets.xlsx": 1,
+    "slides.pptx": 0
+  },
+  "image_physical_width_pt": 113.38582677165356,
+  "refused": [
+    "macro.xlsx",
+    "embedded.pptx",
+    "external-book.xlsx",
+    "external-formula.xlsx"
+  ],
+  "scope": "Synthetic CC0 text and graphic. Expectations fixed before product conversion; original contracts unchanged."
+}

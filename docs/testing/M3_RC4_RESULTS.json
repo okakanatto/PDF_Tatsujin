@@ -1,0 +1,495 @@
+{
+  "version": "0.2.0-rc4",
+  "date": "2026-10-07",
+  "executable_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+  "product_source_commit": "f42fc036a5417e6c7e8df32d9c7ad9bc8af36089",
+  "runtime": "Desktop x64 Release CRT 14.50.35710",
+  "scope": "Development Windows 11 Home 25H2 x64; Qt offscreen and synthetic input. Native RC4 GUI/IME not executed.",
+  "full_acceptance": "not declared; unchanged contract and remaining conditions tracked",
+  "regression": {
+    "pass": 71,
+    "fail": 0,
+    "exit_code": 0,
+    "completed": true,
+    "tests": [
+      {
+        "name": "Reading_device_image_decode",
+        "status": "PASS",
+        "elapsed_ms": 5
+      },
+      {
+        "name": "C07_OCR_job_cleanup",
+        "status": "PASS",
+        "elapsed_ms": 51
+      },
+      {
+        "name": "B01_writing_roundtrip",
+        "status": "PASS",
+        "elapsed_ms": 182
+      },
+      {
+        "name": "B01_writing_coordinates",
+        "status": "PASS",
+        "elapsed_ms": 164
+      },
+      {
+        "name": "B01_writing_UI",
+        "status": "PASS",
+        "elapsed_ms": 793
+      },
+      {
+        "name": "B01_signature_library",
+        "status": "PASS",
+        "elapsed_ms": 109
+      },
+      {
+        "name": "B04_page_arrange",
+        "status": "PASS",
+        "elapsed_ms": 127
+      },
+      {
+        "name": "B05_page_merge_insert",
+        "status": "PASS",
+        "elapsed_ms": 139
+      },
+      {
+        "name": "B06_page_exports",
+        "status": "PASS",
+        "elapsed_ms": 59
+      },
+      {
+        "name": "B04_page_organizer_UI",
+        "status": "PASS",
+        "elapsed_ms": 589
+      },
+      {
+        "name": "B03_form_values",
+        "status": "PASS",
+        "elapsed_ms": 852
+      },
+      {
+        "name": "B03_form_input_UI",
+        "status": "PASS",
+        "elapsed_ms": 210
+      },
+      {
+        "name": "B03_form_keyboard",
+        "status": "PASS",
+        "elapsed_ms": 156
+      },
+      {
+        "name": "M2_visible_panel_lifetime",
+        "status": "PASS",
+        "elapsed_ms": 429
+      },
+      {
+        "name": "B02_annotations",
+        "status": "PASS",
+        "elapsed_ms": 191
+      },
+      {
+        "name": "B02_annotations_UI",
+        "status": "PASS",
+        "elapsed_ms": 307
+      },
+      {
+        "name": "B08_combined_workflow",
+        "status": "PASS",
+        "elapsed_ms": 6775
+      },
+      {
+        "name": "Navigation_bookmarks",
+        "status": "PASS",
+        "elapsed_ms": 491
+      },
+      {
+        "name": "Navigation_links",
+        "status": "PASS",
+        "elapsed_ms": 223
+      },
+      {
+        "name": "Navigation_lifecycle",
+        "status": "PASS",
+        "elapsed_ms": 327
+      },
+      {
+        "name": "Reading_page_input",
+        "status": "PASS",
+        "elapsed_ms": 310
+      },
+      {
+        "name": "Reading_focus_layout",
+        "status": "PASS",
+        "elapsed_ms": 1488
+      },
+      {
+        "name": "Reading_OCR_cancel",
+        "status": "PASS",
+        "elapsed_ms": 7759
+      },
+      {
+        "name": "Reading_initial_panels",
+        "status": "PASS",
+        "elapsed_ms": 828
+      },
+      {
+        "name": "Reading_compiler_startup",
+        "status": "PASS",
+        "elapsed_ms": 108
+      },
+      {
+        "name": "Reading_image_navigation",
+        "status": "PASS",
+        "elapsed_ms": 1995
+      },
+      {
+        "name": "Pan_navigation",
+        "status": "PASS",
+        "elapsed_ms": 312
+      },
+      {
+        "name": "Pan_input",
+        "status": "PASS",
+        "elapsed_ms": 101
+      },
+      {
+        "name": "Pan_lifecycle",
+        "status": "PASS",
+        "elapsed_ms": 204
+      },
+      {
+        "name": "Selection_ranges",
+        "status": "PASS",
+        "elapsed_ms": 132
+      },
+      {
+        "name": "Selection_autoscroll",
+        "status": "PASS",
+        "elapsed_ms": 2630
+      },
+      {
+        "name": "Selection_lifecycle",
+        "status": "PASS",
+        "elapsed_ms": 162
+      },
+      {
+        "name": "Selection_words",
+        "status": "PASS",
+        "elapsed_ms": 110
+      },
+      {
+        "name": "Selection_word_boundaries",
+        "status": "PASS",
+        "elapsed_ms": 0
+      },
+      {
+        "name": "Selection_word_lifecycle",
+        "status": "PASS",
+        "elapsed_ms": 441
+      },
+      {
+        "name": "Viewer_page_previews",
+        "status": "PASS",
+        "elapsed_ms": 3506
+      },
+      {
+        "name": "Search_occurrences_history",
+        "status": "PASS",
+        "elapsed_ms": 361
+      },
+      {
+        "name": "Search_generation_lifecycle",
+        "status": "PASS",
+        "elapsed_ms": 757
+      },
+      {
+        "name": "Search_IME_commit",
+        "status": "PASS",
+        "elapsed_ms": 339
+      },
+      {
+        "name": "Viewer_continuous_navigation",
+        "status": "PASS",
+        "elapsed_ms": 320
+      },
+      {
+        "name": "Viewer_crop_rotation_userunit",
+        "status": "PASS",
+        "elapsed_ms": 411
+      },
+      {
+        "name": "Viewer_signature_save_undo",
+        "status": "PASS",
+        "elapsed_ms": 413
+      },
+      {
+        "name": "A01_UI_layout_review",
+        "status": "PASS",
+        "elapsed_ms": 596
+      },
+      {
+        "name": "A01_document_and_UI",
+        "status": "PASS",
+        "elapsed_ms": 395
+      },
+      {
+        "name": "A01_search_highlight_lifecycle",
+        "status": "PASS",
+        "elapsed_ms": 218
+      },
+      {
+        "name": "A02_UI_pointer_drag_undo_copy",
+        "status": "PASS",
+        "elapsed_ms": 326
+      },
+      {
+        "name": "A02_UI_placement_cancel",
+        "status": "PASS",
+        "elapsed_ms": 165
+      },
+      {
+        "name": "A02_A03_UI_signature_identity",
+        "status": "PASS",
+        "elapsed_ms": 243
+      },
+      {
+        "name": "A02_UI_drag_interrupted",
+        "status": "PASS",
+        "elapsed_ms": 163
+      },
+      {
+        "name": "A02_A03_signature_roundtrip",
+        "status": "PASS",
+        "elapsed_ms": 99
+      },
+      {
+        "name": "A04_rotations_crop_userunit",
+        "status": "PASS",
+        "elapsed_ms": 112
+      },
+      {
+        "name": "A05_OCR_eight_pages",
+        "status": "PASS",
+        "elapsed_ms": 31248
+      },
+      {
+        "name": "A05_A08_same_window_OCR_search_copy_save",
+        "status": "PASS",
+        "elapsed_ms": 6075
+      },
+      {
+        "name": "A06_mixed_pages_and_content",
+        "status": "PASS",
+        "elapsed_ms": 13543
+      },
+      {
+        "name": "A07_existing_OCR_blank_photo",
+        "status": "PASS",
+        "elapsed_ms": 923
+      },
+      {
+        "name": "A08_signature_rotate_OCR_undo_redo",
+        "status": "PASS",
+        "elapsed_ms": 6091
+      },
+      {
+        "name": "A09_cancel_after_first_page",
+        "status": "PASS",
+        "elapsed_ms": 9303
+      },
+      {
+        "name": "A09_worker_crash",
+        "status": "PASS",
+        "elapsed_ms": 412
+      },
+      {
+        "name": "A09_UI_cancel_and_cleanup",
+        "status": "PASS",
+        "elapsed_ms": 6228
+      },
+      {
+        "name": "A10_save_conflict_path_case",
+        "status": "PASS",
+        "elapsed_ms": 299
+      },
+      {
+        "name": "A10_save_conflict_and_readonly",
+        "status": "PASS",
+        "elapsed_ms": 120
+      },
+      {
+        "name": "A10_save_dialog_cancel",
+        "status": "PASS",
+        "elapsed_ms": 228
+      },
+      {
+        "name": "A10_UI_close_unsaved",
+        "status": "PASS",
+        "elapsed_ms": 269
+      },
+      {
+        "name": "A10_NTFS_access_denied",
+        "status": "PASS",
+        "elapsed_ms": 16
+      },
+      {
+        "name": "A03_Windows_PDF_printer",
+        "status": "PASS",
+        "elapsed_ms": 1395
+      },
+      {
+        "name": "A11_UI_open_error_routing",
+        "status": "PASS",
+        "elapsed_ms": 95
+      },
+      {
+        "name": "A11_protected_and_invalid",
+        "status": "PASS",
+        "elapsed_ms": 67
+      },
+      {
+        "name": "D07_form_annotation_link_outline_preservation",
+        "status": "PASS",
+        "elapsed_ms": 76
+      },
+      {
+        "name": "A03_annotation_print_flags",
+        "status": "PASS",
+        "elapsed_ms": 17
+      },
+      {
+        "name": "A03_print_page_selection",
+        "status": "PASS",
+        "elapsed_ms": 399
+      },
+      {
+        "name": "A03_Qt_PDF_print_path",
+        "status": "PASS",
+        "elapsed_ms": 288
+      }
+    ]
+  },
+  "independent_PDF": {
+    "OCR": {
+      "jpn": {
+        "CER": 0.005050505050505051,
+        "CER_status": "PASS",
+        "search_found": 20,
+        "search_status": "PASS"
+      },
+      "eng": {
+        "CER": 0.0004553734061930783,
+        "CER_status": "PASS",
+        "search_found": 20,
+        "search_status": "PASS"
+      }
+    },
+    "visible_pages_unchanged": 8,
+    "line_alignment_max_mm": 0.9216814676920573,
+    "rotated_line_alignment_mm": 0.7964199490017361,
+    "form_values_links_comments_outline_preserved": true,
+    "M2": "PASS",
+    "Firefox_version": "157.0",
+    "Firefox_OCR": {
+      "jpn": {
+        "CER": 0.005050505050505051,
+        "found": 20,
+        "status": "PASS"
+      },
+      "eng": {
+        "CER": 0.007741347905282332,
+        "found": 20,
+        "status": "PASS"
+      }
+    },
+    "Firefox_M2": "PASS"
+  },
+  "no_network": {
+    "tests_passed": 8,
+    "profile_removed": true,
+    "capabilities": 0,
+    "control_connect": 0,
+    "restricted_connect_error": 10060,
+    "independent_OCR": {
+      "jpn": {
+        "CER": 0.005050505050505051,
+        "CER_status": "PASS",
+        "search_found": 20,
+        "search_status": "PASS"
+      },
+      "eng": {
+        "CER": 0.0004553734061930783,
+        "CER_status": "PASS",
+        "search_found": 20,
+        "search_status": "PASS"
+      }
+    }
+  },
+  "soak": {
+    "elapsed_ms": 902254,
+    "cycles": 94,
+    "pages_visited": 7050,
+    "peak_RSS_bytes": 217264128,
+    "peak_private_bytes": 236957696,
+    "interpretation": "Initial retained memory grows; later growth is smaller. This 15-minute observation does not prove absence of long-term leaks."
+  },
+  "recovery": {
+    "parent_crash": "PASS",
+    "startup_with_junctions": "PASS"
+  },
+  "distribution_audit": {
+    "PE_files": 75,
+    "assets": 6,
+    "notices": 104,
+    "status": "PASS"
+  },
+  "real_scan_diagnostics": [
+    {
+      "id": "R01",
+      "CER": 0.9933774834437086,
+      "search_found": 0,
+      "search_total": 4,
+      "visible_content_unchanged": true
+    },
+    {
+      "id": "R02",
+      "CER": 0.0032679738562091504,
+      "search_found": 3,
+      "search_total": 4,
+      "visible_content_unchanged": true
+    }
+  ],
+  "native_UI_prior_version": "RC3 results retained separately in M3_RC3_REPORT.md; not claimed as RC4 execution",
+  "evidence_sha256": {
+    "m3-rc4-desktop-regression-20261007/selftest.json": "3b0c87abb5f7faf6c4b5bae0223c9e4ca5a595c7efaa7f7adc131c0d67cb0b40",
+    "m3-rc4-desktop-regression-20261007/process-result.json": "2a2b5d9a58daa31099390a62ed4b482de6e7e6ec2302398153da84e4f1ef4905",
+    "m3-rc4-desktop-regression-20261007/independent-verification.json": "b2361e13a90cc7a4458b108bf6a914e407a8d8794e7c44907c39d0970a9b4e05",
+    "m3-rc4-desktop-regression-20261007/independent-m2.json": "8f3a94fb8d3aa394e2a5137f9290bd4b1ecb7ded9cf42092d071e3a26e25b882",
+    "no4-complete/result.json": "aefbe8df6ac62097886c11ef6de423d00c8590177be3f8c24432210641537052",
+    "no4-complete/OCR/independent-verification.json": "8eeb67fa2ae468759db19c64c5590d7971bf60bdb2f70ce287a5c84ad0874e95",
+    "no4-complete/signature/independent-verification.json": "1378e00c05f2f71cf58d76414b9b08f132d8ddb027b0f30a2960de748258ca53",
+    "m3-rc4-desktop-soak-20261007/summary.json": "9f088071fce05a068659553f7d4a243d055913499c80455813b7c1cf4ec7c78d",
+    "m3-rc4-desktop-soak-20261007/memory-samples.json": "7cc4457c1bd7a403cf820e19ae9ba32575f920e43f76d5b500c214e877d7c5e8",
+    "m3-rc4-desktop-soak-20261007/run/cycles.jsonl": "d683cbcb3f5277988822f4c0b7f7af6dfff054c64193e60602a1c21a55b93c91",
+    "m3-rc4-desktop-parent-crash-20261007/result.json": "c8259e495e4c9194a187906f2205ac60460bb456d892133331e60f69e43ad872",
+    "m3-rc4-desktop-cleanup-20261007/startup-cleanup.json": "1acf60bfd68b0c1cf2af7209b7e1a45e86db314f4761eea9a2fcc3ae21e25e8e",
+    "m3-rc4-desktop-audit-20261007.json": "7629b449f23badc6854546412caa327f7c43e9f745d879edefaa00bb930bc327",
+    "m3-rc4-desktop-performance-20261007/measurements.json": "9e750f6ce50f6d390c2efe7e20bf15353646f9ed50630790ad89f42aea84431a",
+    "m3-rc4-desktop-firefox-20261007/firefox-verification.json": "efa01987bc10a43db0c096c8a573a69ff4d36a856be3efbd114002cd57242b9d",
+    "m3-rc4-desktop-firefox-m2-20261007/firefox-m2.json": "17ecc660edb5a080cc4812079808a910df1faff8a55aacf7b4ac91b09a93318c",
+    "m3-rc4-desktop-real-scans-20261007/real-scans.json": "70ecfd6102269216dfda1ff20715035d4b46f8c15644935d96b93413afc2cf15"
+  },
+  "unexecuted": [
+    "clean Windows 11 without development tools",
+    "real full isolated volume",
+    "native RC4 IME/UI flow",
+    "Adobe Reader native GUI",
+    "physical printer",
+    "OS 100/150/200 percent display scale",
+    "uninstructed human trial C02",
+    "modern horizontal Japanese physical scan",
+    "hours-long soak/cold-cache/FPS/Acrobat comparison",
+    "published candidate Windows Server CI smoke"
+  ],
+  "binary_publication": "pending publisher MSVC redistribution eligibility confirmation"
+}

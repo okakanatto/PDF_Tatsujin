@@ -1,0 +1,121 @@
+{
+  "version": "0.5.0-dev27",
+  "source_commit": "8ab9990612e14612ae466a575cb80c6b47bfac48",
+  "exe_sha256": "c88f3ffe9e7337621a3e57a05f2d86631b24027ac0ed9739af850e69fcc47837",
+  "normal_including_layout": 224,
+  "additional_windows_tests": 2,
+  "total": 226,
+  "old223_names_preserved": true,
+  "actual_full_suite_runs": 1,
+  "independent_app_redaction_conditions": 50,
+  "additional_diagnostic_probe_conditions": 1,
+  "diagnostic_probe_not_added_to_app_test_names": true,
+  "M1_independent_checks": 32,
+  "legacy_checks": [
+    {
+      "scope": "copy",
+      "count": 12
+    },
+    {
+      "scope": "scan",
+      "count": 2
+    }
+  ],
+  "fixed_folder_tests": 20,
+  "actual_ZIP_extracted_tests": 20,
+  "archive": {
+    "all_files_match": true,
+    "files": 640,
+    "exe_sha256": "c88f3ffe9e7337621a3e57a05f2d86631b24027ac0ed9739af850e69fcc47837",
+    "zip_sha256": "69cb1ff5ae3f1699f3d33c5370455bbbd7740408444077a1f497878800e626e6",
+    "zip_bytes": 153669096,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "extraction": {
+    "status": "PASS",
+    "actual_app_files": 637,
+    "manifest_files": 636,
+    "executable_sha256": "c88f3ffe9e7337621a3e57a05f2d86631b24027ac0ed9739af850e69fcc47837",
+    "archive_sha256": "69cb1ff5ae3f1699f3d33c5370455bbbd7740408444077a1f497878800e626e6",
+    "scope": "Complete application extracted from actual ZIP; every extracted byte and manifest entry matched. Qt source members already verified, not redundantly extracted."
+  },
+  "explained_additional_10GB": true,
+  "static_audit": {
+    "PE": 77,
+    "assets": 9,
+    "notices": 106
+  },
+  "format_checks": {
+    "Cxx": 360,
+    "Python": 128
+  },
+  "runtime_files_matched_except_main_exe": 85,
+  "reports": [
+    {
+      "path": "evidence/m5-dev27-cmap-independent-20261012.json",
+      "sha256": "f62f9e21bb136fb07f9aa027a42251be088d978367af2be74e864a158716a797",
+      "passed": 8
+    },
+    {
+      "path": "evidence/m5-dev27-cmap-followup-independent-20261012.json",
+      "sha256": "89f22baf137a2d6bf659ab9db7f244a4100f2b6587f143994449ea0b458cc07b",
+      "passed": 4
+    },
+    {
+      "path": "evidence/m5-dev27-font-tables-independent-20261012.json",
+      "sha256": "e0be36b247d2f5df131800f037a8f38c24832a39e93d996ed93c06a9107d15e0",
+      "passed": 4
+    },
+    {
+      "path": "evidence/m5-dev27-shared-independent-20261012.json",
+      "sha256": "e82c51d3f5cada2b17c7085f953ec279ed986f6bbf41d3d27b381629b9080ef0",
+      "passed": 9
+    },
+    {
+      "path": "evidence/m5-dev27-paths-independent-20261012.json",
+      "sha256": "6a3cb76b4dc055dbd00cbf52aea2b362abe3409b6d66d016428b4a8c287ead6f",
+      "passed": 6
+    },
+    {
+      "path": "evidence/m5-dev27-followup-independent-20261012.json",
+      "sha256": "db6907affb17e1e510454097d62c73c461d3e4da9a5ddd413b6c7e8311f35166",
+      "passed": 4
+    },
+    {
+      "path": "evidence/m5-dev27-partial-independent-20261012.json",
+      "sha256": "79ddc70624fd59b0e64b804d2d4fa50d61322da79000be8a77606eb6f8698634",
+      "passed": 13
+    },
+    {
+      "path": "evidence/m5-dev27-composite-independent-20261012.json",
+      "sha256": "b4f4291d752c9fd9ce026df1a1af079138b60380eb307706fff6778de922b8e4",
+      "passed": 2
+    }
+  ],
+  "cohort": {
+    "status": "PASS",
+    "executable_sha256": "c88f3ffe9e7337621a3e57a05f2d86631b24027ac0ed9739af850e69fcc47837",
+    "normal_including_layout": 224,
+    "additional_windows_tests": 2,
+    "total": 226,
+    "old223_names_preserved": true,
+    "runs": [
+      "evidence/m5-dev27-full-20261012",
+      "evidence/m5-dev27-windows-denied-20261012",
+      "evidence/m5-dev27-windows-printer-20261012"
+    ],
+    "full_suite_completed_runs": 1
+  },
+  "CI_product": {
+    "run": 38156183396,
+    "status": "SUCCESS",
+    "source_commit": "8ab9990612e14612ae466a575cb80c6b47bfac48"
+  },
+  "unexecuted_or_incomplete": [
+    "M5 general safety; retained hints, CFF/variable fonts, variable-width/inherited CMaps, multi-Unicode, vertical fonts, DR/DA, complex clips/transparency/partial paths and unequal shared Form regions",
+    "M6 general editing, Office reverse conversion/table restoration, complex OCR R01 and accessibility",
+    "Native IME/OS clipboard/DPI, clean Windows, native Reader/Word, physical printing, real volume full, third-party/Acrobat comparison, final performance and release conditions",
+    "New executable no-network evaluation; Poppler pdftotext"
+  ],
+  "acceptance": "Development candidate only; no general M5 acceptance, Acrobat equivalence, merge or public binary release"
+}

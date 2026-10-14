@@ -1,0 +1,52 @@
+{
+  "version": "0.5.0-dev25",
+  "source_commit": "984574049db888195a2f555b81fb4b72791adf41",
+  "exe_sha256": "05787db5e93f3f54335221195bd3cf8213ab96c29c7ce00db8ff2fa0cf3613b5",
+  "normal_tests": 219,
+  "additional_layout_test": 1,
+  "additional_windows_tests": 2,
+  "total": 222,
+  "old215_names_preserved": true,
+  "full_suite_completed_runs": 1,
+  "environment_incomplete_attempts": 2,
+  "independent_redaction_conditions": 34,
+  "M1_independent_checks": 32,
+  "legacy_copy_outputs": 12,
+  "legacy_scan_outputs": 2,
+  "fixed_folder_tests": 16,
+  "actual_ZIP_extracted_tests": 16,
+  "archive": {
+    "all_files_match": true,
+    "files": 630,
+    "exe_sha256": "05787db5e93f3f54335221195bd3cf8213ab96c29c7ce00db8ff2fa0cf3613b5",
+    "zip_sha256": "4b5c9e247ebca5613212d6279228b131bf4103a69733b793ce456537672dc978",
+    "zip_bytes": 153619070,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "extraction": {
+    "status": "PASS",
+    "actual_app_files": 627,
+    "manifest_files": 626,
+    "executable_sha256": "05787db5e93f3f54335221195bd3cf8213ab96c29c7ce00db8ff2fa0cf3613b5",
+    "archive_sha256": "4b5c9e247ebca5613212d6279228b131bf4103a69733b793ce456537672dc978",
+    "scope": "Complete application extracted from actual ZIP, every extracted byte and manifest entry matched; Qt source members already verified by archive-distribution, not redundantly extracted"
+  },
+  "static_audit": {
+    "PE": 77,
+    "assets": 9,
+    "notices": 106
+  },
+  "runtime_files_matched_except_main_exe": 85,
+  "additional_10GB_used": false,
+  "CI": {
+    "status": "SUCCESS",
+    "run": 38150022739,
+    "source": "984574049db888195a2f555b81fb4b72791adf41"
+  },
+  "PR": "Draft OPEN #1",
+  "general_binary_publication": false,
+  "M5_general_acceptance": "未完了",
+  "native_GUI_clean_Windows_physical_print": "未実行",
+  "new_exe_no_network": "未実行",
+  "legacy_failures_preserved": true
+}

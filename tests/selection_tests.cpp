@@ -1,7 +1,10 @@
 #include "selection_tests.h"
+#include "form_fields.h"
+#include "page_operations.h"
 #include "selection_text.h"
 #include "window.h"
 #include <QtTest/QTest>
+#include <algorithm>
 
 namespace tatsu
 {
@@ -14,7 +17,10 @@ void check(bool value, const QString& message)
 }
 void ready(Window& window, int page = 0)
 {
-    check(QTest::qWaitFor([&] { return window.canvas->pageReady(page); }, 10000), "PDF is visible");
+    check(QTest::qWaitFor([&] { return window.canvas->pageReady(page); }, 10000),
+          QString("PDF page %1 is visible; current page %2")
+              .arg(page + 1)
+              .arg(window.canvas->page + 1));
 }
 void finished(Window& window)
 {
@@ -60,6 +66,167 @@ QJsonObject expectations(const QString& fixtures)
     return QJsonDocument::fromJson(file.readAll()).object()["expected"].toObject();
 }
 } // namespace
+QJsonObject testSelectionPageText(const QString& fixtures, const QString& output)
+{
+    Window w;
+    w.show();
+    w.openFile(fixtures + "/viewer-search.pdf");
+    const auto original = encodePdf(w.doc.pdf());
+    const auto pages = expectations(fixtures)["three_pages"].toString().split("\n\n");
+    check(pages.size() == 3, "three frozen page texts");
+    QJsonArray copiedPages;
+    for (int number = 0; number < 3; ++number)
+    {
+        w.canvas->goToPage(number);
+        ready(w, number);
+        QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+        if (!w.canvas->selectionReady())
+            check(copy(w) == "clipboard sentinel", "pending page text cannot be copied");
+        finished(w);
+        check(copy(w) == pages[number], "Ctrl+A copies exactly this frozen page");
+        check(w.canvas->selectedTextRects().keys() == QList<int>{number},
+              "only the selected page is highlighted");
+        copiedPages.append(w.canvas->copied);
+        w.canvas->setZoom(.8);
+        check(copy(w) == pages[number], "whole-page selection survives zoom");
+    }
+    w.canvas->goToPage(0);
+    w.canvas->setZoom(.4);
+    ready(w, 1);
+    const auto at = w.canvas->pdfToViewport(1, endpoint(w, 1, "Travel notes", false)).toPoint();
+    check(w.canvas->viewport()->rect().contains(at), "second page context target is visible");
+    bool invoked = false;
+    QTimer::singleShot(0, &w,
+                       [&]
+                       {
+                           auto menu = w.canvas->findChild<QMenu*>("textSelectionMenu");
+                           auto action =
+                               menu ? menu->findChild<QAction*>("selectPageText") : nullptr;
+                           if (action && action->isEnabled())
+                           {
+                               action->trigger();
+                               invoked = true;
+                           }
+                           if (menu)
+                               menu->close();
+                       });
+    QContextMenuEvent context(QContextMenuEvent::Mouse, at, w.canvas->viewport()->mapToGlobal(at));
+    QCoreApplication::sendEvent(w.canvas->viewport(), &context);
+    finished(w);
+    check(invoked && copy(w) == pages[1], "context menu selects the pointed page");
+    const auto end =
+        w.canvas->pdfToViewport(1, endpoint(w, 1, "Before the destination", true)).toPoint();
+    QTest::mouseClick(w.canvas->viewport(), Qt::LeftButton, Qt::ShiftModifier, end);
+    finished(w);
+    check(copy(w) == "Before the destination", "Shift click extends from the page start");
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    finished(w);
+    w.grab().save(output + "/selection-whole-page.png");
+    check(!w.doc.dirty() && w.doc.cursor == 0 && encodePdf(w.doc.pdf()) == original,
+          "page selection leaves PDF and Undo history unchanged");
+    return {{"exact_page_copies", copiedPages},
+            {"context_target", true},
+            {"Shift_click", true},
+            {"source_and_history_unchanged", true},
+            {"OS_clipboard", "未実行; Qt offscreen clipboard"}};
+}
+QJsonObject testSelectionPageLifecycle(const QString& fixtures, const QString& output)
+{
+    Window w;
+    w.show();
+    w.openFile(fixtures + "/viewer-search.pdf");
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    check(!w.canvas->selectionReady(), "initial page selection waits asynchronously");
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_Escape);
+    check(QTest::qWaitFor([&] { return w.canvas->selectionExtractedPages() > 0; }, 10000),
+          "cancelled page extraction finishes");
+    check(w.canvas->copied.isEmpty() && copy(w) == "clipboard sentinel",
+          "late callback cannot restore cancelled page selection");
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    finished(w);
+    w.doc.putSignature(0, "山田 太郎", {100, 200}, 14, Qt::black);
+    w.refresh();
+    check(w.canvas->copied.isEmpty() && copy(w) == "clipboard sentinel",
+          "document revision invalidates whole-page selection");
+    w.undoAction->trigger();
+    w.signatureAction->trigger();
+    w.signature->setPlainText("署名欄のEnglish text");
+    QTest::keyClick(w.signature, Qt::Key_A, Qt::ControlModifier);
+    QTest::keyClick(w.signature, Qt::Key_C, Qt::ControlModifier);
+    check(QApplication::clipboard()->text() == "署名欄のEnglish text" && w.canvas->copied.isEmpty(),
+          "signature input owns its Ctrl+A and Ctrl+C");
+    w.query->setText("交通費 English query");
+    QTest::keyClick(w.query, Qt::Key_A, Qt::ControlModifier);
+    QTest::keyClick(w.query, Qt::Key_C, Qt::ControlModifier);
+    check(QApplication::clipboard()->text() == "交通費 English query" && w.canvas->copied.isEmpty(),
+          "search input owns its Ctrl+A and Ctrl+C");
+    w.openFile(fixtures + "/D07.pdf");
+    ready(w);
+    const auto fields = formFields(w.doc.pdf());
+    const auto name = std::find_if(fields.cbegin(), fields.cend(),
+                                   [](const FormField& field) { return field.name == "name"; });
+    check(name != fields.cend(), "frozen form name field");
+    QTest::mouseClick(w.canvas->viewport(), Qt::LeftButton, Qt::NoModifier,
+                      w.canvas->pdfToViewport(0, name->rectangle.center()).toPoint());
+    auto editor = w.canvas->viewport()->findChild<QLineEdit*>("activeFormEditor");
+    check(editor && editor->isVisible(), "actual PDF form editor is visible");
+    QTest::keyClick(editor, Qt::Key_A, Qt::ControlModifier);
+    QTest::keyClick(editor, Qt::Key_C, Qt::ControlModifier);
+    check(QApplication::clipboard()->text() == "山田 太郎" && w.canvas->copied.isEmpty(),
+          "form input owns its Ctrl+A and Ctrl+C");
+    w.canvas->cancelFormEdit();
+    w.openFile(fixtures + "/D02.pdf");
+    for (int number = 0; number < 3; ++number)
+    {
+        w.canvas->goToPage(number);
+        ready(w, number);
+        QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+        finished(w);
+        check(copy(w).contains("PDF"), "rotated and UserUnit page text is selected");
+    }
+    w.canvas->goToPage(3);
+    ready(w, 3);
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    finished(w);
+    check(copy(w) == "clipboard sentinel" && w.canvas->selectionMessage().contains("OCR"),
+          "text outside CropBox cannot be copied");
+    w.openFile(fixtures + "/D03.pdf");
+    ready(w);
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    finished(w);
+    check(copy(w) == "clipboard sentinel" && w.canvas->selectionMessage().contains("OCR"),
+          "scanned page offers OCR without changing clipboard: " + w.canvas->selectionMessage());
+    w.doc.open(fixtures + "/viewer-selection-restricted.pdf", "selection-user");
+    w.refresh(true);
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    check(!w.doc.copyAllowed && copy(w) == "clipboard sentinel" &&
+              w.canvas->selectionMessage().contains("許可"),
+          "Ctrl+A respects encrypted copy permission");
+    Document source;
+    source.open(fixtures + "/D10-digital-100.pdf");
+    const auto sourceHash = fileHash(source.source);
+    QVector<PDFDocument> repeated(20, source.pdf());
+    const auto longPath = output + "/selection-digital-2000.pdf";
+    writeCandidate(mergeDocuments(repeated), longPath);
+    w.openFile(longPath);
+    check(w.doc.pages() == 2000, "actual 2000-page document");
+    w.pages->setCurrentRow(1049);
+    ready(w, 1049);
+    QTest::keyClick(w.canvas->viewport(), Qt::Key_A, Qt::ControlModifier);
+    finished(w);
+    check(copy(w).count("日本語とEnglishの文書です。") == 1 &&
+              w.canvas->selectionExtractedPages() <= 6,
+          "current-page selection does not preload the 2000-page document");
+    check(fileHash(source.source) == sourceHash, "frozen source remains unchanged");
+    return {{"async_cancel", true},
+            {"revision_invalidation", true},
+            {"signature_and_form_shortcuts", true},
+            {"rotation_crop_userunit", true},
+            {"copy_permission", true},
+            {"bounded_extracted_pages", w.canvas->selectionExtractedPages()},
+            {"2000_page_selection", true},
+            {"OS_clipboard", "未実行; Qt offscreen clipboard"}};
+}
 QJsonObject testSelectionRanges(const QString& fixtures, const QString& output)
 {
     Window w;

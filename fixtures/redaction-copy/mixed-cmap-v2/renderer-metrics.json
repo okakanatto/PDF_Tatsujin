@@ -1,0 +1,2306 @@
+{
+  "format": "mixed-cmap-renderer-metrics-v1",
+  "fixed_at_utc": "2026-10-13T02:16:44.425116+00:00",
+  "source_criteria_sha256": "796b7ae0ef979583d0180c91c1020dd30405530d044daf39e83339f0b2ae326a",
+  "positive_cases": 19,
+  "source_resource_bindings": 25,
+  "policy": "For qualified embedded Type0 custom Encoding CMap streams, copy the original SFNT head global rendering bounds bytes36..43 after validating finite signed-int16 ordered bounds enclosing every retained simple/composite glyph. Preserve old tight-derived header behavior for Identity-H and simple TrueType profiles.",
+  "header_change_scope": "Only head global rendering bbox8bytes and mandatory font/table checksum adjustments differ from the old custom-CMap rebuild policy; other builder header fields, glyf outlines/flags/metrics, GIDclosure, maxp, CVT/program rewrite and resource metadata retain their existing validated behavior.",
+  "not_approved": "No unused/removed glyph data retention; no Unicode from GID; no general font, CFF/variable-font or raster qualification; original direct PDFium collapse failures remain FAIL.",
+  "thresholds_unchanged": {
+    "max_position_error_pt": 0.5,
+    "outside_pixel_difference": 0,
+    "dpi": [
+      72,
+      96,
+      300
+    ],
+    "boundary_margin_px": 1
+  },
+  "profiles_propagated": "per font resource, shared pages, sibling Form, annotation appearance N/R/D; positive fully-contained space condition uses the same original custom-CMap rendering bounds",
+  "diagnostic": {
+    "path": "evidence\\dev42-independent-font-header-probes.json",
+    "sha256": "e7e6d26b6d9d254221e54c2ad9f0707fe69ee235272506e28b69740c72d1a599",
+    "bbox_only_outside_pixels": {
+      "72": 0,
+      "96": 0,
+      "300": 0
+    },
+    "cmap_only_probe_sha256": "6ea318d72f973c52862810536087f827877a0fa5b29f66d2835c34fc97cff226",
+    "original_r4_failure_report_sha256": "8d02e8bef3fe458fc6b7597a483ecaa42692d8b87ca724ba359e8a5620ad0033"
+  },
+  "prior_source_policy_generation_attempt": {
+    "error": "KeyError on unused page/1 font binding before write",
+    "correction": "iterate fixed actual source uses; unused source resources still inspected independently and may not survive unbound in output"
+  },
+  "cases": [
+    {
+      "file": "one-byte.pdf",
+      "source_sha256": "7bc1171fb21da167e853941f71a45dda9ee4fdc05cf35ddb240bb85b0e162e57",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "two-byte.pdf",
+      "source_sha256": "516c263d8078bd5c55161c99e123f814bd1f0f10b85e8ed71dfb2e40876a603c",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "mixed-value-length.pdf",
+      "source_sha256": "2a599d6f56e6477c5d338d65bfeef459c8f91f741e5f95c5342bf5d6e749d124",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "byte-boundaries.pdf",
+      "source_sha256": "731c4772256246388472e1696bd5f38fe365902b6a47a11bbb737ad4d6ee2b15",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "cidrange.pdf",
+      "source_sha256": "d6ddbb05b7ca4664eff7882ba3fac8988012310ed537ecd9abea9450ac873133",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "bfrange-array.pdf",
+      "source_sha256": "eb0abf7f77670b07e68c6b29283163caf86d6006281b03a198c87e3d50c69805",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "alias-same.pdf",
+      "source_sha256": "17682b62ed74aa2ab11b06254aeb4a048ed60612a1cda2a34063fa0dc69a50d6",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "Tc-positive.pdf",
+      "source_sha256": "2faf5950ec40e3978617ab27d879c41f51594a7bce152b846d4c101ea5a02547",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "Tc-negative.pdf",
+      "source_sha256": "da9e8a3c2ec5b9175fb154a8c5b4ff9660898e04293fc7aaa16385ac34cbb5c2",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "TJ-positive-negative.pdf",
+      "source_sha256": "72543f9e96c765317a3e371c4d6a0317df0e4d1880beda7519c7d884e06732ac",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "quote.pdf",
+      "source_sha256": "e1c1aaf73b4a18d11975cb030c28ba04c1dbce493f44aeb32b36f5f15e46525e",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "double-quote.pdf",
+      "source_sha256": "9fd38aecebddc899b1ead6f76fb0cf1aba06e98d5ee4b3d724cb0f7b1a5c5aa4",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "code32-nonspace.pdf",
+      "source_sha256": "81d053f8812a9c77c6f3148aa42dc42b7aa2f6eaccb3310127967a1543cf1992",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "space-two-byte.pdf",
+      "source_sha256": "24507b759beb3a1c397ae2b1418bc3c101914c7e55c57cdcdda87c15a70a1dfa",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "shared-pages-alias.pdf",
+      "source_sha256": "fb57f6ebf29a89e03cf2c38dcfa5c468d1991c393e51675e75323a97506d9f2e",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        },
+        {
+          "binding": "page/1/font/MixedAlias",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            3,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 3,
+              "raw_glyf_bbox": [
+                40,
+                -69,
+                971,
+                830
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "shared-sibling-form.pdf",
+      "source_sha256": "9ab80c61e1901b0a083feb54d8028f8c346a8f9cd8b3070ef805936defcfcf5a",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        },
+        {
+          "binding": "page/1/form/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            3,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 3,
+              "raw_glyf_bbox": [
+                40,
+                -69,
+                971,
+                830
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "shared-appearance-states.pdf",
+      "source_sha256": "e94119375139644e4d31191fd0e2ff11f6394b3274792677e4b595d89dc6c0ff",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        },
+        {
+          "binding": "page/1/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            3,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 3,
+              "raw_glyf_bbox": [
+                40,
+                -69,
+                971,
+                830
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        },
+        {
+          "binding": "page/1/AP/0/N/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            3,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 3,
+              "raw_glyf_bbox": [
+                40,
+                -69,
+                971,
+                830
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        },
+        {
+          "binding": "page/1/AP/0/R/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            3,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 3,
+              "raw_glyf_bbox": [
+                40,
+                -69,
+                971,
+                830
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        },
+        {
+          "binding": "page/1/AP/0/D/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            3,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 3,
+              "raw_glyf_bbox": [
+                40,
+                -69,
+                971,
+                830
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "bytewise-rectangle.pdf",
+      "source_sha256": "211cf6c9076e7221a3a34b999f20bb28a7b4e6c0581a552825eb332b42e66c9e",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "zero-code.pdf",
+      "source_sha256": "6ed3d2296babd6f911b3f06715ec496f792985205357b158c47cf4363f8fc768",
+      "profile": "embedded horizontal Type0 custom Encoding CMap stream (one-byte, two-byte, or mixed)",
+      "resources": [
+        {
+          "binding": "page/0/font/F2+0",
+          "original_SFNT_sha256": "bff340fc7e98ebaeb7dfcadf89475b6ce9784f76430f261619e941a4b79e2fb8",
+          "source_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "expected_output_head_bbox": [
+            -991,
+            -1050,
+            2930,
+            1810
+          ],
+          "source_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "expected_output_head_bbox_bytes_hex": "fc21fbe60b720712",
+          "retained_original_glyph_closure": [
+            1,
+            2,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "enclosed_nonempty_glyph_bounds": [
+            {
+              "source_gid": 1,
+              "raw_glyf_bbox": [
+                56,
+                -75,
+                955,
+                797
+              ]
+            },
+            {
+              "source_gid": 2,
+              "raw_glyf_bbox": [
+                99,
+                -72,
+                906,
+                783
+              ]
+            },
+            {
+              "source_gid": 9,
+              "raw_glyf_bbox": [
+                51,
+                -70,
+                951,
+                831
+              ]
+            },
+            {
+              "source_gid": 10,
+              "raw_glyf_bbox": [
+                78,
+                -69,
+                925,
+                834
+              ]
+            },
+            {
+              "source_gid": 11,
+              "raw_glyf_bbox": [
+                27,
+                -71,
+                970,
+                827
+              ]
+            },
+            {
+              "source_gid": 12,
+              "raw_glyf_bbox": [
+                35,
+                -71,
+                950,
+                830
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

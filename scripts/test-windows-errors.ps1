@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
     [string]$AppDirectory = 'dist/PDFTatsujin-M1-reading',
+    [string]$Executable,
     [switch]$IncludeNativePrinter
 )
 $ErrorActionPreference = 'Stop'
@@ -28,14 +29,15 @@ try {
     Set-Acl -LiteralPath $deniedPath -AclObject $testAcl
     $env:TATSU_DENIED_SAVE_DIR = $deniedPath
     if ($IncludeNativePrinter) { $env:TATSU_NATIVE_PDF_PRINTER = '1' }
-    & (Join-Path $PSScriptRoot 'run-tests.ps1') -Headless -AppDirectory $AppDirectory -OutputDirectory $outputPath
+    & (Join-Path $PSScriptRoot 'run-tests.ps1') -Headless -AppDirectory $AppDirectory -Executable $Executable -OutputDirectory $outputPath
 } finally {
     Set-Acl -LiteralPath $deniedPath -AclObject $originalAcl
     $restored = (Get-Acl -LiteralPath $deniedPath).Sddl -eq $originalAcl.Sddl
     $env:TATSU_DENIED_SAVE_DIR = $previousDenied
     $env:TATSU_NATIVE_PDF_PRINTER = $previousPrinter
     if (Test-Path -LiteralPath $outputPath) {
-        @{ acl_restored=$restored; denied_directory=$deniedPath; native_printer_requested=[bool]$IncludeNativePrinter; executable_sha256=(Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path (Join-Path $root $AppDirectory) 'PDFTatsujin.exe')).Hash.ToLower(); volume_full='未実行; NTFS write denial is a separate test' } |
+        $testedExe=if($Executable){[IO.Path]::GetFullPath($Executable)}else{Join-Path (Join-Path $root $AppDirectory) 'PDFTatsujin.exe'}
+        @{ acl_restored=$restored; denied_directory=$deniedPath; native_printer_requested=[bool]$IncludeNativePrinter; executable_sha256=(Get-FileHash -Algorithm SHA256 -LiteralPath $testedExe).Hash.ToLower(); volume_full='未実行; NTFS write denial is a separate test' } |
             ConvertTo-Json | Set-Content -LiteralPath (Join-Path $outputPath 'windows-errors-environment.json') -Encoding utf8
     }
     if (!$restored) { throw "Original ACL was not restored: $deniedPath" }

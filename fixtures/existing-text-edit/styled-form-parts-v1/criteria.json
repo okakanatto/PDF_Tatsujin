@@ -1,0 +1,44 @@
+{
+  "files": {
+    "shared.pdf": "ed4ba7d1b71e328d73b0199330ab7710b176444344ece1a15c029c657eb80bcd",
+    "rotated.pdf": "405120c8284116a4afc80da146385d4e721c33c1f149788406f8ec969c0fdf04",
+    "inherited.pdf": "2fdd4d60268454a018ef45ebfcfbf35b6b96b71277e9837b87b713ad63847119",
+    "bbox-refused.pdf": "3174f0f655a34ccafa2bf4e336b69b6bc868248741882930b1b8713cbfb0a890",
+    "cycle-refused.pdf": "f93f88c3e6f8d6834e899b27a7d8a910259ec0687da910a544de906fcc743058",
+    "group-refused.pdf": "d728d3f8cf37cf4792ccff5178e42d456e6966c9fb4ad48df950247ec5e5e20d",
+    "clip-refused.pdf": "2bb2154e762b87e5d58fc0d219968c91d7f637cf74d500cd8c1161c91df85943"
+  },
+  "source_inputs": {
+    "fixtures/existing-image-edit/forms/criteria.json": "a060299145df5301d76491f31b5306c2e767608702620a2f4d7b39d2f662d04b",
+    "fixtures/existing-text-edit/styled-parts-v1/criteria.json": "76781b4b06150f72fcc94d5cf9b693cd4c2485e0a58e0ba78549df5348e1aab9",
+    "fixtures/existing-text-edit/styled-parts-v1/absolute.pdf": "84b9b5251329dc9dba1102f165fc75bef080148cd7a0f24e8f3d99cdae67b945"
+  },
+  "positives": [
+    "shared",
+    "rotated",
+    "inherited"
+  ],
+  "selected_invocation": 0,
+  "selected_depth": 2,
+  "replacements": {
+    "Intro ": "Start ",
+    "Styled phrase": "Bold text",
+    "Suffix intact": "End intact",
+    "編集します日本語本文": "日本語本文編集します"
+  },
+  "remove": "Styled phrase",
+  "reedited": "Bold edit",
+  "refused": [
+    "cycle-refused.pdf",
+    "group-refused.pdf",
+    "clip-refused.pdf"
+  ],
+  "bbox_refused": "bbox-refused.pdf",
+  "overflow": "WWWWWWWWWWWWWWWWWWWWWWWW",
+  "outside_pixels": 0,
+  "raster_dpi": 300,
+  "boundary_pixels": 1,
+  "position": "Every unselected real character and explicit space exactly unchanged",
+  "resources": "Original and all unselected Form bytes, fonts, images and attributes unchanged; only selected call path cloned",
+  "scope": "Synthetic CC0 shared nested Forms and OFL Japanese subset; fixed before product operations; prior inputs and thresholds unchanged"
+}

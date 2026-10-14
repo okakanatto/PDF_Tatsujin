@@ -1,0 +1,54 @@
+{
+  "version": "0.5.0-dev26",
+  "source_commit": "aae12be69c5e0c1409c69ce28de5f515df7238de",
+  "exe_sha256": "43fc2a7db1259594522ecf5bcfbdc36c3a5cf31ec0e49abc5c7deff44782d94a",
+  "normal_including_layout": 221,
+  "additional_windows_tests": 2,
+  "total": 223,
+  "old222_names_preserved": true,
+  "actual_full_suite_runs": 1,
+  "independent_app_redaction_conditions": 38,
+  "additional_diagnostic_probe_conditions": 1,
+  "diagnostic_probe_not_added_to_app_test_names": true,
+  "M1_independent_checks": 32,
+  "legacy_copy_outputs": 12,
+  "legacy_scan_outputs": 2,
+  "fixed_folder_tests": 17,
+  "actual_ZIP_extracted_tests": 17,
+  "archive": {
+    "all_files_match": true,
+    "files": 635,
+    "exe_sha256": "43fc2a7db1259594522ecf5bcfbdc36c3a5cf31ec0e49abc5c7deff44782d94a",
+    "zip_sha256": "03ba4a97437029c0261a54d4b496f007a286240c7abf4b8e2bb67bfff3a19baa",
+    "zip_bytes": 153636208,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "extraction": {
+    "status": "PASS",
+    "actual_app_files": 632,
+    "manifest_files": 631,
+    "executable_sha256": "43fc2a7db1259594522ecf5bcfbdc36c3a5cf31ec0e49abc5c7deff44782d94a",
+    "archive_sha256": "03ba4a97437029c0261a54d4b496f007a286240c7abf4b8e2bb67bfff3a19baa",
+    "scope": "Complete application extracted from actual ZIP, every extracted byte and manifest entry matched; Qt source members already verified by archive-distribution, not redundantly extracted"
+  },
+  "static_audit": {
+    "PE": 77,
+    "assets": 9,
+    "notices": 106
+  },
+  "runtime_files_matched_except_main_exe": 85,
+  "additional_10GB_used": true,
+  "dependencies_downloaded": 0,
+  "CI": {
+    "status": "SUCCESS",
+    "run": 38153035865,
+    "source": "aae12be69c5e0c1409c69ce28de5f515df7238de"
+  },
+  "PR": "Draft OPEN #1",
+  "general_binary_publication": false,
+  "M5_general_acceptance": "未完了",
+  "native_GUI_clean_Windows_physical_print": "未実行",
+  "new_exe_no_network": "未実行",
+  "old_dev25_extra_font_table_FAIL_preserved": true,
+  "legacy_failures_preserved": true
+}

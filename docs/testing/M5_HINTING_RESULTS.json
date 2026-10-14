@@ -1,0 +1,95 @@
+{
+  "version": "0.5.0-dev38",
+  "status": "PASS_WITH_UNEXECUTED_SCOPE",
+  "source_commit": "296098e5664b5795560e5b137b8dbb107c83bfcc",
+  "executable": "evidence/dev38-formatted-PDFTatsujin.exe",
+  "executable_sha256": "e64fe74b10e576ebae736e8c47c4794ea0786dbf6df010323652a5908ec5eff6",
+  "fixed_candidate": "dev35",
+  "runtime_directory": "dist/PDFTatsujin-0.5.0-dev36-working",
+  "development_runtime_reuse": true,
+  "new_zip_and_extraction": "unexecuted",
+  "full_regression": {
+    "run": "evidence/m5-dev38-full-native-r2-20261012",
+    "passed": 251,
+    "normal": 249,
+    "windows": 2,
+    "old249_preserved": true,
+    "completed": true,
+    "exit_code": 0,
+    "ACL_restored": true,
+    "windows_PDF_printer": "PASS",
+    "physical_printer": "unexecuted"
+  },
+  "hinting": {
+    "report": "evidence/dev38-independent-hinting-final.json",
+    "passed": 31,
+    "fixed_PDFs": 30,
+    "accepted_PDFs": 12,
+    "rejected_PDFs": 18,
+    "UI_pixels": 1,
+    "cancellation_checkpoints": 1014,
+    "outside_pixel_difference": 0,
+    "rectangle_boundary_px": 1,
+    "max_position_error_pt": 0.5,
+    "dpi": [
+      72,
+      96,
+      300
+    ]
+  },
+  "existing_M5": {
+    "report": "evidence/dev38-M5-independent-summary-final.json",
+    "passed": 124,
+    "fresh_r1_groups": 19,
+    "final_reexecuted_groups": 1,
+    "final_reused_groups": 18
+  },
+  "editing": {
+    "report": "evidence/dev38-editing-independent-summary-final.json",
+    "passed": 160,
+    "reexecuted_groups": 9,
+    "reused_groups": 0
+  },
+  "M1_independent": {
+    "report": "evidence/m5-dev38-full-native-r2-20261012/independent-verification.json",
+    "limited_conditions": 32,
+    "CER": {
+      "jpn": 0.005050505050505051,
+      "eng": 0.0004553734061930783
+    },
+    "search_jpn": 20,
+    "search_eng": 20,
+    "M1_general_acceptance": "withheld"
+  },
+  "quota": {
+    "additional_10GB_approved": false,
+    "final_receipt": "evidence/dev38-final-capacity.json",
+    "continuous_peak_monitoring": "unexecuted"
+  },
+  "protection": "evidence/dev38-protection-proof.json",
+  "source_CI": {
+    "run_id": 38230568435,
+    "conclusion": "success"
+  },
+  "prior_failures": [
+    "evidence/dev38-build-r1.log",
+    "evidence/dev38-build-native-r2.log",
+    "evidence/dev38-independent-hinting-r1.json",
+    "evidence/dev38-independent-hinting-r2.json",
+    "evidence/dev38-M5-font-tables-independent-r1.json",
+    "evidence/dev38-full-native-r1.log",
+    "evidence/dev38-editing-flowing-lines-independent-final.log"
+  ],
+  "remaining": [
+    "General TrueType/fpgm/prep/CVT and PUSHW retained-rendering boundary",
+    "CFF/variable fonts/general CMap/multi-character Unicode/DR/DA/general shared Form",
+    "Partial paths/clip/transparency irreversibility",
+    "General body/image editing",
+    "Office reverse layouts/complex tables",
+    "Complex OCR R01",
+    "Tags/reading order/read aloud",
+    "Native IME/OS clipboard/DPI/Reader and Word GUI/clean Windows/physical printing",
+    "Actual disk exhaustion/third-party usability/Acrobat comparison/final performance/distribution",
+    "New executable zero-communication and static distribution audit"
+  ]
+}

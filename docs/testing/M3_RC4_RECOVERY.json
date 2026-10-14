@@ -1,0 +1,46 @@
+{
+  "parent_crash": {
+    "status": "PASS",
+    "executable_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+    "real_parent_terminated": true,
+    "live_worker_job_preserved": true,
+    "worker_output_completed": true,
+    "finished_orphan_removed": true,
+    "fixture_unchanged": true,
+    "worker_report": {
+      "language": "jpn+eng",
+      "pages": [
+        {
+          "page": 1,
+          "status": "処理済み"
+        }
+      ]
+    },
+    "probes": [
+      {
+        "probe": "active-worker-startup",
+        "exit_code": 0
+      },
+      {
+        "probe": "finished-worker-startup",
+        "exit_code": 0
+      }
+    ],
+    "scope": "Packaged Windows processes, real file locks, isolated TEMP; worker suspended briefly to stabilize the tested crash boundary",
+    "unexecuted": [
+      "all possible parent/worker termination timings"
+    ]
+  },
+  "startup_cleanup": {
+    "status": "PASS",
+    "process_exit": 0,
+    "executable_sha256": "4f8a9692a78f3e275a8a62b245d3cfa66040bdc288cde351fc7dbec1c061cc45",
+    "abandoned_removed": true,
+    "unmarked_preserved": true,
+    "different_marker_preserved": true,
+    "directory_junction_preserved": true,
+    "nested_junction_preserved": true,
+    "linked_payload_unchanged": true,
+    "scope": "Actual packaged Windows app startup with isolated process TEMP/TMP and real NTFS junctions; not clean/offline acceptance"
+  }
+}

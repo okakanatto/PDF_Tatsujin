@@ -1,0 +1,73 @@
+{
+  "version": "0.5.0-dev32",
+  "status": "PASS for fixed conditions; general M5 acceptance not declared",
+  "source_commit": "78da1b86f2ede07564373ffc5843a71ef3da1034",
+  "executable_sha256": "3436a34afe5e3af13dda4f1b38cf771beaff8ff6d9169d2ae1de441d1fec466b",
+  "cohort": {
+    "status": "PASS",
+    "executable_sha256": "3436a34afe5e3af13dda4f1b38cf771beaff8ff6d9169d2ae1de441d1fec466b",
+    "normal_including_layout": 234,
+    "additional_windows_tests": 2,
+    "total": 236,
+    "old234_names_preserved": true,
+    "runs": [
+      "evidence/m5-dev32-full-20261012",
+      "evidence/m5-dev32-windows-denied-20261012",
+      "evidence/m5-dev32-windows-printer-20261012"
+    ],
+    "full_suite_completed_runs": 1
+  },
+  "independent": {
+    "status": "PASS",
+    "success_outputs": 94,
+    "new_success_outputs": 13,
+    "retained_old_success_outputs": 81,
+    "refusal_absence_checks": 6,
+    "additional_probe": 1,
+    "app_sha256": "3436a34afe5e3af13dda4f1b38cf771beaff8ff6d9169d2ae1de441d1fec466b"
+  },
+  "M1_independent_count": 32,
+  "legacy_copy": 12,
+  "legacy_scan": 2,
+  "static_audit": {
+    "PE": 77,
+    "assets": 9,
+    "notices": 106
+  },
+  "format": {
+    "CXX": 362,
+    "Python": 141
+  },
+  "source_CI": [
+    {
+      "conclusion": "success",
+      "databaseId": 38171405975,
+      "headSha": "78da1b86f2ede07564373ffc5843a71ef3da1034",
+      "status": "completed"
+    }
+  ],
+  "fixed_target_names": 30,
+  "actual_ZIP_extracted_target_names": 30,
+  "archive": {
+    "all_files_match": true,
+    "files": 660,
+    "exe_sha256": "3436a34afe5e3af13dda4f1b38cf771beaff8ff6d9169d2ae1de441d1fec466b",
+    "zip_sha256": "8099fe4a35bc341ad0ad983de9e9d368c2135332ac69c34173374da561e6d6ef",
+    "zip_bytes": 153726634,
+    "method": "Every ZIP member checked by CRC and SHA-256 against its packaged source"
+  },
+  "extraction": {
+    "status": "PASS",
+    "actual_app_files": 657,
+    "manifest_files": 656,
+    "executable_sha256": "3436a34afe5e3af13dda4f1b38cf771beaff8ff6d9169d2ae1de441d1fec466b",
+    "archive_sha256": "8099fe4a35bc341ad0ad983de9e9d368c2135332ac69c34173374da561e6d6ef",
+    "scope": "Complete application extracted from actual ZIP; every extracted byte and manifest entry matched. Qt source members already verified, not redundantly extracted."
+  },
+  "protected_failure_input_files": 184,
+  "dev31_packaging": "Not performed after six additional direct-sharing diagnostic failures; dev32 fixes them",
+  "native_and_external": "Native IME/clipboard/DPI, Reader/Word UI, clean Windows, physical print, actual full disk, third-party comparison, final performance/shipping and new-exe zero-network remain unexecuted/unaccepted",
+  "general_remaining": "M5 general fonts/DR-DA/forms/paths/transparency/clips, M6 general editing/Office reverse/table/complex OCR/accessibility; old 16-22 units not current remaining",
+  "binary_publication": false,
+  "merge": false
+}

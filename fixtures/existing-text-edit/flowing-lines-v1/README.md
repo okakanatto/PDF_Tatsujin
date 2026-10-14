@@ -1,0 +1,3 @@
+# 各行の混合字体字送り固定入力
+
+prepare-flowing-lines.pyで旧flowing-parts-v1をSHA検証して生成したCC0合成原稿。日本語は旧OFLサブセットを保持する。正解SHA 7d30fb24b74b61ffd35558f513d68a87d2b21a7871a86eb69161ccb97a629bd7。製品操作前に固定。300dpi・境界1px・領域外0・全実文字座標完全一致を維持。既存の入力・正解・失敗記録は変更しない。

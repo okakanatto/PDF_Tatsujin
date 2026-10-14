@@ -2,6 +2,38 @@
 
 namespace tatsu
 {
+namespace
+{
+class SearchResultsView final : public QListView
+{
+public:
+    bool pointerChangeActive() const
+    {
+        return pointerChange;
+    }
+
+protected:
+    bool viewportEvent(QEvent* event) override
+    {
+        switch (event->type())
+        {
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease:
+        case QEvent::MouseButtonDblClick:
+        case QEvent::MouseMove:
+        {
+            QScopedValueRollback<bool> guard(pointerChange, true);
+            return QListView::viewportEvent(event);
+        }
+        default:
+            return QListView::viewportEvent(event);
+        }
+    }
+
+private:
+    bool pointerChange = false;
+};
+} // namespace
 void SearchEdit::inputMethodEvent(QInputMethodEvent* event)
 {
     const bool wasComposing = composing;
@@ -60,7 +92,8 @@ SearchPanel::SearchPanel(QWidget* parent) : QWidget(parent)
     summary->setTextFormat(Qt::PlainText);
     layout->addWidget(summary);
     results = new SearchSession(this);
-    list = new QListView;
+    auto resultView = new SearchResultsView;
+    list = resultView;
     list->setObjectName("searchResults");
     list->setAccessibleName("検索結果。一致ごとの抜粋とページ番号");
     list->setModel(results);
@@ -89,10 +122,24 @@ SearchPanel::SearchPanel(QWidget* parent) : QWidget(parent)
     connect(previous, &QPushButton::clicked, this, [this] { next(-1); });
     connect(following, &QPushButton::clicked, this, [this] { next(1); });
     connect(list->selectionModel(), &QItemSelectionModel::currentChanged, this,
-            [this](const QModelIndex& index)
+            [this, resultView](const QModelIndex& index)
             {
-                if (!results->changing() && index.isValid())
+                if (!resultView->pointerChangeActive() && !results->changing() && index.isValid())
                     activate(index.row());
+            });
+    auto activateResult = [this](const QModelIndex& index)
+    {
+        if (!results->changing() && index.isValid())
+            activate(index.row());
+    };
+    connect(list, &QListView::clicked, this, activateResult);
+    connect(list, &QListView::activated, this,
+            [resultView, activateResult](const QModelIndex& index)
+            {
+                // Some styles also activate on a mouse click; clicked already
+                // handles that gesture, while Enter needs its own activation.
+                if (!resultView->pointerChangeActive())
+                    activateResult(index);
             });
     connect(results, &SearchSession::updated, this, &SearchPanel::updateResults);
     updateResults();

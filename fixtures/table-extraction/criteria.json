@@ -1,0 +1,73 @@
+{
+  "provenance": "Synthetic text/grid CC0-1.0; embedded modified Noto font retains OFL notices.",
+  "font": {
+    "file": "assets/fonts/TatsujinSansJP-Regular.ttf",
+    "sha256": "276f192d1ed547c1183b1fc8ee2f906d4d1ba66e74897434f6947f670aa1286e"
+  },
+  "expected_cells": [
+    [
+      "品目",
+      "番号",
+      "備考"
+    ],
+    [
+      "項目一",
+      "0012",
+      "=1+2"
+    ],
+    [
+      "二行\n改行",
+      "",
+      "English text"
+    ],
+    [
+      "項目二",
+      "30",
+      "合計"
+    ]
+  ],
+  "nonempty_cell_type": "string; formula-like text must never become a formula",
+  "blank_cell": "empty string or absent value; position retained",
+  "line_rule": "Trim leading/trailing positioning whitespace per line; keep internal spaces and line breaks",
+  "cases": [
+    {
+      "file": "table.pdf",
+      "region_pt": [
+        40,
+        70,
+        300,
+        140
+      ]
+    },
+    {
+      "file": "rotated-crop-unit.pdf",
+      "region_pt": [
+        45,
+        90,
+        450,
+        210
+      ],
+      "page_rotation": 90,
+      "UserUnit": 1.5
+    }
+  ],
+  "row_boundaries": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "column_boundaries": [
+    0,
+    0.3333333333333333,
+    0.6666666666666666,
+    1
+  ],
+  "refused": "image-only.pdf; boundary crossing; invalid grid; existing output; cancelled output",
+  "files": {
+    "image-only.pdf": "780ac49475ffa9d9d2b4de688ea6f38742451bb57f7f56b75339a9c0531669b7",
+    "rotated-crop-unit.pdf": "fc5d9dea224489db4e31386a4e43da194ad04a58cc3e84fa265e9520ef25ee48",
+    "table.pdf": "4d481d5d367658bcaa79801b81c4b109264b7f6aedd26cbb95f6a5a25c5ccfa7"
+  }
+}

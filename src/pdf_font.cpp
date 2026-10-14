@@ -17,7 +17,12 @@ QString signatureFont()
     static QString family;
     if (family.isEmpty())
     {
-        int id = QFontDatabase::addApplicationFont(asset("fonts/NotoSansJP.ttf"));
+        // Some platform font loaders reopen filenames through a narrow path API.
+        // Read bundled bytes with Qt so Unicode and long asset paths remain valid.
+        QFile file(asset("fonts/NotoSansJP.ttf"));
+        if (!file.open(QIODevice::ReadOnly))
+            fail("同梱の日本語フォントを読み込めません。");
+        int id = QFontDatabase::addApplicationFontFromData(file.readAll());
         if (id < 0)
             fail("同梱の日本語フォントを読み込めません。");
         family = QFontDatabase::applicationFontFamilies(id).value(0);
