@@ -68,6 +68,9 @@ PRIVATE_PROSE = re.compile(
 HOME = re.compile(
     r"[A-Za-z]:[\\/]+Users[\\/]+[^\s\"<>]+|/(?:home|Users)/[^\s\"<>]+", re.I
 )
+SOURCE_ENVIRONMENT = re.compile(
+    r"shell\s+DNS\s+unavailable|source\s+retrieval\s+unavailable\s+via\s+web", re.I
+)
 SECRETS = {
     "access token": re.compile(
         rb"(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{60,}|xox[baprs]-[A-Za-z0-9-]{20,})"
@@ -128,6 +131,8 @@ def inspect(path, data, approved, prose_only=False):
         if p.suffix in TEXT_EXTENSIONS:
             errors.append("text content must use UTF-8")
     if text is not None:
+        if SOURCE_ENVIRONMENT.search(text):
+            errors.append("internal environment details")
         if HOME.search(text):
             errors.append("personal machine path")
         if prose_only or p.suffix in {".md", ".txt", ".html", ".xml", ".yaml", ".yml"}:

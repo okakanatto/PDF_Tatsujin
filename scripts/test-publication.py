@@ -16,6 +16,15 @@ spec.loader.exec_module(publication)
 
 
 class PublicationTests(unittest.TestCase):
+    def test_source_environment_notes(self):
+        note = ("shell" + " DNS" + " unavailable").encode()
+        for suffix in (".py", ".cpp", ".ps1"):
+            with self.subTest(suffix=suffix):
+                self.assertIn(
+                    "internal environment details",
+                    publication.inspect("scripts/example" + suffix, note, {}),
+                )
+
     def test_private_paths(self):
         for path in (
             "AGENTS.md",
