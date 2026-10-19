@@ -102,9 +102,18 @@ TEXT_EXTENSIONS = {
     ".tar-license",
 }
 
+# GitHub's privacy addresses and the address used by its web commit service.
+# Other addresses belong in retained upstream notices, not commit identities.
+PUBLIC_IDENTITY_EMAIL = re.compile(
+    r"(?:[^\s<>@]+@users\.noreply\.github\.com|noreply@github\.com)", re.I
+)
+EMAIL_IN_IDENTITY = re.compile(r"[^\s<>@]+@[^\s<>@]+")
+
 
 def git(*args, cwd=None):
-    return subprocess.check_output(["git", *args], cwd=cwd or ROOT)
+    return subprocess.check_output(
+        ["git", "--no-replace-objects", *args], cwd=cwd or ROOT
+    )
 
 
 def inspect(path, data, approved, prose_only=False):
@@ -192,7 +201,7 @@ def tree(ref):
 def read_blobs(entries):
     result = {}
     with subprocess.Popen(
-        ["git", "cat-file", "--batch"],
+        ["git", "--no-replace-objects", "cat-file", "--batch"],
         cwd=ROOT,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
@@ -231,6 +240,91 @@ def check(files):
     return [(path, errors) for path, errors in problems if errors]
 
 
+def private_identity_email(name, email):
+    return not PUBLIC_IDENTITY_EMAIL.fullmatch(email) or any(
+        not PUBLIC_IDENTITY_EMAIL.fullmatch(address)
+        for address in EMAIL_IN_IDENTITY.findall(name)
+    )
+
+
+def inspect_commit_identity(sha):
+    """Inspect raw identities and Git's unfolded trailers without printing them."""
+    fields = git(
+        "show", "-s", "--format=%an%x00%ae%x00%cn%x00%ce%x00%(trailers:only,unfold)", sha
+    ).decode("utf-8").rstrip("\n").split("\0")
+    if len(fields) != 5:
+        raise RuntimeError("Could not read complete commit identities")
+    errors = []
+    for role, name, email in (
+        ("author", fields[0], fields[1]),
+        ("committer", fields[2], fields[3]),
+    ):
+        if private_identity_email(name, email):
+            errors.append(f"private {role} email")
+    if any(
+        not PUBLIC_IDENTITY_EMAIL.fullmatch(address)
+        for address in EMAIL_IN_IDENTITY.findall(fields[4])
+    ):
+        errors.append("private email in commit trailer")
+    return errors
+
+
+def inspect_commit(sha):
+    problems = []
+    identity_errors = inspect_commit_identity(sha)
+    if identity_errors:
+        problems.append((f"commit {sha[:12]} metadata", identity_errors))
+    message_errors = inspect(
+        "commit.md", git("show", "-s", "--format=%B", sha), {}, prose_only=True
+    )
+    if message_errors:
+        problems.append((f"commit {sha[:12]} message", message_errors))
+    return problems
+
+
+def inspect_tag_chain(ref):
+    """Audit every annotated tag before Git peels the reference to a commit."""
+    sha = git("rev-parse", "--verify", ref).decode("ascii").strip()
+    problems = []
+    seen = set()
+    for _ in range(32):
+        if sha in seen:
+            raise RuntimeError("Cyclic tag references are not supported")
+        seen.add(sha)
+        kind = git("cat-file", "-t", sha).decode("ascii").strip()
+        if kind == "commit":
+            return problems
+        if kind != "tag":
+            raise RuntimeError("Publication references must resolve to commits")
+        raw = git("cat-file", "tag", sha)
+        headers, separator, message = raw.partition(b"\n\n")
+        if not separator:
+            raise RuntimeError("Incomplete annotated tag")
+        fields = {}
+        for line in headers.decode("utf-8").splitlines():
+            key, separator, value = line.partition(" ")
+            if not separator or key in fields:
+                raise RuntimeError("Malformed annotated tag headers")
+            fields[key] = value
+        if set(fields) != {"object", "type", "tag", "tagger"}:
+            raise RuntimeError("Unsupported annotated tag headers")
+        identity = re.fullmatch(r"(.*) <([^<>]*)> -?[0-9]+ [+-][0-9]{4}", fields["tagger"])
+        if identity is None:
+            raise RuntimeError("Incomplete tagger identity")
+        if private_identity_email(*identity.groups()):
+            problems.append((f"tag {sha[:12]} metadata", ["private tagger email"]))
+        errors = inspect("tag.md", message, {}, prose_only=True)
+        if errors:
+            problems.append((f"tag {sha[:12]} annotation", errors))
+        target = fields["object"]
+        if not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", target):
+            raise RuntimeError("Malformed annotated tag target")
+        if git("cat-file", "-t", target).decode("ascii").strip() != fields["type"]:
+            raise RuntimeError("Annotated tag target type mismatch")
+        sha = target
+    raise RuntimeError("Annotated tag chain exceeds the supported depth")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     group = parser.add_mutually_exclusive_group()
@@ -260,6 +354,7 @@ def main():
             local_ref, local_sha, remote_ref, remote_sha = line.split()
             if local_sha == "0" * 40:
                 continue
+            problems.extend(inspect_tag_chain(local_sha))
             revisions = [local_sha]
             if remote_sha != "0" * 40:
                 revisions += ["--not", remote_sha]
@@ -268,12 +363,14 @@ def main():
                     continue
                 seen.add(sha)
                 problems.extend(check(tree(sha)))
-                msg = git("show", "-s", "--format=%B", sha)
-                errors = inspect("commit.md", msg, {}, prose_only=True)
-                if errors:
-                    problems.append(("commit message", errors))
+                problems.extend(inspect_commit(sha))
     else:
         problems = check(staged() if args.staged else tree(args.ref))
+        if not args.staged:
+            problems.extend(inspect_tag_chain(args.ref))
+            # A clean tip cannot hide private identities in reachable history.
+            for sha in git("rev-list", args.ref).decode().splitlines():
+                problems.extend(inspect_commit(sha))
     for path, errors in problems:
         # Report paths and reasons only; never echo a detected secret.
         print(f"BLOCKED {path}: {', '.join(errors)}")
